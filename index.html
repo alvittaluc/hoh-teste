@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon-32.png">
+<title>Teste da Comunidade</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500;600&display=swap">
+<style>
+/* Layout: uma coluna estreita, como uma ficha de teste, com as cores do Home Office Hub */
+:root {
+  --bg: #F7F4EF; --cx: #FFFFFF; --ink: #10203A; --ink-2: #4A5668; --linha: #E4DDD1; --azul: #1A4893; --azul-suave: #EAF1F8; --ok: #2E7D4F;
+  --display: 'Hedvig Letters Serif', Georgia, 'Times New Roman', serif;
+  --texto: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1726; --cx: #17223A; --ink: #EEF2F8; --ink-2: #A9B4C6; --linha: #2A3753; --azul: #7FA8E8; --azul-suave: #1C2C4D; --ok: #6CC596; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1726; --cx: #17223A; --ink: #EEF2F8; --ink-2: #A9B4C6; --linha: #2A3753; --azul: #7FA8E8; --azul-suave: #1C2C4D; --ok: #6CC596; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--texto); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 60px; }
+main { max-width: 620px; margin: 0 auto; display: grid; gap: 22px; }
+.selo { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--azul); font-weight: 600; }
+h1 { font-family: var(--display); font-weight: 400; font-size: 34px; line-height: 1.15; margin: 4px 0 8px; text-wrap: balance; }
+h2 { font-size: 16px; margin: 0 0 4px; }
+p { margin: 0; color: var(--ink-2); max-width: 62ch; }
+.cx { background: var(--cx); border: 1px solid var(--linha); border-radius: 16px; padding: 20px; display: grid; gap: 14px; }
+.bts { display: flex; flex-wrap: wrap; gap: 10px; }
+a.bt, button.bt { font: inherit; font-weight: 500; font-size: 14px; text-decoration: none; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--linha);
+  background: var(--cx); color: var(--ink); cursor: pointer; }
+a.bt.forte { background: var(--azul); border-color: var(--azul); color: var(--cx); }
+button.bt[aria-pressed="true"] { background: var(--azul-suave); border-color: var(--azul); color: var(--azul); font-weight: 600; }
+a.bt:focus-visible, button.bt:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+.nota { font-size: 13px; color: var(--ink-2); }
+.feito { font-size: 13px; color: var(--ok); min-height: 1.2em; }
+</style>
+
+</head>
+<body>
+<main>
+  <header>
+    <div class="selo">Cópia de teste · não é o site</div>
+    <h1>Teste da Comunidade</h1>
+    <p>Aqui você testa a Comunidade e a aba Comunidade do Painel de qualquer computador. Os alunos, vagas e publicações são de exemplo, e nada do que você mudar aqui vai para o site ou para o banco de verdade.</p>
+  </header>
+
+  <section class="cx">
+    <div>
+      <h2>Painel da equipe</h2>
+      <p>Na aba Comunidade: plano da semana, resumos, encontros, avisos, capa e logo.</p>
+    </div>
+    <div class="bts"><a class="bt forte" href="painel.html">Abrir o Painel</a></div>
+  </section>
+
+  <section class="cx">
+    <div>
+      <h2>Comunidade como o aluno vê</h2>
+      <p>Escolha o plano do aluno e abra a página. O que é só do Black ou só do Pro aparece só para aquele plano.</p>
+    </div>
+    <div class="bts" role="group" aria-label="Plano do aluno">
+      <button class="bt" type="button" id="p-sem" data-plano="" aria-pressed="true">Sem plano</button>
+      <button class="bt" type="button" id="p-black" data-plano="black" aria-pressed="false">Black</button>
+      <button class="bt" type="button" id="p-pro" data-plano="pro" aria-pressed="false">Pro</button>
+    </div>
+    <div class="bts"><a class="bt forte" href="comunidade.html">Abrir a Comunidade</a></div>
+  </section>
+
+  <section class="cx">
+    <div>
+      <h2>Começar do zero</h2>
+      <p>Volta tudo para os dados de exemplo: apaga a capa, a logo e o que você publicou neste teste.</p>
+    </div>
+    <div class="bts"><button class="bt" type="button" id="zerar">Voltar aos dados de exemplo</button></div>
+    <div class="feito" id="feito" role="status"></div>
+  </section>
+
+  <p class="nota">Os links do menu do site (Vagas, Empresas…) não funcionam nesta cópia: ela só tem as páginas da Comunidade e do Painel.</p>
+</main>
+
+<script>
+const guardar = (k, v) => { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+const ler = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+const bts = document.querySelectorAll("[data-plano]");
+function marcar(plano) { bts.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.plano === plano))); }
+marcar(ler("falso-plano"));
+bts.forEach(b => b.onclick = () => { guardar("falso-plano", b.dataset.plano || null); marcar(b.dataset.plano); });
+document.getElementById("zerar").onclick = () => {
+  ["falso-comunidade", "falso-ia"].forEach(k => guardar(k, null));
+  document.getElementById("feito").textContent = "Pronto: voltou aos dados de exemplo.";
+};
+</script>
+
+</body>
+</html>
