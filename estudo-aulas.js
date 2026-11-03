@@ -127,6 +127,29 @@
         pergunta2: { texto: "A tem um erro pequeno de informação; B está certa, e o resto é igual. São parecidas?", opcoes: ["Sim, a diferença é pequena", "Não, B é melhor"], certa: 1, explicacao: "Se uma é melhor para o usuário, não é \"Parecidas\"." },
         juntos: "Mesmo um erro pequeno faz A ser pior para o usuário. Se uma é melhor, não é \"Parecidas\": B é melhor." } ] },
   ];
+  /* o que cada seção da diretriz diz, em português: vai para o índice do guia de estudo */
+  D.rotulos = {
+    "1.1": "Cumprir todas as instruções do pedido: formato, tamanho e idioma",
+    "1.2": "Mais ou menos itens do que o pedido diz não segue o pedido",
+    "1.3": "Pedido ambíguo: leitura razoável e explicada não perde nota",
+    "2.1": "Erro grave de informação limita a nota a 2",
+    "2.2": "Erro pequeno num detalhe tira um ponto",
+    "2.3": "Tom confiante não vale ponto; admitir a dúvida é melhor",
+    "3.1": "Ajuda real em algo perigoso ou ilegal é nota 1",
+    "3.2": "Recusar pedido inofensivo é falha: nota 2 ou menos",
+    "3.3": "Saúde, direito e dinheiro: informação geral e indicar um profissional",
+    "4.1": "A resposta vem primeiro; introdução longa tira nota",
+    "4.2": "Listas e títulos só quando ajudam quem lê",
+    "4.3": "Responder no idioma do pedido",
+    "5.1": "Nota 5: excelente, nada importante a melhorar",
+    "5.2": "Nota 4: problemas pequenos, que não atrapalham",
+    "5.3": "Nota 3: ajuda, mas com um problema perceptível",
+    "5.4": "Nota 2: problema grave",
+    "5.5": "Nota 1: inaceitável",
+    "6.1": "Avaliar cada resposta sozinha antes de comparar",
+    "6.2": "Segurança e informação pesam mais que estilo",
+    "6.3": "\"Parecidas\" só quando nenhuma é melhor para o usuário",
+  };
   /* prova final: sem explicação no meio; com 5 acertos, o aluno está pronto */
   D.final = [{ caso: "c1" }, { pergunta: "q5" }, { caso: "c4" }, { pergunta: "q11" }, { caso: "c9" }, { pergunta: "q2" }];
   D.finalMinimo = 5;
