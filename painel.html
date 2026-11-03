@@ -1092,11 +1092,11 @@ async function equipe(aviso) {
 </script>
 
 <nav class="teste-barra" aria-label="Cópia de teste">
-<style>.teste-barra{position:fixed;z-index:500;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:4px;align-items:center;padding:5px;border-radius:999px;background:#10203A;box-shadow:0 10px 30px -10px rgba(16,32,58,.6);font:500 13px/1 Geist,system-ui,sans-serif;max-width:calc(100% - 24px);overflow-x:auto}
-.teste-barra span{color:#A9B4C6;padding:0 8px 0 10px;white-space:nowrap}.teste-barra a{color:#fff;text-decoration:none;padding:9px 13px;border-radius:999px;white-space:nowrap}
-.teste-barra a:hover,.teste-barra a:focus-visible{background:rgba(255,255,255,.14);outline:none}.teste-barra a[aria-current]{background:#fff;color:#10203A}</style>
-<span>Teste</span><a href="index.html" data-p="index.html">Início</a><a href="painel.html" data-p="painel.html">Painel</a><a href="comunidade.html" data-p="comunidade.html">Comunidade</a>
-<script>(function(){var n=location.pathname.split("/").pop();document.querySelectorAll(".teste-barra a").forEach(function(a){if(a.dataset.p===n)a.setAttribute("aria-current","page")});})();</script>
+<style>.teste-barra{position:fixed;z-index:500;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:2px;align-items:center;padding:5px;border-radius:999px;background:#10203A;box-shadow:0 10px 30px -10px rgba(16,32,58,.6);font:500 13px/1 Geist,system-ui,sans-serif;max-width:calc(100% - 24px);overflow-x:auto}
+.teste-barra span{color:#A9B4C6;padding:0 6px 0 10px;white-space:nowrap}.teste-barra a{color:#fff;text-decoration:none;padding:9px 12px;border-radius:999px;white-space:nowrap}
+.teste-barra a:hover,.teste-barra a:focus-visible{background:rgba(255,255,255,.14);outline:none}.teste-barra a[aria-current]{background:#fff;color:#10203A}@media(max-width:430px){.teste-barra span{display:none}.teste-barra a{padding:9px 9px;font-size:12.5px}}</style>
+<span>Teste</span><a href="index.html" data-p="index.html">Início</a><a href="vagas.html" data-p="vagas.html vaga.html">Vagas</a><a href="ferramenta-curriculo.html" data-p="ferramenta-curriculo.html">Currículo</a><a href="painel.html" data-p="painel.html">Painel</a><a href="comunidade.html" data-p="comunidade.html">Comunidade</a>
+<script>(function(){var n=location.pathname.split("/").pop();document.querySelectorAll(".teste-barra a").forEach(function(a){if(a.dataset.p.split(" ").indexOf(n)>=0)a.setAttribute("aria-current","page")});})();</script>
 </nav>
 </body>
 </html>
