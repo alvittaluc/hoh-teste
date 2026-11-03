@@ -1,0 +1,133 @@
+/* SÓ NA PRÉVIA: as aulas que a IA montaria a partir da diretriz de exemplo (estudo-dados.js).
+   A diretriz vira partes, da base para o mais difícil; cada parte tem passos curtos.
+   Em cada passo o professor ensina, pergunta, e, se o aluno errar, explica de um jeito mais fácil
+   e pergunta de novo. Cada parte fecha com um caso para aplicar o que foi visto. */
+(function () {
+  const D = window.ESTUDO_EXEMPLO;
+  const Q = id => D.perguntas.find(q => q.id === id);
+  D.ordem = "Comecei pela escala de notas porque todas as outras partes usam ela. Depois vêm as regras que você confere em toda resposta: se seguiu o pedido, se a informação está certa, se é segura e se está clara. Por último, a comparação de duas respostas, que junta tudo.";
+  D.partes = [
+    { topico: "escala", nome: "Escala de notas", minutos: 4, caso: "c5", passos: [
+      { id: "1a", titulo: "As cinco notas", regra: "5.1",
+        ensina: ["Antes de tudo, a escala, porque todas as outras partes usam ela. A diretriz dá uma nota de 1 a 5 para cada resposta da IA.",
+                 "5 é excelente, sem nada importante para melhorar. 4 é boa, com detalhes pequenos. 3 é aceitável: ajuda, mas tem um problema que dá para notar. 2 é ruim, com um problema grave. E 1 é inaceitável: perigosa, fora do assunto ou no idioma errado."],
+        exemplo: "Exemplo: alguém pede \"converta 5 km em milhas\" e a IA responde \"5 km dá cerca de 3,11 milhas\". Está certa, direta e segue o pedido. Nada a melhorar: nota 5.",
+        facil: "Pense na nota de um restaurante. 5 é aquele prato perfeito. 4 é ótimo, só faltou um pouquinho de sal. 3 dá para comer, mas tem algo errado que você nota. 2 veio errado de verdade, tipo o prato frio. E 1 é quando nem dá para comer. Com resposta de IA é igual.",
+        frase: "5 excelente, 4 problema pequeno, 3 problema que dá para notar, 2 problema grave, 1 inaceitável.",
+        pergunta: { texto: "Uma resposta ajuda, mas tem um problema que dá para notar. Que nota ela recebe?", opcoes: ["5", "4", "3", "1"], certa: 2, explicacao: "Ajuda, mas com um problema perceptível: é a 3." },
+        pergunta2: { texto: "E uma resposta correta, mas escrita no idioma errado?", opcoes: ["1", "3", "4"], certa: 0, explicacao: "Idioma errado está na definição da nota 1." },
+        juntos: "A definição da nota 1 diz \"não está no idioma pedido\". Não importa se o conteúdo está certo: se a pessoa pediu em português e veio em inglês, ela não consegue usar. Por isso é 1." },
+      { id: "1b", titulo: "Pequeno, perceptível ou grave", regra: "5.4",
+        ensina: ["O segredo da escala é o tamanho do problema. Problema pequeno, que quase não atrapalha: 4. Problema que dá para notar: 3. Problema grave: 2.",
+                 "Problema grave é, por exemplo, uma informação importante errada, a instrução principal ignorada ou uma recusa sem motivo."],
+        exemplo: "Exemplo: a IA acerta a conta, mas começa com três frases de enrolação antes de responder. Atrapalha um pouco, mas não muito: problema pequeno, nota 4.",
+        facil: "Outro jeito de pensar: pergunte a si mesmo \"se eu fosse o usuário, isso me atrapalharia?\". Quase nada: 4. Atrapalha um pouco: 3. Atrapalha muito ou me engana: 2.",
+        frase: "Pergunte \"isso atrapalharia o usuário?\": quase nada é 4, um pouco é 3, muito é 2.",
+        pergunta: { texto: "A IA errou justamente a informação principal que o usuário pediu. O problema é:", opcoes: ["Pequeno: nota 4", "Perceptível: nota 3", "Grave: nota 2"], certa: 2, explicacao: "Errar a informação principal engana o usuário: é grave, nota 2." },
+        pergunta2: { texto: "A resposta está certa, mas tem uma introdução comprida antes de responder. O problema é:", opcoes: ["Pequeno: nota 4", "Grave: nota 2", "Nenhum: nota 5"], certa: 0, explicacao: "Está certa e dá para usar; a introdução só atrasa um pouco: problema pequeno, nota 4." },
+        juntos: "A resposta está certa e o usuário consegue usar. A introdução só atrasa um pouco a leitura. Atrapalha quase nada, então é problema pequeno: nota 4." } ] },
+
+    { topico: "pedido", nome: "Seguir o pedido", minutos: 4, caso: "c2", passos: [
+      { id: "2a", titulo: "Cumprir tudo o que o pedido diz", regra: "1.2",
+        ensina: ["Agora a primeira coisa que você confere em toda resposta: ela fez exatamente o que foi pedido?",
+                 "Isso inclui formato, tamanho, idioma e quantidade. E atenção: fazer a mais também é não seguir. Se pediram 3 itens e vieram 5, a resposta não seguiu o pedido."],
+        exemplo: "Exemplo: o pedido é \"liste 3 dicas para dormir melhor, em tópicos\". Se vierem 3 dicas em tópicos, seguiu. Se vierem 5, ou 3 num parágrafo corrido, não seguiu.",
+        facil: "Pense num pedido de lanchonete: você pediu um X-burger sem cebola. Se vier com cebola, não adianta o lanche ser ótimo, não é o que você pediu. E batata a mais que você não pediu também não é o seu pedido.",
+        frase: "Faltou ou sobrou em relação ao pedido? Então não seguiu.",
+        pergunta: Q("q2"),
+        pergunta2: { texto: "O pedido diz \"responda em uma frase\". A resposta está certa, mas tem três frases. Ela segue o pedido?", opcoes: ["Sim, porque está certa", "Não, porque não respeitou o tamanho pedido"], certa: 1, explicacao: "O pedido deu uma regra de tamanho; três frases quebram essa regra." },
+        juntos: "O pedido deu uma regra de tamanho: \"uma frase\". Três frases quebram essa regra, mesmo com o conteúdo certo. Por isso não seguiu o pedido." },
+      { id: "2b", titulo: "Quando o pedido é ambíguo", regra: "1.3",
+        ensina: ["Às vezes o pedido dá para entender de mais de um jeito. Por exemplo: \"me fale sobre Java\". É a linguagem de programação ou a ilha da Indonésia?",
+                 "A diretriz diz: se a resposta deixa claro como entendeu e segue uma leitura que faz sentido, ela não perde nota."],
+        exemplo: "Exemplo: \"Vou considerar que você quer saber da linguagem de programação Java. Ela é usada para...\". Explicou como entendeu e seguiu: tudo certo.",
+        facil: "É como quando alguém te pede \"traz um café\" e você traz um puro, avisando \"trouxe puro, tá?\". Você fez uma escolha razoável e avisou. Ninguém pode reclamar.",
+        frase: "Pedido ambíguo: vale a resposta que diz como entendeu e segue uma leitura razoável.",
+        pergunta: Q("q10"),
+        pergunta2: { texto: "O pedido é ambíguo, e a resposta escolhe uma leitura que não tem nada a ver com ele. E aí?", opcoes: ["Não perde nota, porque o pedido era ambíguo", "Perde, porque a leitura precisa ser razoável"], certa: 1, explicacao: "A regra protege só a leitura razoável." },
+        juntos: "A proteção da regra vale só para leitura razoável. Se a resposta inventa um sentido que não tem nada a ver com o pedido, ela não seguiu o pedido de verdade." } ] },
+
+    { topico: "correta", nome: "Informação correta", minutos: 5, caso: "c7", passos: [
+      { id: "3a", titulo: "Erro grave limita a nota a 2", regra: "2.1",
+        ensina: ["Agora a parte que mais derruba gente no teste: informação errada.",
+                 "A regra é dura: um único erro grave de informação limita a nota a 2. Não importa se o resto está perfeito."],
+        exemplo: "Exemplo: \"A capital da Austrália é Sydney\". A capital é Camberra. Erro grave na informação principal: no máximo 2.",
+        facil: "Pense num GPS que te leva para a cidade errada. A voz pode ser simpática e o mapa bonito, mas ele errou o principal. Não dá para dar nota alta.",
+        frase: "Errou a informação principal? A nota não passa de 2.",
+        pergunta: Q("q1"),
+        pergunta2: { texto: "A resposta segue o pedido, é clara e bem escrita, mas diz que a água ferve a 50 °C ao nível do mar. Qual é a nota máxima?", opcoes: ["5", "4", "2"], certa: 2, explicacao: "A água ferve a 100 °C ao nível do mar. Erro grave: no máximo 2." },
+        juntos: "A água ferve a 100 °C ao nível do mar. Essa é a informação principal da resposta, então o erro é grave. E erro grave limita a nota a 2, por mais bonita que seja a resposta." },
+      { id: "3b", titulo: "Erro pequeno e tom confiante", regra: "2.3",
+        ensina: ["Nem todo erro é grave. Se o erro está num detalhe de contexto e não muda a utilidade, ele tira só um ponto.",
+                 "E tom confiante não vale ponto. Uma resposta que diz \"não tenho certeza\" é melhor do que uma que afirma com toda a certeza uma coisa errada."],
+        exemplo: "Exemplo: \"O Muro de Berlim caiu em 9 de novembro de 1989, depois de protestos que começaram em 1987\". A data principal está certa; o detalhe dos protestos está errado. Erro pequeno: tira um ponto.",
+        facil: "Imagine um amigo te passando o endereço certo de uma festa, mas errando o nome do vizinho. Você chega na festa do mesmo jeito: foi um erro pequeno. Agora, se ele erra o endereço com toda a certeza do mundo, aí é sério.",
+        frase: "Erro em detalhe tira um ponto; confiança não salva informação errada.",
+        pergunta: Q("q13"),
+        pergunta2: Q("q6"),
+        juntos: "Quem admite a dúvida avisa o usuário para conferir. Quem afirma errado com confiança engana. Por isso a resposta que admite a dúvida é melhor." } ] },
+
+    { topico: "seguranca", nome: "Segurança", minutos: 4, caso: "c3", passos: [
+      { id: "4a", titulo: "Ajuda em algo perigoso é nota 1", regra: "3.1",
+        ensina: ["Segurança tem uma regra simples: se a resposta ajuda de verdade alguém a fazer algo perigoso ou ilegal, a nota é 1.",
+                 "Não importa se está bem escrita, organizada ou correta. Aqui o texto bom não salva."],
+        exemplo: "Exemplo: alguém pede instruções para invadir a conta de outra pessoa, e a resposta explica o passo a passo. Mesmo muito bem escrita, é nota 1.",
+        facil: "Pense num chaveiro muito habilidoso que abre a casa de alguém para um desconhecido. Pode ser o melhor chaveiro do mundo, mas ele fez algo errado. A habilidade não conta a favor.",
+        frase: "Ajudou de verdade em algo perigoso ou ilegal? Nota 1, por melhor que seja o texto.",
+        pergunta: Q("q12"),
+        pergunta2: { texto: "Uma resposta perigosa tem ótima formatação e nenhum erro de português. A formatação aumenta a nota?", opcoes: ["Sim, para 2", "Não, continua 1"], certa: 1, explicacao: "Por melhor que seja o texto, ajuda em algo perigoso é 1." },
+        juntos: "A regra diz \"no matter how well written\", ou seja, por melhor que seja o texto. Ajuda em algo perigoso fecha a nota em 1." },
+      { id: "4b", titulo: "Recusar sem motivo também é erro", regra: "3.2",
+        ensina: ["O contrário também é problema: recusar um pedido que não tem nada de perigoso. Isso é falha de ajuda, e a nota é 2 ou menos.",
+                 "E em saúde, direito e dinheiro, quando o risco é alto, a resposta boa dá a informação geral e sugere procurar um profissional."],
+        exemplo: "Exemplo: \"Como tirar um parafuso espanado do notebook?\", e a IA responde \"Não posso ajudar, abrir eletrônicos é perigoso\". É um pedido comum. Recusa sem motivo: no máximo 2.",
+        facil: "É como um atendente que, por medo de errar, não diz nem onde fica o banheiro. Ele não causou dano, mas também não ajudou em nada. Para a diretriz, isso é falha.",
+        frase: "Recusar o que é inofensivo é falha (2 ou menos); em saúde, informação geral e indicação de um profissional.",
+        pergunta: Q("q3"),
+        pergunta2: Q("q11"),
+        juntos: "Num assunto de saúde com risco alto, a resposta não deve se recusar a falar nem bancar o médico. O equilíbrio é dar a informação geral e indicar um profissional." } ] },
+
+    { topico: "clareza", nome: "Clareza e formato", minutos: 4, caso: "c6", passos: [
+      { id: "5a", titulo: "Resposta primeiro, formato só quando ajuda", regra: "4.1",
+        ensina: ["Clareza é o usuário achar a resposta rápido. A resposta deve vir primeiro, sem introdução comprida.",
+                 "E listas e títulos só quando ajudam. Uma resposta de uma linha não precisa de tópicos nem de negrito."],
+        exemplo: "Exemplo: \"Quantos minutos tem 3 horas?\". Melhor: \"180 minutos\". Pior: três frases sobre a importância do tempo antes de chegar no 180.",
+        facil: "Pense em perguntar as horas para alguém na rua. Você quer ouvir \"são três e meia\", não uma explicação sobre relógios. Primeiro a resposta; depois, se precisar, o resto.",
+        frase: "Resposta logo de cara; formatação só se ajudar quem lê.",
+        pergunta: Q("q7"),
+        pergunta2: { texto: "A resposta certa só aparece depois de um parágrafo de enrolação. O que acontece com a nota?", opcoes: ["Nada, porque está certa", "Perde nota pela introdução comprida", "Vira 1"], certa: 1, explicacao: "Introdução longa antes da resposta tira nota." },
+        juntos: "A regra diz que introdução longa antes da resposta tira nota. Como a resposta está certa, não cai muito: geralmente fica em 4." },
+      { id: "5b", titulo: "O idioma do pedido", regra: "4.3",
+        ensina: ["Uma regra que pega muita gente: a resposta precisa estar no idioma do pedido, a não ser que o usuário peça outro.",
+                 "E aqui não tem meio-termo: resposta no idioma errado é nota 1, mesmo com o conteúdo certo."],
+        exemplo: "Exemplo: um pedido em português pergunta a diferença entre \"mas\" e \"mais\", e a resposta vem em inglês, explicando certinho. Nota 1.",
+        facil: "Imagine pedir uma informação na rua, em português, e a pessoa responder em japonês. Pode até estar certo, mas para você não serve. Por isso a diretriz é tão dura.",
+        frase: "Idioma diferente do pedido, sem o usuário pedir: nota 1.",
+        pergunta: Q("q4"),
+        pergunta2: { texto: "O usuário escreve em português e pede \"responda em inglês\". A resposta vem em inglês. E agora?", opcoes: ["Nota 1, idioma errado", "Tudo certo: o usuário pediu outro idioma"], certa: 1, explicacao: "A regra vale \"a não ser que o usuário peça outro\"." },
+        juntos: "A regra diz \"a não ser que o usuário peça outro\". Se ele pediu inglês, inglês é o idioma certo." } ] },
+
+    { topico: "lado", nome: "Comparar duas respostas", minutos: 5, caso: "c8", passos: [
+      { id: "6a", titulo: "Avalie cada uma, depois compare", regra: "6.2",
+        ensina: ["Última parte! Em muitos projetos você vê duas respostas lado a lado e escolhe a melhor.",
+                 "O jeito certo: primeiro dê uma nota para cada uma sozinha, depois compare. E segurança e informação pesam mais que estilo: a simples e certa ganha da caprichada e errada."],
+        exemplo: "Exemplo: A diz, de forma simples, que dá para tomar ibuprofeno e paracetamol juntos, seguindo a dose. B é toda formatada, com negrito, mas diz que é sempre perigoso, o que está errado. A é muito melhor.",
+        facil: "Pense em dois vendedores: um te passa o preço certo num papel simples; o outro te entrega um folheto lindo com o preço errado. Você fica com o primeiro. A aparência não conserta o erro.",
+        frase: "Uma nota para cada uma primeiro; depois, certo e seguro ganham de bonito.",
+        pergunta: Q("q9"),
+        pergunta2: Q("q8"),
+        juntos: "Comparando direto, a gente se encanta com a mais bonita. Avaliando cada uma sozinha, você vê os problemas de cada uma antes de escolher." },
+      { id: "6b", titulo: "Quando escolher \"Parecidas\"", regra: "6.3",
+        ensina: ["Às vezes as duas são boas, ou as duas têm o mesmo problema. Para isso existe a opção \"Parecidas\".",
+                 "Mas cuidado: use só quando nenhuma é de fato melhor para o usuário. Ficar em dúvida não é motivo para escolher \"Parecidas\"."],
+        exemplo: "Exemplo: pedem um poema de duas linhas sobre o mar, e as duas respostas entregam duas linhas bonitas, sem problema. Nenhuma é melhor: \"Parecidas\".",
+        facil: "É como escolher entre duas camisetas iguais de cores diferentes: se as duas servem igual, tanto faz. Mas se uma tem um furo, elas não são parecidas, mesmo que a cor seja igual.",
+        frase: "\"Parecidas\" só quando nenhuma é melhor para o usuário; dúvida não conta.",
+        pergunta: Q("q14"),
+        pergunta2: { texto: "A tem um erro pequeno de informação; B está certa, e o resto é igual. São parecidas?", opcoes: ["Sim, a diferença é pequena", "Não, B é melhor"], certa: 1, explicacao: "Se uma é melhor para o usuário, não é \"Parecidas\"." },
+        juntos: "Mesmo um erro pequeno faz A ser pior para o usuário. Se uma é melhor, não é \"Parecidas\": B é melhor." } ] },
+  ];
+  /* prova final: sem explicação no meio; com 5 acertos, o aluno está pronto */
+  D.final = [{ caso: "c1" }, { pergunta: "q5" }, { caso: "c4" }, { pergunta: "q11" }, { caso: "c9" }, { pergunta: "q2" }];
+  D.finalMinimo = 5;
+})();

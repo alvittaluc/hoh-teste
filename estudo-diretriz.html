@@ -11,818 +11,550 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilo.css">
 <style>
-/* SÓ NA PRÉVIA: a ferramenta de estudar com a diretriz do projeto. O material é de uma diretriz de exemplo. */
-.es-main { max-width:var(--wrap,1180px); margin:0 auto; padding:34px 20px 110px; --ok:#2E7D4F; --ok-suave:#EAF5EE; --ok-linha:#BFE0CB; --erro:#B3261E; --erro-suave:#FBEDEB; --erro-linha:#F1C9C4; --perto:#A85D24; --perto-suave:#FBF0E4; }
-.es-trilha { font-size:13.5px; color:var(--ink-3); margin-bottom:8px; } .es-trilha a { color:var(--ink-3); }
-.es-aviso { background:var(--amber-suave); border:1px solid #F0DCC6; color:#7A4318; border-radius:12px; padding:9px 14px; font-size:13px; margin-bottom:18px; }
-.es-h1 { font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,42px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); text-wrap:balance; }
-.es-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; max-width:680px; line-height:1.55; }
-.es-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; }
-.es-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer;
-  padding:10px 18px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); text-decoration:none; }
-.es-bt:hover { border-color:var(--ink-3); }
-.es-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; }
-.es-bt.forte:hover { background:#163E80; }
-.es-bt.grande { font-size:16px; padding:14px 26px; }
-.es-bt.pq { padding:7px 13px; font-size:13px; }
-.es-bt[disabled] { opacity:.45; cursor:not-allowed; }
-.es-bt:focus-visible, .es-op:focus-visible, .es-nota:focus-visible, .es-chip:focus-visible, .es-modo:focus-visible, .es-top:focus-visible { outline:2px solid var(--signal); outline-offset:2px; }
-.es-link { border:0; background:none; font:inherit; font-size:13.5px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
-.es-leve { font-size:13px; color:var(--ink-3); line-height:1.5; }
-.es-rot { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--signal); }
+/* SÓ NA PRÉVIA: a IA como professor da diretriz. As aulas são de uma diretriz de exemplo. */
+.pf-main { max-width:var(--wrap,1180px); margin:0 auto; padding:34px 20px 40px; --ok:#2E7D4F; --ok-suave:#EAF5EE; --ok-linha:#BFE0CB; }
+.pf-trilha { font-size:13.5px; color:var(--ink-3); margin-bottom:8px; } .pf-trilha a { color:var(--ink-3); }
+.pf-aviso { background:var(--amber-suave); border:1px solid #F0DCC6; color:#7A4318; border-radius:12px; padding:9px 14px; font-size:13px; margin-bottom:18px; }
+.pf-h1 { font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,42px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); text-wrap:balance; }
+.pf-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; max-width:680px; line-height:1.55; }
+.pf-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer; padding:10px 18px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); }
+.pf-bt:hover { border-color:var(--ink-3); }
+.pf-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; } .pf-bt.forte:hover { background:#163E80; }
+.pf-bt.grande { font-size:16px; padding:14px 26px; }
+.pf-link { border:0; background:none; font:inherit; font-size:13.5px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.pf-leve { font-size:13px; color:var(--ink-3); line-height:1.5; }
+.pf-rot { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--signal); }
+.pf-bt:focus-visible, .pf-op:focus-visible, .pf-nota:focus-visible, .pf-parte:focus-visible { outline:2px solid var(--signal); outline-offset:2px; }
 
 /* ── subir a diretriz ── */
-.es-passos { display:flex; gap:10px; flex-wrap:wrap; margin:22px 0 18px; }
-.es-passo { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-2); background:var(--panel); border:1px solid var(--line-soft); border-radius:999px; padding:7px 14px 7px 8px; }
-.es-passo b { width:24px; height:24px; border-radius:50%; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; font-size:12.5px; }
-.es-solta { border:2px dashed #9DB8DE; background:var(--signal-suave); border-radius:18px; padding:38px 22px; text-align:center; transition:background .15s, border-color .15s; }
-.es-solta.em-cima { background:#DCE8F6; border-color:var(--signal); }
-.es-solta .ic { width:52px; height:52px; margin:0 auto 12px; border-radius:14px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; color:var(--signal); }
-.es-solta h2 { font-size:19px; font-weight:600; color:var(--ink); margin-bottom:6px; }
-.es-solta p { font-size:14px; color:var(--ink-2); margin-bottom:16px; }
-.es-montando { max-width:560px; }
-.es-etapa { display:flex; align-items:center; gap:12px; padding:9px 0; font-size:15px; color:var(--ink-3); }
-.es-etapa i { width:22px; height:22px; border-radius:50%; border:2px solid var(--line); flex-shrink:0; display:grid; place-items:center; }
-.es-etapa.vez { color:var(--ink); } .es-etapa.vez i { border-color:var(--signal); border-top-color:transparent; animation:es-gira .8s linear infinite; }
-.es-etapa.feita { color:var(--ink); } .es-etapa.feita i { border-color:var(--ok); background:var(--ok); }
-.es-etapa.feita i::after { content:""; width:9px; height:5px; border:2px solid #fff; border-top:0; border-right:0; transform:rotate(-45deg) translate(1px,-1px); }
-@keyframes es-gira { to { transform:rotate(360deg); } }
-.es-barra { height:8px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin:14px 0 4px; }
-.es-barra i { display:block; height:100%; border-radius:99px; background:var(--signal); transition:width .4s ease; }
-.es-lista-dir { display:grid; gap:10px; margin-top:12px; }
-.es-dir { display:flex; align-items:center; gap:14px; border:1px solid var(--line-soft); border-radius:14px; padding:12px 14px; background:var(--panel); flex-wrap:wrap; }
-.es-dir .ic { width:36px; height:44px; border-radius:6px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
-.es-dir .nm { flex:1; min-width:160px; } .es-dir b { display:block; font-size:15px; color:var(--ink); } .es-dir small { font-size:12.5px; color:var(--ink-3); }
+.pf-passos { display:flex; gap:10px; flex-wrap:wrap; margin:22px 0 18px; }
+.pf-passo { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-2); background:var(--panel); border:1px solid var(--line-soft); border-radius:999px; padding:7px 14px 7px 8px; }
+.pf-passo b { width:24px; height:24px; border-radius:50%; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; font-size:12.5px; }
+.pf-solta { border:2px dashed #9DB8DE; background:var(--signal-suave); border-radius:18px; padding:38px 22px; text-align:center; }
+.pf-solta.em-cima { background:#DCE8F6; border-color:var(--signal); }
+.pf-solta .ic { width:52px; height:52px; margin:0 auto 12px; border-radius:14px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; color:var(--signal); }
+.pf-solta h2 { font-size:19px; font-weight:600; color:var(--ink); margin-bottom:6px; } .pf-solta p { font-size:14px; color:var(--ink-2); margin-bottom:16px; }
+.pf-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; }
+.pf-montando { max-width:560px; }
+.pf-etapa { display:flex; align-items:center; gap:12px; padding:9px 0; font-size:15px; color:var(--ink-3); }
+.pf-etapa i { width:22px; height:22px; border-radius:50%; border:2px solid var(--line); flex-shrink:0; display:grid; place-items:center; }
+.pf-etapa.vez { color:var(--ink); } .pf-etapa.vez i { border-color:var(--signal); border-top-color:transparent; animation:pf-gira .8s linear infinite; }
+.pf-etapa.feita { color:var(--ink); } .pf-etapa.feita i { border-color:var(--ok); background:var(--ok); }
+.pf-etapa.feita i::after { content:""; width:9px; height:5px; border:2px solid #fff; border-top:0; border-right:0; transform:rotate(-45deg) translate(1px,-1px); }
+@keyframes pf-gira { to { transform:rotate(360deg); } }
+.pf-barra { height:8px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin:14px 0 4px; }
+.pf-barra i { display:block; height:100%; border-radius:99px; background:var(--signal); transition:width .4s ease; }
+.pf-lista-dir { display:grid; gap:10px; margin-top:12px; }
+.pf-dir { display:flex; align-items:center; gap:14px; border:1px solid var(--line-soft); border-radius:14px; padding:12px 14px; background:var(--panel); flex-wrap:wrap; }
+.pf-dir .ic { width:36px; height:44px; border-radius:6px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
+.pf-dir .nm { flex:1; min-width:160px; } .pf-dir b { display:block; font-size:15px; color:var(--ink); } .pf-dir small { font-size:12.5px; color:var(--ink-3); }
 
-/* ── cabeçalho da diretriz ── */
-.es-cab { display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap; }
-.es-cab .nm { min-width:0; }
-.es-meta { display:flex; gap:10px; flex-wrap:wrap; }
-.es-pilula { display:flex; align-items:center; gap:10px; border:1px solid var(--line-soft); background:var(--panel); border-radius:14px; padding:9px 14px; }
-.es-pilula svg { flex-shrink:0; } .es-pilula b { display:block; font-size:15px; color:var(--ink); line-height:1.2; } .es-pilula small { font-size:12px; color:var(--ink-3); }
-.es-abas { display:flex; gap:4px; margin:22px 0 22px; border-bottom:1px solid var(--line); overflow-x:auto; scrollbar-width:none; }
-.es-abas::-webkit-scrollbar { display:none; }
-.es-abas button { border:0; background:none; font:inherit; font-size:14.5px; color:var(--ink-2); padding:10px 12px 12px; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px; }
-.es-abas button[aria-current="page"] { color:var(--ink); font-weight:600; border-bottom-color:var(--signal); }
-.es-abas button:hover { color:var(--ink); }
+/* ── aula: caminho ao lado, conversa no meio ── */
+.pf-cab { margin-bottom:20px; }
+.pf-aula { display:grid; grid-template-columns:290px minmax(0,1fr); gap:24px; align-items:start; }
+@media (max-width:900px) { .pf-aula { grid-template-columns:minmax(0,1fr); gap:14px; } }
+.pf-caminho { position:sticky; top:96px; background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:16px; }
+@media (max-width:900px) { .pf-caminho { position:static; padding:12px 14px; } }
+.pf-caminho summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; }
+.pf-caminho summary::-webkit-details-marker { display:none; }
+.pf-caminho summary b { display:block; font-size:15px; color:var(--ink); } .pf-caminho summary small { font-size:12.5px; color:var(--ink-3); }
+.pf-caminho summary .seta { margin-left:auto; color:var(--ink-3); transition:transform .2s; flex-shrink:0; }
+.pf-caminho[open] summary .seta { transform:rotate(180deg); }
+@media (min-width:901px) { .pf-caminho summary { cursor:default; pointer-events:none; } .pf-caminho summary .seta { display:none; } }
+.pf-partes { list-style:none; margin-top:14px; display:grid; gap:2px; }
+.pf-parte { display:grid; grid-template-columns:24px minmax(0,1fr); gap:10px; width:100%; text-align:left; font:inherit; background:none; border:0; cursor:pointer; border-radius:12px; padding:8px; color:var(--ink-2); }
+.pf-parte:hover { background:var(--bg-soft); }
+.pf-parte.atual { background:var(--signal-suave); }
+.pf-marca { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:700; border:2px solid var(--line); color:var(--ink-3); background:var(--panel); }
+.pf-parte.feita .pf-marca { background:var(--ok); border-color:var(--ok); color:#fff; }
+.pf-parte.atual .pf-marca { border-color:var(--signal); color:var(--signal); }
+.pf-parte b { display:block; font-size:14px; font-weight:600; color:var(--ink); line-height:1.3; }
+.pf-parte small { display:block; font-size:12px; color:var(--ink-3); margin-top:2px; }
+.pf-sub-passos { list-style:none; margin:6px 0 0; display:grid; gap:3px; }
+.pf-sub-passos li { font-size:12.5px; color:var(--ink-3); display:flex; gap:7px; align-items:baseline; line-height:1.35; }
+.pf-sub-passos li::before { content:""; width:7px; height:7px; border-radius:50%; border:1.5px solid var(--line); flex-shrink:0; transform:translateY(-1px); }
+.pf-sub-passos li.feito::before { background:var(--ok); border-color:var(--ok); }
+.pf-sub-passos li.agora { color:var(--ink); font-weight:500; } .pf-sub-passos li.agora::before { border-color:var(--signal); background:var(--signal); }
 
-/* ── início ── */
-.es-grade { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:18px; align-items:start; }
-@media (max-width:920px) { .es-grade { grid-template-columns:minmax(0,1fr); } }
-.es-hoje { background:linear-gradient(135deg,#1A4893 0%,#2C6BB5 100%); color:#fff; border-radius:20px; padding:26px 28px; position:relative; overflow:hidden; }
-.es-hoje .es-rot { color:#BFD4F0; }
-.es-hoje h2 { font-family:var(--display); font-weight:400; font-size:30px; line-height:1.15; margin:6px 0 4px; }
-.es-hoje .tempo { font-size:14px; color:#D6E3F5; }
-.es-hoje ul { list-style:none; margin:18px 0 22px; display:grid; gap:10px; }
-.es-hoje li { display:flex; gap:12px; align-items:flex-start; font-size:15px; line-height:1.4; }
-.es-hoje li i { width:30px; height:30px; border-radius:9px; background:rgba(255,255,255,.14); display:grid; place-items:center; flex-shrink:0; font-style:normal; font-weight:600; font-size:13px; }
-.es-hoje li small { display:block; font-size:12.5px; color:#C9D9EF; }
-.es-hoje .es-bt.forte { background:#fff; color:var(--signal); border-color:#fff; }
-.es-hoje .es-bt.forte:hover { background:#EAF1F8; }
-.es-hoje .feito { display:flex; align-items:center; gap:10px; font-size:15px; margin:16px 0 18px; }
-.es-modos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-@media (max-width:520px) { .es-modos { grid-template-columns:minmax(0,1fr); } }
-.es-modo { text-align:left; font:inherit; cursor:pointer; background:var(--panel); border:1px solid var(--line-soft); border-radius:16px; padding:14px 15px; display:flex; gap:12px; align-items:flex-start; color:var(--ink-2); transition:border-color .15s, transform .15s; }
-.es-modo:hover { border-color:#9DB8DE; transform:translateY(-1px); }
-.es-modo .ic { width:36px; height:36px; border-radius:10px; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; flex-shrink:0; }
-.es-modo b { display:block; font-size:14.5px; color:var(--ink); }
-.es-modo span { display:block; font-size:12.5px; line-height:1.45; color:var(--ink-3); margin-top:2px; }
-.es-modo em { display:inline-block; font-style:normal; font-size:11.5px; font-weight:600; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:2px 8px; margin-top:6px; }
-.es-h2 { font-size:16px; font-weight:600; color:var(--ink); margin:0 0 12px; }
-.es-progs { display:grid; gap:4px; }
-.es-top { display:grid; grid-template-columns:minmax(0,1fr) 120px auto; align-items:center; gap:12px; font:inherit; text-align:left; cursor:pointer; background:none; border:0; border-radius:10px; padding:8px 8px; color:var(--ink-2); }
-.es-top:hover { background:var(--bg-soft); }
-.es-top b { font-size:14px; font-weight:500; color:var(--ink); }
-.es-top .es-barra { margin:0; height:7px; }
-.es-estado { font-size:11.5px; font-weight:600; border-radius:99px; padding:3px 9px; white-space:nowrap; background:var(--bg-soft); color:var(--ink-3); }
-.es-estado.praticando { background:var(--perto-suave); color:var(--perto); }
-.es-estado.dominado { background:var(--ok-suave); color:var(--ok); }
-@media (max-width:520px) { .es-top { grid-template-columns:minmax(0,1fr) auto; } .es-top .es-barra { grid-column:1 / -1; grid-row:2; } }
+.pf-conversa { max-width:760px; width:100%; min-width:0; }
+.pf-msgs { display:grid; gap:12px; }
+.pf-msg { display:flex; gap:10px; align-items:flex-end; animation:pf-entra .25s ease; min-width:0; }
+@keyframes pf-entra { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) { .pf-msg, .pf-caso, .pf-concluida, .pf-etapa.vez i { animation:none; } }
+.pf-av { width:34px; height:34px; border-radius:50%; background:var(--signal); color:#fff; display:grid; place-items:center; flex-shrink:0; }
+.pf-msg .bal { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px 18px 18px 6px; padding:12px 15px; font-size:15.5px; line-height:1.55; color:var(--ink); max-width:min(600px, 88%); min-width:0; overflow-wrap:anywhere; }
+.pf-msg.pergunta .bal { border-color:#9DB8DE; background:#F6F9FD; font-weight:500; }
+.pf-msg.eu { justify-content:flex-end; }
+.pf-msg.eu .bal { background:var(--signal); color:#fff; border-color:var(--signal); border-radius:18px 18px 6px 18px; }
+.pf-msg.seguido .pf-av { visibility:hidden; }
+.pf-sis { justify-self:center; font-size:12.5px; font-weight:600; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:5px 14px; margin:8px 0 2px; text-align:center; }
+.pf-cita { margin-top:10px; background:var(--panel-2); border-left:3px solid var(--signal); border-radius:0 10px 10px 0; padding:8px 12px; }
+.pf-cita small { display:block; font-size:11.5px; font-weight:600; letter-spacing:.04em; color:var(--ink-3); margin-bottom:2px; }
+.pf-cita q { font-size:14px; font-style:italic; color:var(--ink); line-height:1.5; }
+.pf-plano { list-style:none; counter-reset:p; margin-top:10px; display:grid; gap:6px; }
+.pf-plano li { counter-increment:p; display:flex; gap:10px; align-items:center; font-size:14.5px; }
+.pf-plano li::before { content:counter(p); width:24px; height:24px; border-radius:50%; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.pf-plano li small { color:var(--ink-3); font-size:12.5px; margin-left:auto; white-space:nowrap; }
+.pf-caso { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px; max-width:600px; width:calc(100% - 44px); margin-left:44px; animation:pf-entra .25s ease; }
+@media (max-width:520px) { .pf-caso { margin-left:0; width:100%; } }
+.pf-caso .cx { border:1px solid var(--line-soft); border-radius:12px; padding:10px 12px; background:var(--panel-2); margin-bottom:8px; }
+.pf-caso .cx:last-child, .pf-caso .duas .cx { margin-bottom:0; }
+.pf-caso .cx.ia { background:#fff; }
+.pf-caso small { display:block; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+.pf-caso .txt { font-size:14.5px; color:var(--ink); line-height:1.5; white-space:pre-wrap; }
+.pf-caso .duas { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+@media (max-width:600px) { .pf-caso .duas { grid-template-columns:minmax(0,1fr); } }
+.pf-concluida { justify-self:center; display:flex; align-items:center; gap:10px; background:var(--ok-suave); border:1px solid var(--ok-linha); color:var(--ok); border-radius:14px; padding:10px 16px; font-weight:600; font-size:14.5px; margin:6px 0; animation:pf-entra .25s ease; text-align:center; }
+.pf-pronto { text-align:center; background:linear-gradient(135deg,#1A4893 0%,#2C6BB5 100%); color:#fff; border-radius:20px; padding:26px 22px; margin:8px 0; }
+.pf-pronto .grande { font-family:var(--display); font-size:34px; line-height:1.1; }
+.pf-pronto p { color:#D6E3F5; margin-top:6px; }
+.pf-digitando .bal { padding:14px 16px; }
+.pf-digitando .bal span { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ink-3); margin-right:4px; animation:pf-pisca 1s infinite; }
+.pf-digitando .bal span:nth-child(2) { animation-delay:.15s; } .pf-digitando .bal span:nth-child(3) { animation-delay:.3s; }
+@keyframes pf-pisca { 0%,100% { opacity:.25; } 50% { opacity:1; } }
 
-/* ── mapa ── */
-.es-mapa { display:grid; grid-template-columns:300px minmax(0,1fr); gap:18px; align-items:start; }
-@media (max-width:860px) { .es-mapa { grid-template-columns:minmax(0,1fr); } }
-.es-mapa-lista { display:grid; gap:6px; }
-.es-mapa-lista button { display:flex; align-items:center; gap:12px; text-align:left; font:inherit; cursor:pointer; border:1px solid var(--line-soft); background:var(--panel); border-radius:14px; padding:10px 12px; color:var(--ink-2); }
-.es-mapa-lista button[aria-current="true"] { border-color:var(--signal); box-shadow:0 0 0 1px var(--signal) inset; }
-.es-mapa-lista b { display:block; font-size:14px; color:var(--ink); } .es-mapa-lista small { font-size:12px; color:var(--ink-3); }
-.es-anel { flex-shrink:0; }
-.es-regra { border-left:3px solid var(--signal); background:var(--panel-2); border-radius:0 12px 12px 0; padding:10px 14px; margin-top:10px; }
-.es-regra small { display:block; font-size:11.5px; font-weight:600; letter-spacing:.05em; color:var(--ink-3); margin-bottom:3px; }
-.es-regra p { font-size:14.5px; color:var(--ink); line-height:1.5; margin:0; }
-
-/* ── o jogador: sessão, casos, perguntas, explicações ── */
-.es-jogo { max-width:780px; margin:0 auto; }
-.es-jogo-topo { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
-.es-jogo-topo .es-barra { flex:1; margin:0; height:10px; }
-.es-jogo-topo .q { font-size:13px; color:var(--ink-3); white-space:nowrap; font-variant-numeric:tabular-nums; }
-.es-item { background:var(--panel); border:1px solid var(--line-soft); border-radius:20px; padding:24px 26px; animation:es-entra .25s ease; }
-@media (max-width:520px) { .es-item { padding:18px 16px; } }
-@keyframes es-entra { from { opacity:.0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-@media (prefers-reduced-motion:reduce) { .es-item, .es-modo, .es-etapa.vez i { animation:none; transition:none; } }
-.es-tipo { display:inline-block; font-size:12px; font-weight:600; letter-spacing:.04em; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:3px 10px; margin-bottom:12px; }
-.es-item h2 { font-size:20px; font-weight:600; color:var(--ink); line-height:1.35; margin-bottom:16px; text-wrap:balance; }
-.es-opcoes { display:grid; gap:8px; }
-.es-op { display:flex; align-items:center; gap:12px; width:100%; text-align:left; font:inherit; font-size:15px; color:var(--ink); background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; cursor:pointer; }
-.es-op:hover:not([disabled]) { border-color:var(--signal); background:var(--signal-suave); }
-.es-op kbd { width:26px; height:26px; border-radius:8px; background:var(--bg-soft); display:grid; place-items:center; font:inherit; font-size:12.5px; font-weight:600; color:var(--ink-3); flex-shrink:0; }
-.es-op[disabled] { cursor:default; }
-.es-op.certa { border-color:var(--ok); background:var(--ok-suave); } .es-op.certa kbd { background:var(--ok); color:#fff; }
-.es-op.errada { border-color:var(--erro); background:var(--erro-suave); } .es-op.errada kbd { background:var(--erro); color:#fff; }
-.es-op.apagada { opacity:.55; }
-.es-caixa { border:1px solid var(--line-soft); border-radius:14px; padding:12px 14px; background:var(--panel-2); margin-bottom:10px; }
-.es-caixa small { display:block; font-size:11.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px; }
-.es-caixa .txt { font-size:15px; color:var(--ink); line-height:1.55; white-space:pre-wrap; }
-.es-caixa.ia { background:#fff; border-color:var(--line); }
-.es-duas { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-@media (max-width:640px) { .es-duas { grid-template-columns:minmax(0,1fr); } }
-.es-perg { font-size:15px; font-weight:600; color:var(--ink); margin:18px 0 10px; }
-.es-notas { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
-.es-nota { font:inherit; cursor:pointer; background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:10px 4px 9px; color:var(--ink); text-align:center; }
-.es-nota b { display:block; font-size:22px; line-height:1.1; }
-.es-nota span { display:block; font-size:11.5px; color:var(--ink-3); margin-top:3px; }
-.es-nota:hover:not([disabled]) { border-color:var(--signal); }
-.es-nota[aria-pressed="true"] { border-color:var(--signal); background:var(--signal); color:#fff; } .es-nota[aria-pressed="true"] span { color:#D6E3F5; }
-.es-nota.ref { box-shadow:0 0 0 3px var(--ok-linha); border-color:var(--ok); }
-.es-nota[disabled] { cursor:default; }
-.es-lado .es-nota b { font-size:14px; } .es-lado .es-nota span { font-size:11px; }
-@media (max-width:520px) { .es-lado { grid-template-columns:repeat(5,minmax(0,1fr)); } .es-lado .es-nota b { font-size:12.5px; } .es-lado .es-nota { padding:9px 2px; } }
-.es-chips { display:flex; flex-wrap:wrap; gap:7px; }
-.es-chip { font:inherit; font-size:13px; cursor:pointer; border:1px solid var(--line); background:var(--panel); color:var(--ink-2); border-radius:99px; padding:6px 12px; }
-.es-chip[aria-pressed="true"] { border-color:var(--signal); background:var(--signal-suave); color:var(--signal); font-weight:500; }
-.es-chip.esperado { border-color:var(--ok); background:var(--ok-suave); color:var(--ok); font-weight:500; }
-.es-chip[disabled] { cursor:default; }
-.es-acoes { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:20px; }
-.es-acoes .dica { font-size:12.5px; color:var(--ink-3); }
-.es-fb { margin-top:18px; border-radius:16px; padding:16px 18px; animation:es-entra .25s ease; }
-.es-fb.ok { background:var(--ok-suave); border:1px solid var(--ok-linha); }
-.es-fb.erro { background:var(--erro-suave); border:1px solid var(--erro-linha); }
-.es-fb.perto { background:var(--perto-suave); border:1px solid #F0DCC6; }
-.es-fb .tit { font-size:16px; font-weight:600; color:var(--ink); margin-bottom:4px; }
-.es-fb p { font-size:14.5px; color:var(--ink-2); line-height:1.55; margin:6px 0 0; }
-.es-cita { margin-top:12px; background:#fff; border:1px solid var(--line-soft); border-radius:12px; padding:10px 14px; }
-.es-cita small { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:11.5px; font-weight:600; letter-spacing:.04em; color:var(--ink-3); margin-bottom:4px; }
-.es-cita blockquote { font-size:14px; color:var(--ink); line-height:1.5; font-style:italic; }
-.es-pontos { list-style:none; display:grid; gap:7px; margin-top:10px; }
-.es-pontos li { display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--ink); line-height:1.4; }
-.es-pontos li i { width:20px; height:20px; border-radius:50%; flex-shrink:0; display:grid; place-items:center; font-style:normal; font-size:12px; font-weight:700; margin-top:1px; }
-.es-pontos li.sim i { background:var(--ok); color:#fff; } .es-pontos li.nao i { border:2px solid var(--line); color:var(--ink-3); }
-.es-pontos li.nao { color:var(--ink-3); }
-.es-texto { width:100%; min-height:130px; font:inherit; font-size:15px; line-height:1.55; padding:12px 14px; border:1.5px solid var(--line); border-radius:14px; background:var(--panel); color:var(--ink); resize:vertical; }
-.es-texto:focus { outline:none; border-color:var(--signal); }
-details.es-modelo { margin-top:12px; } details.es-modelo summary { cursor:pointer; font-size:14px; color:var(--signal); }
-details.es-modelo p { font-size:14.5px; color:var(--ink); }
-.es-reportar { margin-top:10px; font-size:12.5px; }
-
-/* ── fim de sessão ── */
-.es-fim { text-align:center; padding:34px 24px; }
-.es-fim .grande { font-family:var(--display); font-size:54px; line-height:1; color:var(--ink); }
-.es-fim h2 { font-size:22px; color:var(--ink); margin:12px 0 6px; }
-.es-fim p { font-size:15px; color:var(--ink-2); max-width:520px; margin:0 auto; }
-.es-fim .es-acoes { justify-content:center; }
-.es-agendado { display:inline-flex; align-items:center; gap:8px; color:var(--ok); font-weight:600; font-size:14px; }
-
-/* ── simulado ── */
-.es-relogio { font-variant-numeric:tabular-nums; font-weight:600; color:var(--ink); background:var(--panel); border:1px solid var(--line-soft); border-radius:99px; padding:5px 12px; font-size:14px; }
-.es-relogio.pouco { color:var(--erro); border-color:var(--erro-linha); background:var(--erro-suave); }
-.es-bolinhas { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
-.es-bolinhas button { width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line); background:var(--panel); font:inherit; font-size:12.5px; color:var(--ink-3); cursor:pointer; }
-.es-bolinhas button.resp { background:var(--signal-suave); border-color:#9DB8DE; color:var(--signal); }
-.es-bolinhas button[aria-current="true"] { border-color:var(--signal); box-shadow:0 0 0 2px var(--signal) inset; color:var(--ink); }
-.es-res-lista { display:grid; gap:8px; margin-top:12px; text-align:left; }
-.es-res-lista details { border:1px solid var(--line-soft); border-radius:12px; padding:10px 14px; background:var(--panel); }
-.es-res-lista summary { cursor:pointer; font-size:14px; color:var(--ink); display:flex; gap:10px; align-items:flex-start; }
-.es-res-lista summary i { font-style:normal; font-weight:700; flex-shrink:0; } .es-res-lista .ok i { color:var(--ok); } .es-res-lista .erro i { color:var(--erro); }
-
-/* ── pergunte ── */
-.es-chat { max-width:780px; margin:0 auto; }
-.es-msgs { display:grid; gap:12px; margin-bottom:14px; }
-.es-msg { max-width:88%; border-radius:16px; padding:12px 15px; font-size:15px; line-height:1.55; }
-.es-msg.eu { justify-self:end; background:var(--signal); color:#fff; border-bottom-right-radius:6px; }
-.es-msg.ia { justify-self:start; background:var(--panel); border:1px solid var(--line-soft); color:var(--ink); border-bottom-left-radius:6px; }
-.es-msg .es-cita { margin-top:10px; }
-.es-digitando span { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ink-3); margin-right:4px; animation:es-pisca 1s infinite; }
-.es-digitando span:nth-child(2) { animation-delay:.15s; } .es-digitando span:nth-child(3) { animation-delay:.3s; }
-@keyframes es-pisca { 0%,100% { opacity:.25; } 50% { opacity:1; } }
-.es-enviar { display:flex; gap:8px; position:sticky; bottom:12px; background:var(--bg); padding-top:8px; }
-.es-enviar input { flex:1; min-width:0; font:inherit; font-size:15px; padding:12px 16px; border:1.5px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink); }
-.es-enviar input:focus { outline:none; border-color:var(--signal); }
-.es-toast { position:fixed; left:50%; bottom:calc(76px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:#fff; font-size:14px; padding:10px 16px; border-radius:12px; z-index:600; box-shadow:var(--sombra-alta); max-width:calc(100% - 32px); }
+/* respostas do aluno: botões grandes, logo abaixo da última mensagem */
+.pf-acoes { margin:14px 0 0 44px; display:flex; flex-wrap:wrap; gap:8px; }
+@media (max-width:520px) { .pf-acoes { margin-left:0; } }
+.pf-acoes .pf-bt { font-size:14.5px; }
+.pf-opcoes { display:grid; gap:8px; width:100%; max-width:600px; }
+.pf-op { display:flex; align-items:center; gap:12px; width:100%; text-align:left; font:inherit; font-size:15px; color:var(--ink); background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; cursor:pointer; }
+.pf-op:hover { border-color:var(--signal); background:var(--signal-suave); }
+.pf-op kbd { width:26px; height:26px; border-radius:8px; background:var(--bg-soft); display:grid; place-items:center; font:inherit; font-size:12.5px; font-weight:600; color:var(--ink-3); flex-shrink:0; }
+.pf-notas { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; width:100%; max-width:600px; }
+.pf-nota { font:inherit; cursor:pointer; background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:10px 4px 9px; color:var(--ink); text-align:center; min-width:0; }
+.pf-nota:hover { border-color:var(--signal); background:var(--signal-suave); }
+.pf-nota b { display:block; font-size:20px; line-height:1.1; } .pf-nota span { display:block; font-size:11.5px; color:var(--ink-3); margin-top:3px; }
+.pf-notas.lado .pf-nota b { font-size:14px; } .pf-notas.lado .pf-nota span { font-size:11px; }
+@media (max-width:420px) { .pf-notas { gap:5px; } .pf-nota span { font-size:10.5px; } }
+.pf-dica { width:100%; font-size:12px; color:var(--ink-3); }
+.pf-enviar { position:sticky; bottom:0; display:flex; gap:8px; padding:14px 0 calc(14px + env(safe-area-inset-bottom,0px)); margin-top:12px; background:linear-gradient(to bottom, rgba(247,244,239,0), var(--bg) 30%); }
+.pf-enviar input { flex:1; min-width:0; font:inherit; font-size:15px; padding:12px 16px; border:1.5px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink); }
+.pf-enviar input:focus { outline:none; border-color:var(--signal); }
+.pf-enviar input:disabled { background:var(--panel-2); }
+.pf-toast { position:fixed; left:50%; bottom:calc(84px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:#fff; font-size:14px; padding:10px 16px; border-radius:12px; z-index:600; max-width:calc(100% - 32px); }
 </style>
 </head>
 <body>
 
-<main class="es-main">
-  <p class="es-trilha"><a href="ferramentas.html">Ferramentas</a> › Estudar diretriz</p>
-  <div class="es-aviso">Prévia: a IA ainda não está ligada. O material é de uma diretriz de exemplo, e o seu progresso fica só neste navegador.</div>
+<main class="pf-main">
+  <p class="pf-trilha"><a href="ferramentas.html">Ferramentas</a> › Estudar diretriz</p>
+  <div class="pf-aviso">Prévia: a IA ainda não está ligada. As aulas são de uma diretriz de exemplo, e o seu progresso fica só neste navegador.</div>
   <div id="app"></div>
 </main>
 
 <script src="layout.js"></script>
 <script src="estudo-dados.js"></script>
+<script src="estudo-aulas.js"></script>
 <script>
 try { montarLayout("ferramentas"); } catch (e) {}
 (function () {
   const D = window.ESTUDO_EXEMPLO;
   const app = document.getElementById("app");
+  const RAPIDO = /[?&]rapido/.test(location.search);
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  const hoje = () => iso(new Date());
-  const mais = n => { const d = new Date(); d.setDate(d.getDate() + n); return iso(d); };
-  const embaralhar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-  const topico = id => D.topicos.find(t => t.id === id);
-  const regra = id => { for (const t of D.topicos) { const r = t.regras.find(x => x.id === id); if (r) return Object.assign({ topico: t }, r); } return null; };
+  const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
   const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-  const ICONES = {
-    mapa: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
-    casos: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="m9 10 2 2 4-4"/></svg>',
-    rapidas: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v10"/></svg>',
-    explique: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/></svg>',
-    simulado: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>',
-    pergunte: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17.5v.01"/></svg>',
-    fogo: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A85D24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.5 1 2.5 2 2.5 0-3-1-5 1-8z"/></svg>',
-    arquivo: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>',
-  };
+  const hoje = () => new Date().toISOString().slice(0, 10);
+  const dormir = ms => new Promise(r => setTimeout(r, RAPIDO ? 0 : ms));
+  const sorteio = a => a[Math.floor(Math.random() * a.length)];
+  const lista = a => a.length < 2 ? (a[0] || "") : `${a.slice(0, -1).join(", ")} e ${a[a.length - 1]}`;
+  const parteFeita = (a, i) => D.partes[i].passos.every(x => a.feitos[x.id]) && a.casos[i] !== undefined;
+  const regra = id => { for (const t of D.topicos) { const r = t.regras.find(x => x.id === id); if (r) return r; } return null; };
+  const caso = id => D.casos.find(c => c.id === id);
+  const pergunta = id => D.perguntas.find(q => q.id === id);
   const NOMES_NOTA = ["Inaceitável", "Ruim", "Aceitável", "Boa", "Excelente"];
   const LADO = [["A2", "A muito melhor"], ["A1", "A melhor"], ["0", "Parecidas"], ["B1", "B melhor"], ["B2", "B muito melhor"]];
+  const PROF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/><path d="M22 9v6"/></svg>';
+  const ARQ = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>';
+  const totalPassos = D.partes.reduce((s, p) => s + p.passos.length, 0);
 
-  /* ── o que fica guardado: diretrizes e progresso (na prévia, só neste navegador) ── */
-  const CHAVE = "hub-estudo-previa";
-  let E = { diretrizes: [], atual: "", prog: {} };
+  /* ── o que fica guardado (na prévia, só neste navegador) ── */
+  const CHAVE = "hub-professor-previa";
+  let E = { diretrizes: [], atual: "", aulas: {} };
   try { E = Object.assign(E, JSON.parse(localStorage.getItem(CHAVE)) || {}); } catch (e) {}
   const salvar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(E)); } catch (e) {} };
-  const P = () => { const p = E.prog[E.atual] = E.prog[E.atual] || {}; p.cartas = p.cartas || {}; p.hist = p.hist || []; p.dias = p.dias || []; p.feitas = p.feitas || {}; p.casosVistos = p.casosVistos || {}; return p; };
   const dirAtual = () => E.diretrizes.find(d => d.id === E.atual);
-  function registrar(top, pontos) {
-    const p = P(), d = hoje();
-    p.hist.push({ top, ok: pontos, dia: d });
-    if (p.dias.indexOf(d) < 0) p.dias.push(d);
-    p.feitas[d] = (p.feitas[d] || 0) + 1;
-    salvar();
-  }
-  function dominio(top) {
-    const h = P().hist.filter(x => x.top === top).slice(-10);
-    if (!h.length) return { n: 0, pct: 0, estado: "", nome: "Ainda não começou" };
-    const pct = Math.round(h.reduce((s, x) => s + x.ok, 0) / h.length * 100);
-    const estado = h.length >= 4 && pct >= 80 ? "dominado" : "praticando";
-    return { n: h.length, pct, estado, nome: estado === "dominado" ? "Dominado" : "Praticando" };
-  }
-  function sequencia() {
-    const dias = new Set(P().dias); let n = 0, k = dias.has(hoje()) ? 0 : 1;
-    while (dias.has(mais(-k))) { n++; k++; }
-    return n;
-  }
-  const META = 10;
-  const feitasHoje = () => P().feitas[hoje()] || 0;
-  const maisFraco = () => D.topicos.map(t => ({ t, d: dominio(t.id) })).sort((a, b) => (a.d.n ? a.d.pct : 50) - (b.d.n ? b.d.pct : 50) || a.d.n - b.d.n)[0].t;
+  const S = () => E.aulas[E.atual];
+  const novaAula = () => ({ fase: "plano", p: 0, s: 0, feitos: {}, casos: {}, dificeis: [], msgs: [], pronto: false, final: null });
+  const pctDe = a => !a ? 0 : a.pronto ? 100 : Math.round((Object.keys(a.feitos).length + Object.keys(a.casos).length) / (totalPassos + D.partes.length) * 90);
 
-  /* revisão espaçada das perguntas rápidas: acertou, volta mais tarde; errou, volta amanhã */
-  const INTERVALO = [1, 1, 3, 7, 14];
-  const NOVAS_POR_DIA = 5;
-  function cartasDeHoje(top) {
-    const c = P().cartas, d = hoje();
-    const lista = D.perguntas.filter(q => !top || q.topico === top);
-    const vencidas = lista.filter(q => c[q.id] && c[q.id].prox <= d);
-    const novasHoje = Object.values(c).filter(x => x.desde === d).length;
-    const novas = lista.filter(q => !c[q.id]).slice(0, top ? 5 : Math.max(0, NOVAS_POR_DIA - novasHoje));
-    return vencidas.concat(novas);
-  }
-  function responderCarta(q, ok) {
-    const c = P().cartas, st = c[q.id] || { caixa: 0, desde: hoje() };
-    st.caixa = ok ? Math.min(st.caixa + 1, 4) : 0;
-    st.prox = mais(ok ? INTERVALO[st.caixa] : 1);
-    c[q.id] = st; salvar();
-  }
-  const revisoesAmanha = () => { const c = P().cartas, a = mais(1); return D.perguntas.filter(q => c[q.id] && c[q.id].prox <= a).length; };
-
-  /* ── navegação ── */
-  let vista = "inicio", mapaTop = D.topicos[0].id, pararRelogio = null, teclas = null;
-  function ir(v, op) {
-    if (pararRelogio) { pararRelogio(); pararRelogio = null; }
-    teclas = null;
-    vista = v; if (op && op.topico) mapaTop = op.topico;
-    desenhar(op || {});
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }
-  document.addEventListener("keydown", ev => {
-    if (!teclas || ev.altKey || ev.ctrlKey || ev.metaKey) return;
-    const alvo = ev.target; if (alvo && (alvo.tagName === "TEXTAREA" || alvo.tagName === "INPUT")) { if (ev.key === "Enter" && ev.ctrlKey) teclas(ev); return; }
-    teclas(ev);
-  });
-  function toast(t) { const m = document.createElement("div"); m.className = "es-toast"; m.setAttribute("role", "status"); m.textContent = t; document.body.appendChild(m); setTimeout(() => m.remove(), 2600); }
-
-  function desenhar(op) {
-    if (!E.atual || !dirAtual()) { telaSubir(); return; }
-    if (vista === "sessao") { jogar(op.fila, op.titulo, op.volta || "inicio"); return; }
-    if (vista === "simulado") { telaSimulado(); return; }
-    const dir = dirAtual(), seq = sequencia(), feitas = feitasHoje();
-    const abas = [["inicio", "Início"], ["mapa", "Mapa da diretriz"], ["casos", "Casos práticos"], ["rapidas", "Perguntas rápidas"], ["explique", "Explique"], ["simuladoInicio", "Simulado"], ["pergunte", "Pergunte à diretriz"]];
-    app.innerHTML = `
-      <div class="es-cab">
-        <div class="nm"><h1 class="es-h1">${esc(dir.titulo)}</h1>
-          <p class="es-leve" style="margin-top:6px">${D.paginas} páginas · ${D.topicos.length} tópicos · <button class="es-link" id="trocar">Minhas diretrizes</button></p></div>
-        <div class="es-meta">
-          <div class="es-pilula">${ICONES.fogo}<div><b>${seq} ${seq === 1 ? "dia" : "dias"}</b><small>estudando seguido</small></div></div>
-          <div class="es-pilula">${anel(Math.min(1, feitas / META), 30)}<div><b>${Math.min(feitas, META)} de ${META}</b><small>meta de hoje</small></div></div>
-        </div>
-      </div>
-      <nav class="es-abas" aria-label="Modos de estudo">${abas.map(([k, n]) => `<button data-aba="${k}"${k === vista ? ' aria-current="page"' : ""}>${n}</button>`).join("")}</nav>
-      <div id="corpo"></div>`;
-    app.querySelector("#trocar").onclick = () => { E.atual = ""; salvar(); ir("inicio"); };
-    app.querySelectorAll("[data-aba]").forEach(b => b.onclick = () => ir(b.dataset.aba));
-    const corpo = app.querySelector("#corpo");
-    ({ inicio: telaInicio, mapa: telaMapa, casos: telaCasos, rapidas: telaRapidas, explique: telaExplique, simuladoInicio: telaSimuladoInicio, pergunte: telaPergunte }[vista] || telaInicio)(corpo);
-  }
-  function anel(frac, tam) {
-    const r = tam / 2 - 3, c = 2 * Math.PI * r;
-    return `<svg class="es-anel" width="${tam}" height="${tam}" viewBox="0 0 ${tam} ${tam}" aria-hidden="true"><circle cx="${tam / 2}" cy="${tam / 2}" r="${r}" fill="none" stroke="var(--bg-soft)" stroke-width="4"/><circle cx="${tam / 2}" cy="${tam / 2}" r="${r}" fill="none" stroke="${frac >= .8 ? "var(--ok)" : "var(--signal)"}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - frac)}" transform="rotate(-90 ${tam / 2} ${tam / 2})"/></svg>`;
-  }
-  function citar(id) {
-    const r = regra(id); if (!r) return "";
-    return `<div class="es-cita"><small><span>Seção ${esc(r.id)} · página ${r.pag}</span><button class="es-link" data-ver-top="${r.topico.id}" style="font-size:12px">Ver o tópico</button></small><blockquote>“${esc(r.en)}”</blockquote></div>`;
-  }
-  function ligarCitas(raiz) { raiz.querySelectorAll("[data-ver-top]").forEach(b => b.onclick = () => ir("mapa", { topico: b.dataset.verTop })); }
-
-  /* ── subir a diretriz ── */
+  /* ── tela de subir a diretriz ── */
   function telaSubir() {
-    const tem = E.diretrizes.length;
     app.innerHTML = `
-      <h1 class="es-h1">Estude com a diretriz do projeto</h1>
-      <p class="es-sub">Suba a diretriz que a empresa mandou. A ferramenta transforma o arquivo em casos para praticar, perguntas que voltam na hora certa, simulado com tempo e um chat que responde só com o que está na diretriz.</p>
-      <div class="es-passos"><span class="es-passo"><b>1</b>Suba o arquivo</span><span class="es-passo"><b>2</b>A ferramenta monta o material</span><span class="es-passo"><b>3</b>Você estuda um pouco por dia</span></div>
+      <h1 class="pf-h1">Aprenda a diretriz com um professor</h1>
+      <p class="pf-sub">Suba a diretriz que a empresa mandou. A IA lê tudo, divide o conteúdo em partes e ensina uma de cada vez, conversando com você. Ela pergunta para ver se você entendeu e, se não entendeu, explica de outro jeito, até você estar pronto para o teste.</p>
+      <div class="pf-passos"><span class="pf-passo"><b>1</b>Suba a diretriz</span><span class="pf-passo"><b>2</b>A IA divide em partes</span><span class="pf-passo"><b>3</b>Você aprende conversando</span></div>
       <div id="subir"></div>
-      ${tem ? `<div style="margin-top:28px"><h2 class="es-h2">Minhas diretrizes</h2><div class="es-lista-dir">${E.diretrizes.map(d => {
-        const feitos = D.topicos.reduce((s, t) => { const p = E.prog[d.id], h = p && p.hist ? p.hist.filter(x => x.top === t.id) : []; return s + (h.length ? 1 : 0); }, 0);
-        return `<div class="es-dir"><span class="ic">PDF</span><div class="nm"><b>${esc(d.titulo)}</b><small>${esc(d.arquivo)} · ${feitos} de ${D.topicos.length} tópicos já praticados</small></div>
-          <button class="es-bt forte pq" data-abrir="${d.id}">Continuar</button><button class="es-link" data-tirar="${d.id}">tirar</button></div>`; }).join("")}</div></div>` : ""}`;
-    desenharSubir();
-    app.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { E.atual = b.dataset.abrir; salvar(); ir("inicio"); });
-    app.querySelectorAll("[data-tirar]").forEach(b => b.onclick = () => {
-      const linha = b.closest(".es-dir");
-      if (linha.querySelector(".conf")) return;
-      linha.insertAdjacentHTML("beforeend", `<span class="conf es-leve" style="width:100%">Tirar esta diretriz e o progresso dela? <button class="es-link" data-sim>Tirar</button> · <button class="es-link" data-nao>Manter</button></span>`);
-      linha.querySelector("[data-nao]").onclick = () => linha.querySelector(".conf").remove();
-      linha.querySelector("[data-sim]").onclick = () => { E.diretrizes = E.diretrizes.filter(d => d.id !== b.dataset.tirar); delete E.prog[b.dataset.tirar]; salvar(); telaSubir(); };
-    });
-  }
-  function desenharSubir() {
+      ${E.diretrizes.length ? `<div style="margin-top:28px"><h2 style="font-size:16px;color:var(--ink);font-weight:600">Minhas diretrizes</h2><div class="pf-lista-dir">${E.diretrizes.map(d => {
+        const pct = pctDe(E.aulas[d.id]);
+        return `<div class="pf-dir"><span class="ic">PDF</span><div class="nm"><b>${esc(d.titulo)}</b><small>${esc(d.arquivo)} · ${pct}% pronto para o teste</small></div>
+          <button class="pf-bt forte" data-abrir="${d.id}">${pct ? "Continuar" : "Começar"}</button><button class="pf-link" data-tirar="${d.id}">tirar</button></div>`; }).join("")}</div></div>` : ""}`;
     const caixa = app.querySelector("#subir");
-    caixa.innerHTML = `<div class="es-solta" id="solta">
-        <div class="ic">${ICONES.arquivo}</div>
+    caixa.innerHTML = `<div class="pf-solta" id="solta"><div class="ic">${ARQ}</div>
         <h2>Arraste o PDF da diretriz para cá</h2>
         <p>ou escolha o arquivo no seu computador. Pode ser em inglês, do jeito que a empresa mandou.</p>
-        <label class="es-bt forte grande" style="cursor:pointer">Escolher a diretriz<input type="file" accept="application/pdf" hidden id="arq"></label>
-        <p class="es-leve" style="margin:14px 0 0">Não tem uma à mão? <button class="es-link" id="exemplo">Usar a diretriz de exemplo</button></p>
-      </div>
-      <p class="es-leve" style="margin-top:10px">O material de estudo fica só na sua conta. Ninguém mais vê a diretriz que você subiu.</p>`;
+        <label class="pf-bt forte grande" style="cursor:pointer">Escolher a diretriz<input type="file" accept="application/pdf" hidden id="arq"></label>
+        <p class="pf-leve" style="margin:14px 0 0">Não tem uma à mão? <button class="pf-link" id="exemplo">Usar a diretriz de exemplo</button></p></div>
+      <p class="pf-leve" style="margin-top:10px">As aulas ficam só na sua conta. Ninguém mais vê a diretriz que você subiu.</p>`;
     const solta = caixa.querySelector("#solta");
     ["dragenter", "dragover"].forEach(t => solta.addEventListener(t, ev => { ev.preventDefault(); solta.classList.add("em-cima"); }));
     ["dragleave", "drop"].forEach(t => solta.addEventListener(t, ev => { ev.preventDefault(); solta.classList.remove("em-cima"); }));
     solta.addEventListener("drop", ev => { const f = ev.dataTransfer.files[0]; if (f) montar(f.name); });
     caixa.querySelector("#arq").onchange = ev => { const f = ev.target.files[0]; if (f) montar(f.name); };
     caixa.querySelector("#exemplo").onclick = () => montar("");
+    app.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { E.atual = b.dataset.abrir; salvar(); abrirAula(); });
+    app.querySelectorAll("[data-tirar]").forEach(b => b.onclick = () => {
+      const linha = b.closest(".pf-dir"); if (linha.querySelector(".conf")) return;
+      linha.insertAdjacentHTML("beforeend", `<span class="conf pf-leve" style="width:100%">Tirar esta diretriz e o progresso dela? <button class="pf-link" data-sim>Tirar</button> · <button class="pf-link" data-nao>Manter</button></span>`);
+      linha.querySelector("[data-nao]").onclick = () => linha.querySelector(".conf").remove();
+      linha.querySelector("[data-sim]").onclick = () => { E.diretrizes = E.diretrizes.filter(d => d.id !== b.dataset.tirar); delete E.aulas[b.dataset.tirar]; salvar(); telaSubir(); };
+    });
   }
-  function montar(nomeArquivo) {
+  function montar(nome) {
     const caixa = app.querySelector("#subir");
-    const etapas = [`Lendo as ${D.paginas} páginas`, "Separando os tópicos", "Criando casos práticos e perguntas", "Montando o seu plano de estudo"];
-    caixa.innerHTML = `<div class="es-cx es-montando"><span class="es-rot">${esc(nomeArquivo || D.arquivo)}</span>
-      <div style="margin-top:10px">${etapas.map((t, i) => `<div class="es-etapa" data-e="${i}"><i></i>${t}</div>`).join("")}</div>
-      <div class="es-barra"><i style="width:0%"></i></div><p class="es-leve" id="falta">Isso leva menos de um minuto.</p></div>`;
+    const etapas = [`Lendo as ${D.paginas} páginas`, "Entendendo o conteúdo", "Dividindo em partes, da base para o mais difícil", "Preparando as explicações e as perguntas"];
+    caixa.innerHTML = `<div class="pf-cx pf-montando"><span class="pf-rot">${esc(nome || D.arquivo)}</span>
+      <div style="margin-top:10px">${etapas.map(t => `<div class="pf-etapa"><i></i>${t}</div>`).join("")}</div>
+      <div class="pf-barra"><i style="width:0%"></i></div><p class="pf-leve">Isso leva menos de um minuto.</p></div>`;
     let i = 0;
     const passo = () => {
-      caixa.querySelectorAll(".es-etapa").forEach((el, k) => el.className = "es-etapa" + (k < i ? " feita" : k === i ? " vez" : ""));
-      caixa.querySelector(".es-barra i").style.width = `${i / etapas.length * 100}%`;
-      if (i < etapas.length) { i++; setTimeout(passo, 750); return; }
+      caixa.querySelectorAll(".pf-etapa").forEach((el, k) => el.className = "pf-etapa" + (k < i ? " feita" : k === i ? " vez" : ""));
+      caixa.querySelector(".pf-barra i").style.width = `${i / etapas.length * 100}%`;
+      if (i < etapas.length) { i++; setTimeout(passo, RAPIDO ? 0 : 750); return; }
       const id = "d" + Date.now().toString(36);
-      E.diretrizes.push({ id, titulo: D.titulo, arquivo: nomeArquivo || D.arquivo, criada: hoje() });
-      E.atual = id; salvar();
-      caixa.innerHTML = `<div class="es-cx es-montando">
-        <span class="es-rot">Pronto</span>
-        <h2 style="font-family:var(--display);font-weight:400;font-size:28px;color:var(--ink);margin:6px 0 8px">O seu material está pronto</h2>
-        <p style="font-size:15px">A diretriz virou ${D.topicos.length} tópicos, ${D.casos.length} casos práticos, ${D.perguntas.length} perguntas rápidas e ${D.explicar.length} temas para explicar com suas palavras.</p>
-        ${nomeArquivo ? `<div class="es-aviso" style="margin:14px 0 0">Na prévia, o material montado é sempre o da diretriz de exemplo, seja qual for o arquivo.</div>` : ""}
-        <div class="es-acoes"><button class="es-bt forte grande" id="comecar">Começar a estudar</button></div></div>`;
-      caixa.querySelector("#comecar").onclick = () => ir("inicio");
-      caixa.querySelector("#comecar").focus();
+      E.diretrizes.push({ id, titulo: D.titulo, arquivo: nome || D.arquivo, outro: !!nome });
+      E.aulas[id] = novaAula(); E.atual = id; salvar();
+      abrirAula();
     };
     passo();
   }
 
-  /* ── início: um botão faz a sessão do dia ── */
-  function sessaoDeHoje() {
-    const fraco = maisFraco();
-    const cartas = cartasDeHoje().slice(0, 5).map(q => ({ tipo: "carta", q }));
-    const vistos = P().casosVistos;
-    const casos = D.casos.slice().sort((a, b) => (a.topico === fraco.id ? -1 : 0) - (b.topico === fraco.id ? -1 : 0) || (vistos[a.id] || 0) - (vistos[b.id] || 0)).slice(0, 3).map(c => ({ tipo: "caso", c }));
-    const exp = D.explicar.slice().sort((a, b) => (a.topico === fraco.id ? -1 : 0) - (b.topico === fraco.id ? -1 : 0))[0];
-    const fila = [];
-    // intercala para não ficar repetitivo: perguntas, caso, perguntas, caso...
-    const c1 = cartas.slice(0, 2), c2 = cartas.slice(2, 4), c3 = cartas.slice(4);
-    fila.push(...c1, casos[0], ...c2, casos[1], ...c3, casos[2], { tipo: "explique", e: exp });
-    return { fila: fila.filter(Boolean), fraco, nCartas: cartas.length };
-  }
-  function telaInicio(corpo) {
-    const s = sessaoDeHoje(), feitaHoje = P().sessaoFeita === hoje();
-    const dHist = P().hist.length;
-    const nRev = cartasDeHoje().length;
-    corpo.innerHTML = `<div class="es-grade">
-      <div style="display:grid;gap:18px">
-        <section class="es-hoje">
-          <span class="es-rot">Sessão de hoje</span>
-          <h2>${feitaHoje ? "Sessão de hoje feita" : dHist ? "Bora para mais um pouco?" : "Comece por aqui"}</h2>
-          <div class="tempo">${feitaHoje ? "Quer continuar treinando? Dá para fazer mais uma rodada." : "Cerca de 10 minutos. A ferramenta escolhe o que você mais precisa praticar."}</div>
-          <ul>
-            ${s.nCartas ? `<li><i>${s.nCartas}</i><div>${s.nCartas === 1 ? "pergunta rápida" : "perguntas rápidas"}<small>${dHist ? "as que voltaram para revisão hoje" : "para aquecer"}</small></div></li>` : ""}
-            <li><i>3</i><div>casos práticos<small>${dominio(s.fraco.id).n ? `mais de ${esc(s.fraco.nome)}, onde você mais erra` : "você dá a nota e compara com a de referência"}</small></div></li>
-            <li><i>1</i><div>explicação com suas palavras<small>para fixar a regra</small></div></li>
-          </ul>
-          <button class="es-bt forte grande" id="hoje">${feitaHoje ? "Fazer mais uma rodada" : "Começar a sessão de hoje"}</button>
+  /* ── a aula ── */
+  let geracao = 0, msgsEl, acoesEl, entrada, oferta = null;
+  const PARE = { pare: true };
+  function abrirAula() {
+    const dir = dirAtual();
+    app.innerHTML = `
+      <div class="pf-cab"><h1 class="pf-h1">${esc(dir.titulo)}</h1>
+        <p class="pf-leve" style="margin-top:6px">${D.paginas} páginas · ${D.partes.length} partes · <button class="pf-link" id="trocar">Minhas diretrizes</button></p></div>
+      <div class="pf-aula">
+        <details class="pf-caminho" id="caminho"></details>
+        <section class="pf-conversa">
+          <div class="pf-msgs" id="msgs" aria-live="polite"></div>
+          <div class="pf-acoes" id="acoes"></div>
+          <form class="pf-enviar" id="form"><input id="entrada" placeholder="Escreva para o professor, por exemplo: não entendi" autocomplete="off" aria-label="Mensagem para o professor" disabled><button class="pf-bt forte" type="submit">Enviar</button></form>
         </section>
-        <section>
-          <h2 class="es-h2">Ou escolha como estudar</h2>
-          <div class="es-modos">
-            ${modo("mapa", "mapa", "Mapa da diretriz", "Os tópicos explicados em português, com o trecho original.", `${D.topicos.length} tópicos`)}
-            ${modo("casos", "casos", "Casos práticos", "Você avalia um exemplo e compara com a nota de referência.", `${D.casos.length} casos`)}
-            ${modo("rapidas", "rapidas", "Perguntas rápidas", "As que você erra voltam até ficarem fáceis.", nRev ? `${nRev} para hoje` : "em dia")}
-            ${modo("explique", "explique", "Explique com suas palavras", "Escreva a regra do seu jeito e veja o que faltou.", `${D.explicar.length} temas`)}
-            ${modo("simuladoInicio", "simulado", "Simulado", "Questões misturadas e tempo marcado, como no teste.", "10 questões · 8 min")}
-            ${modo("pergunte", "pergunte", "Pergunte à diretriz", "Tire a dúvida e veja em que página está a resposta.", "chat")}
-          </div>
-        </section>
-      </div>
-      <section class="es-cx">
-        <h2 class="es-h2">Seu progresso por tópico</h2>
-        <div class="es-progs">${D.topicos.map(t => { const d = dominio(t.id); return `<button class="es-top" data-top="${t.id}"><b>${esc(t.nome)}</b><span class="es-barra"><i style="width:${d.n ? Math.max(6, d.pct) : 0}%;${d.estado === "dominado" ? "background:var(--ok)" : ""}"></i></span><span class="es-estado ${d.estado}">${d.nome}${d.n ? ` · ${d.pct}%` : ""}</span></button>`; }).join("")}</div>
-        <p class="es-leve" style="margin-top:12px">A porcentagem conta os seus últimos 10 exercícios de cada tópico. Com 80% ou mais, o tópico fica dominado.</p>
-      </section>
-    </div>`;
-    corpo.querySelector("#hoje").onclick = () => ir("sessao", { fila: s.fila, titulo: "Sessão de hoje", hoje: true });
-    corpo.querySelectorAll("[data-modo]").forEach(b => b.onclick = () => ir(b.dataset.modo));
-    corpo.querySelectorAll("[data-top]").forEach(b => b.onclick = () => ir("mapa", { topico: b.dataset.top }));
+      </div>`;
+    msgsEl = app.querySelector("#msgs"); acoesEl = app.querySelector("#acoes"); entrada = app.querySelector("#entrada");
+    app.querySelector("#trocar").onclick = () => { geracao++; oferta = null; E.atual = ""; salvar(); telaSubir(); window.scrollTo({ top: 0, behavior: "instant" }); };
+    app.querySelector("#form").onsubmit = ev => { ev.preventDefault(); textoLivre(entrada.value); };
+    const cam = app.querySelector("#caminho"); if (window.innerWidth > 900) cam.open = true;
+    desenharCaminho();
+    // o que já foi conversado volta na tela
+    S().msgs.forEach(m => msgsEl.insertAdjacentHTML("beforeend", m));
+    if (dir.outro && !S().msgs.length) colocar(`<div class="pf-sis">Na prévia, as aulas são sempre as da diretriz de exemplo, seja qual for o arquivo.</div>`);
+    rolar(true);
+    iniciar(!!S().msgs.length && S().fase !== "plano");
   }
-  const modo = (alvo, ic, nome, txt, tag) => `<button class="es-modo" data-modo="${alvo}"><span class="ic">${ICONES[ic]}</span><div><b>${nome}</b><span>${txt}</span><em>${tag}</em></div></button>`;
-
-  /* ── mapa da diretriz ── */
-  function telaMapa(corpo) {
-    const t = topico(mapaTop) || D.topicos[0], d = dominio(t.id);
-    corpo.innerHTML = `<div class="es-mapa">
-      <div class="es-mapa-lista">${D.topicos.map((x, i) => { const dx = dominio(x.id); return `<button data-top="${x.id}" aria-current="${x.id === t.id}">${anel(dx.n ? dx.pct / 100 : 0, 34)}<div><b>${i + 1}. ${esc(x.nome)}</b><small>${dx.nome}${dx.n ? ` · ${dx.pct}%` : ""} · págs. ${esc(x.pags)}</small></div></button>`; }).join("")}</div>
-      <section class="es-cx">
-        <span class="es-rot">${esc(t.en)} · páginas ${esc(t.pags)}</span>
-        <h2 style="font-family:var(--display);font-weight:400;font-size:30px;color:var(--ink);margin:6px 0 10px">${esc(t.nome)}</h2>
-        <p style="font-size:15.5px;color:var(--ink-2);line-height:1.6">${esc(t.resumo)}</p>
-        <h3 class="es-h2" style="margin-top:22px;margin-bottom:2px">O que a diretriz diz</h3>
-        ${t.regras.map(r => `<div class="es-regra"><small>SEÇÃO ${esc(r.id)} · PÁGINA ${r.pag}</small><p>“${esc(r.en)}”</p></div>`).join("")}
-        <div class="es-acoes">
-          <button class="es-bt forte" id="praticar">Praticar este tópico</button>
-          <button class="es-bt" id="perguntar">Perguntar sobre este tópico</button>
-          <span class="es-estado ${d.estado}">${d.nome}${d.n ? ` · ${d.pct}%` : ""}</span>
-        </div>
-      </section></div>`;
-    corpo.querySelectorAll("[data-top]").forEach(b => b.onclick = () => { mapaTop = b.dataset.top; telaMapa(corpo); });
-    corpo.querySelector("#praticar").onclick = () => {
-      const fila = [].concat(
-        cartasDeHoje(t.id).slice(0, 3).map(q => ({ tipo: "carta", q })),
-        D.casos.filter(c => c.topico === t.id).map(c => ({ tipo: "caso", c })),
-        D.perguntas.filter(q => q.topico === t.id).slice(0, 2).map(q => ({ tipo: "carta", q, treino: true })),
-        D.explicar.filter(e => e.topico === t.id).map(e => ({ tipo: "explique", e })));
-      const vistos = new Set(); const unica = fila.filter(x => { const k = (x.q || x.c || x.e).id; if (vistos.has(k)) return false; vistos.add(k); return true; });
-      ir("sessao", { fila: unica.slice(0, 7), titulo: t.nome, volta: "mapa" });
-    };
-    corpo.querySelector("#perguntar").onclick = () => ir("pergunte", { pergunta: `Sobre ${t.nome.toLowerCase()}: ` });
+  function desenharCaminho() {
+    const a = S(), cam = app.querySelector("#caminho"); if (!cam || !a) return;
+    const aberto = cam.open, pct = pctDe(a);
+    const atual = a.fase === "final" || a.fase === "revisao" || a.fase === "pronto" ? -1 : a.p;
+    cam.innerHTML = `<summary>${anel(pct / 100)}<div><b>${pct === 100 ? "Pronto para o teste" : `${pct}% pronto para o teste`}</b><small>${a.fase === "pronto" ? "Você passou na prova final" : atual >= 0 ? `Parte ${atual + 1} de ${D.partes.length}: ${esc(D.partes[atual].nome)}` : "Prova final"}</small></div><svg class="seta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <ol class="pf-partes">${D.partes.map((p, i) => {
+        const feita = parteFeita(a, i);
+        return `<li><button class="pf-parte${feita ? " feita" : ""}${i === atual ? " atual" : ""}" data-parte="${i}" aria-current="${i === atual}"><span class="pf-marca">${feita ? "✓" : i + 1}</span><span><b>${esc(p.nome)}</b><small>${feita ? "Concluída" : i === atual ? "Agora" : `cerca de ${p.minutos} min`}</small>
+          ${i === atual ? `<ul class="pf-sub-passos">${p.passos.map((x, k) => `<li class="${a.feitos[x.id] ? "feito" : k === a.s && a.fase === "passo" ? "agora" : ""}">${esc(x.titulo)}</li>`).join("")}<li class="${a.casos[i] !== undefined ? "feito" : a.fase === "caso" ? "agora" : ""}">Caso para aplicar</li></ul>` : ""}</span></button></li>`; }).join("")}
+        <li><button class="pf-parte${a.pronto ? " feita" : ""}${atual === -1 ? " atual" : ""}" data-parte="final"><span class="pf-marca">${a.pronto ? "✓" : "★"}</span><span><b>Prova final</b><small>${a.pronto ? `Aprovado com ${a.final.acertos} de ${D.final.length}` : `${D.final.length} perguntas, sem explicação no meio`}</small></span></button></li></ol>`;
+    cam.open = aberto || window.innerWidth > 900;
+    cam.querySelectorAll("[data-parte]").forEach(b => b.onclick = () => pular(b.dataset.parte));
   }
-
-  /* ── telas de cada modo ── */
-  function telaCasos(corpo) {
-    corpo.innerHTML = `<div class="es-cx" style="max-width:780px">
-      <h2 class="es-h2">Casos práticos</h2>
-      <p style="font-size:15px">Você lê o pedido e a resposta da IA, dá a sua nota e compara com a nota de referência. É o mesmo tipo de tarefa do teste de entrada.</p>
-      <div class="es-acoes"><button class="es-bt forte grande" id="todos">Praticar 5 casos</button></div>
-      <h3 class="es-h2" style="margin-top:24px">Ou escolha um tópico</h3>
-      <div class="es-chips">${D.topicos.filter(t => D.casos.some(c => c.topico === t.id)).map(t => `<button class="es-chip" data-top="${t.id}">${esc(t.nome)} · ${D.casos.filter(c => c.topico === t.id).length}</button>`).join("")}</div></div>`;
-    const vistos = P().casosVistos;
-    corpo.querySelector("#todos").onclick = () => ir("sessao", { fila: D.casos.slice().sort((a, b) => (vistos[a.id] || 0) - (vistos[b.id] || 0)).slice(0, 5).map(c => ({ tipo: "caso", c })), titulo: "Casos práticos", volta: "casos" });
-    corpo.querySelectorAll("[data-top]").forEach(b => b.onclick = () => ir("sessao", { fila: D.casos.filter(c => c.topico === b.dataset.top).map(c => ({ tipo: "caso", c })), titulo: "Casos práticos", volta: "casos" }));
+  function anel(frac) {
+    const r = 16, c = 2 * Math.PI * r;
+    return `<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true" style="flex-shrink:0"><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--bg-soft)" stroke-width="5"/><circle cx="20" cy="20" r="${r}" fill="none" stroke="${frac >= 1 ? "var(--ok)" : "var(--signal)"}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - frac)}" transform="rotate(-90 20 20)"/></svg>`;
   }
-  function telaRapidas(corpo) {
-    const fila = cartasDeHoje(), amanha = revisoesAmanha();
-    corpo.innerHTML = `<div class="es-cx" style="max-width:780px">
-      <h2 class="es-h2">Perguntas rápidas</h2>
-      <p style="font-size:15px">Perguntas curtas sobre as regras. Acertou, ela volta daqui a alguns dias; errou, volta amanhã. Assim você revisa na hora certa, sem decorar tudo de uma vez.</p>
-      ${fila.length
-        ? `<div class="es-acoes"><button class="es-bt forte grande" id="rev">Revisar ${fila.length} ${fila.length === 1 ? "pergunta" : "perguntas"} de hoje</button></div>`
-        : `<div class="es-fb ok" style="margin-top:16px"><div class="tit">Você está em dia</div><p>Nenhuma pergunta para revisar hoje${amanha ? `. Amanhã voltam ${amanha}.` : "."}</p></div>
-           <div class="es-acoes"><button class="es-bt" id="extra">Treinar 5 perguntas mesmo assim</button></div>`}
-      <p class="es-leve" style="margin-top:16px">${Object.keys(P().cartas).length} de ${D.perguntas.length} perguntas já estudadas.</p></div>`;
-    const rev = corpo.querySelector("#rev"); if (rev) rev.onclick = () => ir("sessao", { fila: fila.map(q => ({ tipo: "carta", q })), titulo: "Perguntas rápidas", volta: "rapidas" });
-    const ex = corpo.querySelector("#extra"); if (ex) ex.onclick = () => ir("sessao", { fila: embaralhar(D.perguntas).slice(0, 5).map(q => ({ tipo: "carta", q, treino: true })), titulo: "Perguntas rápidas", volta: "rapidas" });
+  function rolar(ja) {
+    const alvo = acoesEl && acoesEl.children.length ? acoesEl : msgsEl && msgsEl.lastElementChild;
+    if (!alvo) return;
+    const fundo = alvo.getBoundingClientRect().bottom + 90 - window.innerHeight;
+    if (fundo > 0) window.scrollBy({ top: fundo, behavior: ja || RAPIDO ? "instant" : "smooth" });
   }
-  function telaExplique(corpo) {
-    corpo.innerHTML = `<div class="es-cx" style="max-width:780px">
-      <h2 class="es-h2">Explique com suas palavras</h2>
-      <p style="font-size:15px">Escrever a regra do seu jeito é um dos jeitos mais fortes de fixar. Você escreve, e a ferramenta mostra o que você já cobriu e o que faltou.</p>
-      <div style="display:grid;gap:8px;margin-top:16px">${D.explicar.map(e => `<button class="es-op" data-e="${e.id}"><kbd>${ICONES.explique}</kbd><span>${esc(e.texto)}<br><small class="es-leve">${esc(topico(e.topico).nome)}</small></span></button>`).join("")}</div></div>`;
-    corpo.querySelectorAll("[data-e]").forEach(b => b.onclick = () => ir("sessao", { fila: [{ tipo: "explique", e: D.explicar.find(x => x.id === b.dataset.e) }], titulo: "Explique com suas palavras", volta: "explique" }));
-  }
+  function colocar(html) { msgsEl.insertAdjacentHTML("beforeend", html); const a = S(); a.msgs.push(html); if (a.msgs.length > 400) a.msgs.splice(0, a.msgs.length - 400); salvar(); rolar(); }
 
-  /* ── o jogador: uma coisa de cada vez, com a correção logo em seguida ── */
-  function jogar(filaInicial, titulo, volta) {
-    const fila = filaInicial.slice(); let i = 0, pontos = 0, feitos = 0, voltaram = new Set();
-    const porTopico = {};
-    app.innerHTML = `<div class="es-jogo">
-      <div class="es-jogo-topo"><button class="es-bt pq" id="sair">Sair</button><span class="es-barra"><i style="width:0%"></i></span><span class="q" id="q"></span></div>
-      <div id="palco"></div></div>`;
-    app.querySelector("#sair").onclick = () => ir(volta);
-    const palco = app.querySelector("#palco");
-    const topo = () => { app.querySelector(".es-jogo-topo .es-barra i").style.width = `${i / fila.length * 100}%`; app.querySelector("#q").textContent = `${Math.min(i + 1, fila.length)} de ${fila.length}`; };
-    const conta = (top, ok) => { pontos += ok; feitos++; registrar(top, ok); const p = porTopico[top] = porTopico[top] || { n: 0, ok: 0 }; p.n++; p.ok += ok; };
-    function proximo() {
-      i++; topo();
-      if (i >= fila.length) { fim(); return; }
-      mostrar(fila[i]);
-    }
-    function rodape(fb, item) {
-      const continuar = `<div class="es-acoes"><button class="es-bt forte" id="seguir">${i + 1 >= fila.length ? "Ver o resultado" : "Continuar"}</button><span class="dica">ou aperte Enter</span></div>`;
-      fb.insertAdjacentHTML("beforeend", continuar);
-      ligarCitas(fb);
-      const seguir = fb.querySelector("#seguir"); seguir.onclick = proximo; seguir.focus({ preventScroll: true });
-      fb.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      teclas = ev => { if (ev.key === "Enter") { ev.preventDefault(); proximo(); } };
-      const rep = fb.querySelector("[data-reportar]"); if (rep) rep.onclick = () => { rep.outerHTML = `<span class="es-leve">Obrigado! A equipe vai revisar este exercício.</span>`; };
-    }
-    function mostrar(item) {
-      topo();
-      if (item.tipo === "carta") return carta(item);
-      if (item.tipo === "caso") return item.c.lado ? casoLado(item) : caso(item);
-      return explique(item);
-    }
-
-    function carta(item) {
-      const q = item.q, t = topico(q.topico);
-      palco.innerHTML = `<div class="es-item">
-        <span class="es-tipo">Pergunta rápida · ${esc(t.nome)}</span>
-        <h2>${esc(q.texto)}</h2>
-        <div class="es-opcoes">${q.opcoes.map((o, k) => `<button class="es-op" data-k="${k}"><kbd>${k + 1}</kbd><span>${esc(o)}</span></button>`).join("")}</div>
-        <div id="fb" aria-live="polite"></div></div>`;
-      const escolher = k => {
-        const ok = k === q.certa;
-        palco.querySelectorAll(".es-op").forEach((b, j) => { b.disabled = true; b.classList.add(j === q.certa ? "certa" : j === k ? "errada" : "apagada"); });
-        if (!item.treino || !P().cartas[q.id]) responderCarta(q, ok);
-        conta(q.topico, ok ? 1 : 0);
-        if (!ok && !voltaram.has(q.id)) { voltaram.add(q.id); fila.push({ tipo: "carta", q, treino: true, deNovo: true }); }
-        const fb = palco.querySelector("#fb");
-        fb.innerHTML = `<div class="es-fb ${ok ? "ok" : "erro"}"><div class="tit">${ok ? (item.deNovo ? "Agora foi!" : "Isso mesmo.") : "Não foi dessa vez."}</div>
-          <p>${ok ? "" : `A resposta certa é: <b>${esc(q.opcoes[q.certa])}</b>. `}${esc(q.explicacao)}</p>
-          ${!ok && !item.deNovo ? `<p class="es-leve">Esta pergunta volta no fim desta sessão e de novo amanhã.</p>` : ""}
-          ${citar(q.regra)}</div>`;
-        rodape(fb.firstElementChild, item);
-      };
-      palco.querySelectorAll(".es-op").forEach(b => b.onclick = () => escolher(+b.dataset.k));
-      teclas = ev => { const k = +ev.key - 1; if (k >= 0 && k < q.opcoes.length) { ev.preventDefault(); escolher(k); } };
-    }
-
-    function caso(item) {
-      const c = item.c, t = topico(c.topico); let nota = 0; const marcados = new Set();
-      palco.innerHTML = `<div class="es-item">
-        <span class="es-tipo">Caso prático · ${esc(t.nome)}</span>
-        <h2>Que nota você dá para esta resposta?</h2>
-        <div class="es-caixa"><small>Pedido do usuário</small><div class="txt">${esc(c.pedido)}</div></div>
-        <div class="es-caixa ia"><small>Resposta da IA</small><div class="txt">${md(c.resposta)}</div></div>
-        <div class="es-perg">Sua nota</div>
-        <div class="es-notas">${NOMES_NOTA.map((n, k) => `<button class="es-nota" data-n="${k + 1}" aria-pressed="false"><b>${k + 1}</b><span>${n}</span></button>`).join("")}</div>
-        <div class="es-perg">O que pesou na sua nota? <span class="es-leve" style="font-weight:400">(opcional)</span></div>
-        <div class="es-chips">${D.problemas.map(p => `<button class="es-chip" data-p="${p.id}" aria-pressed="false">${esc(p.nome)}</button>`).join("")}</div>
-        <div class="es-acoes" id="conf"><button class="es-bt forte" id="conferir" disabled>Conferir</button><span class="dica">Dica: use as teclas 1 a 5</span></div>
-        <div id="fb" aria-live="polite"></div></div>`;
-      const bt = palco.querySelector("#conferir");
-      const marcar = n => { nota = n; palco.querySelectorAll(".es-nota").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.n === n))); bt.disabled = false; };
-      palco.querySelectorAll(".es-nota").forEach(b => b.onclick = () => marcar(+b.dataset.n));
-      palco.querySelectorAll(".es-chip").forEach(b => b.onclick = () => { const p = b.dataset.p; marcados.has(p) ? marcados.delete(p) : marcados.add(p); b.setAttribute("aria-pressed", String(marcados.has(p))); });
-      const conferir = () => {
-        if (!nota) return;
-        const dif = Math.abs(nota - c.nota), ok = dif === 0 ? 1 : dif === 1 ? 0.5 : 0;
-        P().casosVistos[c.id] = (P().casosVistos[c.id] || 0) + 1;
-        conta(c.topico, ok);
-        palco.querySelectorAll(".es-nota, .es-chip").forEach(b => b.disabled = true);
-        palco.querySelectorAll(".es-nota").forEach(b => { if (+b.dataset.n === c.nota) b.classList.add("ref"); });
-        palco.querySelectorAll(".es-chip").forEach(b => { if (c.problemas.indexOf(b.dataset.p) >= 0) b.classList.add("esperado"); });
-        palco.querySelector("#conf").remove();
-        const fb = palco.querySelector("#fb");
-        fb.innerHTML = `<div class="es-fb ${ok === 1 ? "ok" : ok ? "perto" : "erro"}">
-          <div class="tit">${ok === 1 ? `Isso! A nota de referência é ${c.nota}.` : ok ? `Chegou perto: a nota de referência é ${c.nota}, e você deu ${nota}.` : `A nota de referência é ${c.nota}, e você deu ${nota}.`}</div>
-          <p>${esc(c.explicacao)}</p>
-          <p class="es-leve">Em verde, o que pesou na nota de referência: ${c.problemas.map(p => D.problemas.find(x => x.id === p).nome).join(", ")}.</p>
-          ${citar(c.regra)}
-          <div class="es-reportar"><button class="es-link" data-reportar style="font-size:12.5px">Achou que a nota de referência está errada? Avise a equipe</button></div></div>`;
-        rodape(fb.firstElementChild, item);
-      };
-      bt.onclick = conferir;
-      teclas = ev => { const n = +ev.key; if (n >= 1 && n <= 5) { ev.preventDefault(); marcar(n); } else if (ev.key === "Enter" && nota) { ev.preventDefault(); conferir(); } };
-    }
-
-    function casoLado(item) {
-      const c = item.c, t = topico(c.topico); let esc1 = "";
-      palco.innerHTML = `<div class="es-item">
-        <span class="es-tipo">Caso prático · ${esc(t.nome)}</span>
-        <h2>Qual das duas respostas é melhor para o usuário?</h2>
-        <div class="es-caixa"><small>Pedido do usuário</small><div class="txt">${esc(c.pedido)}</div></div>
-        <div class="es-duas"><div class="es-caixa ia"><small>Resposta A</small><div class="txt">${md(c.respostaA)}</div></div><div class="es-caixa ia"><small>Resposta B</small><div class="txt">${md(c.respostaB)}</div></div></div>
-        <div class="es-perg">Sua escolha</div>
-        <div class="es-notas es-lado">${LADO.map(([k, n], j) => `<button class="es-nota" data-l="${k}" aria-pressed="false"><b>${n.split(" ")[0]}</b><span>${n.split(" ").slice(1).join(" ") || "&nbsp;"}</span></button>`).join("")}</div>
-        <div class="es-acoes" id="conf"><button class="es-bt forte" id="conferir" disabled>Conferir</button><span class="dica">Dica: use as teclas 1 a 5</span></div>
-        <div id="fb" aria-live="polite"></div></div>`;
-      const bt = palco.querySelector("#conferir");
-      const marcar = k => { esc1 = k; palco.querySelectorAll(".es-nota").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.l === k))); bt.disabled = false; };
-      palco.querySelectorAll(".es-nota").forEach(b => b.onclick = () => marcar(b.dataset.l));
-      const nome = k => LADO.find(x => x[0] === k)[1];
-      const conferir = () => {
-        if (!esc1) return;
-        const ok = esc1 === c.preferencia ? 1 : esc1[0] === c.preferencia[0] ? 0.5 : 0;
-        P().casosVistos[c.id] = (P().casosVistos[c.id] || 0) + 1;
-        conta(c.topico, ok);
-        palco.querySelectorAll(".es-nota").forEach(b => { b.disabled = true; if (b.dataset.l === c.preferencia) b.classList.add("ref"); });
-        palco.querySelector("#conf").remove();
-        const fb = palco.querySelector("#fb");
-        fb.innerHTML = `<div class="es-fb ${ok === 1 ? "ok" : ok ? "perto" : "erro"}">
-          <div class="tit">${ok === 1 ? `Isso! A referência é "${nome(c.preferencia)}".` : ok ? `Chegou perto: a referência é "${nome(c.preferencia)}", e você escolheu "${nome(esc1)}".` : `A referência é "${nome(c.preferencia)}", e você escolheu "${nome(esc1)}".`}</div>
-          <p>${esc(c.explicacao)}</p>${citar(c.regra)}
-          <div class="es-reportar"><button class="es-link" data-reportar style="font-size:12.5px">Achou que a referência está errada? Avise a equipe</button></div></div>`;
-        rodape(fb.firstElementChild, item);
-      };
-      bt.onclick = conferir;
-      teclas = ev => { const n = +ev.key; if (n >= 1 && n <= 5) { ev.preventDefault(); marcar(LADO[n - 1][0]); } else if (ev.key === "Enter" && esc1) { ev.preventDefault(); conferir(); } };
-    }
-
-    function explique(item) {
-      const e = item.e, t = topico(e.topico);
-      palco.innerHTML = `<div class="es-item">
-        <span class="es-tipo">Explique com suas palavras · ${esc(t.nome)}</span>
-        <h2>${esc(e.texto)}</h2>
-        <textarea class="es-texto" id="txt" placeholder="Escreva como você explicaria para um colega. Pode ser em português, do seu jeito."></textarea>
-        <div class="es-acoes" id="conf"><button class="es-bt forte" id="conferir" disabled>Conferir o que eu escrevi</button><span class="dica" id="falta">Escreva pelo menos uma frase</span></div>
-        <div id="fb" aria-live="polite"></div></div>`;
-      const txt = palco.querySelector("#txt"), bt = palco.querySelector("#conferir");
-      txt.focus({ preventScroll: true });
-      txt.oninput = () => { const ok = txt.value.trim().length >= 25; bt.disabled = !ok; palco.querySelector("#falta").textContent = ok ? "ou aperte Ctrl + Enter" : "Escreva pelo menos uma frase"; };
-      const conferir = () => {
-        const v = norm(txt.value);
-        if (v.length < 25) return;
-        const cob = e.pontos.map(p => p.kws.some(k => v.indexOf(norm(k)) >= 0));
-        const n = cob.filter(Boolean).length, ok = n / e.pontos.length;
-        conta(e.topico, ok >= 0.67 ? 1 : ok >= 0.34 ? 0.5 : 0);
-        txt.readOnly = true; palco.querySelector("#conf").remove();
-        const fb = palco.querySelector("#fb");
-        fb.innerHTML = `<div class="es-fb ${ok === 1 ? "ok" : ok >= 0.5 ? "perto" : "erro"}">
-          <div class="tit">${ok === 1 ? "Você cobriu tudo o que importa." : n ? `Você cobriu ${n} de ${e.pontos.length} pontos.` : "Faltaram os pontos principais."}</div>
-          <ul class="es-pontos">${e.pontos.map((p, k) => `<li class="${cob[k] ? "sim" : "nao"}"><i>${cob[k] ? "✓" : ""}</i>${esc(p.txt)}</li>`).join("")}</ul>
-          <p><b>Para pensar:</b> ${esc(e.volta)}</p>
-          <details class="es-modelo"><summary>Ver uma explicação completa</summary><p>${esc(e.modelo)}</p></details>
-          ${citar(e.regra)}</div>`;
-        rodape(fb.firstElementChild, item);
-      };
-      bt.onclick = conferir;
-      txt.addEventListener("keydown", ev => { if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); conferir(); } });
-    }
-
-    function fim() {
-      teclas = null;
-      if (titulo === "Sessão de hoje") { P().sessaoFeita = hoje(); salvar(); }
-      const nota = feitos ? Math.round(pontos / feitos * 100) : 0, amanha = revisoesAmanha();
-      const piores = Object.entries(porTopico).map(([k, v]) => ({ t: topico(k), pct: v.ok / v.n })).filter(x => x.pct < 0.8).sort((a, b) => a.pct - b.pct);
-      const agendado = P().agenda === mais(1);
-      palco.innerHTML = `<div class="es-item es-fim">
-        <div class="grande">${nota}%</div>
-        <h2>${nota >= 80 ? "Mandou bem!" : nota >= 50 ? "Bom treino." : "Valeu o esforço. É assim que se aprende."}</h2>
-        <p>Você fez ${feitos} ${feitos === 1 ? "exercício" : "exercícios"} e acertou ${nota}%. ${piores.length ? `Vale voltar em <b>${piores.slice(0, 2).map(x => esc(x.t.nome)).join("</b> e <b>")}</b>${piores.length > 2 ? ", os dois que mais pesaram" : ""}.` : "Nenhum tópico ficou fraco nesta rodada."}</p>
-        <p style="margin-top:8px">${amanha ? `Amanhã voltam ${amanha} ${amanha === 1 ? "pergunta" : "perguntas"} para revisar.` : "Amanhã a ferramenta monta uma sessão nova para você."}</p>
-        <div class="es-acoes" id="fimAcoes">
-          ${agendado ? `<span class="es-agendado">✓ Revisão de amanhã na sua agenda</span>` : `<button class="es-bt" id="agenda">Pôr a revisão de amanhã na minha agenda</button>`}
-          ${piores.length ? `<button class="es-bt" id="fraco">Praticar ${esc(piores[0].t.nome)}</button>` : ""}
-          <button class="es-bt forte" id="voltar">Voltar ao início</button>
-        </div></div>`;
-      topo(); app.querySelector("#q").textContent = "Concluído";
-      const ag = palco.querySelector("#agenda");
-      if (ag) ag.onclick = () => { P().agenda = mais(1); salvar(); ag.outerHTML = `<span class="es-agendado">✓ Revisão de amanhã na sua agenda</span>`; toast("A revisão entrou na Agenda do Meu Controle."); };
-      const fr = palco.querySelector("#fraco"); if (fr) fr.onclick = () => ir("mapa", { topico: piores[0].t.id });
-      palco.querySelector("#voltar").onclick = () => ir("inicio");
-      palco.querySelector("#voltar").focus({ preventScroll: true });
-    }
-    mostrar(fila[0]);
-  }
-
-  /* ── simulado: tempo marcado e correção só no fim ── */
-  function telaSimuladoInicio(corpo) {
-    const ult = P().simulados && P().simulados.slice(-1)[0];
-    corpo.innerHTML = `<div class="es-cx" style="max-width:780px">
-      <h2 class="es-h2">Simulado</h2>
-      <p style="font-size:15px">10 questões de todos os tópicos, misturadas, com 8 minutos no relógio. A correção vem só no fim, como no teste de entrada. Dá para pular e voltar.</p>
-      ${ult ? `<p class="es-leve" style="margin-top:10px">Último simulado: ${ult.acertos} de ${ult.total}, em ${ult.dia.split("-").reverse().join("/")}.</p>` : ""}
-      <div class="es-acoes"><button class="es-bt forte grande" id="iniciar">Começar o simulado</button></div></div>`;
-    corpo.querySelector("#iniciar").onclick = () => ir("simulado");
-  }
-  function telaSimulado() {
-    const casos = embaralhar(D.casos.filter(c => !c.lado)).slice(0, 3).map(c => ({ topico: c.topico, regra: c.regra, texto: "Que nota esta resposta recebe?", caso: c, opcoes: NOMES_NOTA.map((n, k) => `${k + 1} · ${n}`), certa: c.nota - 1, explicacao: c.explicacao }));
-    const qs = embaralhar(embaralhar(D.perguntas).slice(0, 7).concat(casos));
-    const resp = qs.map(() => -1); let i = 0, seg = 8 * 60;
-    app.innerHTML = `<div class="es-jogo">
-      <div class="es-jogo-topo"><button class="es-bt pq" id="sair">Sair</button><span class="es-barra"><i style="width:0%"></i></span><span class="es-relogio" id="rel">8:00</span></div>
-      <div class="es-bolinhas" id="bol"></div><div id="palco"></div></div>`;
-    const palco = app.querySelector("#palco"), rel = app.querySelector("#rel");
-    app.querySelector("#sair").onclick = () => ir("simuladoInicio");
-    const tick = setInterval(() => { seg--; rel.textContent = `${Math.floor(seg / 60)}:${String(seg % 60).padStart(2, "0")}`; rel.classList.toggle("pouco", seg <= 60); if (seg <= 0) terminar(); }, 1000);
-    pararRelogio = () => clearInterval(tick);
-    function bolinhas() {
-      app.querySelector("#bol").innerHTML = qs.map((_, k) => `<button data-b="${k}" class="${resp[k] >= 0 ? "resp" : ""}" aria-current="${k === i}" aria-label="Questão ${k + 1}">${k + 1}</button>`).join("");
-      app.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { i = +b.dataset.b; mostrar(); });
-      app.querySelector(".es-jogo-topo .es-barra i").style.width = `${resp.filter(x => x >= 0).length / qs.length * 100}%`;
-    }
-    function mostrar() {
-      const q = qs[i], t = topico(q.topico);
-      palco.innerHTML = `<div class="es-item">
-        <span class="es-tipo">Questão ${i + 1} de ${qs.length} · ${esc(t.nome)}</span>
-        <h2>${esc(q.texto)}</h2>
-        ${q.caso ? `<div class="es-caixa"><small>Pedido do usuário</small><div class="txt">${esc(q.caso.pedido)}</div></div><div class="es-caixa ia"><small>Resposta da IA</small><div class="txt">${md(q.caso.resposta)}</div></div>` : ""}
-        <div class="es-opcoes">${q.opcoes.map((o, k) => `<button class="es-op" data-k="${k}" style="${resp[i] === k ? "border-color:var(--signal);background:var(--signal-suave)" : ""}"><kbd>${k + 1}</kbd><span>${esc(o)}</span></button>`).join("")}</div>
-        <div class="es-acoes"><button class="es-bt" id="ant"${i === 0 ? " disabled" : ""}>Anterior</button><button class="es-bt" id="prox">${i === qs.length - 1 ? "Revisar" : "Próxima"}</button><span style="flex:1"></span><button class="es-bt forte" id="fim">Terminar e ver a nota</button></div></div>`;
-      bolinhas();
-      const escolher = k => { resp[i] = k; if (i < qs.length - 1) { i++; } mostrar(); };
-      palco.querySelectorAll(".es-op").forEach(b => b.onclick = () => escolher(+b.dataset.k));
-      palco.querySelector("#ant").onclick = () => { i = Math.max(0, i - 1); mostrar(); };
-      palco.querySelector("#prox").onclick = () => { i = Math.min(qs.length - 1, i + 1); mostrar(); };
-      palco.querySelector("#fim").onclick = () => {
-        const faltam = resp.filter(x => x < 0).length;
-        if (faltam && !palco.querySelector(".conf")) { palco.querySelector(".es-acoes").insertAdjacentHTML("afterend", `<p class="conf es-leve" style="margin-top:10px">Ainda ${faltam === 1 ? "falta 1 questão" : `faltam ${faltam} questões`}. <button class="es-link" id="mesmo">Terminar mesmo assim</button></p>`); palco.querySelector("#mesmo").onclick = terminar; return; }
-        terminar();
-      };
-      teclas = ev => { const k = +ev.key - 1; if (k >= 0 && k < q.opcoes.length) { ev.preventDefault(); escolher(k); } else if (ev.key === "ArrowRight") { i = Math.min(qs.length - 1, i + 1); mostrar(); } else if (ev.key === "ArrowLeft") { i = Math.max(0, i - 1); mostrar(); } };
-    }
-    let acabou = false;
-    function terminar() {
-      if (acabou) return; acabou = true;
-      clearInterval(tick); pararRelogio = null; teclas = null;
-      const acertos = qs.filter((q, k) => resp[k] === q.certa).length, usado = 8 * 60 - Math.max(0, seg);
-      qs.forEach((q, k) => registrar(q.topico, resp[k] === q.certa ? 1 : 0));
-      const p = P(); p.simulados = (p.simulados || []).concat([{ dia: hoje(), acertos, total: qs.length }]); salvar();
-      const porTop = {}; qs.forEach((q, k) => { const x = porTop[q.topico] = porTop[q.topico] || { n: 0, ok: 0 }; x.n++; if (resp[k] === q.certa) x.ok++; });
-      app.querySelector("#bol").innerHTML = "";
-      app.querySelector(".es-jogo-topo .es-barra i").style.width = "100%";
-      rel.textContent = `${Math.floor(usado / 60)}:${String(usado % 60).padStart(2, "0")} usados`; rel.classList.remove("pouco");
-      palco.innerHTML = `<div class="es-item es-fim">
-        <div class="grande">${acertos} de ${qs.length}</div>
-        <h2>${acertos >= 8 ? "Pronto para o teste de verdade?" : acertos >= 6 ? "No caminho certo." : "Ainda dá para melhorar bastante."}</h2>
-        <p>${acertos >= 8 ? "Você acertou a maior parte. Revise só o que errou abaixo." : "Veja abaixo o que errou e pratique os tópicos mais fracos."}</p>
-        <div class="es-progs" style="max-width:520px;margin:20px auto 0;text-align:left">${Object.entries(porTop).map(([k, v]) => `<div class="es-top" style="cursor:default"><b>${esc(topico(k).nome)}</b><span class="es-barra"><i style="width:${Math.max(6, v.ok / v.n * 100)}%;${v.ok === v.n ? "background:var(--ok)" : ""}"></i></span><span class="es-estado ${v.ok === v.n ? "dominado" : "praticando"}">${v.ok} de ${v.n}</span></div>`).join("")}</div>
-        <div class="es-res-lista">${qs.map((q, k) => { const ok = resp[k] === q.certa; return `<details class="${ok ? "ok" : "erro"}"><summary><i>${ok ? "✓" : "✗"}</i><span>${k + 1}. ${esc(q.caso ? `${q.texto} (${q.caso.pedido})` : q.texto)}</span></summary>
-          <p style="font-size:14px;margin-top:8px">${resp[k] < 0 ? "Você não respondeu. " : ok ? "" : `Você marcou: ${esc(q.opcoes[resp[k]])}. `}Certa: <b>${esc(q.opcoes[q.certa])}</b>. ${esc(q.explicacao)}</p>${citar(q.regra)}</details>`; }).join("")}</div>
-        <div class="es-acoes"><button class="es-bt" id="denovo">Fazer outro simulado</button><button class="es-bt forte" id="voltar">Voltar ao início</button></div></div>`;
-      ligarCitas(palco);
-      palco.querySelector("#denovo").onclick = () => ir("simulado");
-      palco.querySelector("#voltar").onclick = () => ir("inicio");
-    }
-    mostrar();
-  }
-
-  /* ── pergunte à diretriz ── */
-  let conversa = [];
-  function telaPergunte(corpo, op) {
+  /* o professor fala: mostra "digitando" e depois a mensagem */
+  async function diz(html, op) {
     op = op || {};
-    if (!conversa.length) conversa.push({ ia: true, txt: "Pergunte qualquer coisa sobre a diretriz. Eu respondo só com o que está nela e mostro o trecho e a página de onde tirei." });
-    corpo.innerHTML = `<div class="es-chat">
-      <div class="es-msgs" id="msgs"></div>
-      <div class="es-chips" id="sug" style="margin-bottom:12px">${D.sugestoes.map(s => `<button class="es-chip" data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div>
-      <form class="es-enviar" id="form"><input id="entrada" placeholder="Escreva a sua dúvida" autocomplete="off" aria-label="Sua dúvida"><button class="es-bt forte" type="submit">Perguntar</button></form></div>`;
-    const msgs = corpo.querySelector("#msgs"), entrada = corpo.querySelector("#entrada");
-    const desenharMsgs = () => { msgs.innerHTML = conversa.map(m => m.ia ? `<div class="es-msg ia">${m.digitando ? `<span class="es-digitando"><span></span><span></span><span></span></span>` : esc(m.txt)}${m.regra ? citar(m.regra) : ""}${m.chips ? `<div class="es-chips" style="margin-top:10px">${m.chips.map(s => `<button class="es-chip" data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}</div>` : `<div class="es-msg eu">${esc(m.txt)}</div>`).join(""); ligarCitas(msgs); ligarChips(msgs); };
-    const ligarChips = raiz => raiz.querySelectorAll("[data-s]").forEach(b => b.onclick = () => perguntar(b.dataset.s));
-    function perguntar(t) {
-      t = t.trim(); if (!t) return;
-      conversa.push({ txt: t }); const espera = { ia: true, digitando: true }; conversa.push(espera); desenharMsgs();
-      entrada.value = ""; window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-      setTimeout(() => {
-        const v = norm(t), achou = D.chat.find(c => c.kws.some(k => v.indexOf(norm(k)) >= 0));
-        delete espera.digitando;
-        if (achou) { espera.txt = achou.resp; espera.regra = achou.regra; }
-        else { espera.txt = "Não achei isso nesta diretriz. Na prévia, o chat responde só algumas perguntas. Tente uma destas:"; espera.chips = D.sugestoes; }
-        desenharMsgs(); window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-      }, 700);
-    }
-    ligarChips(corpo.querySelector("#sug"));
-    corpo.querySelector("#form").onsubmit = ev => { ev.preventDefault(); perguntar(entrada.value); };
-    desenharMsgs();
-    if (op.pergunta) { entrada.value = op.pergunta; }
-    entrada.focus({ preventScroll: true });
+    const g = geracao;
+    const ultimo = msgsEl.lastElementChild, seguido = !!(ultimo && ultimo.classList.contains("pf-msg") && !ultimo.classList.contains("eu"));
+    msgsEl.insertAdjacentHTML("beforeend", `<div class="pf-msg pf-digitando${seguido ? " seguido" : ""}"><span class="pf-av">${PROF}</span><div class="bal"><span></span><span></span><span></span></div></div>`);
+    const dig = msgsEl.lastElementChild; rolar();
+    await dormir(Math.min(1500, 380 + html.replace(/<[^>]+>/g, "").length * 9));
+    dig.remove();
+    if (g !== geracao) throw PARE;
+    const r = op.regra && regra(op.regra);
+    colocar(`<div class="pf-msg${op.pergunta ? " pergunta" : ""}${seguido ? " seguido" : ""}"><span class="pf-av">${PROF}</span><div class="bal">${html}${r ? `<div class="pf-cita"><small>NA DIRETRIZ · SEÇÃO ${esc(r.id)} · PÁGINA ${r.pag}</small><q>${esc(r.en)}</q></div>` : ""}</div></div>`);
+  }
+  const t = s => `<p>${esc(s)}</p>`;
+  const sis = s => colocar(`<div class="pf-sis">${esc(s)}</div>`);
+  const eu = s => colocar(`<div class="pf-msg eu"><div class="bal">${esc(s)}</div></div>`);
+
+  /* as respostas que o aluno pode dar agora: botões, alternativas ou notas */
+  function ofertar(itens, tipo) {
+    const g = geracao;
+    return new Promise(ok => { oferta = { itens, tipo: tipo || "botoes", ok, g }; desenharOferta(); });
+  }
+  function desenharOferta() {
+    const o = oferta; acoesEl.innerHTML = ""; if (!o) { entrada.disabled = true; return; }
+    entrada.disabled = false;
+    if (o.tipo === "botoes") acoesEl.innerHTML = o.itens.map((x, i) => `<button class="pf-bt${i === 0 ? " forte" : ""}" data-i="${i}">${esc(x.txt)}</button>`).join("");
+    else if (o.tipo === "opcoes") acoesEl.innerHTML = `<div class="pf-opcoes">${o.itens.map((x, i) => `<button class="pf-op" data-i="${i}"><kbd>${i + 1}</kbd><span>${esc(x.txt)}</span></button>`).join("")}</div><span class="pf-dica">Toque na resposta ou use as teclas 1 a ${o.itens.length}.</span>`;
+    else acoesEl.innerHTML = `<div class="pf-notas${o.tipo === "lado" ? " lado" : ""}">${o.itens.map((x, i) => `<button class="pf-nota" data-i="${i}"><b>${esc(x.cima)}</b><span>${x.baixo ? esc(x.baixo) : "&nbsp;"}</span></button>`).join("")}</div><span class="pf-dica">Toque na sua escolha ou use as teclas 1 a 5.</span>`;
+    acoesEl.querySelectorAll("[data-i]").forEach(b => b.onclick = () => escolher(+b.dataset.i));
+    rolar();
+  }
+  function escolher(i, semEco) {
+    const o = oferta; if (!o) return;
+    oferta = null; acoesEl.innerHTML = ""; entrada.disabled = true;
+    if (!semEco) eu(o.itens[i].eco || o.itens[i].txt);
+    o.ok(o.itens[i].k);
+  }
+  document.addEventListener("keydown", ev => {
+    if (!oferta || ev.ctrlKey || ev.metaKey || ev.altKey || ev.target === entrada) return;
+    const n = +ev.key;
+    if (oferta.tipo !== "botoes" && n >= 1 && n <= oferta.itens.length) { ev.preventDefault(); escolher(n - 1); }
+    else if (oferta.tipo === "botoes" && ev.key === "Enter" && ev.target.tagName !== "BUTTON") { ev.preventDefault(); escolher(0); }
+  });
+
+  /* o aluno escreve: "não entendi" e "exemplo" viram os botões; uma dúvida recebe a resposta da diretriz */
+  async function textoLivre(txt) {
+    txt = txt.trim(); if (!txt || !oferta) return;
+    entrada.value = "";
+    const o = oferta, v = norm(txt);
+    const porTexto = o.itens.findIndex((x, i) => norm(x.txt || x.eco) === v || (o.tipo !== "botoes" && String(i + 1) === v));
+    if (porTexto >= 0) { escolher(porTexto); return; }
+    const quer = k => o.itens.findIndex(x => x.k === k);
+    if (/nao entendi|nao ficou claro|explica de novo|outro jeito|confus|dificil/.test(v) && quer("nao") >= 0) { eu(txt); escolher(quer("nao"), true); return; }
+    if (/exemplo/.test(v) && quer("ex") >= 0) { eu(txt); escolher(quer("ex"), true); return; }
+    oferta = null; acoesEl.innerHTML = ""; entrada.disabled = true;
+    eu(txt);
+    try {
+      const achou = D.chat.find(c => c.kws.some(k => v.indexOf(norm(k)) >= 0));
+      if (achou) await diz(t(achou.resp), { regra: achou.regra });
+      else if (o.tipo !== "botoes" && /nao entendi|nao sei|duvida/.test(v)) await diz(t("Tudo bem não ter certeza. Escolha a que parece mais certa: se errar, eu explico de outro jeito."));
+      else await diz(t("Boa pergunta! Nesta prévia eu ainda não respondo tudo. Dá para perguntar sobre as notas, recusas, idioma ou comparação de respostas."));
+      await diz(t(o.tipo === "botoes" ? "Voltando ao nosso passo:" : "Voltando à pergunta:"));
+    } catch (e) { if (e === PARE) return; throw e; }
+    if (o.g !== geracao) return;
+    oferta = o; desenharOferta();
   }
 
-  /* telaPergunte recebe a pergunta pronta quando vem do mapa */
-  const desenharOriginal = desenhar;
-  desenhar = function (op) {
-    desenharOriginal(op);
-    if (vista === "pergunte" && op && op.pergunta) { const e = document.getElementById("entrada"); if (e) { e.value = op.pergunta; e.focus(); } }
-  };
+  /* ── o roteiro da aula ── */
+  function iniciar(voltando) {
+    geracao++; oferta = null; acoesEl.innerHTML = "";
+    roteiro(voltando).catch(e => { if (e !== PARE) console.error(e); });
+  }
+  function pular(alvo) {
+    const a = S();
+    if (alvo === "final") { if (a.fase === "final" || a.fase === "revisao") return; a.fase = "final"; }
+    else { const i = +alvo; if (i === a.p && (a.fase === "passo" || a.fase === "caso")) return; a.fase = "passo"; a.p = i; a.s = 0; }
+    salvar(); desenharCaminho();
+    if (window.innerWidth <= 900) app.querySelector("#caminho").open = false;
+    sis(alvo === "final" ? "Você foi para a prova final" : `Você escolheu a Parte ${+alvo + 1}: ${D.partes[+alvo].nome}`);
+    iniciar(false);
+  }
+  async function roteiro(voltando) {
+    const a = S();
+    if (voltando && a.fase !== "pronto") {
+      const parte = D.partes[a.p];
+      const onde = a.fase === "final" || a.fase === "revisao" ? "Paramos na prova final. Vamos retomar?"
+        : a.fase === "fimParte" ? `Você tinha acabado de terminar a Parte ${a.p + 1}, ${parte.nome}.`
+        : a.fase === "caso" ? `Paramos no caso para aplicar da Parte ${a.p + 1}, ${parte.nome}.`
+        : a.s === 0 ? `Vamos começar a Parte ${a.p + 1}, ${parte.nome}.`
+        : `Paramos na Parte ${a.p + 1}, ${parte.nome}, no passo "${parte.passos[a.s].titulo}". Vou retomar do começo desse passo, rapidinho.`;
+      await diz(t(`Que bom te ver de novo! ${onde}`));
+      await ofertar([{ k: "ok", txt: "Bora continuar" }]);
+    }
+    for (;;) {
+      if (a.fase === "plano") { await plano(); a.fase = "passo"; a.p = 0; a.s = 0; salvar(); desenharCaminho(); }
+      else if (a.fase === "passo") await passo();
+      else if (a.fase === "caso") await casoDaParte();
+      else if (a.fase === "fimParte") await fimDaParte();
+      else if (a.fase === "final") await provaFinal();
+      else if (a.fase === "revisao") await revisao();
+      else if (a.fase === "pronto") { await prontoParaOTeste(voltando); voltando = false; }
+      else return;
+    }
+  }
+  async function plano() {
+    await diz(t("Oi! Eu sou o seu professor para esta diretriz."));
+    await diz(`<p>Li as ${D.paginas} páginas e dividi o conteúdo em ${D.partes.length} partes, da base para o mais difícil:</p><ol class="pf-plano">${D.partes.map(p => `<li>${esc(p.nome)}<small>cerca de ${p.minutos} min</small></li>`).join("")}</ol>`);
+    await diz(t("Em cada parte eu explico um pedaço de cada vez e faço uma pergunta para ver se ficou claro. Se não ficar, eu explico de outro jeito, até você entender. No fim, uma prova rápida mostra se você está pronto."));
+    await diz(t("Pode me escrever a qualquer hora, até para dizer \"não entendi\"."));
+    const k = await ofertar([{ k: "ok", txt: "Bora começar" }, { k: "ordem", txt: "Por que nessa ordem?" }]);
+    if (k === "ordem") { await diz(t(D.ordem)); await ofertar([{ k: "ok", txt: "Entendi, bora começar" }]); }
+  }
 
-  if (E.atual && !dirAtual()) E.atual = "";
-  desenhar({});
+  async function perguntar(q, intro) {
+    await diz(t(intro));
+    await diz(t(q.texto), { pergunta: true });
+    const k = await ofertar(q.opcoes.map((o, i) => ({ k: i, txt: o })), "opcoes");
+    return k === q.certa;
+  }
+  async function passo() {
+    const a = S(), parte = D.partes[a.p], ps = parte.passos[a.s];
+    sis(`Parte ${a.p + 1} · ${parte.nome} · passo ${a.s + 1} de ${parte.passos.length}`);
+    desenharCaminho();
+    for (let i = 0; i < ps.ensina.length; i++) await diz(t(ps.ensina[i]), { regra: i === ps.ensina.length - 1 ? ps.regra : "" });
+    let viuExemplo = false, viuFacil = false, viuFrase = false;
+    let k = await ofertar([{ k: "ok", txt: "Entendi, pode perguntar" }, { k: "ex", txt: "Me dá um exemplo" }, { k: "nao", txt: "Não entendi" }]);
+    while (k !== "ok") {
+      if (k === "ex") { await diz(t(ps.exemplo)); viuExemplo = true; }
+      else if (!viuFacil) { await diz(t(sorteio(["Sem problema, vou explicar de outro jeito.", "Tranquilo, vamos por outro caminho."]))); await diz(t(ps.facil)); viuFacil = true; }
+      else { await diz(t("Vamos pelo mais simples, então. Guarde só esta frase:")); await diz(`<p><b>${esc(ps.frase)}</b></p>`); viuFrase = true; if (!viuExemplo) { await diz(t(ps.exemplo)); viuExemplo = true; } }
+      const op = [{ k: "ok", txt: viuFacil ? "Agora entendi" : "Entendi, pode perguntar" }];
+      if (!viuExemplo) op.push({ k: "ex", txt: "Me dá um exemplo" });
+      if (!viuFrase) op.push({ k: "nao", txt: viuFacil ? "Ainda não entendi" : "Não entendi" });
+      k = await ofertar(op);
+    }
+    const certo1 = await perguntar(ps.pergunta, sorteio(["Vamos ver se ficou claro:", "Uma pergunta rápida para conferir:", "Agora me diga:"]));
+    if (certo1) await diz(t(`${sorteio(["Isso mesmo!", "Exato!", "Certinho!"])} ${ps.pergunta.explicacao}`));
+    else {
+      await diz(t("Não foi essa, mas tudo bem: é assim que se aprende. Vou explicar de outro jeito."));
+      if (!viuFacil) await diz(t(ps.facil)); else await diz(`<p>Pense assim: <b>${esc(ps.frase)}</b></p>`);
+      const certo2 = await perguntar(ps.pergunta2, "Agora tenta esta:");
+      if (certo2) await diz(t(`Agora foi! ${ps.pergunta2.explicacao}`));
+      else {
+        await diz(t("Ainda não foi. Vamos resolver juntos."));
+        await diz(t(ps.juntos), { regra: ps.regra });
+        await diz(`<p>Guarde esta frase: <b>${esc(ps.frase)}</b></p>`);
+        if (a.dificeis.indexOf(ps.id) < 0) a.dificeis.push(ps.id);
+        await diz(t("Vou voltar nesse ponto no fim. Combinado?"));
+        await ofertar([{ k: "ok", txt: "Combinado" }]);
+      }
+    }
+    a.feitos[ps.id] = true;
+    if (a.s + 1 < parte.passos.length) { a.s++; await diz(t(sorteio(["Ótimo. Vamos para o próximo passo.", "Fechou esse. Próximo passo:", "Boa! Seguindo."]))); }
+    else a.fase = "caso";
+    salvar(); desenharCaminho();
+  }
+
+  function cartaoCaso(c) {
+    colocar(`<div class="pf-caso"><div class="cx"><small>Pedido do usuário</small><div class="txt">${esc(c.pedido)}</div></div>${c.lado
+      ? `<div class="duas"><div class="cx ia"><small>Resposta A</small><div class="txt">${md(c.respostaA)}</div></div><div class="cx ia"><small>Resposta B</small><div class="txt">${md(c.respostaB)}</div></div></div>`
+      : `<div class="cx ia"><small>Resposta da IA</small><div class="txt">${md(c.resposta)}</div></div>`}</div>`);
+  }
+  function pedirNota(c) {
+    if (c.lado) return ofertar(LADO.map(([k, n]) => ({ k, cima: n.split(" ")[0], baixo: n.split(" ").slice(1).join(" "), eco: n })), "lado");
+    return ofertar(NOMES_NOTA.map((n, i) => ({ k: i + 1, cima: String(i + 1), baixo: n, eco: `Nota ${i + 1}: ${n.toLowerCase()}` })), "nota");
+  }
+  const nomeLado = k => LADO.find(x => x[0] === k)[1];
+  function pontuar(c, r) { if (c.lado) return r === c.preferencia ? 1 : r[0] === c.preferencia[0] ? 0.5 : 0; const d = Math.abs(r - c.nota); return d === 0 ? 1 : d === 1 ? 0.5 : 0; }
+  async function casoDaParte() {
+    const a = S(), parte = D.partes[a.p], c = caso(parte.caso);
+    sis(`Parte ${a.p + 1} · ${parte.nome} · caso para aplicar`);
+    desenharCaminho();
+    await diz(t(c.lado ? "Agora vamos aplicar num caso de verdade. Leia o pedido e as duas respostas e me diga qual é melhor." : "Agora vamos aplicar num caso de verdade. Leia o pedido e a resposta da IA e me diga a nota que você dá."));
+    cartaoCaso(c);
+    const r = await pedirNota(c), p = pontuar(c, r);
+    const ref = c.lado ? `"${nomeLado(c.preferencia)}"` : c.nota;
+    if (p === 1) await diz(t(`Perfeito! A referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+    else if (p) await diz(t(`Quase! A referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+    else {
+      await diz(t(`Dessa vez não: a referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+      const ps = parte.passos.find(x => x.regra === c.regra) || parte.passos[0];
+      await diz(`<p>O ponto principal, de novo: <b>${esc(ps.frase)}</b></p>`);
+      if (a.dificeis.indexOf(ps.id) < 0) a.dificeis.push(ps.id);
+      await ofertar([{ k: "ok", txt: "Entendi" }]);
+    }
+    a.casos[a.p] = p; a.fase = "fimParte"; salvar(); desenharCaminho();
+  }
+  async function fimDaParte() {
+    const a = S(), parte = D.partes[a.p];
+    colocar(`<div class="pf-concluida">✓ Parte ${a.p + 1} concluída: ${esc(parte.nome)}</div>`);
+    const faltando = D.partes.map((x, i) => i).filter(i => !parteFeita(a, i));
+    if (!faltando.length) { await diz(t("Você terminou todas as partes!")); a.fase = "final"; salvar(); desenharCaminho(); return; }
+    const depois = faltando.find(i => i > a.p), prox = depois !== undefined ? depois : faltando[0], nomeProx = `Parte ${prox + 1}: ${D.partes[prox].nome}`;
+    let k;
+    if (depois !== undefined) {
+      await diz(t(`Mandou bem. ${faltando.length === 1 ? "Falta só uma parte" : `Faltam ${faltando.length} partes`} antes da prova final.`));
+      k = await ofertar([{ k: "seguir", txt: `Seguir para a ${nomeProx}` }, { k: "pausa", txt: "Fazer uma pausa" }]);
+    } else {
+      await diz(t(`Mandou bem. Antes da prova, ficaram para trás: ${lista(faltando.map(i => `Parte ${i + 1}`))}. Fazendo agora, a prova fica bem mais fácil.`));
+      k = await ofertar([{ k: "seguir", txt: `Fazer a ${nomeProx}` }, { k: "prova", txt: "Ir direto para a prova final" }, { k: "pausa", txt: "Fazer uma pausa" }]);
+    }
+    if (k === "prova") { a.fase = "final"; salvar(); desenharCaminho(); return; }
+    a.p = prox; a.s = 0; a.fase = "passo"; salvar(); desenharCaminho();
+    if (k === "pausa") { await diz(t(`Combinado! Quando você voltar, eu começo pela ${nomeProx}.`)); await ofertar([{ k: "seguir", txt: "Voltei, vamos continuar" }]); }
+  }
+
+  async function provaFinal() {
+    const a = S();
+    sis("Prova final"); desenharCaminho();
+    await diz(t(`Agora a prova final: ${D.final.length} perguntas misturando tudo, sem explicação no meio, como no teste de verdade. Acertando ${D.finalMinimo}, você está pronto.`));
+    await ofertar([{ k: "ok", txt: "Começar a prova final" }]);
+    const resp = [];
+    for (let i = 0; i < D.final.length; i++) {
+      const item = D.final[i];
+      if (item.caso) {
+        const c = caso(item.caso);
+        await diz(t(`${i + 1} de ${D.final.length}: ${c.lado ? "qual das duas respostas é melhor?" : "que nota esta resposta recebe?"}`), { pergunta: true });
+        cartaoCaso(c);
+        resp.push(pontuar(c, await pedirNota(c)) === 1);
+      } else {
+        const q = pergunta(item.pergunta);
+        await diz(t(`${i + 1} de ${D.final.length}: ${q.texto}`), { pergunta: true });
+        resp.push(await ofertar(q.opcoes.map((o, j) => ({ k: j, txt: o })), "opcoes") === q.certa);
+      }
+      if (i < D.final.length - 1) await diz(t(sorteio(["Anotado. Próxima:", "Certo, próxima:", "Anotado."])));
+    }
+    const acertos = resp.filter(Boolean).length;
+    a.final = { acertos, resp, dia: hoje() };
+    if (acertos >= D.finalMinimo) { a.pronto = true; a.fase = "pronto"; } else a.fase = "revisao";
+    salvar(); desenharCaminho();
+  }
+  const parteDoItem = item => { const top = item.caso ? caso(item.caso).topico : pergunta(item.pergunta).topico; return D.partes.findIndex(p => p.topico === top); };
+  async function revisao() {
+    const a = S(), partes = [...new Set(D.final.filter((x, i) => !a.final.resp[i]).map(parteDoItem))];
+    await diz(t(`Você acertou ${a.final.acertos} de ${D.final.length}. ${a.final.acertos >= 3 ? "Ainda não é a hora, mas falta pouco." : "Ainda não é a hora. Vamos rever com calma o que ficou faltando."}`));
+    await diz(t(`O que pegou: ${lista(partes.map(i => D.partes[i].nome))}. Vamos rever juntos e depois você tenta de novo.`));
+    const k = await ofertar([{ k: "rever", txt: "Vamos rever" }, { k: "direto", txt: "Quero tentar a prova de novo direto" }]);
+    if (k === "rever") {
+      for (const i of partes) {
+        const parte = D.partes[i];
+        sis(`Revisão · ${parte.nome}`);
+        for (const ps of parte.passos) {
+          await diz(t(ps.facil), { regra: ps.regra });
+          if (await perguntar(ps.pergunta2, "Para conferir:")) await diz(t(`Isso! ${ps.pergunta2.explicacao}`));
+          else { await diz(t(ps.juntos)); await diz(`<p>Guarde: <b>${esc(ps.frase)}</b></p>`); }
+        }
+      }
+      await diz(t("Pronto, revisamos o que faltava. Vamos para a prova de novo?"));
+      await ofertar([{ k: "ok", txt: "Vamos" }]);
+    }
+    a.fase = "final"; salvar(); desenharCaminho();
+  }
+  async function prontoParaOTeste(voltando) {
+    const a = S();
+    if (!voltando) {
+      colocar(`<div class="pf-pronto"><div class="grande">Você está pronto para o teste</div><p>Acertou ${a.final.acertos} de ${D.final.length} na prova final.</p></div>`);
+      const dif = a.dificeis.map(id => { for (const p of D.partes) { const x = p.passos.find(s => s.id === id); if (x) return x; } return null; }).filter(Boolean);
+      if (dif.length) await diz(`<p>Antes do teste, vale reler estes pontos, que deram mais trabalho:</p><ul style="margin:8px 0 0 18px">${dif.map(x => `<li>${esc(x.titulo)}: <b>${esc(x.frase)}</b></li>`).join("")}</ul>`);
+      else await diz(t("Você não travou em nenhum ponto. Boa sorte no teste!"));
+    } else await diz(t("Que bom te ver de novo! Você já passou na prova final. Quer revisar alguma coisa?"));
+    let agendou = false;
+    for (;;) {
+      const op = [{ k: "prova", txt: "Refazer a prova final" }, { k: "inicio", txt: "Rever a diretriz desde o começo" }];
+      if (!agendou) op.unshift({ k: "agenda", txt: "Pôr uma revisão na minha agenda" });
+      const k = await ofertar(op);
+      if (k === "agenda") { agendou = true; await diz(t("Coloquei uma revisão rápida para daqui a 2 dias na Agenda do Meu Controle. Revisar perto do teste ajuda a não esquecer.")); toast("A revisão entrou na Agenda do Meu Controle."); continue; }
+      if (k === "prova") a.fase = "final"; else { a.fase = "passo"; a.p = 0; a.s = 0; }
+      salvar(); desenharCaminho(); return;
+    }
+  }
+  function toast(s) { const m = document.createElement("div"); m.className = "pf-toast"; m.setAttribute("role", "status"); m.textContent = s; document.body.appendChild(m); setTimeout(() => m.remove(), 2600); }
+
+  if (E.atual && dirAtual() && S()) abrirAula(); else { E.atual = ""; telaSubir(); }
 })();
 </script>
 <nav class="teste-barra" aria-label="Cópia de teste">
