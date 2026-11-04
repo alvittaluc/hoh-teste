@@ -125,6 +125,7 @@
 <script src="layout.js"></script>
 <script src="controle-dados.js?v=6"></script>
 <script src="pulso-site.js?v=5"></script>
+<script src="lembrete-candidatura.js"></script>
 <script>
 montarLayout("vagas");
 
@@ -316,7 +317,7 @@ document.addEventListener("click", ev => {
         tarja.className = "aplic sim";
         tarja.innerHTML = `<span class="aplic-txt">Você se candidatou a esta vaga em
           <b>${esc(Dados.dataBonita(achada.data))}</b>.</span>
-          <a class="bt" href="controle.html#aplicacoes">Ver no Meu Controle</a>`;
+          <a class="bt" href="meu-controle-teste.html">Ver no Meu Controle</a>`;
       } else {
         tarja.className = "aplic";
         tarja.innerHTML = `<span class="aplic-txt">Guarde esta candidatura no
@@ -338,6 +339,8 @@ document.addEventListener("click", ev => {
         });
       }
     }
+    document.addEventListener("hub:candidatura-salva", ev => { if (ev.detail.vagaId === v.id) desenharTarja(); });
+    if (window.LembreteCandidatura) LembreteCandidatura.vaga(v, e.nome);
     await Dados.abrir();
     await desenharTarja();
   } catch (err) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidaturas (teste) · Home Office Hub</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+.mt-main { max-width:860px; margin:0 auto; padding:40px 20px 110px; }
+.mt-main h1 { font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,40px); color:var(--ink); }
+.mt-sub { font-size:15px; color:var(--ink-2); line-height:1.55; margin:8px 0 20px; }
+.mt-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:8px 20px; }
+.mt-it { display:flex; gap:12px; align-items:center; padding:14px 0; border-top:1px solid var(--line-soft); }
+.mt-it:first-child { border-top:0; }
+.mt-it div { flex:1; min-width:0; } .mt-it b { display:block; font-size:15px; color:var(--ink); } .mt-it small { font-size:13px; color:var(--ink-3); }
+.mt-et { font-size:12.5px; font-weight:600; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:4px 10px; white-space:nowrap; }
+.mt-vazio { padding:30px 0; text-align:center; color:var(--ink-3); font-size:14.5px; }
+.mt-bt { font:inherit; font-size:14px; padding:9px 16px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; margin-top:16px; }
+</style>
+</head>
+<body>
+<main class="mt-main">
+  <h1>Suas candidaturas</h1>
+  <p class="mt-sub">Esta cópia de teste não tem o Meu Controle inteiro. Esta página só mostra as candidaturas guardadas neste navegador, para você ver que o lembrete funcionou.</p>
+  <div class="mt-cx" id="lista"><div class="mt-vazio">Carregando…</div></div>
+  <button class="mt-bt" id="limpar">Apagar as candidaturas deste teste</button>
+</main>
+<script src="layout.js"></script>
+<script src="controle-dados.js?v=6"></script>
+<script>
+try { montarLayout("controle"); } catch (e) {}
+(async function () {
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  async function desenhar() {
+    await Dados.abrir();
+    const l = (await Dados.listar("aplicacoes")).sort((a, b) => String(b.data).localeCompare(String(a.data)));
+    document.getElementById("lista").innerHTML = l.length ? l.map(a => `<div class="mt-it"><div><b>${esc(a.titulo)}</b><small>${esc(a.empresa)} · ${esc(Dados.dataBonita(a.data))}</small></div><span class="mt-et">Currículo enviado</span></div>`).join("")
+      : `<div class="mt-vazio">Nenhuma candidatura guardada ainda. Abra uma vaga, clique em Candidatar-se, volte para esta aba e responda o lembrete.</div>`;
+  }
+  document.getElementById("limpar").addEventListener("click", async () => {
+    for (const a of await Dados.listar("aplicacoes")) await Dados.remover("aplicacoes", a.id);
+    try { localStorage.removeItem("hub-lembrete-candidatura"); } catch (e) {}
+    desenhar();
+  });
+  desenhar();
+})();
+</script>
+</body>
+</html>
