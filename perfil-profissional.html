@@ -72,6 +72,19 @@ dialog.pp-jan::backdrop { background:rgba(15,29,51,.45); }
 .pp-jan h3 { font-size:18px; font-weight:600; color:var(--ink); margin:0; }
 .pp-jan .dica { font-size:13px; color:var(--ink-3); line-height:1.5; margin:-4px 0 0; }
 .pp-jan .rodape { display:flex; gap:8px; justify-content:flex-end; margin-top:6px; }
+.pp-niveis { border:0; padding:0; margin:0; display:grid; gap:6px; }
+.pp-nivel { display:grid; grid-template-columns:18px 58px 1fr; gap:8px; align-items:start; border:1px solid var(--line-soft); border-radius:10px; padding:9px 11px; cursor:pointer; font-size:13.5px; color:var(--ink-2); line-height:1.45; }
+.pp-nivel input { margin:2px 0 0; accent-color:var(--signal); }
+.pp-nivel b { color:var(--ink); font-size:14px; }
+.pp-nivel:has(input:checked) { border-color:#9DB8DE; background:var(--signal-suave); }
+.pp-entenda { margin:-4px 0 12px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+.pp-entenda summary { cursor:pointer; color:var(--signal); font-weight:500; }
+.pp-entenda p { margin:8px 0; }
+.pp-entenda dl { display:grid; grid-template-columns:34px 1fr; gap:6px 10px; margin:8px 0; }
+.pp-entenda dt { font-weight:600; color:var(--ink); }
+.pp-entenda dd { margin:0; }
+dialog.pp-jan { max-height:calc(100vh - 32px); overflow:auto; }
+@media (max-width:560px){ .pp-nivel { grid-template-columns:18px 44px 1fr; padding:8px 10px; } .pp-jan form { padding:18px 16px; } }
 .pp-check { display:flex; gap:8px; align-items:center; font-size:14px; color:var(--ink-2); }
 </style>
 </head>
@@ -141,7 +154,17 @@ try { montarLayout("ferramentas"); } catch (e) {}
   const AREAS = ["Tradução e revisão", "Educação", "Saúde", "Direito", "Finanças e contabilidade", "Programação", "Marketing e redes sociais",
     "Atendimento ao cliente", "Administração", "Engenharia", "Ciências", "Psicologia", "Música e áudio", "Design", "Jornalismo e escrita"];
   const TEMPOS = ["menos de 1 ano", "1 a 2 anos", "3 a 5 anos", "mais de 5 anos"];
-  const NIVEIS = ["Nativo", "C2", "C1", "B2", "B1", "A2", "Básico"];
+  const NIVEIS = ["Nativo", "C2", "C1", "B2", "B1", "A2", "A1"];
+  const NIVEL_DIZ = {
+    "Nativo": "É a sua primeira língua, a que você cresceu falando em casa.",
+    "C2": "Usa o idioma quase como um nativo. Entende tudo, até piadas, ironia e textos técnicos, e escreve com naturalidade.",
+    "C1": "Lê diretrizes longas sem dificuldade, escreve textos claros e conversa com facilidade. Às vezes ainda procura uma palavra.",
+    "B2": "Se vira bem no trabalho: entende a maior parte do que lê e ouve e conversa com alguma fluência, mas trava em assuntos difíceis.",
+    "B1": "Entende textos simples e assuntos do dia a dia. Conversa com pausas e precisa de ajuda para textos longos ou técnicos.",
+    "A2": "Entende frases curtas e situações simples, como se apresentar, pedir informação ou ler um aviso.",
+    "A1": "Conhece palavras e frases soltas. É o começo dos estudos.",
+  };
+  const NIVEIS_DICA = "Na dúvida entre dois níveis, escolha o mais baixo: nos projetos, a prova de idioma mostra o nível de verdade, e é melhor surpreender do que ser reprovado. Um teste on-line, como o EF SET, ajuda a ter uma ideia.";
 
   let P = ler() || vazio();
   let mudou = false;
@@ -166,6 +189,11 @@ try { montarLayout("ferramentas"); } catch (e) {}
       <section class="pp-cx">
         <h2>Idiomas ${marca(s[0])}</h2>
         <p class="por">O nível de cada idioma. Se tiver certificado, diga qual: a ferramenta usa isso no currículo.</p>
+        <details class="pp-entenda"><summary>O que querem dizer A1, A2, B1, B2, C1 e C2?</summary>
+          <p>É a escala que as empresas de fora usam para dizer o nível de um idioma. Vai do A1, quem está começando, ao C2, quem usa o idioma quase como um nativo.</p>
+          <dl>${NIVEIS.filter(n => n !== "Nativo").map(n => `<dt>${n}</dt><dd>${esc(NIVEL_DIZ[n])}</dd>`).join("")}</dl>
+          <p>${esc(NIVEIS_DICA)}</p>
+        </details>
         ${P.idiomas.map((l, i) => `<div class="pp-item"><div class="tx"><b>${esc(l.lingua)}</b> · ${esc(l.nivel)}
           <small>${l.certificado ? "Certificado: " + esc(l.certificado) : "Sem certificado: o nível é o que você diz"}</small></div>
           <div class="acoes"><button class="pp-link" data-ed="idioma:${i}">Editar</button><button class="pp-link tirar" data-tira="idiomas:${i}">Tirar</button></div></div>`).join("")}
@@ -262,8 +290,11 @@ try { montarLayout("ferramentas"); } catch (e) {}
       const l = i >= 0 ? P.idiomas[i] : { lingua: "", nivel: "B2", certificado: "" };
       html = `<h3>${i >= 0 ? "Editar idioma" : "Acrescentar idioma"}</h3>
         <div class="pp-linha"><div><label class="pp-rot">Idioma</label><input class="pp-campo" name="lingua" required value="${esc(l.lingua)}" placeholder="Inglês"></div>
-        <div><label class="pp-rot">Nível</label><select class="pp-campo" name="nivel">${NIVEIS.map(n => `<option ${n === l.nivel ? "selected" : ""}>${n}</option>`).join("")}</select></div></div>
-        <p class="dica">Não sabe o nível? C1 é quem lê diretrizes longas e escreve sem dificuldade; B2 é quem se vira bem, mas ainda trava às vezes.</p>
+        </div>
+        <fieldset class="pp-niveis"><legend class="pp-rot">Seu nível <small>(toque no que mais parece com você)</small></legend>
+          ${NIVEIS.map(n => `<label class="pp-nivel"><input type="radio" name="nivel" value="${n}" ${n === l.nivel ? "checked" : ""}><b>${n}</b><span>${esc(NIVEL_DIZ[n])}</span></label>`).join("")}
+        </fieldset>
+        <p class="dica">${esc(NIVEIS_DICA)}</p>
         <div><label class="pp-rot">Certificado <small>(opcional: nome e ano)</small></label><input class="pp-campo" name="certificado" value="${esc(l.certificado)}" placeholder="TOEFL, Cambridge, EF SET…"></div>`;
     } else if (tipo === "formacao") {
       const f = i >= 0 ? P.formacao[i] : { curso: "", onde: "", situacao: "Completo", ano: "" };
