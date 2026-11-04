@@ -1,0 +1,1358 @@
+{
+  "regra": "Só entra vaga remota aberta ao mundo todo ou aberta a quem mora no Brasil. Vaga que exige morar em outro país ou cidade de fora, ou que é presencial, vai para bloqueadas.",
+  "aprovadas": [
+    {
+      "id": "65762fd387",
+      "empresa": "welocalize",
+      "titulo": "*Scout Junior Quality Coordinator - Portuguese (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "9717d686e3",
+      "empresa": "welocalize",
+      "titulo": "Ads Quality Rater - German (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "54a0bc5b99",
+      "empresa": "welocalize",
+      "titulo": "Ads Quality Rater - Italian (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "a5eacac204",
+      "empresa": "welocalize",
+      "titulo": "Andromeda Delta- Portuguese cultural expertise in Brazil",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "fa3a732642",
+      "empresa": "welocalize",
+      "titulo": "Circinus - Audio Contributor Portuguese (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "7845a05fd7",
+      "empresa": "welocalize",
+      "titulo": "Generative AI Analyst | Portuguese (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "eeaa6bfc02",
+      "empresa": "welocalize",
+      "titulo": "Hydrus - Session Director - Portuguese (BR) - V2",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "d61cde5def",
+      "empresa": "welocalize",
+      "titulo": "Hydrus - Voice Contributor - Portuguese (BR)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "e22fdd38f1",
+      "empresa": "rws",
+      "titulo": "Search Engine Evaluator - Portuguese (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "74d6837adc",
+      "empresa": "rws",
+      "titulo": "Speech AI Evaluation Specialist - Portuguese (Brazil)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Exige morar no Brasil, remoto."
+    },
+    {
+      "id": "ec94ae3778",
+      "empresa": "toloka",
+      "titulo": "English-Chinese Bilingual Voice Recording - AI Trainer",
+      "revisado_em": "2026-09-30",
+      "motivo": "Anúncio publicado para o Brasil, remoto."
+    },
+    {
+      "id": "1bd0dc93b2",
+      "empresa": "toloka",
+      "titulo": "Freelance: Grave Vídeos para Treinar IA",
+      "revisado_em": "2026-09-30",
+      "motivo": "Anúncio publicado para o Brasil, remoto."
+    },
+    {
+      "id": "b247972218",
+      "empresa": "toloka",
+      "titulo": "Record Your Daily Routine & Get Paid - AI Training (Remote)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Anúncio publicado para o Brasil, remoto."
+    },
+    {
+      "id": "3225a6f2e1",
+      "empresa": "oneforma",
+      "titulo": "Audio Transcription Quality Reviewer",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "7b295ec70d",
+      "empresa": "oneforma",
+      "titulo": "Multilingual Podcast Transcription And Speech Annotator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "acf12782f3",
+      "empresa": "oneforma",
+      "titulo": "Multilingual AI Response And Rubric Evaluator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "b829d5a8c6",
+      "empresa": "oneforma",
+      "titulo": "Regional Language Adaptation Specialist",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "1f09f5a758",
+      "empresa": "oneforma",
+      "titulo": "Multilingual Intent And Response Annotator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "5bfee496ec",
+      "empresa": "oneforma",
+      "titulo": "Paragraph-Level Translation Quality Rater",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "e368eb27d4",
+      "empresa": "oneforma",
+      "titulo": "Bilingual Translation Quality Rater",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "ac49a71bee",
+      "empresa": "oneforma",
+      "titulo": "App Store And Music Search Evaluator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "cdf300f69a",
+      "empresa": "telus",
+      "titulo": "Multilingual Image & Text AI Quality Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "3eb1712983",
+      "empresa": "telus",
+      "titulo": "Portuguese Native AI Data Annotator (AI Community)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "5523b8cd28",
+      "empresa": "telus",
+      "titulo": "Portuguese Native : AI Speech & Audio Specialist",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "00e551eb08",
+      "empresa": "telus",
+      "titulo": "Parent Safety Contributor – Protect Teens Online (EU, UK, US, Brazil, Australia, Canada)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Vaga listada para o Brasil na busca por país, remota."
+    },
+    {
+      "id": "d00bc7297c",
+      "empresa": "meridial",
+      "titulo": "Carioca Dialect Specialist - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "3240bec5b6",
+      "empresa": "meridial",
+      "titulo": "Language Alignment & Resource Partner (Brazilian Portuguese) - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "acd5e97e92",
+      "empresa": "meridial",
+      "titulo": "Language Alignment & Resource Partner (Portuguese) - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "9b85491c08",
+      "empresa": "meridial",
+      "titulo": "Paulistano Dialect Specialist - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "8530a983a7",
+      "empresa": "meridial",
+      "titulo": "Portuguese Audio Evaluations Specialist - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "ee8f8a34c4",
+      "empresa": "meridial",
+      "titulo": "Portuguese Language Data Contributor (Multimodal) – Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "df91131f02",
+      "empresa": "meridial",
+      "titulo": "Portuguese Language Specialist (Brazil) - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "40bde685a9",
+      "empresa": "meridial",
+      "titulo": "Portuguese Voice Actor - Freelance AI Trainer Project",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, pagamento varia pelo país: aberta ao Brasil."
+    },
+    {
+      "id": "270ba47e26",
+      "empresa": "micro1",
+      "titulo": "Portuguese Language Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, com o Brasil na lista de países aceitos."
+    },
+    {
+      "id": "8b767c8133",
+      "empresa": "micro1",
+      "titulo": "Portuguese Transcription Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, com o Brasil na lista de países aceitos."
+    },
+    {
+      "id": "94d3206e73",
+      "empresa": "alignerr",
+      "titulo": "Portuguese Language Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "64c7fbed79",
+      "empresa": "alignerr",
+      "titulo": "Portuguese Localization Specialist",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "69b78f8163",
+      "empresa": "alignerr",
+      "titulo": "AI Language Expert - Portuguese",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "0d4c678ebd",
+      "empresa": "alignerr",
+      "titulo": "Brazilian Portuguese - Audio Transcript Editor",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "2dd3d94eeb",
+      "empresa": "alignerr",
+      "titulo": "Brazilian Portuguese - Audio Transcriptionist",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "f68f73733b",
+      "empresa": "turing",
+      "titulo": "AI - Analyst | Photographer - Portuguese",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "36497ae306",
+      "empresa": "turing",
+      "titulo": "AI Quality Analyst (Personalization) - Portuguese",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "6501a41ea4",
+      "empresa": "turing",
+      "titulo": "LLM Trainer - Agent Function call",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "c8d1aaf983",
+      "empresa": "turing",
+      "titulo": "MLE Bench – Data Analyst",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "7dedf39db7",
+      "empresa": "turing",
+      "titulo": "Prompt & Verifier",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "55baa5d6db",
+      "empresa": "mercor",
+      "titulo": "Generalist (Must own MacBook)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem país na lista de elegibilidade."
+    },
+    {
+      "id": "02f69edb18",
+      "empresa": "mercor",
+      "titulo": "Quality Analyst",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem país na lista de elegibilidade."
+    },
+    {
+      "id": "22d855d2a9",
+      "empresa": "mercor",
+      "titulo": "Chemical Defense Researcher",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem país na lista de elegibilidade."
+    },
+    {
+      "id": "183a139a4e",
+      "empresa": "micro1",
+      "titulo": "Industrial Design CAD Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, com o Brasil na lista de países aceitos."
+    },
+    {
+      "id": "583fa38ce4",
+      "empresa": "micro1",
+      "titulo": "Circuit Design Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, com o Brasil na lista de países aceitos."
+    },
+    {
+      "id": "f43f07400f",
+      "empresa": "turing",
+      "titulo": "AI Safety and Policy Evaluator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "f6fe7cb0e0",
+      "empresa": "turing",
+      "titulo": "Professional Writing Human Data Collection",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "e9aed46285",
+      "empresa": "turing",
+      "titulo": "AI Quality Analyst - English",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "ec971e76be",
+      "empresa": "turing",
+      "titulo": "LLM Annotator - Master's Degree",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "d55747ba61",
+      "empresa": "turing",
+      "titulo": "Image/Video Annotator",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "6d18b807d8",
+      "empresa": "turing",
+      "titulo": "Board Game Reasoning Expert (AI Training & Evaluation)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "4c05c032ec",
+      "empresa": "turing",
+      "titulo": "Professional Writing Human Data Collection - Academic and Education",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "6aa5e2d122",
+      "empresa": "turing",
+      "titulo": "Python Engineering Manager – LLM Training & Evaluation",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "3e3c96b1e1",
+      "empresa": "turing",
+      "titulo": "Engineering Manager – LLM Evaluation",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "cd1faf6315",
+      "empresa": "turing",
+      "titulo": "Music and Audio experts",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "e307a9ddc5",
+      "empresa": "turing",
+      "titulo": "LLM ServiceNow Product Owner",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "c9c88a02cc",
+      "empresa": "turing",
+      "titulo": "CUA Data Annotation Trainer",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "663de19d6d",
+      "empresa": "turing",
+      "titulo": "Audio/Voice/Annotation Trainer - English (US) Language",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "cf85b0c716",
+      "empresa": "turing",
+      "titulo": "Context Elicitation & Conversation Evaluation Specialists - Latam, Southeastern Europe, Asia, Africa",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "c7e4f42eba",
+      "empresa": "turing",
+      "titulo": "Lifestyle Experts",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "95e6e4284d",
+      "empresa": "turing",
+      "titulo": "Web Research Specialist",
+      "revisado_em": "2026-09-30",
+      "motivo": "Remota, sem exigência de país ou com o Brasil/LATAM na lista."
+    },
+    {
+      "id": "85d0029fbf",
+      "empresa": "toloka",
+      "titulo": "POV Video Recording Job - Home & Daily Life Activities",
+      "revisado_em": "2026-09-30",
+      "motivo": "Anúncio publicado para o Brasil, remoto."
+    },
+    {
+      "id": "2adad7cee3",
+      "empresa": "alignerr",
+      "titulo": "Brazilian Portuguese Audio Transcriptionist (AI Training)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Cópia da Alignerr voltada a São Paulo e ao Brasil (countryCode BR), remota."
+    },
+    {
+      "id": "8a3767e28f",
+      "empresa": "alignerr",
+      "titulo": "Audio Transcript Editor — Portuguese Brasileiro (AI Training)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Cópia da Alignerr voltada a São Paulo e ao Brasil (countryCode BR), remota."
+    },
+    {
+      "id": "c3f214fe16",
+      "empresa": "alignerr",
+      "titulo": "Portuguese Language Expert",
+      "revisado_em": "2026-09-30",
+      "motivo": "Location: Remote, sem país fixo na vaga."
+    },
+    {
+      "id": "dc2a3c4873",
+      "empresa": "alignerr",
+      "titulo": "Customer Support Task Author (AI Training)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Cópia da Alignerr voltada a São Paulo e ao Brasil (countryCode BR), remota."
+    },
+    {
+      "id": "ffeacd91fe",
+      "empresa": "turing",
+      "titulo": "Senior AI Engineer, Data Quality & Pipeline Automation",
+      "revisado_em": "2026-10-01",
+      "motivo": "Remota, sem exigência de país. Pede 6h por dia no horário da Índia, avisado no resumo."
+    },
+    {
+      "id": "049320a653",
+      "empresa": "micro1",
+      "titulo": "At-Home Video Recorder (LATAM)",
+      "revisado_em": "2026-10-02",
+      "motivo": "A linha Location do anúncio lista a América Latina, com o Brasil entre os países aceitos."
+    },
+    {
+      "id": "ac162cdd13",
+      "empresa": "micro1",
+      "titulo": "Gravador(a) de Vídeos com Smartphone",
+      "revisado_em": "2026-10-02",
+      "motivo": "Anúncio em português; a linha Localização lista a América Latina e o Caribe, com o Brasil."
+    },
+    {
+      "id": "3d2bc67c67",
+      "empresa": "micro1",
+      "titulo": "360° Video Recorder (Insta360 / GoPro MAX)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Exige câmera 360° própria, avisado no resumo."
+    },
+    {
+      "id": "aab631f1da",
+      "empresa": "micro1",
+      "titulo": "Exocentric Video Recorder",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Exige câmera de ação própria."
+    },
+    {
+      "id": "af3319b4b0",
+      "empresa": "micro1",
+      "titulo": "Vlogger (Insta360, DJI Osmo, GoPro MAX)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Exige câmera 360° própria."
+    },
+    {
+      "id": "b642d69946",
+      "empresa": "micro1",
+      "titulo": "Car-Mounted 360° Video Recorder",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Exige carro e câmera 360°."
+    },
+    {
+      "id": "4727706229",
+      "empresa": "micro1",
+      "titulo": "Video Annotation Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Pede inglês."
+    },
+    {
+      "id": "e108256c3e",
+      "empresa": "micro1",
+      "titulo": "Video Data Annotation Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Pede inglês."
+    },
+    {
+      "id": "07e8c6e0bc",
+      "empresa": "micro1",
+      "titulo": "Video Annotation Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar."
+    },
+    {
+      "id": "eef2660904",
+      "empresa": "micro1",
+      "titulo": "Senior AI Trainer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Northern America, Latin America, Europe, UK, Oceania. A América Latina está incluída."
+    },
+    {
+      "id": "559f3ad39a",
+      "empresa": "micro1",
+      "titulo": "Customer Service Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Latam remote, com o Brasil citado na lista. Pede inglês falado fluente."
+    },
+    {
+      "id": "72838e8df6",
+      "empresa": "micro1",
+      "titulo": "Music & Sound Annotation Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Pede 3 anos de prática com música ou áudio."
+    },
+    {
+      "id": "68af9de8db",
+      "empresa": "micro1",
+      "titulo": "Data Entry Keyer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Pede experiência com conferência de dados e inglês escrito."
+    },
+    {
+      "id": "5dde85b8d3",
+      "empresa": "micro1",
+      "titulo": "Secretary & Admin Assistant",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar. Pede experiência administrativa."
+    },
+    {
+      "id": "3f4f33bc06",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote. Elegibilidade no anúncio: NAMER, LATAM, EMEA, o que inclui o Brasil."
+    },
+    {
+      "id": "e24e3ad8a8",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity (Aged 50+)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote. Elegibilidade no anúncio: NAMER, LATAM, EMEA, o que inclui o Brasil."
+    },
+    {
+      "id": "e148c207af",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity (Siblings)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote. Elegibilidade no anúncio: NAMER, LATAM, EMEA, o que inclui o Brasil."
+    },
+    {
+      "id": "2ee7066c89",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity (Twins)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Location: Remote. Elegibilidade no anúncio: NAMER, LATAM, EMEA, o que inclui o Brasil."
+    },
+    {
+      "id": "3af7827b01",
+      "empresa": "mercor",
+      "titulo": "Audiobook QA Expert — Portuguese (Brazil)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Local: Remote, preferência por Brasil. O anúncio diz que a pessoa pode estar em qualquer lugar."
+    },
+    {
+      "id": "59e016f425",
+      "empresa": "mercor",
+      "titulo": "Generalist Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Remote, sem lista de países nos campos da vaga. Cadastro permanente, sem exigência de diploma."
+    },
+    {
+      "id": "51fd054a81",
+      "empresa": "mercor",
+      "titulo": "Language & Audio Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Remote, sem lista de países. Cadastro permanente; português está entre os idiomas."
+    },
+    {
+      "id": "7cd96ed4ad",
+      "empresa": "alignerr",
+      "titulo": "Generalist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "4594ab3713",
+      "empresa": "alignerr",
+      "titulo": "English Writing Generalist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "1fc54d7ed5",
+      "empresa": "alignerr",
+      "titulo": "AI Training Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "dce5d25303",
+      "empresa": "alignerr",
+      "titulo": "AI Trainer Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "bd7cf3a141",
+      "empresa": "alignerr",
+      "titulo": "AI Chatbot Tester",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "3f77d5d9d3",
+      "empresa": "alignerr",
+      "titulo": "Prompt Writer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "e46396c370",
+      "empresa": "alignerr",
+      "titulo": "Visual Storytelling Prompt Writer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "dc72984de8",
+      "empresa": "alignerr",
+      "titulo": "Content Reviewer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "02ed8995e7",
+      "empresa": "alignerr",
+      "titulo": "Social Media Content Evaluator",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "5e946f33e8",
+      "empresa": "alignerr",
+      "titulo": "Product Review Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "639ef7c927",
+      "empresa": "alignerr",
+      "titulo": "Search Quality Evaluator",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "f36c6295d2",
+      "empresa": "alignerr",
+      "titulo": "Data Labeling Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "8c5731ee06",
+      "empresa": "alignerr",
+      "titulo": "Video Annotation Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "c86fe98cea",
+      "empresa": "alignerr",
+      "titulo": "Video Shot Annotation Artist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "4e6565c964",
+      "empresa": "alignerr",
+      "titulo": "Audio Transcription Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "160e90763a",
+      "empresa": "alignerr",
+      "titulo": "English Audio Transcription Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "e50172293d",
+      "empresa": "alignerr",
+      "titulo": "Audio Transcription & Alignment Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "4d2631e64e",
+      "empresa": "alignerr",
+      "titulo": "Audio Quality Reviewer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "4ce708dfd2",
+      "empresa": "alignerr",
+      "titulo": "Voice Recording Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "9afa331bb7",
+      "empresa": "alignerr",
+      "titulo": "Video Research Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "fb857a957e",
+      "empresa": "alignerr",
+      "titulo": "Video Research Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "13ea107c0b",
+      "empresa": "alignerr",
+      "titulo": "AI Ethics Reviewer",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "f01a581b85",
+      "empresa": "alignerr",
+      "titulo": "Portuguese Language Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "95401266c9",
+      "empresa": "alignerr",
+      "titulo": "Portuguese Localization Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem cidade nem país; a descrição diz Location: Remote."
+    },
+    {
+      "id": "5d3469d264",
+      "empresa": "alignerr",
+      "titulo": "Data Operations Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "67f442dcaf",
+      "empresa": "alignerr",
+      "titulo": "Document Review Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "6c68607432",
+      "empresa": "alignerr",
+      "titulo": "Creative Writing Evaluator",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "3d82b44c66",
+      "empresa": "alignerr",
+      "titulo": "E-commerce Data Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "b462172903",
+      "empresa": "alignerr",
+      "titulo": "AI Policy, Ethics & Compliance Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "b85d28d5bc",
+      "empresa": "alignerr",
+      "titulo": "Image Description Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "963f23f487",
+      "empresa": "alignerr",
+      "titulo": "Robotics Technician",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "33facbb56d",
+      "empresa": "alignerr",
+      "titulo": "Film Scene Description Specialist",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "4bdb89f9f0",
+      "empresa": "alignerr",
+      "titulo": "AI Data Quality Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "de9ad63069",
+      "empresa": "alignerr",
+      "titulo": "Conversation Quality Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "e0f426ba23",
+      "empresa": "alignerr",
+      "titulo": "Map & Location Data Analyst",
+      "revisado_em": "2026-10-02",
+      "motivo": "Vaga-mãe da Alignerr, sem país; Location: Remote. O anúncio diz que não exige formação nem experiência na área."
+    },
+    {
+      "id": "031fe5a082",
+      "empresa": "mercor",
+      "titulo": "Customer Success Engineer (LatAm)",
+      "revisado_em": "2026-10-02",
+      "motivo": "Anúncio diz que só aceita quem mora na América Latina."
+    },
+    {
+      "id": "6ee9a7c7d7",
+      "empresa": "toloka",
+      "titulo": "English-Chinese Bilingual Voice Recording - AI Trainer",
+      "revisado_em": "2026-10-05",
+      "motivo": "Vaga da Toloka publicada para o Brasil, remota. Exige ser bilíngue em inglês e chinês, sem pedir residência em outro país."
+    },
+    {
+      "id": "8b5d66b531",
+      "empresa": "micro1",
+      "titulo": "Voice Actor/Coaches",
+      "revisado_em": "2026-10-05",
+      "motivo": "Location: Remote, sem país. Prefere experiência profissional com voz, mas não exige diploma."
+    },
+    {
+      "id": "88a47d5e8b",
+      "empresa": "mercor",
+      "titulo": "Bilingual Writer - Portuguese (Brazil)",
+      "revisado_em": "2026-10-05",
+      "motivo": "Pede português do Brasil nativo e a Mercor indica o Brasil como local. Remota. Exige Mac com chip Apple Silicon."
+    },
+    {
+      "id": "1d515ac504",
+      "empresa": "welocalize",
+      "titulo": "MSR Project - Portuguese (Brazil) Culture Expert",
+      "revisado_em": "2026-10-15",
+      "motivo": "Pede quem conhece bem o Brasil e escreve em português. Remota, 20 horas por semana, sem exigência de diploma."
+    },
+    {
+      "id": "24b26e60d0",
+      "empresa": "telus",
+      "titulo": "Personalized Internet Ads Assessor - Portuguese (BR)",
+      "revisado_em": "2026-10-15",
+      "motivo": "Avaliação de anúncios em português do Brasil, remota e com horário flexível. A TELUS lista a vaga para o Brasil."
+    },
+    {
+      "id": "2edd9d5f33",
+      "empresa": "telus",
+      "titulo": "Quality Assurance Rater - Portuguese (Brazil)",
+      "revisado_em": "2026-10-15",
+      "motivo": "Avaliação de buscas e respostas de IA em português do Brasil, remota. Não pede diploma."
+    },
+    {
+      "id": "059a387ef0",
+      "empresa": "micro1",
+      "titulo": "Hospitality Worker (Toast POS User)",
+      "revisado_em": "2026-10-15",
+      "motivo": "Remota, sem país exigido e sem diploma. Prefere quem trabalha em restaurante com o sistema Toast, que é pouco usado no Brasil, mas isso não é obrigatório."
+    },
+    {
+      "id": "a58b648588",
+      "empresa": "micro1",
+      "titulo": "Video Data Annotator",
+      "revisado_em": "2026-10-15",
+      "motivo": "Anotação de vídeo e áudio, remota, sem país exigido. Pede bom inglês escrito e não pede diploma."
+    },
+    {
+      "id": "8e9ed61fac",
+      "empresa": "mercor",
+      "titulo": "English AI Safety Specialist",
+      "revisado_em": "2026-10-15",
+      "motivo": "Leitura e rotulagem de conversas em inglês, remota, sem país exigido. Experiência anterior ajuda, mas não é obrigatória."
+    },
+    {
+      "id": "b24061003e",
+      "empresa": "telus",
+      "titulo": "Personalized Internet Assessor - Portuguese (BR)",
+      "revisado_em": "2026-10-21",
+      "motivo": "Avaliação de resultados de busca em português do Brasil, remota, para quem mora no Brasil."
+    },
+    {
+      "id": "73a95bd216",
+      "empresa": "micro1",
+      "titulo": "Evaluation Specialist/Recent Grad",
+      "revisado_em": "2026-10-21",
+      "motivo": "Perguntas e respostas com pesquisa para testar a IA, remota, sem país exigido. Aceita qualquer formação e não exige experiência com IA."
+    },
+    {
+      "id": "e9afc6adde",
+      "empresa": "micro1",
+      "titulo": "Photographer",
+      "revisado_em": "2026-10-21",
+      "motivo": "Descrição e rotulagem de imagens por fotógrafos, remota, sem país exigido. Pede experiência e portfólio de fotografia, não diploma."
+    },
+    {
+      "id": "73fd7d7fdb",
+      "empresa": "micro1",
+      "titulo": "At-Work Video Recorder [Remote]",
+      "revisado_em": "2026-10-21",
+      "motivo": "Gravação do próprio trabalho com o celular, remota, e o Brasil está na lista de países aceitos."
+    },
+    {
+      "id": "e1805ba0c6",
+      "empresa": "micro1",
+      "titulo": "Video Data Entry Specialist (LATAM)",
+      "revisado_em": "2026-10-21",
+      "motivo": "É a vaga de gravação em casa da micro1 para a América Latina, com o Brasil na lista de países."
+    },
+    {
+      "id": "91d5f7ad1b",
+      "empresa": "turing",
+      "titulo": "AI Quality Analyst - English",
+      "revisado_em": "2026-10-21",
+      "motivo": "Mesma vaga de avaliação da personalização do Gemini já aprovada antes, republicada com outro link. Remota, sem país exigido."
+    },
+    {
+      "id": "a8641549b5",
+      "empresa": "turing",
+      "titulo": "AI Safety Annotation Reviewer",
+      "revisado_em": "2026-10-21",
+      "motivo": "Revisão de avaliações de segurança de IA, remota, sem país exigido. Pede inglês nativo e conhecimento da cultura dos EUA, mas não residência."
+    },
+    {
+      "id": "1db174c7e5",
+      "empresa": "turing",
+      "titulo": "Quality Analyst - US",
+      "revisado_em": "2026-10-21",
+      "motivo": "Comparação de respostas de chatbots, remota. O título diz US, mas o anúncio não exige morar nos EUA e a Turing aceita o Brasil."
+    },
+    {
+      "id": "6d22784714",
+      "empresa": "handshake",
+      "titulo": "Portuguese AI Evaluation Specialist (Brazil)",
+      "revisado_em": "2026-10-21",
+      "motivo": "Avaliação de respostas de IA em português, remota, só para quem mora no Brasil. Pede graduação em qualquer área."
+    },
+    {
+      "id": "cc85f47c53",
+      "empresa": "mercor",
+      "titulo": "[LONG PROJECT] Anonymization Writer",
+      "revisado_em": "2026-10-21",
+      "motivo": "Marcação de dados pessoais em documentos, remota. Prefere quem mora nos EUA, mas não exige. Pede experiência com detalhe, não diploma."
+    },
+    {
+      "id": "1a63a7e098",
+      "empresa": "mercor",
+      "titulo": "[LONG PROJECT] Anonymization Quality Reviewer",
+      "revisado_em": "2026-10-21",
+      "motivo": "Revisão da marcação de dados pessoais, remota, sem país exigido. Pede experiência com revisão ou controle de qualidade, não diploma."
+    },
+    {
+      "id": "d1856cbd96",
+      "empresa": "oneforma",
+      "titulo": "Local Maps Search Evaluator",
+      "revisado_em": "2026-10-23",
+      "motivo": "Avaliação de buscas em mapas, remota, para quem mora no Brasil e conhece bem a região há pelo menos cinco anos. Não pede diploma."
+    },
+    {
+      "id": "492c60de39",
+      "empresa": "telus",
+      "titulo": "Freelance AI Content Evaluator – LLM/VLM, Audio & Data Labelling",
+      "revisado_em": "2026-10-23",
+      "motivo": "Avaliação de fala e áudio gerados por IA, remota, com português do Brasil entre as línguas. O país exigido depende do projeto e o diploma não é obrigatório."
+    },
+    {
+      "id": "7f8c02ae4c",
+      "empresa": "turing",
+      "titulo": "Image Annotation QA",
+      "revisado_em": "2026-10-23",
+      "motivo": "Controle de qualidade remoto, aberto a vários países. Pede inglês e análise; graduação e experiência aparecem só como preferência."
+    },
+    {
+      "id": "8fa691ec09",
+      "empresa": "telus",
+      "titulo": "Join the TELUS Digital AI Music & Audio Expert Community",
+      "revisado_em": "2026-10-24",
+      "motivo": "Remota, para quem mora no Brasil e tem português do Brasil como língua nativa. A TELUS diz que não precisa de diploma nem de anos de profissão: basta conhecer música ou áudio e passar na avaliação."
+    },
+    {
+      "id": "d3bffb967c",
+      "empresa": "micro1",
+      "titulo": "Food Delivery AI Response Evaluator",
+      "revisado_em": "2026-10-26",
+      "motivo": "Avaliação de respostas de IA para atendimento de delivery, remota e aberta ao mundo. Não pede diploma nem experiência com IA; prefere quem já trabalhou com atendimento."
+    },
+    {
+      "id": "c86034f6fe",
+      "empresa": "mercor",
+      "titulo": "Portuguese Linguistic Experts",
+      "revisado_em": "2026-10-27",
+      "motivo": "Remota e aberta ao mundo. Pede português nativo e experiência com tradução ou revisão, sem diploma: vaga de língua, fica na lista geral."
+    },
+    {
+      "id": "760b708adb",
+      "empresa": "micro1",
+      "titulo": "Hospitality Worker (Toast POS User)",
+      "revisado_em": "2026-10-27",
+      "motivo": "Mesmo anúncio da 059a387ef0, aprovada em 15/10: remota, sem país exigido e sem diploma. Prefere quem usa o sistema Toast, pouco comum no Brasil, mas não exige."
+    },
+    {
+      "id": "1c3d2166ef",
+      "empresa": "micro1",
+      "titulo": "Smartwatch User",
+      "revisado_em": "2026-10-28",
+      "motivo": "Remota e aberta ao mundo, sem diploma nem experiência com IA. Basta ter um relógio ou anel inteligente com 18 meses de dados."
+    },
+    {
+      "id": "d53fa9a6e0",
+      "empresa": "micro1",
+      "titulo": "Wearable Electronic User",
+      "revisado_em": "2026-10-28",
+      "motivo": "Remota e aberta ao mundo, tarefa única sem diploma. Basta ter um relógio ou anel inteligente com 18 meses de dados e exportá-los em inglês."
+    },
+    {
+      "id": "e1680c26d9",
+      "empresa": "welocalize",
+      "titulo": "Project Cursa - Robot Manipulation Video Annotation QC (V2)",
+      "revisado_em": "2026-10-29",
+      "motivo": "Remota e freelancer, com o Brasil na lista de países aceitos (junto com México, Índia e outros). Pede ótimo inglês escrito, sem diploma."
+    },
+    {
+      "id": "aaf9c821e4",
+      "empresa": "welocalize",
+      "titulo": "Project Cursa - Robot Manipulation Video Annotator (V2)",
+      "revisado_em": "2026-10-29",
+      "motivo": "Remota e freelancer, com o Brasil na lista de países aceitos. Descrever vídeos de robôs em inglês seguindo um guia; sem diploma nem experiência obrigatória."
+    },
+    {
+      "id": "f58a2b3a06",
+      "empresa": "mercor",
+      "titulo": "Search Generalist",
+      "revisado_em": "2026-10-29",
+      "motivo": "Remota, sem país definido no anúncio e sem pedido de diploma: só pede bom inglês escrito e costume de pesquisar na internet."
+    },
+    {
+      "id": "068eb483dd",
+      "empresa": "micro1",
+      "titulo": "Portuguese Language Expert (Brazil)",
+      "revisado_em": "2026-10-30",
+      "motivo": "Remota, para quem fala português do Brasil. Pede experiência com anotação de dados, mas não exige diploma."
+    },
+    {
+      "id": "37f8a23a09",
+      "empresa": "mercor",
+      "titulo": "AI Chat Generalist",
+      "revisado_em": "2026-10-30",
+      "motivo": "Remota, sem mínimo de anos de experiência, só pede inglês escrito. Vale para os países onde o assistente avaliado funciona, e o anúncio não diz qual é."
+    },
+    {
+      "id": "2252f79c1f",
+      "empresa": "micro1",
+      "titulo": "Portuguese Bilingual Expert (Brazil)",
+      "revisado_em": "2026-10-31",
+      "motivo": "Remota, para quem fala português do Brasil como nativo e tem inglês intermediário. Formação em linguística ou áudio só conta a favor, não é exigida."
+    },
+    {
+      "id": "25c91c8cf3",
+      "empresa": "micro1",
+      "titulo": "Video Annotation",
+      "revisado_em": "2026-11-01",
+      "motivo": "Location: Remote, sem país. Li a descrição inteira e não há exigência de morar em outro lugar nem de diploma; aceita generalistas com experiência em anotação."
+    },
+    {
+      "id": "5315e2efcb",
+      "empresa": "turing",
+      "titulo": "Audio/Voice/Annotation Trainer - Portuguese (Brazil) Language",
+      "revisado_em": "2026-11-03",
+      "motivo": "Remota e aberta ao mundo, gravação de voz sem diploma. O texto do anúncio fala em dublador de alemão, o que contradiz o título; o resumo avisa."
+    }
+  ],
+  "bloqueadas": [
+    {
+      "id": "49300de21b",
+      "empresa": "telus",
+      "titulo": "Fieldwork Brazil (Salvador)  :  Mobile Data Collector",
+      "revisado_em": "2026-09-30",
+      "motivo": "Trabalho de campo presencial em Salvador, não é remoto. O hub é só de trabalho remoto."
+    },
+    {
+      "id": "638708c365",
+      "empresa": "alignerr",
+      "titulo": "Brazilian Portuguese Audio Transcriptionist (AI Training)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Cópia regional da Alignerr para Berlim/Alemanha (countryCode DE). A vaga-mãe, aberta a todos, continua no site."
+    },
+    {
+      "id": "3043afd145",
+      "empresa": "alignerr",
+      "titulo": "Brazilian Portuguese Audio Transcript Editor — Remote (AI Training)",
+      "revisado_em": "2026-09-30",
+      "motivo": "Cópia regional da Alignerr para Berlim/Alemanha (countryCode DE): o anúncio procura brasileiros que moram lá."
+    },
+    {
+      "id": "386e498029",
+      "empresa": "micro1",
+      "titulo": "Bilingual Mental Health Expert",
+      "revisado_em": "2026-10-02",
+      "motivo": "Exige ser nativo em um de 16 idiomas listados (francês, russo, mandarim, japonês e outros). O português não está na lista."
+    },
+    {
+      "id": "77ed6bdff3",
+      "empresa": "mercor",
+      "titulo": "Apple Watch Users: Opportunity for You",
+      "revisado_em": "2026-10-02",
+      "motivo": "Só vale para quem tem prontuário em uma lista de hospitais dos Estados Unidos ligado ao Apple Health."
+    },
+    {
+      "id": "86a2352fc3",
+      "empresa": "mercor",
+      "titulo": "Fitness Data Contributor",
+      "revisado_em": "2026-10-02",
+      "motivo": "Mesma coleta de dados de saúde: exige prontuário em hospitais dos Estados Unidos ligado ao Apple Health."
+    },
+    {
+      "id": "cfc72dd374",
+      "empresa": "micro1",
+      "titulo": "Postal Clerk",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos e ter trabalhado no balcão dos Correios americanos (USPS)."
+    },
+    {
+      "id": "476c97c338",
+      "empresa": "micro1",
+      "titulo": "Usability Tester",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos. O trabalho é sobre serviços do governo americano."
+    },
+    {
+      "id": "114e86fd6f",
+      "empresa": "micro1",
+      "titulo": "Consumer Reviewer",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos, ter 60 anos ou mais e experiência com o Medicare ou outro serviço do governo americano."
+    },
+    {
+      "id": "310734e069",
+      "empresa": "micro1",
+      "titulo": "211 Specialist",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos e experiência no atendimento 211 ou em programas sociais americanos."
+    },
+    {
+      "id": "12b6c5b21b",
+      "empresa": "micro1",
+      "titulo": "National Park Ranger",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos e ter trabalhado no serviço de parques nacionais americano."
+    },
+    {
+      "id": "3fac83237f",
+      "empresa": "micro1",
+      "titulo": "VA Eligibility Specialist",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos e experiência no sistema de saúde dos veteranos americanos (VA)."
+    },
+    {
+      "id": "e1197d009d",
+      "empresa": "micro1",
+      "titulo": "Passport Acceptance Agent",
+      "revisado_em": "2026-10-15",
+      "motivo": "Exige morar nos Estados Unidos e ser agente credenciado para receber pedidos de passaporte americano."
+    },
+    {
+      "id": "bc28211827",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity (Alaska-based)",
+      "revisado_em": "2026-10-15",
+      "motivo": "Só para quem mora no Alasca."
+    },
+    {
+      "id": "686b8d0cc9",
+      "empresa": "micro1",
+      "titulo": "Paid Photo Contributor Opportunity (Hawaii-based)",
+      "revisado_em": "2026-10-15",
+      "motivo": "Só para quem mora no Havaí."
+    },
+    {
+      "id": "8f0ef9f8ca",
+      "empresa": "micro1",
+      "titulo": "English Voice Coach",
+      "revisado_em": "2026-10-21",
+      "motivo": "Só para quem tem inglês nativo da Irlanda, da Austrália ou do Reino Unido."
+    },
+    {
+      "id": "1cde65b8e8",
+      "empresa": "micro1",
+      "titulo": "Paralegal",
+      "revisado_em": "2026-10-27",
+      "motivo": "Só aceita paralegais com experiência de prática jurídica nos EUA, o que quem trabalha no Brasil não tem."
+    },
+    {
+      "id": "19ea92614b",
+      "empresa": "micro1",
+      "titulo": "Tax Practitioner, Federal Individual Income Tax (CPA/EA/Tax Attorney)",
+      "revisado_em": "2026-10-30",
+      "motivo": "Pede registro de contador ou de agente fiscal nos EUA, ou ser advogado tributarista americano, com prática na declaração de imposto de renda de pessoas nos EUA."
+    },
+    {
+      "id": "b562cb0764",
+      "empresa": "micro1",
+      "titulo": "Veterans Service Representative",
+      "revisado_em": "2026-11-03",
+      "motivo": "Pede experiência como servidor do departamento de veteranos dos EUA, com o sistema interno deles (VBMS), o que quem trabalha no Brasil não tem."
+    },
+    {
+      "id": "6f91859e75",
+      "empresa": "micro1",
+      "titulo": "Federal IT Specialist",
+      "revisado_em": "2026-11-03",
+      "motivo": "Pede 5 anos ou mais em cargo de TI do governo federal americano (GS-2210), com as normas de segurança dele."
+    },
+    {
+      "id": "c40ca3561c",
+      "empresa": "micro1",
+      "titulo": "Federal Criminal Investigator",
+      "revisado_em": "2026-11-03",
+      "motivo": "Pede experiência como investigador criminal do governo federal americano (GS-1811 ou GS-1801)."
+    },
+    {
+      "id": "cc7ad3a978",
+      "empresa": "micro1",
+      "titulo": "Federal Grants Management Specialist",
+      "revisado_em": "2026-11-03",
+      "motivo": "Pede experiência na gestão de verbas do governo americano (GS-1109 ou cargo de governo estadual ou municipal dos EUA)."
+    },
+    {
+      "id": "99c7b93a1d",
+      "empresa": "micro1",
+      "titulo": "Federal Budget Analyst",
+      "revisado_em": "2026-11-03",
+      "motivo": "Pede 5 anos ou mais de orçamento no governo federal americano, em cargos GS-11 ou GS-12."
+    },
+    {
+      "id": "233d8fd2bc",
+      "empresa": "micro1",
+      "titulo": "Federal Management & Program Analyst",
+      "revisado_em": "2026-11-04",
+      "motivo": "Pede quem more nos EUA e tenha experiência em programas do governo federal americano (cargos GS-0343, GS-0301)."
+    },
+    {
+      "id": "0a0ddecd6b",
+      "empresa": "micro1",
+      "titulo": "Federal Auditor, Performance / Financial (OIG/GAO)",
+      "revisado_em": "2026-11-04",
+      "motivo": "Pede quem more nos EUA e tenha experiência em auditoria do governo federal americano (OIG, GAO, cargo GS-0511)."
+    },
+    {
+      "id": "501da53598",
+      "empresa": "micro1",
+      "titulo": "Federal Regulatory Policy Analyst",
+      "revisado_em": "2026-11-04",
+      "motivo": "Pede profissional que more nos EUA, com experiência na criação de normas do governo federal americano (cargos GS-0301, GS-0905)."
+    },
+    {
+      "id": "25c999d41e",
+      "empresa": "turing",
+      "titulo": "Nurse Practitioner / Physician Assistant - US",
+      "revisado_em": "2026-11-04",
+      "motivo": "Exige morar nos EUA e ter licença ativa de Nurse Practitioner ou Physician Assistant."
+    }
+  ]
+}

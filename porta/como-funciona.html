@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como funciona — Home Office Hub</title>
+<meta name="description" content="Guia completo do trabalho remoto com IA e dados: tipos de projeto, teste de entrada, currículo, como o pagamento chega ao Brasil, impostos e como identificar golpe.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Como funciona — Home Office Hub">
+<meta property="og:description" content="Guia do trabalho remoto com IA e dados: tipos de projeto, teste de entrada, currículo, pagamento e como identificar golpe.">
+<meta property="og:url" content="https://alvittaluc.github.io/home-office-hub/como-funciona.html">
+<meta property="og:image" content="https://alvittaluc.github.io/home-office-hub/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="canonical" href="https://alvittaluc.github.io/home-office-hub/como-funciona.html">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .topo { max-width:var(--wrap); margin:0 auto; padding:52px 20px 34px; }
+  .topo h1 { font-family:var(--display); color:var(--ink); font-weight:400; letter-spacing:-0.02em; font-size:clamp(28px,4.4vw,44px); line-height:1.06; margin-bottom:14px; max-width:17ch; }
+
+  .corpo { max-width:var(--wrap); margin:0 auto; padding:0 20px 40px; display:grid; grid-template-columns:206px 1fr; gap:44px; align-items:start; }
+  @media (max-width:960px){ .corpo{ grid-template-columns:1fr; gap:0; } }
+  /* sem isto, um filho largo (a tabela) estica a coluna e a página escorrega
+     uns pixels para o lado no celular */
+  .corpo > * { min-width:0; }
+
+  .trilho { position:sticky; top:86px; padding-top:4px; }
+  @media (max-width:960px){ .trilho{ display:none; } }
+  .trilho h4 { font-family:var(--mono); font-size:10.5px; letter-spacing:0.11em; text-transform:uppercase; color:var(--ink-3); margin-bottom:12px; font-weight:500; }
+  .trilho a { display:block; font-size:13px; color:var(--ink-3); padding:7px 0 7px 15px; border-left:1px solid var(--line-soft); transition:all .16s; }
+  .trilho a:hover { color:var(--ink-2); }
+  .trilho a.on { color:var(--signal); border-left-color:var(--signal); }
+
+  section.bloco { padding:0 0 56px; scroll-margin-top:84px; }
+  section.bloco > h2 { font-family:var(--display); font-weight:400; font-size:clamp(23px,3.2vw,33px); line-height:1.14; letter-spacing:-0.018em; margin-bottom:16px; max-width:22ch; color:var(--ink); }
+  section.bloco > p { font-size:14.5px; color:var(--ink-2); line-height:1.7; max-width:70ch; margin-bottom:15px; }
+  section.bloco > p:last-child { margin-bottom:0; }
+  section.bloco b { color:var(--ink); font-weight:600; }
+
+  .cartoes { display:grid; grid-template-columns:repeat(auto-fit,minmax(196px,1fr)); gap:12px; margin:20px 0 8px; }
+  .cartoes .card h3 { font-family:var(--body); font-weight:600; letter-spacing:-0.01em; font-size:15.5px; margin-bottom:7px; }
+  .cartoes .card .ic { font-size:17px; margin-bottom:11px; display:block; }
+  .cartoes .card p { font-size:13.5px; color:var(--ink-2); line-height:1.55; }
+
+  ol.etapas { list-style:none; counter-reset:e; margin:22px 0 8px; }
+  ol.etapas li {
+    counter-increment:e; position:relative; padding:0 0 26px 52px; border-left:1px solid var(--line-soft); margin-left:16px;
+  }
+  ol.etapas li:last-child { border-left-color:transparent; padding-bottom:0; }
+  ol.etapas li::before {
+    counter(e); content:counter(e,decimal-leading-zero);
+    position:absolute; left:-16px; top:-2px; width:32px; height:32px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--signal);
+    font-family:var(--mono); font-size:11px; display:grid; place-items:center;
+  }
+  ol.etapas h3 { font-family:var(--body); font-weight:600; letter-spacing:-0.01em; font-size:16px; margin-bottom:6px; }
+  ol.etapas p { font-size:13.8px; color:var(--ink-2); line-height:1.6; max-width:64ch; }
+
+  table.tab { width:100%; border-collapse:collapse; margin:20px 0 10px; font-size:13.5px; }
+  table.tab th, table.tab td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  table.tab th { font-family:var(--mono); font-size:10px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-3); font-weight:500; }
+  table.tab td { color:var(--ink-2); line-height:1.55; }
+  table.tab td:first-child { color:var(--ink); font-weight:500; white-space:nowrap; }
+  .tab-wrap { overflow-x:auto; border:1px solid var(--line-soft); border-radius:12px; background:var(--panel); }
+
+  .alerta {
+    display:flex; gap:13px; align-items:flex-start; padding:16px 18px; border-radius:12px;
+    background:var(--amber-suave); border:1px solid #F0DCC6; margin:20px 0 8px;
+  }
+  .alerta .ic { color:var(--amber); font-size:15px; flex-shrink:0; line-height:1.4; }
+  .alerta p { font-size:13.8px; color:var(--ink-2); line-height:1.65; margin:0; }
+  .alerta b { color:var(--amber); }
+
+  .bandeiras { display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:11px; margin:20px 0 8px; }
+  .bandeira { display:flex; gap:11px; align-items:flex-start; padding:15px 16px; border-radius:11px; border:1px solid var(--line-soft); background:var(--panel); }
+  .bandeira .x { color:#F87171; font-size:14px; flex-shrink:0; margin-top:1px; }
+  .bandeira p { font-size:13.5px; color:var(--ink-2); line-height:1.55; }
+  .bandeira b { color:var(--ink); }
+
+  .faq { border:1px solid var(--line-soft); border-radius:12px; overflow:hidden; margin-top:20px; }
+  .faq details { border-bottom:1px solid var(--line-soft); background:var(--panel); }
+  .faq details:last-child { border-bottom:0; }
+  .faq summary {
+    cursor:pointer; padding:16px 18px; font-family:var(--body); font-weight:500; font-size:15.5px;
+    list-style:none; display:flex; align-items:center; gap:12px; transition:background .15s;
+  }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary::before { content:'+'; color:var(--signal); font-family:var(--mono); font-size:15px; flex-shrink:0; }
+  .faq details[open] summary::before { content:'−'; }
+  .faq summary:hover { background:var(--panel-2); }
+  .faq .resp { padding:0 18px 18px 42px; font-size:13.8px; color:var(--ink-2); line-height:1.65; }
+
+  .fim { max-width:var(--wrap); margin:0 auto; padding:10px 20px 20px; }
+  .fim-box {
+    border:1px solid var(--line); border-radius:18px; padding:44px 30px; text-align:center;
+    background:radial-gradient(120% 140% at 50% 0%,rgba(26,72,147,0.05),transparent 60%),var(--panel);
+  }
+  .fim-box p { color:var(--ink-2); max-width:46ch; margin:12px auto 24px; font-size:15px; }
+
+  /* ═══════════ DIAGRAMA DA JORNADA ═══════════ */
+  .jornada { margin:26px 0 10px; }
+  .trilha {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:10px;
+    position:relative; padding-top:26px;
+  }
+  /* o trilho de fundo, que liga as cinco etapas */
+  .trilha::before {
+    content:''; position:absolute; left:9%; right:9%; top:31px; height:2px;
+    background:linear-gradient(90deg,var(--signal-dim),var(--signal));
+    opacity:.35; border-radius:2px;
+  }
+  .etapa-mq { position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:9px; min-width:0; }
+  .etapa-mq .cx { display:flex; flex-direction:column; gap:3px; padding:0 4px; min-width:0; }
+  .etapa-mq .no {
+    width:12px; height:12px; border-radius:50%; background:var(--panel);
+    border:2.5px solid var(--signal-dim); position:relative; z-index:1; flex-shrink:0;
+  }
+  .etapa-mq.chave .no { background:var(--signal); border-color:var(--signal); }
+  .etapa-mq .tt { font-size:13px; font-weight:600; color:var(--ink); line-height:1.35; letter-spacing:-.005em; }
+  .etapa-mq .qd {
+    font-size:11.5px; color:var(--ink-3); line-height:1.4; font-variant-numeric:tabular-nums;
+  }
+  .regua {
+    margin-top:22px; display:flex; align-items:center; gap:14px;
+    background:var(--signal-suave); border:1px solid #D3E2F1; border-radius:12px; padding:13px 17px;
+  }
+  .regua .barra { flex:1; height:7px; border-radius:4px; background:linear-gradient(90deg,var(--signal-dim),var(--signal)); min-width:60px; }
+  .regua .txt { font-size:13px; color:var(--ink-2); }
+  .regua .txt b { color:var(--signal); font-weight:600; }
+  @media (max-width:760px){
+    .trilha { grid-template-columns:1fr; gap:0; padding-top:6px; }
+    .trilha::before { left:5px; right:auto; top:14px; bottom:22px; width:2px; height:auto; }
+    .etapa-mq { flex-direction:row; align-items:flex-start; text-align:left; gap:14px; padding:9px 0; }
+    .etapa-mq .no { margin-top:5px; }
+    .etapa-mq .cx { padding:0; }
+    .regua { flex-direction:column; align-items:flex-start; gap:10px; }
+    .regua .barra { width:100%; flex:none; height:7px; }
+  }
+
+  /* ═══════════ DIAGRAMA DO CAMINHO DO DINHEIRO ═══════════ */
+  .fluxo { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin:26px 0 10px; align-items:stretch; }
+  .parada {
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:13px;
+    padding:16px 17px; display:flex; flex-direction:column; gap:6px; position:relative;
+  }
+  .parada + .parada { margin-left:26px; }
+  /* a seta entre uma parada e a seguinte */
+  .parada + .parada::before {
+    content:''; position:absolute; left:-21px; top:50%; width:16px; height:2px;
+    background:var(--line); transform:translateY(-50%);
+  }
+  .parada + .parada::after {
+    content:''; position:absolute; left:-9px; top:50%; width:6px; height:6px;
+    border-top:2px solid var(--line); border-right:2px solid var(--line);
+    transform:translateY(-50%) rotate(45deg);
+  }
+  .parada .et { font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); }
+  .parada .nm { font-size:14.5px; font-weight:600; color:var(--ink); letter-spacing:-.01em; line-height:1.3; }
+  .parada .ob { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+  .parada.fim { border-color:#D3E2F1; background:var(--signal-suave); }
+  .parada.fim .nm { color:var(--signal); }
+  @media (max-width:860px){
+    .fluxo { grid-template-columns:1fr; }
+    .parada + .parada { margin-left:0; margin-top:26px; }
+    .parada + .parada::before { left:50%; top:-21px; width:2px; height:16px; transform:translateX(-50%); }
+    .parada + .parada::after { left:50%; top:-9px; transform:translateX(-50%) rotate(135deg); }
+  }
+</style>
+</head>
+<body>
+
+<section class="topo">
+  <div class="eyebrow">Guia prático</div>
+  <h1>Como funciona o trabalho de treinar inteligência artificial</h1>
+  <p class="lead">Do primeiro cadastro ao dinheiro caindo na conta. Este guia explica o que essas empresas realmente pedem, quanto tempo leva cada etapa e o que fazer para não perder tempo com o que não vale a pena.</p>
+</section>
+
+<div class="corpo">
+  <aside class="trilho">
+    <h4>Nesta página</h4>
+    <div id="trilhoLista">
+      <a href="#oque" data-alvo="oque">O que é esse trabalho</a>
+      <a href="#areas" data-alvo="areas">Tipos de projeto</a>
+      <a href="#processo" data-alvo="processo">Como é a entrada</a>
+      <a href="#curriculo" data-alvo="curriculo">Currículo que funciona</a>
+      <a href="#pagamento" data-alvo="pagamento">Como o dinheiro chega</a>
+      <a href="#imposto" data-alvo="imposto">Imposto e formalização</a>
+      <a href="#golpe" data-alvo="golpe">Como reconhecer golpe</a>
+      <a href="#duvidas" data-alvo="duvidas">Perguntas frequentes</a>
+    </div>
+  </aside>
+
+  <div>
+    <!-- 1 -->
+    <section class="bloco" id="oque">
+      <h2>O que é esse trabalho, na prática</h2>
+      <p>Modelos de inteligência artificial não aprendem sozinhos. Eles precisam de dados organizados por gente e de correção humana constante. Esse trabalho tem nome no mercado: <b>anotação de dados</b>, <b>avaliação de modelo</b>, <b>rating</b>, <b>RLHF</b>, <b>coleta de dados</b>. Nomes diferentes para a mesma ideia, que é ensinar a máquina a acertar mais.</p>
+      <p>Quem paga por isso não é uma empresa pequena qualquer. São fornecedoras globais que atendem os maiores laboratórios de IA e as maiores plataformas de tecnologia do mundo. Elas precisam de brasileiros por um motivo simples: um sistema que fala português do Brasil só fica bom se brasileiros ensinarem a ele o que soa natural aqui.</p>
+      <p>Quase sempre o vínculo é de <b>prestador de serviço freelancer</b>, sem carteira assinada, com horário flexível e pagamento em dólar ou euro. Não é emprego CLT e não deve ser tratado como tal. Para muita gente funciona como uma renda extra regular, e para uma parte vira a renda principal depois de alguns projetos.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="bloco" id="areas">
+      <h2>Os quatro tipos de projeto que você vai encontrar</h2>
+      <p>Praticamente tudo que aparece nas vagas cai em uma destas quatro famílias. Saber diferenciar ajuda a escolher onde você tem mais chance de ser aprovado.</p>
+      <div class="cartoes">
+        <div class="card">
+          <span class="ic" style="color:var(--signal);">◱</span>
+          <h3>Anotação de dados</h3>
+          <p>Marcar, classificar e rotular imagens, textos e áudios para o modelo aprender o que é o quê. Repetitivo, mas com regra clara e fácil de aprender.</p>
+        </div>
+        <div class="card">
+          <span class="ic" style="color:var(--blue);">◈</span>
+          <h3>Avaliação de IA</h3>
+          <p>Ler respostas geradas pelo modelo, escolher a melhor e justificar. Exige leitura atenta e bom português. É a área que mais cresce hoje.</p>
+        </div>
+        <div class="card">
+          <span class="ic" style="color:var(--violet);">⇄</span>
+          <h3>Tradução e localização</h3>
+          <p>Traduzir, revisar e adaptar conteúdo para o português brasileiro. Boa parte é pós-edição, ou seja, corrigir o que a máquina traduziu.</p>
+        </div>
+        <div class="card">
+          <span class="ic" style="color:var(--amber);">◉</span>
+          <h3>Coleta de dados</h3>
+          <p>Gravar voz, enviar fotos e vídeos, escrever exemplos. É o caminho mais fácil para quem está começando, porque raramente pede experiência.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;">Existe ainda uma faixa acima dessas quatro: os <b>projetos de especialista</b>. São vagas que pedem formação em direito, medicina, engenharia, finanças ou programação, e pagam bem mais porque há menos gente qualificada disponível. Se você tem diploma em alguma área técnica, comece por aí.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="bloco" id="processo">
+      <h2>Como é a entrada, etapa por etapa</h2>
+      <p>O processo é parecido em quase todas as empresas. O que muda é o rigor de cada etapa.</p>
+
+      <div class="jornada">
+        <div class="trilha">
+          <div class="etapa-mq chave"><span class="no"></span><span class="cx"><span class="tt">Cadastro e perfil</span><span class="qd">de 5 a 20 minutos</span></span></div>
+          <div class="etapa-mq"><span class="no"></span><span class="cx"><span class="tt">Candidatura</span><span class="qd">resposta em dias ou semanas</span></span></div>
+          <div class="etapa-mq chave"><span class="no"></span><span class="cx"><span class="tt">Estudo e teste</span><span class="qd">a etapa que mais elimina</span></span></div>
+          <div class="etapa-mq"><span class="no"></span><span class="cx"><span class="tt">Calibragem</span><span class="qd">primeiros dias auditados</span></span></div>
+          <div class="etapa-mq chave"><span class="no"></span><span class="cx"><span class="tt">Produção e pagamento</span><span class="qd">ciclo quinzenal ou mensal</span></span></div>
+        </div>
+        <div class="regua">
+          <span class="txt">Do cadastro ao primeiro pagamento</span>
+          <span class="barra"></span>
+          <span class="txt"><b>3 a 8 semanas</b></span>
+        </div>
+      </div>
+      <ol class="etapas">
+        <li>
+          <h3>Cadastro e perfil</h3>
+          <p>Você cria conta na plataforma da empresa e preenche idiomas, localização, formação e experiência. Leva de cinco a vinte minutos. Preencha tudo, porque é esse perfil que faz o sistema te oferecer projeto.</p>
+        </li>
+        <li>
+          <h3>Candidatura à vaga</h3>
+          <p>Você se candidata ao projeto específico, geralmente com currículo em inglês. Algumas empresas pedem também LinkedIn e documento de identidade.</p>
+        </li>
+        <li>
+          <h3>Material de estudo e teste de qualificação</h3>
+          <p>Esta é a etapa que elimina mais gente. A empresa envia um guia de diretrizes, às vezes com dezenas de páginas, e depois aplica uma prova. Não faça o teste no mesmo dia em que receber o material. Estude, faça anotações e só então tente.</p>
+        </li>
+        <li>
+          <h3>Período de calibragem</h3>
+          <p>Nos primeiros dias seu trabalho é auditado com mais atenção. Nota baixa nessa fase pode encerrar o contrato. É melhor produzir menos e com qualidade do que correr.</p>
+        </li>
+        <li>
+          <h3>Produção e pagamento</h3>
+          <p>A partir daí você trabalha no seu ritmo, dentro dos limites do projeto. O pagamento entra no ciclo da empresa, que costuma ser quinzenal ou mensal.</p>
+        </li>
+      </ol>
+      <div class="alerta">
+        <span class="ic">▲</span>
+        <p><b>Espere semanas, não dias.</b> Entre a candidatura e o primeiro pagamento costumam passar de três a oito semanas, somando análise de currículo, estudo, teste e o ciclo de repasse. Quem se candidata a uma vaga só e fica esperando costuma desistir no meio do caminho. Por isso a recomendação é começar com duas ou três ao mesmo tempo.</p>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="bloco" id="curriculo">
+      <h2>O currículo que passa nessas vagas</h2>
+      <p>Essas empresas usam sistemas automáticos para filtrar candidatos antes de qualquer pessoa ler o seu currículo. Isso muda o que importa no documento.</p>
+      <p><b>Escreva em inglês.</b> Mesmo em vaga de português brasileiro, o recrutador e o sistema costumam trabalhar em inglês. Um currículo em português pode ser descartado sem ser lido.</p>
+      <p><b>Repita as palavras da vaga.</b> Se o anúncio diz <i>data annotation</i>, use <i>data annotation</i>, não "rotulagem de dados". O filtro procura o termo exato.</p>
+      <p><b>Deixe claro que você mora no Brasil e é falante nativo.</b> Parece óbvio, mas é o principal critério de corte dessas vagas e muita gente esquece de escrever.</p>
+      <p><b>Diga seu nível de inglês com a sigla.</b> Escreva B2 ou C1, e não "inglês intermediário". As diretrizes de trabalho quase sempre vêm em inglês, então esse item é eliminatório em boa parte dos projetos.</p>
+      <p><b>Uma página, sem foto, sem gráfico.</b> Formato simples em PDF. Barras de proficiência e colunas decorativas atrapalham a leitura automática.</p>
+      <p><b>Traga experiência que ninguém valoriza no currículo comum.</b> Atendimento ao cliente, digitação, moderação de grupo, revisão de texto, transcrição, jogos, edição de vídeo, uso de planilha. Tudo isso conta como atenção a detalhe, que é exatamente o que essas vagas medem.</p>
+    </section>
+
+    <!-- 5 -->
+    <section class="bloco" id="pagamento">
+      <h2>Como o dinheiro chega até o Brasil</h2>
+      <p>Nenhuma dessas empresas deposita direto numa conta bancária brasileira comum. O repasse passa por uma plataforma internacional, e é você quem escolhe qual, dentro das opções que a empresa oferece.</p>
+
+      <div class="fluxo">
+        <div class="parada">
+          <span class="et">Origem</span>
+          <span class="nm">A empresa</span>
+          <span class="ob">Fecha o ciclo do projeto e libera o valor em dólar ou euro.</span>
+        </div>
+        <div class="parada">
+          <span class="et">Carteira</span>
+          <span class="nm">Payoneer ou PayPal</span>
+          <span class="ob">Onde o dinheiro cai primeiro. Juntas cobrem quase todas as empresas do setor.</span>
+        </div>
+        <div class="parada">
+          <span class="et">Câmbio</span>
+          <span class="nm">Saque ou Wise</span>
+          <span class="ob">Você converte para real. Cada caminho cobra a própria taxa, vale comparar.</span>
+        </div>
+        <div class="parada fim">
+          <span class="et">Destino</span>
+          <span class="nm">Sua conta no Brasil</span>
+          <span class="ob">Entra como recebimento do exterior, em reais.</span>
+        </div>
+      </div>
+      <div class="tab-wrap">
+        <table class="tab">
+          <thead>
+            <tr><th>Empresa</th><th>Como paga</th><th>Quando cai</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OneForma</td><td>PayPal ou Payoneer, sem taxa de saque, mínimo de 10 dólares acumulados</td><td>Duas vezes por mês</td></tr>
+            <tr><td>Toloka e Mindrift</td><td>Payoneer ou PayPal</td><td>Duas vezes por mês, por volta dos dias 5 e 20</td></tr>
+            <tr><td>CrowdGen by Appen</td><td>Transferência bancária local, PayPal, Payoneer ou Airtm, conforme o país</td><td>Até o dia 14, referente ao mês anterior</td></tr>
+            <tr><td>Outlier</td><td>Depósito pela plataforma, com bônus por qualidade</td><td>Semanal</td></tr>
+            <tr><td>Welocalize e RWS</td><td>Contrato de freelancer, definido na contratação</td><td>Ciclo mensal do projeto</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:18px;">Na prática, quem trabalha nessa área acaba mantendo uma conta na <b>Payoneer</b> e outra no <b>PayPal</b>, porque juntas cobrem quase todas as empresas do setor. A <b>Wise</b> costuma ser usada depois, para converter e trazer o valor com câmbio melhor. Cada plataforma cobra a própria taxa de conversão e de saque, então vale comparar antes de tirar um valor alto.</p>
+      <div class="alerta">
+        <span class="ic">▲</span>
+        <p><b>Verifique a conta antes de terminar o primeiro projeto.</b> Conta de PayPal não verificada, celular sem confirmação ou endereço incompleto travam o repasse. Muita gente termina o trabalho e descobre o problema só na data do pagamento, quando já perdeu o ciclo.</p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="bloco" id="imposto">
+      <h2>Imposto e formalização</h2>
+      <p>Dinheiro recebido do exterior por pessoa física normalmente entra na regra do <b>carnê-leão</b>, que é a apuração mensal do imposto de renda sobre rendimento que não vem de fonte pagadora brasileira. Na prática, isso significa registrar o valor recebido no mês, converter para reais pela regra de câmbio aplicável e recolher o imposto devido dentro do prazo, além de declarar tudo no ajuste anual.</p>
+      <p>Muita gente que trabalha nessa área acaba abrindo <b>MEI</b> ou outra pessoa jurídica quando o volume cresce, porque a carga tributária tende a ficar menor que a da pessoa física e a formalização facilita comprovação de renda. Vale lembrar que nem toda atividade se encaixa no MEI e que receber do exterior como PJ tem regras próprias de fechamento de câmbio.</p>
+      <div class="alerta">
+        <span class="ic">▲</span>
+        <p><b>Isto não é orientação contábil.</b> As regras mudam e cada caso tem detalhe próprio, principalmente na escolha entre pessoa física e jurídica. Antes de decidir, converse com um contador. A consulta costuma custar pouco perto do risco de errar a apuração durante meses.</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="bloco" id="golpe">
+      <h2>Como reconhecer golpe</h2>
+      <p>O setor é legítimo, mas justamente por ser pouco conhecido no Brasil ele virou isca para fraude. Todas as empresas listadas aqui são reais e verificáveis, e nenhuma delas se comporta como os exemplos abaixo. Se você encontrar qualquer um destes sinais fora do nosso hub, saia.</p>
+      <div class="bandeiras">
+        <div class="bandeira"><span class="x">✕</span><p><b>Pediu dinheiro para começar.</b> Taxa de cadastro, curso obrigatório, compra de kit ou pagamento por "liberação de vaga". Empresa de verdade paga você, nunca o contrário.</p></div>
+        <div class="bandeira"><span class="x">✕</span><p><b>Contratou pelo WhatsApp ou Telegram, sem processo.</b> Recrutamento sério passa por plataforma própria, e-mail corporativo e teste de qualificação.</p></div>
+        <div class="bandeira"><span class="x">✕</span><p><b>Prometeu ganho alto por tarefa simples.</b> Anúncios do tipo "300 reais por dia curtindo vídeo" não são desta área, são esquema de pirâmide ou lavagem.</p></div>
+        <div class="bandeira"><span class="x">✕</span><p><b>Pediu senha de banco, cartão ou código de verificação.</b> Nenhuma plataforma legítima precisa disso. Dados bancários são cadastrados por você, dentro da conta, nunca enviados a alguém.</p></div>
+        <div class="bandeira"><span class="x">✕</span><p><b>Usa e-mail pessoal, e não o da empresa.</b> Mensagem vinda de gmail, hotmail ou de domínio parecido com o da empresa, com uma letra trocada, é sinal claro de fraude.</p></div>
+        <div class="bandeira"><span class="x">✕</span><p><b>Pressiona por resposta imediata.</b> "Só até hoje", "restam duas vagas". Processo real tem prazo, material de estudo e etapas.</p></div>
+      </div>
+      <p style="margin-top:18px;">Uma regra simples resolve quase todos os casos: <b>confira se a vaga existe no site oficial da empresa</b>. Todas as vagas do Home Office Hub levam direto para a página original, sem intermediário. Se alguém te ofereceu algo que não está lá, desconfie.</p>
+    </section>
+
+    <!-- 8 -->
+    <section class="bloco" id="duvidas">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq">
+        <details>
+          <summary>Preciso saber inglês?</summary>
+          <div class="resp">Ajuda muito, mas não é a barreira que parece. O trabalho em si é feito em português brasileiro. O inglês aparece principalmente no cadastro, na leitura das diretrizes e no material de estudo, e essa parte hoje se resolve bem com o tradutor do navegador ou com qualquer ferramenta de tradução. Dá para estudar o guia traduzido, entender o critério do projeto e passar no teste de qualificação sem ser fluente. Ou seja, dá para começar sem depender totalmente do inglês.
+          <br><br>O que muda com o tempo é o alcance. Quanto mais inglês você tiver, mais projetos ficam abertos para você, principalmente os que envolvem conversa com a equipe ou comparação entre os dois idiomas. Então trate o inglês como algo que abre mais vagas para você, e não como condição para entrar. Comece pelos projetos de coleta, gravação de voz e anotação, que são os mais tranquilos nesse aspecto, e vá subindo conforme ganha confiança.</div>
+        </details>
+        <details>
+          <summary>Preciso ter faculdade?</summary>
+          <div class="resp">Para entrar na área, não. Boa parte dos projetos de anotação, coleta, gravação de voz e avaliação de conteúdo não pede diploma nenhum. O que eles pedem é atenção a detalhe, português correto e disciplina para seguir a regra do projeto. É por aí que a maioria das pessoas começa.
+          <br><br>O que existe são os projetos de especialista, que pedem formação ou experiência comprovada em uma área específica, como direito, saúde, engenharia, finanças ou programação. Esses pagam mais, justamente porque há menos gente qualificada disponível. Se você tem diploma ou vivência profissional em alguma dessas áreas, destaque isso no currículo e mire nelas.
+          <br><br>Na prática as duas portas ficam abertas ao mesmo tempo, e várias plataformas têm os dois tipos de projeto convivendo. Não ter faculdade não te tira do jogo, só define por onde é mais fácil entrar.</div>
+        </details>
+        <details>
+          <summary>Quanto dá para ganhar?</summary>
+          <div class="resp">Varia demais por projeto, por área e por quantidade de horas, e por isso não existe um número honesto para dar aqui. O que dá para dizer é que o valor aparece antes de você aceitar a tarefa em quase todas as plataformas, e que projetos de especialista pagam bem acima dos de anotação simples. Desconfie de qualquer site que prometa um número fixo.</div>
+        </details>
+        <details>
+          <summary>Posso trabalhar em várias empresas ao mesmo tempo?</summary>
+          <div class="resp">Em geral sim, e é justamente o que a maioria faz, porque projeto acaba e some. A exceção importante são os projetos de avaliação de busca e de anúncios, que costumam exigir exclusividade. Ter avaliado anúncios em uma empresa pode te barrar num projeto de busca em outra, e vice-versa. Leia o termo antes de aceitar.</div>
+        </details>
+        <details>
+          <summary>Preciso de computador bom ou internet rápida?</summary>
+          <div class="resp">Para a maior parte dos projetos, um computador comum e internet estável bastam. Projetos de vídeo, áudio e imagem pesam mais. Alguns projetos de avaliação exigem trabalhar em uma máquina só e proíbem VPN, proxy e computador compartilhado, porque a plataforma monitora localização e comportamento.</div>
+        </details>
+      </div>
+    </section>
+  </div>
+</div>
+
+<section class="fim">
+  <div class="fim-box">
+    <h2 class="sec">Agora é escolher onde começar</h2>
+    <p>Veja quem está contratando ou vá direto para a lista de vagas abertas para o Brasil.</p>
+    <div style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap;">
+      <a href="vagas.html" class="btn primary">Ver vagas abertas <span class="arr">→</span></a>
+      <a href="empresas.html" class="btn">Conhecer as empresas</a>
+    </div>
+  </div>
+</section>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script>
+montarLayout("guia");
+lerVagas().then(selo).catch(() => {});
+
+// trilho acompanha a rolagem
+(function(){
+  const links = [...document.querySelectorAll("#trilhoLista a")];
+  const obs = new IntersectionObserver(ent => {
+    ent.forEach(e => { if (e.isIntersecting) links.forEach(l => l.classList.toggle("on", l.dataset.alvo === e.target.id)); });
+  }, { rootMargin: "-25% 0px -65% 0px" });
+  document.querySelectorAll("section.bloco").forEach(s => obs.observe(s));
+  if (links[0]) links[0].classList.add("on");
+})();
+</script>
+</body>
+</html>

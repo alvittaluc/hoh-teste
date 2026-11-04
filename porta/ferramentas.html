@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ferramentas — Home Office Hub</title>
+<meta name="description" content="Ferramentas para o dia a dia de quem trabalha com anotação, avaliação e tradução de dados.">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- Se o seu site ficar numa subpasta, ajuste estes dois endereços para o mesmo padrão das outras páginas. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ferramentas — Home Office Hub">
+<meta property="og:description" content="Ferramentas para o dia a dia de quem trabalha com anotação, avaliação e tradução de dados.">
+<meta property="og:url" content="https://alvittaluc.github.io/home-office-hub/ferramentas.html">
+<meta property="og:image" content="https://alvittaluc.github.io/home-office-hub/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="canonical" href="https://alvittaluc.github.io/home-office-hub/ferramentas.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<!-- Se o estilo do site não estiver ao lado deste arquivo, marca a página para usar o visual de reserva. -->
+<link rel="stylesheet" href="estilo.css" onerror="document.documentElement.classList.add('f-solto')">
+
+<style>
+/* ── Visual de reserva: só entra em ação quando o estilo.css não é encontrado. ── */
+html.f-solto body {
+  font-family:'Geist',system-ui,sans-serif; background:#F7F4EF; color:#10203A;
+  line-height:1.55; margin:0;
+}
+html.f-solto a { color:inherit; text-decoration:none; }
+html.f-solto .eyebrow {
+  font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:#1A4893;
+  display:flex; align-items:center; gap:9px; margin-bottom:14px;
+}
+html.f-solto .eyebrow::before { content:''; width:24px; height:1px; background:#1A4893; }
+
+/* ══════════════════════════════════════════════════════════════
+   FERRAMENTAS — vitrine. Uma ferramenta por cartão.
+   Para acrescentar a próxima, copie um bloco <a class="f-card">
+   e troque ícone, título, texto e etiquetas.
+   ══════════════════════════════════════════════════════════════ */
+
+.f-main { max-width:var(--wrap,1180px); margin:0 auto; padding:52px 20px 100px; }
+
+.f-hero { max-width:660px; margin-bottom:44px; }
+.f-hero h1 {
+  font-family:'Hedvig Letters Serif',Georgia,serif; font-weight:400;
+  font-size:clamp(31px,4.2vw,50px); line-height:1.08; letter-spacing:-0.015em;
+  color:var(--ink,#10203A); margin:0 0 15px;
+}
+.f-lead { font-size:17px; line-height:1.62; color:var(--ink-2,#54606F); }
+
+.f-grade { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+
+.f-card {
+  display:flex; flex-direction:column;
+  background:var(--panel,#FFFFFF); border:1px solid var(--line,#DED7CA);
+  border-radius:20px; padding:26px 26px 24px; min-height:250px;
+  transition:border-color .18s, transform .18s, box-shadow .18s;
+}
+.f-card:hover {
+  border-color:var(--ink-3,#66717F); transform:translateY(-2px);
+  box-shadow:0 12px 30px -18px rgba(16,32,58,0.35);
+}
+.f-icone {
+  width:44px; height:44px; border-radius:13px; display:grid; place-items:center;
+  background:var(--bg-soft,#F1ECE3); color:var(--signal,#1A4893);
+  box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); margin-bottom:18px;
+}
+/* O ícone é a própria forma servindo de máscara para uma cor. Parado, é
+   azul liso, igual a um desenho comum; na onda, a cor vira um degradê que
+   atravessa o ícone. */
+.f-ico { width:21px; height:21px; display:block; background-color:var(--signal,#1A4893);
+  -webkit-mask:var(--ico) center / contain no-repeat; mask:var(--ico) center / contain no-repeat; }
+.f-ico-mic { --ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M10 2.2a2.6 2.6 0 0 0-2.6 2.6v5.1a2.6 2.6 0 1 0 5.2 0V4.8A2.6 2.6 0 0 0 10 2.2Z' fill='black'/%3E%3Cpath d='M4.5 9.3v.9a5.5 5.5 0 0 0 11 0v-.9M10 15.7v2.1' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.f-ico-barras { --ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M3.5 16.5V9M8 16.5V4M12.5 16.5v-5M17 16.5V7' stroke='black' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.f-card h2 { font-size:19px; font-weight:600; letter-spacing:-0.015em; color:var(--ink,#10203A); margin:0 0 8px; }
+
+/* ── a onda azul ──
+   Uma faixa de azuis claros atravessa o ícone e, logo depois, o nome da
+   ferramenta, da esquerda para a direita. Passa uma vez quando o cartão
+   aparece e de novo quando o mouse chega nele. Só azuis do site. */
+.f-card.onda .f-ico {
+  background-image:linear-gradient(100deg, var(--signal,#1A4893) 0 34%, #4E9AC8 40%, #A9D0EE 45%, #6FB0DB 50%, #2C6BB5 55%, var(--signal,#1A4893) 61% 100%);
+  background-size:260% 100%; animation:f-onda 1.25s cubic-bezier(.45,0,.25,1) both; }
+.f-card.onda h2 {
+  background-image:linear-gradient(100deg, var(--ink,#10203A) 0 34%, #2C6BB5 40%, #8FBDE1 45%, #4E9AC8 50%, #1A4893 55%, var(--ink,#10203A) 61% 100%);
+  background-size:260% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:f-onda 1.25s cubic-bezier(.45,0,.25,1) .14s both; }
+@keyframes f-onda { from { background-position:100% 0; } to { background-position:0 0; } }
+@media (prefers-reduced-motion:reduce){ .f-card.onda .f-ico, .f-card.onda h2 { animation:none; background-image:none; color:var(--ink,#10203A); } }
+.f-card p { font-size:14.5px; line-height:1.62; color:var(--ink-2,#54606F); margin:0 0 18px; }
+.f-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; }
+.f-tag {
+  font-size:11.5px; letter-spacing:0.04em; color:var(--ink-2,#54606F);
+  background:var(--bg-soft,#F1ECE3); border-radius:99px; padding:5px 11px;
+  box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9);
+}
+.f-abrir {
+  display:inline-flex; align-items:center; gap:7px; margin-top:16px;
+  font-size:14px; font-weight:600; color:var(--signal,#1A4893);
+}
+.f-card:hover .f-abrir svg { transform:translateX(3px); }
+.f-abrir svg { transition:transform .18s; }
+
+.f-rodape { margin-top:54px; padding-top:32px; border-top:1px solid var(--line,#DED7CA); max-width:660px; }
+.f-rodape h3 { font-size:16px; font-weight:600; color:var(--ink,#10203A); margin:0 0 8px; }
+.f-rodape p { font-size:14.5px; line-height:1.65; color:var(--ink-2,#54606F); margin:0; }
+
+@media (max-width:1000px){
+  .f-grade { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:680px){
+  .f-grade { grid-template-columns:1fr; }
+  .f-main { padding-top:36px; }
+}
+</style>
+</head>
+<body>
+
+<main class="f-main">
+
+  <section class="f-hero">
+    <div class="eyebrow">Ferramentas</div>
+    <h1>Ferramentas do dia a dia</h1>
+    <p class="f-lead">
+      Pequenos utilitários para quem trabalha com anotação, avaliação e tradução de dados.
+      Rodam dentro do navegador: basta ter uma conta no Hub.
+    </p>
+  </section>
+
+  <div class="f-grade">
+
+    <!-- ── Transcrição ao vivo ── -->
+    <a class="f-card" href="transcricao.html">
+      <div class="f-icone"><span class="f-ico f-ico-mic" aria-hidden="true"></span></div>
+      <h2>Transcrição ao vivo</h2>
+      <p>
+        Transcreve o áudio que está tocando no computador, enquanto toca, no idioma original
+        ou já traduzido para o português. Serve para acompanhar reunião, aula ou vídeo em
+        outro idioma.
+      </p>
+      <div class="f-tags">
+        <span class="f-tag">Inglês e português</span>
+        <span class="f-tag">Tradução ao vivo</span>
+        <span class="f-tag">Chrome e Edge</span>
+      </div>
+      <span class="f-abrir">
+        Abrir
+        <svg width="13" height="11" viewBox="0 0 13 11" fill="none" aria-hidden="true">
+          <path d="M1 5.5h10M7.5 1.5 11.5 5.5 7.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+
+    <!-- ── Meu Controle ── -->
+    <a class="f-card" href="controle.html">
+      <div class="f-icone"><span class="f-ico f-ico-barras" aria-hidden="true"></span></div>
+      <h2>Meu Controle</h2>
+      <p>
+        Registra as suas candidaturas e a etapa de cada uma, do currículo enviado à aprovação.
+        Para quem já trabalha, soma as horas e os ganhos de cada projeto, converte para real e
+        acompanha as metas da semana e do mês.
+      </p>
+      <div class="f-tags">
+        <span class="f-tag">Candidaturas</span>
+        <span class="f-tag">Horas e ganhos</span>
+        <span class="f-tag">Salvo na sua conta</span>
+      </div>
+      <span class="f-abrir">
+        Abrir
+        <svg width="13" height="11" viewBox="0 0 13 11" fill="none" aria-hidden="true">
+          <path d="M1 5.5h10M7.5 1.5 11.5 5.5 7.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+
+  </div>
+
+
+</main>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script>try { montarLayout("ferramentas"); } catch (e) {}</script>
+<script>
+/* A onda azul nos cartões: uma vez quando cada cartão aparece (um depois
+   do outro) e de novo quando o mouse ou o teclado chega nele. */
+(function(){
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cartoes = [...document.querySelectorAll(".f-card")];
+  const tocar = c => { if (!c.classList.contains("onda")) c.classList.add("onda"); };
+  cartoes.forEach(c => {
+    c.addEventListener("animationend", ev => { if (ev.target.tagName === "H2") c.classList.remove("onda"); });
+    c.addEventListener("mouseenter", () => tocar(c));
+    c.addEventListener("focus", () => tocar(c));
+  });
+  if (!("IntersectionObserver" in window)) return;
+  let fila = 0;
+  const obs = new IntersectionObserver(entradas => entradas.forEach(e => {
+    if (!e.isIntersecting) return;
+    obs.unobserve(e.target);
+    setTimeout(() => tocar(e.target), 400 + (fila++) * 280);
+  }), { threshold: 0.6 });
+  cartoes.forEach(c => obs.observe(c));
+})();
+</script>
+
+</body>
+</html>

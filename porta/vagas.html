@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vagas abertas — Home Office Hub</title>
+<meta name="description" content="Todas as vagas remotas internacionais de IA, anotação de dados, avaliação e tradução abertas para quem mora no Brasil.">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vagas abertas — Home Office Hub">
+<meta property="og:description" content="Vagas remotas internacionais de IA, dados e tradução, abertas para quem mora no Brasil.">
+<meta property="og:url" content="https://alvittaluc.github.io/home-office-hub/vagas.html">
+<meta property="og:image" content="https://alvittaluc.github.io/home-office-hub/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="canonical" href="https://alvittaluc.github.io/home-office-hub/vagas.html">
+<link rel="alternate" type="application/rss+xml" title="Vagas abertas — Home Office Hub" href="feed.xml">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* Esta página carrega uma lista longa e uma coluna de filtros ao lado, então
+     ela usa mais tela que o resto do site. Muda a variável, e não só o .corpo,
+     para o cabeçalho e o topo continuarem alinhados com a lista. */
+  @media (min-width:1100px) { :root { --wrap:1340px; } }
+
+  /* ═══════════════ TOPO ═══════════════ */
+  .topo { max-width:var(--wrap); margin:0 auto; padding:48px 22px 24px; }
+  .topo h1 {
+    font-family:var(--display); color:var(--ink); font-weight:400; letter-spacing:-0.02em;
+    font-size:clamp(28px,4.4vw,44px); line-height:1.06; margin-bottom:13px; max-width:20ch;
+  }
+  .topo p.lead { margin-bottom:26px; max-width:60ch; }
+
+  /* números em linha, sem virar quatro cartões */
+  .numeros[hidden] { display:none; }
+  .numeros {
+    display:flex; flex-wrap:wrap; gap:34px;
+    padding:20px 0 0; border-top:1px solid var(--line-soft);
+  }
+  .num { display:flex; flex-direction:column; gap:3px; }
+  .num .n {
+    font-weight:600; font-size:25px; letter-spacing:-0.02em; line-height:1.1; color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+  .num .n .u { color:var(--signal); font-size:17px; }
+  .num.amb .n { color:var(--amber); }
+  .num .l { font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-3); }
+  /* celular: os números viram uma linha só, para a primeira vaga aparecer
+     sem precisar rolar a tela */
+  @media (max-width:720px){
+    .topo { padding:26px 22px 14px; }
+    .topo h1 { font-size:26px; margin-bottom:11px; }
+    .numeros { gap:5px 16px; padding-top:12px; }
+    .num { flex-direction:row; align-items:baseline; gap:5px; }
+    .num .n { font-size:16px; }
+    .num .n .u { font-size:13px; }
+    .num .l { font-size:12px; letter-spacing:0; text-transform:none; color:var(--ink-2); }
+    .num:nth-child(4) { display:none; }
+  }
+
+  /* ═══════════════ BARRA DE FILTROS ═══════════════ */
+  .corpo { max-width:var(--wrap); margin:0 auto; padding:0 22px 70px; }
+
+  .barra {
+    position:sticky; top:84px; z-index:60;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:10px; margin:14px 0 4px;
+    background:rgba(255,255,255,0.97); backdrop-filter:blur(16px) saturate(1.25);
+    border:1px solid var(--line-soft); border-radius:15px; box-shadow:var(--sombra);
+  }
+  @media (max-width:900px){ .barra{ top:74px; } }
+
+  .barra .direita { margin-left:auto; display:flex; align-items:center; gap:12px; }
+  .contagem { font-size:13px; color:var(--ink-3); white-space:nowrap; padding-left:6px; }
+  .contagem b { color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; }
+  @media (max-width:760px){ .barra .direita{ margin-left:0; width:100%; justify-content:space-between; } }
+
+
+  /* ═══════════════ TELA DE ENTRADA ═══════════════ */
+  .volta {
+    display:inline-block; font-size:13px; color:var(--ink-3); text-decoration:none;
+    margin-bottom:13px; transition:color .15s;
+  }
+  .volta:hover { color:var(--signal); }
+  .volta[hidden] { display:none; }
+
+  /* ── abas: os dois acervos, sempre alcançáveis de dentro da lista ── */
+  .abas {
+    display:flex; gap:2px; border-bottom:1px solid var(--line-soft);
+    margin:0 0 16px; overflow-x:auto; scrollbar-width:none;
+  }
+  .abas::-webkit-scrollbar { display:none; }
+  .abas[hidden] { display:none; }
+
+  .aba {
+    display:inline-flex; align-items:center; gap:8px; flex-shrink:0;
+    padding:11px 15px 12px; margin-bottom:-1px;
+    font-family:var(--body); font-size:14px; font-weight:500; color:var(--ink-3);
+    text-decoration:none; border-bottom:2px solid transparent;
+    transition:color .16s, border-color .16s;
+  }
+  .aba:hover { color:var(--ink); }
+  .aba .n { font-size:12px; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+  .aba.on { color:var(--ink); border-bottom-color:var(--signal); }
+  .aba.on .n { color:var(--signal); }
+  .aba.form.on { border-bottom-color:var(--violet); }
+  .aba.form.on .n { color:var(--violet); }
+
+  /* as 16 áreas, para trocar de uma para outra sem sair da lista */
+  .chips { display:flex; gap:7px; overflow-x:auto; padding-bottom:9px; margin-bottom:14px; scrollbar-width:thin; }
+  .chips[hidden] { display:none; }
+  .chips::-webkit-scrollbar { height:5px; }
+  .chips::-webkit-scrollbar-thumb { background:var(--line-soft); border-radius:3px; }
+  .chip {
+    flex-shrink:0; padding:7px 13px; border-radius:20px; white-space:nowrap;
+    border:1px solid var(--line-soft); background:var(--panel);
+    font-size:12.5px; color:var(--ink-2); text-decoration:none;
+    transition:border-color .15s, background .15s, color .15s;
+  }
+  .chip:hover { border-color:var(--line); color:var(--ink); }
+  .chip.on { background:var(--violet); border-color:var(--violet); color:#fff; }
+
+  /* ── carregando: o desenho da página, sem conteúdo ──
+     Só aparece se as vagas demorarem mais que um instante, para não piscar
+     em quem tem internet boa. Some quando a primeira tela é montada. */
+  @keyframes esq-brilho { from { background-position:-480px 0; } to { background-position:480px 0; } }
+  @keyframes esq-surge { to { opacity:1; } }
+  .esq { margin-top:24px; opacity:0; animation:esq-surge .25s ease .3s forwards; }
+  .esq i { display:block; border-radius:14px;
+    background:linear-gradient(90deg, var(--bg-soft) 0%, #FBF8F3 45%, var(--bg-soft) 90%); background-size:960px 100%;
+    animation:esq-brilho 1.3s linear infinite; }
+  .esq .e-porta { height:196px; border-radius:17px; }
+  .esq .e-tit { width:190px; height:15px; border-radius:6px; margin:36px 0 14px; }
+  .esq .e-qd { height:134px; }
+  .esq .e-faixa { height:132px; }
+  .esq-lista { display:none; grid-template-columns:228px minmax(0,1fr); gap:20px; align-items:start; }
+  .esq .e-lateral { height:420px; border-radius:15px; }
+  .esq .e-barra { height:58px; border-radius:15px; margin:14px 0 14px; }
+  .esq .e-linha { height:78px; margin-bottom:9px; }
+  .esq.lista .esq-inicio { display:none; }
+  .esq.lista .esq-lista { display:grid; }
+  @media (max-width:900px){ .esq-lista { grid-template-columns:1fr; gap:0; } .esq .e-lateral { display:none; } }
+  @media (max-width:720px){ .esq .e-linha { height:138px; } }
+  @media (prefers-reduced-motion:reduce){ .esq i { animation:none; } }
+
+  .bloco { margin-top:24px; }
+  .bloco + .bloco { margin-top:34px; }
+  .bloco > .grupo-titulo { margin-top:0; }
+
+  /* as duas portas de entrada: o acervo geral e o que pede diploma */
+  .portas { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:720px){ .portas { grid-template-columns:1fr; } }
+
+  .porta {
+    position:relative; display:flex; flex-direction:column; min-height:196px;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:17px;
+    padding:26px 28px 24px; text-decoration:none; color:inherit; overflow:hidden;
+    transition:border-color .2s, background .2s, box-shadow .2s;
+  }
+  .porta::after {
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--signal); opacity:0; transition:opacity .2s;
+  }
+  .porta:hover { border-color:var(--line); box-shadow:0 18px 36px -28px rgba(16,32,58,.30); }
+  .porta:hover::after { opacity:.7; }
+
+  /* o número é a âncora: a faixa de estatística do topo sai daqui para não repetir */
+  .porta .p-num {
+    display:flex; align-items:baseline; gap:8px; margin-bottom:9px;
+    font-family:var(--display); font-weight:400; letter-spacing:-0.02em; color:var(--ink);
+    font-size:44px; line-height:1; font-variant-numeric:tabular-nums;
+  }
+  .porta .p-num span { font-family:var(--body); font-size:13px; color:var(--ink-3); letter-spacing:0; }
+  /* o total, que sobe do zero até o número na primeira vez que a tela abre */
+  .porta .p-num b { font-weight:inherit; display:inline-block; }
+  .porta .p-nome { font-size:15.5px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; }
+  .porta .p-sub { margin-top:5px; font-size:13px; color:var(--ink-2); line-height:1.55; max-width:40ch; }
+  .porta .p-pe {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    margin-top:auto; padding-top:18px; font-size:12.5px; color:var(--ink-3);
+    font-variant-numeric:tabular-nums;
+  }
+  .porta .p-pe .nv { color:var(--amber); }
+
+  /* a ação fica azul o tempo todo, não só no hover: sem ela o cartão parece
+     um adesivo informativo e ninguém descobre que dá para clicar */
+  .acao {
+    display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+    color:var(--signal); font-weight:500; transition:gap .18s;
+  }
+  .acao svg { width:13px; height:13px; transition:transform .18s; }
+  .porta .acao { margin-left:auto; font-size:13px; }
+  a:hover > .acao svg, a:hover .acao svg { transform:translateX(3px); }
+
+  /* a porta da formação usa o roxo que o site já reserva para área de diploma */
+  .porta.form::after { background:var(--violet); }
+  .porta.form .p-num { color:var(--violet); }
+
+  /* os cinco tipos de trabalho: quadro, porque são poucos e fixos */
+  .quadros { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+  @media (max-width:1080px){ .quadros { grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:620px){ .quadros { grid-template-columns:repeat(2,1fr); } }
+
+  .qd {
+    display:flex; flex-direction:column; justify-content:space-between; gap:14px;
+    min-height:134px; min-width:0;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:14px;
+    padding:16px 17px; text-decoration:none; color:inherit;
+    transition:border-color .16s, background .16s, transform .16s;
+  }
+  .qd:hover { border-color:var(--line); background:var(--panel-2); transform:translateY(-2px); }
+  .qd svg { width:19px; height:19px; color:var(--ink-3); }
+  .qd .nm { font-size:15px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; line-height:1.25; }
+  .qd .qt { font-size:12.5px; color:var(--ink-3); font-variant-numeric:tabular-nums; margin-top:3px; }
+  .qd .qt .nv { color:var(--amber); }
+  .qd .topo-qd { display:flex; align-items:center; justify-content:space-between; }
+  .qd .acao { font-size:12.5px; }
+  .qd:hover { border-color:var(--signal-dim); }
+
+  /* áreas de formação: lista longa e de nomes desiguais, então linha */
+  .linhas { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  @media (max-width:760px){ .linhas { grid-template-columns:1fr; } }
+
+  .lin {
+    display:flex; align-items:center; gap:11px; min-width:0;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:12px;
+    padding:13px 16px; text-decoration:none; color:inherit;
+    transition:border-color .16s, background .16s;
+  }
+  .lin:hover { border-color:var(--line); background:var(--panel-2); }
+  .lin svg { width:15px; height:15px; color:var(--ink-3); flex-shrink:0; }
+  .lin .nm { font-size:14px; font-weight:500; color:var(--ink); min-width:0; overflow-wrap:anywhere; }
+  .lin .sua { font-size:11.5px; color:var(--signal); white-space:nowrap; }
+  .lin .qt {
+    margin-left:auto; padding-left:10px; font-size:12.5px; color:var(--ink-3);
+    font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .lin .qt .nv { color:var(--amber); }
+  .lin .acao { padding-left:12px; }
+  .lin:hover { border-color:var(--signal-dim); }
+
+  /* empresas: logos em grupos que se revezam (ideia do "Logos Carousel" da
+     Spell UI). A cada três segundos o grupo sobe desfocando e o próximo entra
+     por baixo. Para quando o mouse passa ou o teclado entra; os pontos trocam
+     o grupo à mão. Quem pediu menos movimento vê todas as empresas, paradas.
+     Ficam direto no fundo da página, sem caixa em volta. */
+  .marcas-cx { padding:8px 0 0; }
+  .marcas { display:grid; place-items:center; min-height:146px; }
+  .mgrupo { grid-area:1 / 1; display:flex; justify-content:center; gap:12px; width:100%; visibility:hidden; }
+  .mgrupo.vez, .mgrupo.sai { visibility:visible; }
+  .mgrupo.sai { pointer-events:none; }
+  .mrc { flex:0 1 190px; min-width:0; display:flex; flex-direction:column; align-items:center; gap:9px; text-align:center;
+    padding:12px 8px 10px; border-radius:14px; text-decoration:none; color:inherit; transition:background .16s; }
+  .mrc:hover { background:var(--panel); }
+  .mrc:hover .nm { color:var(--signal); }
+  .mrc .sel { width:56px; height:56px; border-radius:15px; display:grid; place-items:center; overflow:hidden;
+    font-weight:700; font-size:13px; box-shadow:inset 0 0 0 1px var(--line); }
+  .mrc .nm { font-size:14.5px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; max-width:100%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap; transition:color .16s; }
+  .mrc .qt { font-size:12.5px; color:var(--ink-3); font-variant-numeric:tabular-nums; margin-top:-5px; }
+  .mrc .qt .nv { color:var(--amber); }
+  .mgrupo.entra > .mrc { animation:mrc-entra .6s ease both; animation-delay:calc(var(--i) * 110ms); }
+  .mgrupo.sai > .mrc { animation:mrc-sai .6s ease both; animation-delay:calc(var(--i) * 110ms); }
+  @keyframes mrc-entra { from { transform:translateY(36px); filter:blur(4px); opacity:0; } to { transform:none; filter:blur(0); opacity:1; } }
+  @keyframes mrc-sai { from { transform:none; filter:blur(0); opacity:1; } to { transform:translateY(-36px); filter:blur(4px); opacity:0; } }
+  .mpontos { display:flex; justify-content:center; gap:4px; margin-top:8px; min-height:22px; }
+  .mpontos button { width:22px; height:22px; border:0; background:none; padding:0; cursor:pointer; display:grid; place-items:center; }
+  .mpontos button::before { content:''; width:7px; height:7px; border-radius:99px; background:var(--line); transition:background .2s, width .2s; }
+  .mpontos button[aria-current="true"]::before { background:var(--signal); width:18px; }
+  .mpontos button:focus-visible { outline:2px solid var(--signal); outline-offset:1px; border-radius:6px; }
+  /* sem movimento (ou poucas empresas): todas juntas, paradas */
+  .marcas.parado { display:flex; flex-wrap:wrap; justify-content:center; gap:4px; min-height:0; }
+  .marcas.parado .mgrupo { display:contents; }
+  .marcas.parado .mrc { flex-basis:170px; }
+
+  /* ── cada filtro suspenso ── */
+  .fbtn {
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    font-family:var(--body); font-size:13.5px; color:var(--ink-2);
+    background:var(--panel); border:1px solid var(--line); border-radius:11px;
+    padding:9px 13px; transition:border-color .15s, color .15s, background .15s;
+  }
+  .fbtn:hover { border-color:var(--signal-dim); color:var(--ink); }
+  .fbtn:focus-visible { outline:2px solid var(--signal); outline-offset:2px; }
+  .fbtn .chev {
+    width:8px; height:8px; border-right:1.5px solid var(--ink-3); border-bottom:1.5px solid var(--ink-3);
+    transform:rotate(45deg) translate(-2px,-2px); transition:transform .2s; flex-shrink:0;
+  }
+  .fbtn[aria-expanded="true"] { border-color:var(--signal); color:var(--ink); background:var(--signal-suave); }
+  .fbtn[aria-expanded="true"] .chev { transform:rotate(-135deg) translate(-3px,-3px); border-color:var(--signal); }
+  .fbtn .cnt {
+    font-size:11px; font-weight:600; color:#fff; background:var(--signal);
+    border-radius:20px; padding:1px 7px; font-variant-numeric:tabular-nums;
+  }
+
+  .fmenu {
+    position:absolute; left:0; top:calc(100% + 8px); z-index:70; display:none;
+    min-width:252px; max-height:340px; overflow-y:auto; padding:8px;
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    box-shadow:var(--sombra-alta); scrollbar-width:thin;
+  }
+  .fmenu::-webkit-scrollbar { width:6px; }
+  .fmenu::-webkit-scrollbar-thumb { background:var(--line); border-radius:3px; }
+  @media (max-width:760px){ .fmenu{ left:auto; right:0; min-width:min(300px,86vw); } }
+
+  .opcao {
+    display:flex; align-items:flex-start; gap:10px; width:100%; text-align:left; cursor:pointer;
+    font-family:var(--body); font-size:13.5px; color:var(--ink-2);
+    background:transparent; border:0; border-radius:9px; padding:8px 9px; transition:background .15s, color .15s;
+  }
+  .opcao:hover { background:var(--panel-2); color:var(--ink); }
+  .opcao .caixa {
+    margin-top:2px; width:16px; height:16px; border-radius:5px; border:1.5px solid var(--line); flex-shrink:0;
+    display:grid; place-items:center; font-size:10px; color:transparent; transition:all .15s;
+  }
+  .opcao .pip {
+    margin-top:2px; width:16px; height:16px; border-radius:50%; border:1.5px solid var(--line); flex-shrink:0;
+    display:grid; place-items:center; transition:border-color .15s;
+  }
+  .opcao .pip::after { content:''; width:7px; height:7px; border-radius:50%; background:transparent; transition:background .15s; }
+  .opcao.on { color:var(--ink); }
+  .opcao.on .caixa { background:var(--signal); border-color:var(--signal); color:#fff; }
+  .opcao.on .pip { border-color:var(--signal); }
+  .opcao.on .pip::after { background:var(--signal); }
+  .opcao .marca {
+    width:22px; height:22px; border-radius:6px; flex-shrink:0; overflow:hidden;
+    display:grid; place-items:center; font-weight:700; font-size:9px;
+  }
+  .opcao .marca img { width:14px; height:14px; object-fit:contain; border-radius:3px; }
+  /* o rótulo quebra em vez de ser cortado: numa coluna estreita, "Esconder as
+     que já apliquei" não cabe em uma linha e meia frase não diz nada. */
+  .opcao .nm { min-width:0; line-height:1.35; overflow-wrap:anywhere; padding-top:1px; }
+  .opcao .qt {
+    margin-left:auto; padding-top:2px; font-size:11.5px; color:var(--ink-3);
+    flex-shrink:0; font-variant-numeric:tabular-nums;
+  }
+  .opcao.on .qt { color:var(--signal); }
+  .opcao.vazia:not(.on) { opacity:.4; }
+
+  .ordenar {
+    font-family:var(--body); font-size:13px; color:var(--ink-2); cursor:pointer;
+    background:var(--panel); border:1px solid var(--line); border-radius:11px;
+    padding:9px 32px 9px 13px; outline:none; appearance:none; transition:border-color .15s;
+    background-image:linear-gradient(45deg,transparent 50%,#8A94A1 50%),linear-gradient(135deg,#8A94A1 50%,transparent 50%);
+    background-position:calc(100% - 16px) 52%, calc(100% - 11px) 52%;
+    background-size:5px 5px, 5px 5px; background-repeat:no-repeat;
+  }
+  .ordenar:hover, .ordenar:focus { border-color:var(--signal-dim); }
+
+  /* etiquetas do que está filtrado */
+  .ativos { display:flex; flex-wrap:wrap; gap:7px; margin:14px 0 4px; }
+  .ativo {
+    display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+    font-size:12px; color:var(--signal);
+    background:rgba(26,72,147,0.05); border:1px solid rgba(26,72,147,0.16);
+    border-radius:20px; padding:5px 11px; transition:background .15s;
+  }
+  .ativo:hover { background:rgba(26,72,147,0.10); }
+  .ativo .x { font-size:14px; line-height:1; opacity:.7; }
+  .ativo.limpar { color:var(--ink-3); background:transparent; border-color:var(--line-soft); }
+  .ativo.limpar:hover { color:var(--ink); background:var(--panel-2); }
+
+  /* ═══════════════ COLUNA DE FILTROS ═══════════════ */
+  .palco { display:grid; grid-template-columns:228px minmax(0,1fr); gap:20px; align-items:start; }
+  /* sem isto o display:grid vence o atributo hidden e a lista aparece nas
+     telas em que ela não deveria existir */
+  .palco[hidden] { display:none; }
+
+  /* a lista responde à largura da PRÓPRIA coluna, não à da janela. Sem isto o
+     cartão continua usando o desenho de tela cheia dentro de um espaço menor. */
+  .conteudo { min-width:0; container-type:inline-size; }
+
+  .lateral {
+    position:sticky; top:84px; align-self:start;
+    max-height:calc(100vh - 108px); overflow-y:auto; scrollbar-width:thin;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:15px;
+    padding:14px; box-shadow:var(--sombra);
+  }
+  .lateral::-webkit-scrollbar { width:6px; }
+  .lateral::-webkit-scrollbar-thumb { background:var(--line); border-radius:3px; }
+
+  .lat-topo { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 10px; }
+  .lat-topo h2 {
+    font-family:var(--body); font-size:11px; font-weight:600; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--ink-3);
+  }
+  .lat-limpar {
+    font-family:var(--body); font-size:12px; color:var(--signal); cursor:pointer;
+    background:none; border:0; padding:3px 6px; border-radius:7px; transition:background .15s;
+  }
+  .lat-limpar:hover { background:var(--signal-suave); }
+  .lat-limpar[hidden] { display:none; }
+
+  .lat-busca {
+    width:100%; font-family:var(--body); font-size:13.5px; color:var(--ink);
+    background:var(--panel-2); border:1px solid var(--line-soft); border-radius:11px;
+    padding:10px 12px; outline:none; transition:border-color .15s, background .15s;
+  }
+  .lat-busca::placeholder { color:var(--ink-3); }
+  .lat-busca:focus { border-color:var(--signal-dim); background:var(--panel); }
+
+  .lat-grupo { border-top:1px solid var(--line-soft); margin-top:12px; padding-top:11px; }
+  .lat-grupo[hidden] { display:none; }
+  .lat-grupo h3 {
+    font-family:var(--body); font-size:11px; font-weight:600; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--ink-3); margin:0 0 5px 4px;
+  }
+  .lat-rol { max-height:236px; overflow-y:auto; scrollbar-width:thin; }
+  .lat-rol::-webkit-scrollbar { width:5px; }
+  .lat-rol::-webkit-scrollbar-thumb { background:var(--line-soft); border-radius:3px; }
+
+  .btFiltros { display:none; }
+  @media (max-width:900px) {
+    .palco { grid-template-columns:1fr; gap:0; }
+    .conteudo { container-type:normal; }
+    .lateral { display:none; position:static; max-height:none; margin:0 0 14px; }
+    .lateral.aberta { display:block; }
+    .btFiltros { display:inline-flex; }
+  }
+
+  /* ═══════════════ LISTA HORIZONTAL ═══════════════ */
+  .grupo-titulo {
+    display:flex; align-items:baseline; gap:11px; margin:26px 0 12px;
+    scroll-margin-top:140px;
+  }
+  /* separa um grupo do seguinte: sem isto, "Em movimento" e o resto
+     encostavam e a lista parecia uma coisa só */
+  .lista + .grupo-titulo {
+    margin-top:32px; padding-top:22px; border-top:1px solid var(--line-soft);
+  }
+  .grupo-titulo h2 { font-family:var(--body); font-weight:600; font-size:15px; color:var(--ink); letter-spacing:-0.01em; }
+  .grupo-titulo span { font-size:12.5px; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+
+  .lista { display:flex; flex-direction:column; gap:9px; }
+
+  .vaga {
+    position:relative; display:grid; align-items:center; gap:18px;
+    grid-template-columns:44px minmax(0,1.55fr) 118px 138px 108px 104px;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:14px;
+    padding:15px 18px; overflow:hidden;
+    transition:border-color .18s, box-shadow .18s, transform .18s, background .18s;
+  }
+  .vaga:hover {
+    border-color:var(--line); background:var(--panel-2); transform:translateY(-2px);
+    box-shadow:0 14px 30px -22px rgba(16,32,58,.20);
+  }
+  .vaga.nova { border-color:#EBD2B4; background:linear-gradient(90deg,#FEFAF5,var(--panel) 42%); }
+  /* a vaga que a pessoa tinha aberto, quando ela volta para a lista */
+  .vaga.de-volta { animation:vaga-de-volta 2.4s ease; }
+  @keyframes vaga-de-volta {
+    0%, 35% { border-color:var(--signal); box-shadow:0 0 0 3px var(--signal-suave); }
+    100%    { box-shadow:0 0 0 3px rgba(234,241,248,0); }
+  }
+  @media (prefers-reduced-motion:reduce){ .vaga.de-volta { animation:none; border-color:var(--signal); } }
+  .vaga.nova:hover { border-color:#E0C09A; }
+
+  .v-marca {
+    width:44px; height:44px; border-radius:11px; flex-shrink:0; overflow:hidden;
+    border:1px solid var(--line); display:grid; place-items:center;
+    font-weight:700; font-size:12px;
+  }
+  .v-marca img { width:26px; height:26px; object-fit:contain; border-radius:5px; }
+
+  .v-nome { min-width:0; display:flex; flex-direction:column; gap:3px; }
+  .v-tit {
+    font-weight:600; font-size:15px; line-height:1.32; color:var(--ink); letter-spacing:-0.01em;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  /* a vaga em uma frase, em português (os títulos vêm em inglês) */
+  .v-frase {
+    font-size:13px; line-height:1.4; color:var(--ink-2);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .v-emp { display:flex; flex-wrap:wrap; align-items:center; gap:5px 7px; font-size:12.5px; color:var(--ink-2); min-width:0; }
+  /* idioma do trabalho: informa, não esconde nada */
+  .v-emp .selo-idi {
+    font-size:11px; color:var(--ink-2); background:var(--bg-soft); border:1px solid var(--line-soft);
+    border-radius:20px; padding:1px 9px; flex-shrink:0; white-space:nowrap;
+  }
+  .v-emp .selo-idi.av { color:var(--amber); background:var(--amber-suave); border-color:#EBD2B4; }
+  /* convite para marcar as áreas, e a linha das áreas da pessoa */
+  .convite-area {
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 18px; padding:14px 18px;
+    background:var(--signal-suave); border:1px solid #D3E2F1; border-radius:14px; font-size:14px; color:var(--ink);
+  }
+  .convite-area span { flex:1; min-width:220px; line-height:1.5; }
+  .convite-area b { font-weight:600; }
+  .convite-area a { font-weight:600; color:var(--signal); white-space:nowrap; }
+  .chip.fixo { cursor:default; }
+  .chip.mudar { border-style:dashed; color:var(--signal); }
+  /* pagamento anunciado pela empresa; só aparece quando ela informa */
+  .v-emp .selo-pg {
+    font-size:11.5px; font-weight:600; color:#1F7A6E; background:#E4F3F0; border:1px solid #C6E5DE;
+    border-radius:20px; padding:1px 9px; flex-shrink:0; white-space:nowrap;
+  }
+  .v-emp .e { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .v-emp .selo-novo {
+    font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    color:var(--amber); background:var(--amber-suave); border:1px solid #EBD2B4;
+    border-radius:20px; padding:2px 8px; flex-shrink:0;
+  }
+
+  /* Meu Controle: marca discreta nas vagas em que a pessoa já aplicou.
+     Só aparece para quem usa a ferramenta; para todo mundo mais, nada muda. */
+  /* selo da área de formação, nas vagas que exigem diploma */
+  .v-emp .selo-area {
+    font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    color:var(--violet); background:#F0EDF8; border:1px solid #DAD2EE;
+    border-radius:20px; padding:2px 8px; flex-shrink:0; white-space:nowrap;
+  }
+
+  .v-emp .selo-aplicada {
+    font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    color:#1F7A6E; background:#E4F3F0; border:1px solid #C6E5DE;
+    border-radius:20px; padding:2px 8px; flex-shrink:0;
+  }
+
+  /* Pulso: sinal de movimento real, vindo do pulso.json.
+     Sem o arquivo, nenhum destes selos chega a existir na página. */
+  .v-emp .selo-pulso {
+    font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    border-radius:20px; padding:2px 8px; flex-shrink:0;
+  }
+  .v-emp .selo-pulso.alta     { color:var(--signal); background:var(--signal-suave); border:1px solid #D3E2F1; }
+  .v-emp .selo-pulso.responde { color:var(--violet); background:#F1EEF7; border:1px solid #DFD8EE; }
+
+  /* Em alta: a empresa está contratando com frequência. A linha é a mesma das
+     outras vagas, com um azul leve que se desfaz para a direita e o selo
+     verde que pulsa. */
+  .vaga.chamando { border-color:#CCDCEE;
+    background:radial-gradient(90% 160% at 0% 50%, #E2ECF8 0%, rgba(234,241,248,.55) 38%, rgba(255,255,255,0) 70%), var(--panel); }
+  .vaga.chamando:hover { border-color:#AFC7E4; }
+  .v-emp .selo-chamando {
+    display:inline-flex; align-items:center; gap:7px; font-size:11.5px; font-weight:600; white-space:nowrap;
+    color:#156B45; background:#E3F5EC; border:1px solid #BFE6D2; border-radius:20px; padding:1px 10px 1px 8px; flex-shrink:0;
+  }
+  .ch-pulso { position:relative; display:inline-block; width:7px; height:7px; border-radius:50%; background:#2BB673; flex-shrink:0; }
+  .ch-pulso::after { content:""; position:absolute; inset:0; border-radius:50%; background:#2BB673;
+    animation:ch-pulsa 1.8s ease-out infinite; }
+  @keyframes ch-pulsa { 0% { transform:scale(1); opacity:.7; } 80%, 100% { transform:scale(3.2); opacity:0; } }
+  @media (prefers-reduced-motion:reduce){ .ch-pulso::after { animation:none; opacity:0; } }
+  .grupo-titulo h2 .ch-pulso { margin:0 8px 1px 1px; vertical-align:middle; }
+  .grupo-titulo h2:has(.ch-pulso) { white-space:nowrap; }
+
+  /* cartões de demonstração do bloco "Em alta", para quem não tem conta:
+     só o formato de um cartão, com barras no lugar do texto */
+  .vaga.demo { pointer-events:none; }
+  .vaga.demo .v-marca { border-color:transparent; }
+  .vaga.demo .v-nome { gap:7px; }
+  .demo-l { display:block; flex-shrink:0; max-width:100%; height:11px; border-radius:6px; background:#C4CCD8; }
+  .demo-l.forte { height:14px; background:#7C8898; }
+  .demo-l.fina { height:9px; background:#D8DDE5; }
+  .demo-l.selo { height:17px; border-radius:20px; background:#C6E5DE; }
+  @media (max-width:720px) { .ac-borrado .vaga.demo:nth-child(n+4) { display:none; } }
+
+  /* colunas de dados, com rótulo em cima */
+  .v-col { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .v-col .r {
+    display:flex; align-items:center; gap:5px;
+    font-size:10.5px; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-3);
+  }
+  .v-col .r svg { width:11px; height:11px; flex-shrink:0; opacity:.75; }
+  .v-col .v {
+    font-size:13.5px; color:var(--ink); font-weight:500;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+
+  .v-acao {
+    justify-self:end; display:inline-flex; align-items:center; gap:7px;
+    font-size:12.5px; color:var(--ink-3); white-space:nowrap; transition:color .18s;
+  }
+  .v-acao .arr { transition:transform .18s; }
+  .vaga:hover .v-acao { color:var(--signal); }
+  .vaga:hover .v-acao .arr { transform:translateX(3px); }
+
+  /* telas médias: some a coluna de área */
+  @media (max-width:1080px){
+    .vaga { grid-template-columns:44px minmax(0,1.5fr) 112px 118px 96px; }
+    .vaga .col-area { display:none; }
+  }
+  /* celular: vira bloco, com os dados em etiquetas */
+  @media (max-width:720px){
+    .vaga { grid-template-columns:40px 1fr; gap:12px 13px; padding:15px 16px; align-items:start; }
+    .v-marca { width:40px; height:40px; }
+    .v-marca img { width:23px; height:23px; }
+    .v-col { grid-column:2; flex-direction:row; align-items:center; gap:7px; }
+    .v-col .r { font-size:10px; }
+    .v-col .r span { display:none; }
+    .v-col .v { font-size:13px; font-weight:400; color:var(--ink-2); }
+    .v-frase { white-space:normal; }
+    .v-acao { grid-column:2; justify-self:start; color:var(--signal); }
+    .vaga .col-area { display:flex; }
+  }
+
+  /* As mesmas quebras de cima, medidas pela largura da coluna de conteúdo em vez
+     da janela. Onde o navegador entende @container, estas mandam; onde não
+     entende, valem as de cima e nada quebra. */
+  @container (max-width:1010px) {
+    .vaga { grid-template-columns:44px minmax(0,1.5fr) 112px 118px 96px; }
+    .vaga .col-area { display:none; }
+  }
+  @container (max-width:820px) {
+    .vaga { grid-template-columns:44px minmax(0,1.6fr) 104px 96px; }
+    .vaga .v-acao { display:none; }
+  }
+  @container (max-width:660px) {
+    .vaga { grid-template-columns:40px 1fr; gap:12px 13px; padding:15px 16px; align-items:start; }
+    .v-marca { width:40px; height:40px; }
+    .v-marca img { width:23px; height:23px; }
+    .v-col { grid-column:2; flex-direction:row; align-items:center; gap:7px; }
+    .v-col .r { font-size:10px; }
+    .v-col .r span { display:none; }
+    .v-col .v { font-size:13px; font-weight:400; color:var(--ink-2); }
+    .v-frase { white-space:normal; }
+    .vaga .v-acao { display:inline-flex; grid-column:2; justify-self:start; color:var(--signal); }
+    .vaga .col-area { display:flex; }
+  }
+
+  .vazio { text-align:center; padding:64px 20px; color:var(--ink-3); font-size:14.5px; }
+  .vazio .big { font-size:30px; margin-bottom:12px; color:var(--line); }
+</style>
+</head>
+<body>
+
+<section class="topo">
+  <a class="volta" id="volta" href="vagas.html" data-ir hidden>← todas as categorias</a>
+  <div class="eyebrow" id="eyebrow">Lista completa</div>
+  <h1 id="titulo">Vagas abertas para quem mora no Brasil</h1>
+  <div class="numeros" id="numeros"></div>
+</section>
+
+<div class="corpo">
+
+
+  <!-- troca entre os dois acervos sem voltar para a entrada -->
+  <div class="abas" id="abas" hidden></div>
+  <div class="chips" id="chips" hidden></div>
+  <!-- especialidades da área aberta (elétrica, mecânica...) -->
+  <div class="chips" id="subchips" hidden></div>
+
+  <!-- enquanto as vagas chegam: o desenho da página, sem conteúdo -->
+  <div class="esq" id="esqueleto" aria-hidden="true">
+    <div class="esq-inicio">
+      <div class="portas"><i class="e-porta"></i><i class="e-porta"></i></div>
+      <i class="e-tit"></i>
+      <div class="quadros"><i class="e-qd"></i><i class="e-qd"></i><i class="e-qd"></i><i class="e-qd"></i><i class="e-qd"></i></div>
+      <i class="e-tit"></i>
+      <i class="e-faixa"></i>
+    </div>
+    <div class="esq-lista">
+      <i class="e-lateral"></i>
+      <div><i class="e-barra"></i><i class="e-linha"></i><i class="e-linha"></i><i class="e-linha"></i><i class="e-linha"></i><i class="e-linha"></i><i class="e-linha"></i></div>
+    </div>
+  </div>
+  <script>
+  /* O esqueleto imita a tela que vai abrir: a entrada (cartões) ou a lista.
+     Mesma regra do lerUrl(), lá embaixo, só que antes de os dados chegarem. */
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search), lista;
+      if (p.get("inicio") || p.get("areas")) lista = false;
+      else if (p.get("ver") || p.get("area") || p.get("empresa") || p.get("cat") || p.get("q") || p.get("periodo")) lista = true;
+      else {
+        var s = JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token") || "null");
+        var m = s && s.user && s.user.user_metadata;
+        lista = !!(m && m.areas_respondido === true && m.areas && m.areas.length);
+      }
+      if (lista) document.getElementById("esqueleto").classList.add("lista");
+    } catch (e) {}
+  })();
+  </script>
+
+  <!-- tela de entrada: categorias e empresas -->
+  <div id="telaInicio" hidden></div>
+
+  <!-- tela das áreas de formação -->
+  <div id="telaAreas" hidden></div>
+
+  <div class="palco" id="palco" hidden>
+    <aside class="lateral" id="lateral">
+      <div class="lat-topo">
+        <h2>Filtros</h2>
+        <button class="lat-limpar" type="button" id="btLimpar" hidden>limpar tudo</button>
+      </div>
+
+      <input type="search" class="lat-busca" id="busca" autocomplete="off"
+             placeholder="Buscar cargo ou empresa" aria-label="Buscar vagas">
+
+      <div class="lat-grupo" id="grupoMostrar" hidden>
+        <h3>Mostrar</h3>
+        <div id="menuMostrar"></div>
+      </div>
+
+      <div class="lat-grupo">
+        <h3>Área</h3>
+        <div id="menuAreas"></div>
+      </div>
+
+      <div class="lat-grupo">
+        <h3>Empresa</h3>
+        <div class="lat-rol" id="menuEmpresas"></div>
+      </div>
+
+      <div class="lat-grupo">
+        <h3>Publicação</h3>
+        <div id="menuPeriodo"></div>
+      </div>
+    </aside>
+
+    <div class="conteudo">
+      <div class="barra">
+        <button class="fbtn btFiltros" type="button" id="btFiltros" aria-expanded="false">
+          Filtros <span class="cnt" hidden>0</span> <span class="chev"></span>
+        </button>
+        <span class="contagem" id="contagem">carregando</span>
+        <div class="direita">
+          <select class="ordenar" id="ordem" aria-label="Ordenar vagas">
+            <option value="relevancia">Relevância</option>
+            <option value="recentes">Mais recentes</option>
+            <option value="antigas">Mais antigas</option>
+            <option value="empresa">Empresa (A a Z)</option>
+            <option value="titulo">Título (A a Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="ativos" id="ativos"></div>
+      <div id="resultado"></div>
+    </div>
+  </div>
+</div>
+
+<!-- inscrição no alerta de vagas por e-mail (alerta-email.js) -->
+
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script src="controle-dados.js?v=6"></script>
+<script src="pulso-site.js?v=5"></script>
+<script>
+montarLayout("vagas");
+
+const CAT_ORDEM = ["ai","transl","qa","sme","write"];
+const CAT_NOME  = { ai:"IA & Dados", transl:"Tradução", qa:"QA & Validação", sme:"Especialistas", write:"Escrita" };
+const PERIODOS  = [
+  { id:"all", nome:"Qualquer data" },
+  { id:"7",   nome:"Novas, últimos 7 dias" },
+  { id:"30",  nome:"Últimos 30 dias" },
+];
+
+/* ícones das colunas, desenhados aqui para não depender de biblioteca */
+const IC = {
+  local:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  area :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20h-20"/></svg>',
+  data :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+};
+
+let EMPRESAS = {}, TODAS = [];
+/* ── formação da pessoa ──
+   As vagas que pedem formação ficam num arquivo à parte e não aparecem para
+   todo mundo. Quem escolhe a área passa a ver as dela junto com as demais.
+   A escolha fica salva no navegador, não vai para lugar nenhum. */
+/* guarda a última área de formação aberta, só para marcá-la na tela de áreas */
+const CHAVE_FORM = "hub.formacao";
+let GERAIS = [], ESPECIFICAS = [], AREAS = [];
+let formacao = "";
+try { formacao = localStorage.getItem(CHAVE_FORM) || ""; } catch (e) {}
+
+/* As áreas que a pessoa marcou na conta (layout.js lê da sessão). Com elas
+   existe a lista "Para você": as vagas abertas a todos mais as das áreas dela. */
+let MINHAS = [];
+try { MINHAS = Acesso.areas() || []; } catch (e) {}
+const nomeArea = a => { try { return Acesso.nomeArea(a); } catch (e) { return a; } };
+const LINK_AREAS = "entrar.html?areas=1&voltar=vagas.html";
+let MINHAS_SUBS = [];
+try { MINHAS_SUBS = Acesso.subareas() || []; } catch (e) {}
+const nomeSub = (a, s) => { try { return Acesso.nomeSub(a, s); } catch (e) { return s; } };
+const daMinhaArea = v => { try { return Acesso.vagaDasMinhasAreas(v, MINHAS, MINHAS_SUBS); } catch (e) { return MINHAS.indexOf(v.area) >= 0; } };
+/* especialidade escolhida na tela de uma área; "-" = só as genéricas */
+let SUB = "";
+
+function compor() {
+  if (ESCOPO === "voce")         TODAS = GERAIS.concat(ESPECIFICAS.filter(daMinhaArea));
+  else if (ESCOPO === "area" && AREA) TODAS = ESPECIFICAS.filter(v => v.area === AREA &&
+    (!SUB || (SUB === "-" ? !v.sub : v.sub === SUB)));
+  else if (ESCOPO === "tudo")    TODAS = GERAIS.concat(ESPECIFICAS);
+  else                           TODAS = GERAIS.slice();
+}
+
+let fPeriodo = "all", fCats = new Set(), fEmps = new Set(), ordem = "relevancia";
+let busca = "", esconderAplicadas = false, semIngles = false;
+
+/* Três telas no mesmo arquivo, decididas pela URL:
+     inicio  as categorias e as empresas que mais contratam
+     areas   as áreas de formação, dentro do cartão que exige diploma
+     lista   a lista com a coluna de filtros, que é o que já existia
+   O escopo diz DE ONDE vêm as vagas da lista: só as gerais, só as de uma
+   área, ou o acervo inteiro quando a pessoa clica numa empresa. */
+let TELA = "inicio", ESCOPO = "gerais", AREA = "";
+
+/* ids das vagas que só aparecem para quem escolheu formação, e a lista de
+   vagas em que a pessoa já aplicou, lida uma vez do Meu Controle. */
+let APLICADAS = { ids: new Set(), chaves: new Set() };
+
+const sp = t => (t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const jaApliquei = v => APLICADAS.ids.has(v.id) ||
+  APLICADAS.chaves.has(sp((EMPRESAS[v.empresa] || {}).nome || v.empresa) + "|" + sp(v.titulo));
+
+/* ── dados ── */
+async function iniciar() {
+  try {
+    const base = await lerEmpresas();
+    (base.empresas || []).forEach(e => EMPRESAS[e.id] = e);
+  } catch (e) { console.error("empresas.json", e); }
+  try {
+    const dados = await lerVagas();
+    GERAIS = dados.vagas || [];
+
+    /* o arquivo das vagas por formação pode não existir ainda; se faltar,
+       a caixa de escolha simplesmente não aparece */
+    try {
+      const esp = await lerEspecificas();
+      ESPECIFICAS = esp.vagas || [];
+      // só valem as áreas marcadas que têm vaga hoje
+      MINHAS = MINHAS.filter(a => ESPECIFICAS.some(v => v.area === a));
+      AREAS = (esp.areas && esp.areas.length)
+        ? esp.areas
+        : [...new Set(ESPECIFICAS.map(v => v.area).filter(Boolean))].sort();
+    } catch (e) { ESPECIFICAS = []; AREAS = []; }
+
+    lerUrl();
+    await carregarAplicadas();
+    if (typeof Pulso !== "undefined") { try { await Pulso.carregar(); } catch (e) {} }
+    render();
+    // voltando de uma vaga: a mesma lista, os mesmos filtros, a mesma altura
+    const onde = ondeEstava();
+    if (onde && TELA === "lista") { reporFiltros(onde); aplicar(); reporRolagem(onde); }
+  } catch (e) {
+    const esq = document.getElementById("esqueleto");
+    if (esq) esq.remove();
+    document.getElementById("palco").hidden = false;
+    document.getElementById("resultado").innerHTML =
+      '<div class="vazio"><div class="big">◌</div><p>Não foi possível carregar as vagas agora.<br>Atualize a página em alguns minutos.</p></div>';
+    document.getElementById("contagem").textContent = "erro ao carregar";
+    console.error(e);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   A URL MANDA
+
+   Quem decide a tela é o endereço, não um estado escondido. Assim o
+   botão voltar funciona, dá para mandar link de uma categoria para
+   alguém, e recarregar a página cai no mesmo lugar.
+   ══════════════════════════════════════════════════════════ */
+function lerUrl() {
+  const p = new URLSearchParams(location.search);
+
+  fCats.clear(); fEmps.clear();
+  fPeriodo = "all"; busca = ""; esconderAplicadas = false; semIngles = false;
+  ESCOPO = "gerais"; AREA = ""; SUB = p.get("sub") || "";
+
+  if (p.get("inicio")) {
+    TELA = "inicio";
+  } else if (p.get("ver") === "voce" && MINHAS.length) {
+    TELA = "lista"; ESCOPO = "voce";
+  } else if (p.get("areas")) {
+    TELA = "areas";
+  } else if (p.get("area")) {
+    TELA = "lista"; ESCOPO = "area"; AREA = p.get("area");
+    formacao = AREA;
+    try { localStorage.setItem(CHAVE_FORM, AREA); } catch (e) {}
+  } else if (p.get("empresa")) {
+    TELA = "lista"; ESCOPO = "tudo"; fEmps.add(p.get("empresa"));
+  } else if (p.get("cat")) {
+    TELA = "lista"; fCats.add(p.get("cat"));
+  } else if (p.get("ver") || p.get("q") || p.get("periodo")) {
+    TELA = "lista";
+  } else if (MINHAS.length) {
+    // quem marcou áreas na conta entra direto na lista "Para você"
+    TELA = "lista"; ESCOPO = "voce";
+  } else {
+    TELA = "inicio";
+  }
+
+  if (p.get("periodo")) fPeriodo = p.get("periodo");
+  if (p.get("q")) busca = p.get("q");
+  const cx = document.getElementById("busca");
+  if (cx) cx.value = busca;
+}
+
+/* ── troca de tela sem recarregar, mantendo o histórico ── */
+function render() {
+  compor();
+  const esq = document.getElementById("esqueleto");
+  if (esq) esq.remove();
+  document.getElementById("telaInicio").hidden = TELA !== "inicio";
+  document.getElementById("telaAreas").hidden = TELA !== "areas";
+  document.getElementById("palco").hidden = TELA !== "lista";
+  const volta = document.getElementById("volta");
+  volta.hidden = TELA === "inicio";
+  if (ESCOPO === "area") {
+    volta.href = "vagas.html?areas=1";
+    volta.textContent = "← áreas de formação";
+  } else {
+    volta.href = MINHAS.length ? "vagas.html?inicio=1" : "vagas.html";
+    volta.textContent = "← todas as categorias";
+  }
+  document.getElementById("lateral").classList.remove("aberta");
+
+  document.getElementById("numeros").hidden = TELA === "inicio";
+  montarAbas();
+  const olho = document.getElementById("eyebrow");
+  const tit = document.getElementById("titulo");
+
+  if (TELA === "inicio") {
+    olho.textContent = "Lista completa";
+    tit.textContent = "Vagas abertas para quem mora no Brasil";
+    montarNumeros(GERAIS.concat(ESPECIFICAS));
+    montarInicio();
+  } else if (TELA === "areas") {
+    olho.textContent = "Exigem formação";
+    tit.textContent = "Vagas por área de formação";
+    montarNumeros(ESPECIFICAS);
+    montarAreas();
+  } else {
+    if (ESCOPO === "area") { olho.textContent = "Exigem formação"; tit.textContent = nomeArea(AREA); }
+    else if (ESCOPO === "voce") { olho.textContent = "Para você"; tit.textContent = "As vagas abertas a todos e as das suas áreas"; }
+    else if (ESCOPO === "tudo") {
+      const id = [...fEmps][0];
+      olho.textContent = "Empresa";
+      tit.textContent = (EMPRESAS[id] || {}).nome || id || "Vagas";
+    } else if (fCats.size === 1) {
+      olho.textContent = "Categoria";
+      tit.textContent = CAT_NOME[[...fCats][0]] || "Vagas abertas";
+    } else {
+      olho.textContent = "Lista completa";
+      tit.textContent = "Vagas abertas para quem mora no Brasil";
+    }
+    aplicar();
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+document.addEventListener("click", ev => {
+  const elo = ev.target.closest("a[data-ir]");
+  if (!elo || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
+  ev.preventDefault();
+  history.pushState({}, "", elo.getAttribute("href"));
+  lerUrl();
+  render();
+});
+window.addEventListener("popstate", () => { lerUrl(); render(); });
+
+/* ══════════════════════════════════════════════════════════
+   VOLTAR PARA ONDE A PESSOA ESTAVA
+
+   Quem abre uma vaga e volta quer cair na mesma lista, com os mesmos
+   filtros e na mesma altura da página. O endereço guarda só a tela;
+   os filtros da coluna, a ordem e a rolagem não cabem nele. Por isso,
+   ao abrir uma vaga, a página anota tudo na memória da aba. Na volta,
+   pelo botão "Voltar para a lista" da página da vaga ou pelo voltar do
+   navegador, se o endereço for o mesmo, ela repõe.
+   ══════════════════════════════════════════════════════════ */
+const CHAVE_ONDE = "hub.vagas.onde", CHAVE_VOLTA = "hub.vagas.voltar";
+
+function anotarOnde(vid) {
+  try {
+    sessionStorage.setItem(CHAVE_ONDE, JSON.stringify({
+      url: location.search, y: Math.round(window.scrollY), vid: vid || "",
+      periodo: fPeriodo, cats: [...fCats], emps: [...fEmps], ordem,
+      busca, semIngles, esconderAplicadas,
+    }));
+  } catch (e) {}
+}
+document.addEventListener("click", ev => {
+  const cartao = ev.target.closest("a.vaga[data-vid]");
+  if (cartao) anotarOnde(cartao.dataset.vid);
+}, true);
+
+/* O que foi anotado, se esta abertura da página é uma volta para o mesmo
+   endereço. Em qualquer outro caso, null: quem chega de novo começa do zero. */
+function ondeEstava() {
+  let pediu = false, onde = null, chegada = "";
+  try {
+    pediu = sessionStorage.getItem(CHAVE_VOLTA) === "1";
+    sessionStorage.removeItem(CHAVE_VOLTA);
+    onde = JSON.parse(sessionStorage.getItem(CHAVE_ONDE) || "null");
+  } catch (e) {}
+  try { chegada = (performance.getEntriesByType("navigation")[0] || {}).type || ""; } catch (e) {}
+  if (!onde || typeof onde !== "object" || onde.url !== location.search) return null;
+  return (pediu || chegada === "back_forward") ? onde : null;
+}
+
+/* Repõe os filtros anotados. Roda depois do lerUrl, que zera tudo. */
+function reporFiltros(onde) {
+  if (TELA !== "lista") return;
+  const textos = l => (Array.isArray(l) ? l : []).filter(x => typeof x === "string").slice(0, 60);
+  if (PERIODOS.some(p => p.id === onde.periodo)) fPeriodo = onde.periodo;
+  fCats = new Set(textos(onde.cats));
+  fEmps = new Set(textos(onde.emps));
+  if (["relevancia", "recentes", "antigas", "empresa", "titulo"].indexOf(onde.ordem) >= 0) ordem = onde.ordem;
+  if (typeof onde.busca === "string") busca = onde.busca.slice(0, 120);
+  semIngles = onde.semIngles === true;
+  esconderAplicadas = onde.esconderAplicadas === true;
+  const cx = document.getElementById("busca"); if (cx) cx.value = busca;
+  const so = document.getElementById("ordem"); if (so) so.value = ordem;
+}
+
+/* Rola até onde a pessoa estava e marca por um instante a vaga que ela abriu. */
+function reporRolagem(onde) {
+  if (TELA !== "lista") return;
+  window.scrollTo({ top: +onde.y || 0, behavior: "instant" });
+  let cartao = null;
+  try { cartao = onde.vid ? document.querySelector('a.vaga[data-vid="' + CSS.escape(String(onde.vid)) + '"]') : null; } catch (e) {}
+  if (!cartao) return;
+  // se a lista mudou e o cartão ficou fora da tela, ele vem para o meio
+  const r = cartao.getBoundingClientRect();
+  if (r.bottom < 90 || r.top > innerHeight - 40) cartao.scrollIntoView({ block: "center", behavior: "instant" });
+  cartao.classList.add("de-volta");
+  setTimeout(() => cartao.classList.remove("de-volta"), 2400);
+}
+
+/* ── datas ── */
+/* Vaga antiga que a empresa reabriu conta a partir do dia em que reabriu. */
+function dias(v) {
+  const d = v.data_reaberta || v.data_ref || v.data_post || v.data_vista;
+  if (!d) return null;
+  const data = new Date(d + "T12:00:00Z");
+  if (isNaN(data)) return null;
+  const n = Math.floor((new Date() - data) / 86400000);
+  return n < 0 ? null : n;
+}
+function textoData(v) {
+  const n = dias(v);
+  if (n === null) return "sem data";
+  if (n === 0) return "hoje";
+  if (n === 1) return "ontem";
+  if (n <= 30) return `há ${n} dias`;
+  if (n <= 60) return "há 1 mês";
+  if (n < 365) return `há ${Math.floor(n / 30)} meses`;
+  return "há mais de 1 ano";
+}
+/* "nova" só vale quando a data veio da própria empresa. Quando o hub só sabe
+   quando VIU a vaga, chamar de nova seria falar da nossa coleta, não da vaga. */
+const temDataOficial = v => v.data_oficial === true || (v.data_oficial === undefined && !!v.data_post);
+const ehNova = v => { const n = dias(v); return n !== null && n <= 7 && temDataOficial(v); };
+
+/* ── filtros ── */
+function passa(v, ignorar) {
+  if (ignorar !== "periodo" && fPeriodo !== "all") {
+    const n = dias(v);
+    if (n === null || n > Number(fPeriodo)) return false;
+  }
+  if (ignorar !== "cat" && fCats.size && !fCats.has(v.categoria)) return false;
+  if (ignorar !== "emp" && fEmps.size && !fEmps.has(v.empresa)) return false;
+  if (ignorar !== "aplic" && esconderAplicadas && jaApliquei(v)) return false;
+  if (ignorar !== "idi" && semIngles && !(idiomaDaVaga(v) || {}).semIngles) return false;
+  if (ignorar !== "busca" && busca) {
+    const alvo = sp([v.titulo, (EMPRESAS[v.empresa] || {}).nome || v.empresa,
+                     v.empresa_real, v.local, v.badge].filter(Boolean).join(" "));
+    if (!sp(busca).split(/\s+/).filter(Boolean).every(t => alvo.includes(t))) return false;
+  }
+  return true;
+}
+const filtradas = () => TODAS.filter(v => passa(v));
+const alterna = (conjunto, valor) => conjunto.has(valor) ? conjunto.delete(valor) : conjunto.add(valor);
+
+function montarMenus() {
+  /* publicação, uma escolha só */
+  document.getElementById("menuPeriodo").innerHTML = PERIODOS.map(p => {
+    const q = TODAS.filter(v => {
+      if (p.id === "all") return passa(v, "periodo");
+      const n = dias(v);
+      return n !== null && n <= Number(p.id) && passa(v, "periodo");
+    }).length;
+    return `<button class="opcao${fPeriodo === p.id ? " on" : ""}${q === 0 ? " vazia" : ""}" type="button" data-periodo="${esc(p.id)}">
+      <span class="pip"></span><span class="nm">${esc(p.nome)}</span><span class="qt">${q}</span></button>`;
+  }).join("");
+
+  /* áreas, várias ao mesmo tempo */
+  document.getElementById("menuAreas").innerHTML = CAT_ORDEM
+    .filter(c => TODAS.some(v => v.categoria === c))
+    .map(c => {
+      const q = TODAS.filter(v => v.categoria === c && passa(v, "cat")).length;
+      return `<button class="opcao${fCats.has(c) ? " on" : ""}${q === 0 ? " vazia" : ""}" type="button" data-cat="${esc(c)}">
+        <span class="caixa">✓</span><span class="nm">${esc(CAT_NOME[c] || c)}</span><span class="qt">${q}</span></button>`;
+    }).join("");
+
+  /* empresas, as com mais vagas primeiro */
+  const ids = Object.keys(EMPRESAS)
+    .filter(id => TODAS.some(v => v.empresa === id))
+    .sort((a,b) => TODAS.filter(v => v.empresa === b).length - TODAS.filter(v => v.empresa === a).length);
+  document.getElementById("menuEmpresas").innerHTML = ids.map(id => {
+    const e = EMPRESAS[id];
+    const q = TODAS.filter(v => v.empresa === id && passa(v, "emp")).length;
+    return `<button class="opcao${fEmps.has(id) ? " on" : ""}${q === 0 ? " vazia" : ""}" type="button" data-emp="${esc(id)}">
+      <span class="caixa">✓</span>
+      <span class="marca" style="background:${e.bg};color:${e.cor};">${logoHtml(e,22)}</span>
+      <span class="nm">${esc(e.nome)}</span><span class="qt">${q}</span></button>`;
+  }).join("");
+
+  /* mostrar: só aparece quando faz sentido para esta pessoa */
+  const mostrar = [];
+  if (APLICADAS.ids.size || APLICADAS.chaves.size) {
+    const q = TODAS.filter(v => jaApliquei(v) && passa(v, "aplic")).length;
+    mostrar.push(`<button class="opcao${esconderAplicadas ? " on" : ""}" type="button" data-mostrar="aplic">
+      <span class="caixa">✓</span><span class="nm">Esconder onde já me candidatei</span><span class="qt">${q}</span></button>`);
+  }
+  if (TODAS.some(v => idiomaDaVaga(v))) {
+    const q = TODAS.filter(v => (idiomaDaVaga(v) || {}).semIngles && passa(v, "idi")).length;
+    mostrar.push(`<button class="opcao${semIngles ? " on" : ""}" type="button" data-mostrar="idi">
+      <span class="caixa">✓</span><span class="nm">Só trabalho que não é em inglês</span><span class="qt">${q}</span></button>`);
+  }
+  document.getElementById("grupoMostrar").hidden = mostrar.length === 0;
+  document.getElementById("menuMostrar").innerHTML = mostrar.join("");
+
+  document.querySelectorAll("[data-periodo]").forEach(b => b.onclick = () => { fPeriodo = b.dataset.periodo; aplicar(); });
+  document.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { alterna(fCats, b.dataset.cat); aplicar(); });
+  document.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { alterna(fEmps, b.dataset.emp); aplicar(); });
+  document.querySelectorAll("[data-mostrar]").forEach(b => b.onclick = () => {
+    if (b.dataset.mostrar === "idi") semIngles = !semIngles;
+    else esconderAplicadas = !esconderAplicadas;
+    aplicar();
+  });
+
+  /* contador no botão que abre a coluna no celular */
+  const n = fEmps.size + fCats.size + (fPeriodo !== "all" ? 1 : 0) +
+            (busca ? 1 : 0) + (esconderAplicadas ? 1 : 0) + (semIngles ? 1 : 0);
+  const cnt = document.querySelector("#btFiltros .cnt");
+  cnt.textContent = n; cnt.hidden = n === 0;
+  document.getElementById("btLimpar").hidden = n === 0;
+}
+
+/* ── a coluna, no celular, abre e fecha ── */
+document.getElementById("btFiltros").addEventListener("click", function () {
+  const lat = document.getElementById("lateral");
+  const abriu = lat.classList.toggle("aberta");
+  this.setAttribute("aria-expanded", abriu ? "true" : "false");
+});
+
+/* ── busca, com uma pausa para não redesenhar a cada tecla ── */
+let pausa = null;
+document.getElementById("busca").addEventListener("input", ev => {
+  clearTimeout(pausa);
+  const valor = ev.target.value;
+  pausa = setTimeout(() => { busca = valor.trim(); aplicar(); }, 180);
+});
+
+document.getElementById("btLimpar").addEventListener("click", () => {
+  fPeriodo = "all"; fCats.clear(); fEmps.clear();
+  busca = ""; esconderAplicadas = false; semIngles = false;
+  document.getElementById("busca").value = "";
+  aplicar();
+});
+
+/* ── etiquetas do que está ativo ── */
+function montarAtivos() {
+  const itens = [];
+  if (fPeriodo !== "all") {
+    const p = PERIODOS.find(x => x.id === fPeriodo);
+    itens.push({ rotulo: p ? p.nome : fPeriodo, tipo: "periodo" });
+  }
+  fCats.forEach(c => itens.push({ rotulo: CAT_NOME[c] || c, tipo: "cat", valor: c }));
+  fEmps.forEach(id => itens.push({ rotulo: (EMPRESAS[id] || {}).nome || id, tipo: "emp", valor: id }));
+  if (busca) itens.push({ rotulo: '"' + busca + '"', tipo: "busca" });
+  if (esconderAplicadas) itens.push({ rotulo: "sem onde já me candidatei", tipo: "aplic" });
+  if (semIngles) itens.push({ rotulo: "trabalho que não é em inglês", tipo: "idi" });
+
+  const alvo = document.getElementById("ativos");
+  alvo.innerHTML = itens.map(i =>
+    `<button class="ativo" type="button" data-tipo="${esc(i.tipo)}" data-valor="${esc(i.valor || "")}">${esc(i.rotulo)}<span class="x">×</span></button>`
+  ).join("") + (itens.length > 1 ? '<button class="ativo limpar" type="button" data-tipo="tudo">limpar tudo</button>' : "");
+
+  alvo.querySelectorAll(".ativo").forEach(b => b.onclick = () => {
+    const { tipo, valor } = b.dataset;
+    if (tipo === "tudo") {
+      fPeriodo = "all"; fCats.clear(); fEmps.clear();
+      busca = ""; esconderAplicadas = false; semIngles = false;
+      document.getElementById("busca").value = "";
+    }
+    if (tipo === "periodo") fPeriodo = "all";
+    if (tipo === "cat") fCats.delete(valor);
+    if (tipo === "emp") fEmps.delete(valor);
+    if (tipo === "busca") { busca = ""; document.getElementById("busca").value = ""; }
+    if (tipo === "aplic") esconderAplicadas = false;
+    if (tipo === "idi") semIngles = false;
+    aplicar();
+  });
+}
+
+/* ── ordenação ── */
+function ordenar(lista) {
+  const copia = [...lista];
+  const nomeEmp = v => ((EMPRESAS[v.empresa] || {}).nome || v.empresa || "").toLowerCase();
+  const idade = v => { const n = dias(v); return n === null ? Infinity : n; };
+  /* Relevância: frescor com meia vida de duas semanas, e um empurrão para a
+     vaga cuja data veio da própria empresa. Quando o hub só sabe quando VIU a
+     vaga, a idade dela é um chute, e vaga de idade conhecida vale mais que vaga
+     de idade suposta. Nada aqui depende de servidor. */
+  const relev = v => {
+    const n = dias(v);
+    let p = Math.pow(0.5, (n === null ? 45 : n) / 14);
+    if (temDataOficial(v)) p *= 1.10;
+    return p;
+  };
+  /* e intercala as empresas: a segunda vaga seguida da mesma empresa vale menos
+     que a primeira, a terceira menos ainda. Sem isso o topo da lista vira um
+     bloco só de quem publicou muito no mesmo dia. */
+  if (ordem === "relevancia") {
+    copia.sort((x,y) => relev(y) - relev(x));
+    const quantas = {}, nota = new Map();
+    copia.forEach(v => {
+      const n = quantas[v.empresa] = (quantas[v.empresa] || 0) + 1;
+      nota.set(v, relev(v) / (1 + 0.35 * (n - 1)));
+    });
+    copia.sort((x,y) => nota.get(y) - nota.get(x));
+  }
+  if (ordem === "recentes") copia.sort((a,b) => idade(a) - idade(b));
+  if (ordem === "antigas")  copia.sort((a,b) => idade(b) - idade(a));
+  if (ordem === "empresa")  copia.sort((a,b) => nomeEmp(a).localeCompare(nomeEmp(b)) || (a.titulo||"").localeCompare(b.titulo||""));
+  if (ordem === "titulo")   copia.sort((a,b) => (a.titulo||"").localeCompare(b.titulo||"", "pt-BR"));
+  return copia;
+}
+
+/* ── uma linha de vaga ── */
+function linha(v) {
+  const e = EMPRESAS[v.empresa] || { nome:v.empresa, sigla:"?", cor:"#66717F", bg:"#EAE4D9" };
+  const nova = ehNova(v);
+  const destino = `href="vaga.html?id=${encodeURIComponent(v.id || "")}"`;
+  const rotulo = 'ver detalhes <span class="arr">→</span>';
+  const real = v.empresa_real ? ` · ${esc(v.empresa_real)}` : "";
+  /* frase e pagamento vêm do resumo escrito à mão (resumos.json). Vaga sem
+     esses campos fica exatamente como era. */
+  const r = v.resumo || {};
+  const idi = idiomaDaVaga(v);
+  const pg = r.remuneracao
+    ? `<span class="selo-pg" title="Pagamento anunciado pela empresa">${esc(r.remuneracao.replace(/ por hora\b/, "/h"))}</span>` : "";
+
+  return `<a class="vaga${nova ? " nova" : ""}" ${destino} data-vid="${esc(v.id || "")}">
+    <span class="v-marca" style="background:${e.bg};color:${e.cor};">${logoHtml(e,44)}</span>
+
+    <span class="v-nome">
+      <span class="v-tit">${esc(v.titulo)}</span>
+      ${r.frase ? `<span class="v-frase">${esc(r.frase)}</span>` : ""}
+      <span class="v-emp">
+        <span class="e">${esc(e.nome)}${real}</span>
+        ${pg}
+        ${idi ? `<span class="selo-idi ${idi.tipo}" title="Idioma do trabalho">${esc(idi.curto)}</span>` : ""}
+        ${nova ? `<span class="selo-novo">${v.data_reaberta ? "reaberta" : "nova"}</span>` : ""}
+        ${v.area ? `<span class="selo-area">${esc(v.sub ? nomeSub(v.area, v.sub) : nomeArea(v.area))}</span>` : ""}
+      </span>
+    </span>
+
+    <span class="v-col">
+      <span class="r">${IC.local}<span>Local</span></span>
+      <span class="v">${esc(v.local)}</span>
+    </span>
+
+    <span class="v-col col-area">
+      <span class="r">${IC.area}<span>Área</span></span>
+      <span class="v">${esc(v.badge)}</span>
+    </span>
+
+    <span class="v-col">
+      <span class="r">${IC.data}<span>${v.data_reaberta ? "Reaberta" : temDataOficial(v) ? "Publicada" : "No hub desde"}</span></span>
+      <span class="v">${textoData(v)}</span>
+    </span>
+
+    <span class="v-acao">${rotulo}</span>
+  </a>`;
+}
+
+/* Cartão de demonstração do bloco "Em alta" para quem não tem conta.
+   Não é vaga nenhuma: tem só o formato de um cartão, com barras no lugar do
+   texto. Fica borrado, com o convite para entrar por cima. Quem tirar o
+   borrão pelas ferramentas do navegador encontra as barras, e nada mais. */
+function linhaDeMentira(i) {
+  const m = [
+    { cor:"#1A2040", tit:64, frase:82, emp:24, selo:70 },
+    { cor:"#12302E", tit:46, frase:74, emp:18, selo:0 },
+    { cor:"#1E1A38", tit:72, frase:60, emp:28, selo:84 },
+    { cor:"#2A2118", tit:54, frase:88, emp:20, selo:0 },
+  ][i % 4];
+  return `<div class="vaga demo">
+    <span class="v-marca" style="background:${m.cor};"></span>
+    <span class="v-nome">
+      <i class="demo-l forte" style="width:${m.tit}%"></i>
+      <i class="demo-l" style="width:${m.frase}%"></i>
+      <span class="v-emp"><i class="demo-l fina" style="width:${m.emp}%"></i>${
+        m.selo ? `<i class="demo-l selo" style="width:${m.selo}px"></i>` : ""}</span>
+    </span>
+    <span class="v-col"><i class="demo-l fina" style="width:44px"></i><i class="demo-l" style="width:88px"></i></span>
+    <span class="v-col col-area"><i class="demo-l fina" style="width:38px"></i><i class="demo-l" style="width:72px"></i></span>
+    <span class="v-col"><i class="demo-l fina" style="width:62px"></i><i class="demo-l" style="width:70px"></i></span>
+    <span class="v-acao"><i class="demo-l fina" style="width:82px"></i></span>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TELA DE ENTRADA
+
+   Categorias e empresas, sem coluna de filtros. Existe porque dois
+   terços do acervo são vagas que pedem formação, e até aqui elas só
+   apareciam para quem mexesse num seletor. Cada cartão é um link de
+   verdade, então abre em nova aba e o botão voltar funciona.
+   ══════════════════════════════════════════════════════════ */
+
+const SETA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const ICO = {
+  todas:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>',
+  transl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9s1.3-6.3 3.8-9z"/></svg>',
+  qa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  sme:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.5L17 21l-1.5-7.5"/></svg>',
+  write:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  form:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5z"/><path d="M6 11.5V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/></svg>',
+};
+
+const contaNovas = lista => lista.filter(ehNova).length;
+const conta = (n, s1, s2) => `<b>${n}</b> ${n === 1 ? s1 : s2}`;
+/* "novas" só entra a partir de duas: "+1 nova" não informa e polui a linha */
+const novas = lista => { const n = contaNovas(lista); return n >= 2 ? ` · <span class="nv">${n} novas</span>` : ""; };
+
+function montarInicio() {
+  const acervo = GERAIS.concat(ESPECIFICAS);
+  const areas = new Set(ESPECIFICAS.map(v => v.area).filter(Boolean)).size;
+
+  const pe = (lista, extra) => {
+    const n = contaNovas(lista);
+    const partes = [];
+    if (n >= 2) partes.push(`<span class="nv">${n} novas nesta semana</span>`);
+    if (extra) partes.push(extra);
+    return partes.join(" · ") || "&nbsp;";
+  };
+
+  const portas = `
+    <a class="porta" href="vagas.html?ver=todas" data-ir>
+      <span class="p-num"><b class="conta-num" data-ate="${GERAIS.length}">${GERAIS.length}</b><span>${GERAIS.length === 1 ? "vaga" : "vagas"}</span></span>
+      <span class="p-nome">Abertas a todos</span>
+      <span class="p-sub">Sem exigência de diploma. Anotação de dados, avaliação de IA, tradução e QA.</span>
+      <span class="p-pe">${pe(GERAIS)}<span class="acao">Ver as vagas ${SETA}</span></span>
+    </a>
+    <a class="porta form" href="vagas.html?areas=1" data-ir>
+      <span class="p-num"><b class="conta-num" data-ate="${ESPECIFICAS.length}">${ESPECIFICAS.length}</b><span>${ESPECIFICAS.length === 1 ? "vaga" : "vagas"}</span></span>
+      <span class="p-nome">Pedem formação</span>
+      <span class="p-sub">O mesmo tipo de trabalho, dentro da área em que você é formado.</span>
+      <span class="p-pe">${pe(ESPECIFICAS, areas + " áreas")}<span class="acao">Escolher a área ${SETA}</span></span>
+    </a>`;
+
+  const cats = CAT_ORDEM.filter(c => GERAIS.some(v => v.categoria === c)).map(c => {
+    const dela = GERAIS.filter(v => v.categoria === c);
+    return `<a class="qd" href="vagas.html?cat=${encodeURIComponent(c)}" data-ir>
+      <span class="topo-qd">${ICO[c] || "<span></span>"}<span class="acao">${SETA}</span></span>
+      <span>
+        <span class="nm">${esc(CAT_NOME[c] || c)}</span>
+        <span class="qt">${dela.length} ${dela.length === 1 ? "vaga" : "vagas"}${novas(dela)}</span>
+      </span></a>`;
+  }).join("");
+
+  const porEmp = {};
+  acervo.forEach(v => (porEmp[v.empresa] = porEmp[v.empresa] || []).push(v));
+  const ordemEmp = Object.keys(porEmp).sort((a,b) => porEmp[b].length - porEmp[a].length);
+
+  /* quem tem conta e ainda não disse as áreas recebe o convite; quem já
+     marcou ganha o atalho para a lista dela */
+  let convite = "";
+  try {
+    if (MINHAS.length) {
+      convite = `<div class="convite-area"><span><b>Para você:</b> as vagas abertas a todos e as de ${esc(MINHAS.map(nomeArea).join(", "))}.</span>
+        <a href="vagas.html?ver=voce" data-ir>Ver a minha lista ${SETA}</a></div>`;
+    } else if (Acesso.logado() && Acesso.areas() === null) {
+      convite = `<div class="convite-area"><span><b>Tem formação ou experiência em alguma área?</b> Marque na sua conta e veja essas vagas junto com as abertas a todos.</span>
+        <a href="${LINK_AREAS}">Marcar minhas áreas ${SETA}</a></div>`;
+    }
+  } catch (e) {}
+
+  document.getElementById("telaInicio").innerHTML = `
+    ${convite}
+    <div class="bloco"><div class="portas">${portas}</div></div>
+    <div class="bloco">
+      <div class="grupo-titulo"><h2>Vagas por tipo de trabalho</h2></div>
+      <div class="quadros">${cats}</div>
+    </div>
+    <div class="bloco">
+      <div class="grupo-titulo"><h2>Empresas que mais estão contratando no momento</h2></div>
+      <div class="marcas-cx" id="marcasCx">
+        <div class="marcas" id="marcas" aria-live="off"></div>
+        <div class="mpontos" id="mpontos"></div>
+      </div>
+    </div>`;
+  montarMarcas(ordemEmp, porEmp);
+  contarNumeros();
+}
+
+/* ── os dois totais da entrada sobem do zero até o número ──
+   Uma vez só, na primeira vez que a tela de entrada aparece. Quem pediu
+   menos movimento vê o número pronto. */
+let jaContou = false;
+function contarNumeros() {
+  if (jaContou) return;
+  jaContou = true;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const DURACAO = 900;
+  document.querySelectorAll("#telaInicio .conta-num").forEach(el => {
+    const ate = Number(el.dataset.ate) || 0;
+    if (ate < 2) return;
+    el.style.minWidth = el.offsetWidth + "px";   // a palavra ao lado não dança
+    el.textContent = "0";
+    const t0 = performance.now();
+    const passo = agora => {
+      // o relógio do quadro pode vir um fio antes do t0: sem o piso, sairia número negativo
+      const p = Math.min(1, Math.max(0, (agora - t0) / DURACAO));
+      el.textContent = Math.round(ate * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(passo);
+      else el.style.minWidth = "";
+    };
+    requestAnimationFrame(passo);
+  });
+}
+
+/* ── Empresas que mais estão contratando: grupos que se revezam ──
+   O tamanho do grupo acompanha a largura da tela: 5 no computador, 4 no
+   tablet, 2 no celular. Os grupos escondidos ficam fora do teclado e dos
+   leitores de tela; o que está na vez é sempre o único clicável. */
+let relogioMarcas = null, ajusteMarcas = null;
+function montarMarcas(ordem, porEmp) {
+  const cx = document.getElementById("marcas"), pontos = document.getElementById("mpontos");
+  if (!cx || !pontos) return;
+  clearInterval(relogioMarcas);
+  if (ajusteMarcas) window.removeEventListener("resize", ajusteMarcas);
+  const parado = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const porGrupo = () => window.innerWidth < 560 ? 2 : window.innerWidth < 980 ? 4 : 5;
+  const item = (id, i) => {
+    const e = EMPRESAS[id] || { nome:id, sigla:"?", cor:"#66717F", bg:"#EAE4D9" };
+    const dela = porEmp[id];
+    return `<a class="mrc" href="vagas.html?empresa=${encodeURIComponent(id)}" data-ir style="--i:${i}">
+      <span class="sel marca" style="background:${e.bg};color:${e.cor};">${logoHtml(e, 56)}</span>
+      <span class="nm">${esc(e.nome)}</span>
+      <span class="qt">${dela.length} ${dela.length === 1 ? "vaga" : "vagas"}${novas(dela)}</span></a>`;
+  };
+  let N = porGrupo(), atual = 0, grupos = [];
+
+  function desenhar() {
+    grupos = [];
+    for (let k = 0; k < ordem.length; k += N) grupos.push(ordem.slice(k, k + N));
+    const estatico = parado || grupos.length < 2;
+    cx.classList.toggle("parado", estatico);
+    atual = Math.min(atual, Math.max(0, grupos.length - 1));
+    cx.innerHTML = grupos.map((g, n) => `<div class="mgrupo${n === atual ? " vez" : ""}"${n === atual || estatico ? "" : ' aria-hidden="true"'}>${g.map(item).join("")}</div>`).join("");
+    pontos.innerHTML = estatico ? "" : grupos.map((g, n) =>
+      `<button type="button" data-grupo="${n}" aria-label="Mostrar o grupo ${n + 1} de ${grupos.length}" aria-current="${n === atual}"></button>`).join("");
+  }
+  function ir(n) {
+    if (n === atual || grupos.length < 2) return;
+    const els = [...cx.querySelectorAll(".mgrupo")];
+    const velho = els[atual], novo = els[n];
+    if (!velho || !novo) return;
+    velho.classList.remove("vez", "entra"); velho.classList.add("sai"); velho.setAttribute("aria-hidden", "true");
+    novo.classList.remove("sai"); novo.classList.add("vez", "entra"); novo.removeAttribute("aria-hidden");
+    setTimeout(() => velho.classList.remove("sai"), 1200);
+    atual = n;
+    [...pontos.children].forEach((b, k) => b.setAttribute("aria-current", String(k === atual)));
+  }
+
+  desenhar();
+  if (parado) return;
+  const caixa = document.getElementById("marcasCx");
+  let sobre = false;
+  caixa.onmouseenter = () => sobre = true;
+  caixa.onmouseleave = () => sobre = false;
+  caixa.onfocusin = () => sobre = true;
+  caixa.onfocusout = () => sobre = false;
+  pontos.onclick = ev => { const b = ev.target.closest("[data-grupo]"); if (b) ir(+b.dataset.grupo); };
+  // só gira com a tela de início visível e a aba na frente
+  relogioMarcas = setInterval(() => {
+    if (sobre || document.hidden || !cx.isConnected || cx.offsetParent === null) return;
+    ir((atual + 1) % grupos.length);
+  }, 3200);
+  ajusteMarcas = () => { const n = porGrupo(); if (n !== N) { N = n; atual = 0; desenhar(); } };
+  window.addEventListener("resize", ajusteMarcas);
+}
+
+function montarAreas() {
+  const daArea = a => ESPECIFICAS.filter(v => v.area === a);
+  const lista = (AREAS.length ? AREAS : [...new Set(ESPECIFICAS.map(v => v.area))])
+    .filter(a => daArea(a).length)
+    .sort((a,b) => daArea(b).length - daArea(a).length);
+
+  const linhas = lista.map(a => {
+    const dela = daArea(a);
+    return `<a class="lin" href="vagas.html?area=${encodeURIComponent(a)}" data-ir>
+      ${ICO.form}<span class="nm">${esc(nomeArea(a))}</span>
+      ${(MINHAS.length ? MINHAS.indexOf(a) >= 0 : formacao === a) ? '<span class="sua">a sua</span>' : ""}
+      <span class="qt">${dela.length}${novas(dela)}</span>
+      <span class="acao">${SETA}</span></a>`;
+  }).join("");
+
+  document.getElementById("telaAreas").innerHTML = `
+    <div class="bloco">
+      <div class="grupo-titulo"><h2>Escolha a sua formação</h2>
+        <span>estas vagas só aceitam quem é formado na área</span></div>
+      <div class="linhas">${linhas}</div>
+    </div>`;
+}
+
+/* As duas abas ficam visíveis em toda tela que não seja a de entrada, para
+   ninguém precisar voltar só para trocar de acervo. Quando a lista é de uma
+   área, os chips das outras áreas aparecem embaixo e a troca é de um clique. */
+function montarAbas() {
+  const abas = document.getElementById("abas");
+  const chips = document.getElementById("chips");
+
+  if (TELA === "inicio" || !GERAIS.length) {
+    abas.hidden = true; chips.hidden = true;
+    document.getElementById("subchips").hidden = true;
+    return;
+  }
+
+  const naGeral = TELA === "lista" && ESCOPO === "gerais";
+  const naForm = TELA === "areas" || ESCOPO === "area";
+  const paraVoce = MINHAS.length
+    ? `<a class="aba${ESCOPO === "voce" ? " on" : ""}" href="vagas.html?ver=voce" data-ir>
+      Para você <span class="n">${GERAIS.length + ESPECIFICAS.filter(daMinhaArea).length}</span></a>` : "";
+
+  abas.hidden = false;
+  abas.innerHTML = `${paraVoce}
+    <a class="aba${naGeral ? " on" : ""}" href="vagas.html?ver=todas" data-ir>
+      Abertas a todos <span class="n">${GERAIS.length}</span></a>
+    <a class="aba form${naForm ? " on" : ""}" href="vagas.html?areas=1" data-ir>
+      Pedem formação <span class="n">${ESPECIFICAS.length}</span></a>`;
+
+  const daArea = a => ESPECIFICAS.filter(v => v.area === a).length;
+
+  // especialidades da área aberta: uma segunda linha de botões
+  const subchips = document.getElementById("subchips");
+  subchips.hidden = true;
+  if (ESCOPO === "area" && AREA) {
+    const dela = ESPECIFICAS.filter(v => v.area === AREA);
+    const subs = ((Acesso.SUBAREAS || {})[AREA] || []).filter(s => dela.some(v => v.sub === s[0]));
+    if (subs.length) {
+      const base = "vagas.html?area=" + encodeURIComponent(AREA);
+      const genericas = dela.filter(v => !v.sub).length;
+      subchips.hidden = false;
+      subchips.innerHTML =
+        `<a class="chip${!SUB ? " on" : ""}" href="${base}" data-ir>Todas <span>${dela.length}</span></a>` +
+        subs.map(s => `<a class="chip${SUB === s[0] ? " on" : ""}" href="${base}&sub=${encodeURIComponent(s[0])}" data-ir>${esc(s[1])} <span>${dela.filter(v => v.sub === s[0]).length}</span></a>`).join("") +
+        (genericas ? `<a class="chip${SUB === "-" ? " on" : ""}" href="${base}&sub=-" data-ir>Gerais da área <span>${genericas}</span></a>` : "");
+    }
+  }
+
+  // na lista "Para você": de onde vêm as vagas, e o atalho para mudar as áreas
+  if (ESCOPO === "voce") {
+    chips.hidden = false;
+    chips.innerHTML = `<span class="chip fixo">Abertas a todos <span>${GERAIS.length}</span></span>` +
+      MINHAS.map(a => `<a class="chip" href="vagas.html?area=${encodeURIComponent(a)}" data-ir>${esc(Acesso.resumoDasAreas([a], MINHAS_SUBS))} <span>${ESPECIFICAS.filter(v => v.area === a && daMinhaArea(v)).length}</span></a>`).join("") +
+      `<a class="chip mudar" href="${LINK_AREAS}">mudar minhas áreas</a>`;
+    return;
+  }
+  if (ESCOPO !== "area") { chips.hidden = true; return; }
+
+  const lista = (AREAS.length ? AREAS : [...new Set(ESPECIFICAS.map(v => v.area))])
+    .filter(daArea).sort((a,b) => daArea(b) - daArea(a));
+
+  chips.hidden = false;
+  chips.innerHTML = lista.map(a =>
+    `<a class="chip${a === AREA ? " on" : ""}" href="vagas.html?area=${encodeURIComponent(a)}" data-ir>${esc(nomeArea(a))} <span>${daArea(a)}</span></a>`
+  ).join("");
+
+  const ativo = chips.querySelector(".chip.on");
+  if (ativo && ativo.scrollIntoView) ativo.scrollIntoView({ block:"nearest", inline:"center" });
+}
+
+function montarNumeros(lista) {
+  const base = lista || TODAS;
+  const novas = base.filter(ehNova).length;
+  const emps = new Set(base.map(v => v.empresa)).size;
+  document.getElementById("numeros").innerHTML = `
+    <div class="num"><div class="n">${base.length}</div><div class="l">vagas abertas</div></div>
+    <div class="num"><div class="n">${emps}</div><div class="l">empresas</div></div>
+    <div class="num${novas ? " amb" : ""}"><div class="n">${novas}</div><div class="l">novas nesta semana</div></div>
+    <div class="num"><div class="n">100<span class="u">%</span></div><div class="l">remoto · brasil</div></div>`;
+}
+
+function aplicar() {
+  montarNumeros();
+  montarMenus();
+  montarAtivos();
+
+  const resultado = ordenar(filtradas());
+  document.getElementById("contagem").innerHTML =
+    `<b>${resultado.length}</b> ${resultado.length === 1 ? "vaga" : "vagas"}`;
+
+  const alvo = document.getElementById("resultado");
+  if (!resultado.length) {
+    alvo.innerHTML = `<div class="vazio"><div class="big">◌</div>
+      <p>Nenhuma vaga com esses filtros.<br>Tente tirar um deles ou ampliar o período.</p></div>`;
+    return;
+  }
+
+  /* as novas ficam em cima, separadas, nas duas ordens que respeitam a data */
+  const porData = ordem === "relevancia" || ordem === "recentes";
+
+  /* Pulso: as vagas com movimento real sobem para um grupo próprio, e saem dos
+     grupos de baixo para não aparecerem duas vezes. Só quando a ordem é a
+     padrão, e só entre as vagas que sobraram dos filtros: quem chegou
+     filtrando por uma empresa não deve ver destaque de outra. */
+  /* Quem não tem conta NÃO recebe as vagas em alta: nem na tela, nem por
+     trás do borrão. Antes o bloco borrado era montado com as vagas de
+     verdade, e bastava tirar o borrão pelas ferramentas do navegador para
+     ler tudo. Agora, para essas pessoas, a lista nem é carregada (ver
+     Pulso.carregar) e o bloco é de demonstração, feito de cartões de mentira
+     (ver linhaDeMentira). As vagas em si continuam todas na lista de baixo,
+     sem marca nenhuma: a vaga é aberta, o que pede conta é saber quais
+     estão em alta. */
+  const fechado = typeof Acesso !== "undefined" && Acesso.trancado();
+  const emAlta = (porData && !fechado && typeof Pulso !== "undefined")
+    ? Pulso.destaques().map(id => resultado.find(v => v.id === id)).filter(Boolean)
+    : [];
+  const destacadas = emAlta.length >= 2 ? emAlta : [];
+  const sobra = destacadas.length ? resultado.filter(v => !destacadas.includes(v)) : resultado;
+  /* O convite para criar conta aparece só na lista geral sem filtro nenhum.
+     Sem a lista de verdade não dá para saber se sobrou vaga em alta dentro
+     de um filtro, e prometer o que talvez não exista seria pior. */
+  const semFiltro = ESCOPO === "gerais" && !fCats.size && !fEmps.size &&
+                    fPeriodo === "all" && !busca && !semIngles;
+  const convite = fechado && porData && semFiltro && resultado.length >= 6;
+
+  const novas = porData ? sobra.filter(ehNova) : [];
+  const resto = porData ? sobra.filter(v => !ehNova(v)) : sobra;
+
+  let html = "";
+  if (destacadas.length || convite) {
+    /* Enquanto o Pulso não mede as candidaturas, a lista é escolhida à mão
+       pela equipe ("manual" no pulso.json), e o texto diz isso. O convite de
+       quem não tem conta usa o mesmo texto, porque hoje a lista é essa. */
+    const aMao = convite || (typeof Pulso.manual === "function" && Pulso.manual());
+    html += `<div class="grupo-titulo"><h2>${aMao ? '<span class="ch-pulso" aria-hidden="true"></span>Em alta' : "Em movimento"}</h2>
+             <span>${aMao ? "empresas que estão contratando com frequência, segundo a equipe do Hub"
+                          : "onde os alunos do Hub estão se candidatando e recebendo resposta"}</span></div>
+             ${convite
+               ? Acesso.cortina(`<div class="lista">${[0, 1, 2, 3].map(linhaDeMentira).join("")}</div>`,
+                   "As vagas em alta são para quem tem conta",
+                   "Veja quais empresas estão contratando com frequência.")
+               : `<div class="lista">${destacadas.map(linha).join("")}</div>`}`;
+  }
+  if (novas.length) {
+    const tituloNovas = novas.some(v => v.data_reaberta)
+      ? "Publicadas ou reabertas nesta semana" : "Publicadas nesta semana";
+    html += `<div class="grupo-titulo"><h2>${tituloNovas}</h2><span>${novas.length}</span></div>
+             <div class="lista">${novas.map(linha).join("")}</div>`;
+  }
+  if (resto.length) {
+    /* o título só era desnecessário quando o resto era o único grupo da tela.
+       Com "Em movimento" em cima, sem ele os dois grupos viram um borrão. */
+    html += (destacadas.length || convite || novas.length)
+      ? `<div class="grupo-titulo"><h2>Demais vagas abertas</h2><span>${resto.length}</span></div>`
+      : "";
+    html += `<div class="lista">${resto.map(linha).join("")}</div>`;
+  }
+  alvo.innerHTML = html;
+  marcarAplicadas();
+  // os selos "em alta" e "costuma responder" também são só para quem tem conta
+  if (typeof Pulso !== "undefined" && !fechado) Pulso.marcar(alvo);
+}
+
+/* ══════════════════════════════════════════════════════════
+   MARCA DAS VAGAS JÁ APLICADAS
+
+   Lê a lista do Meu Controle, que fica dentro do navegador do
+   próprio visitante. Se a ferramenta não estiver junto, ou o
+   navegador não deixar guardar nada, esta função não faz nada
+   e a lista de vagas continua exatamente igual.
+   ══════════════════════════════════════════════════════════ */
+async function carregarAplicadas() {
+  try {
+    if (typeof Dados === "undefined") return;
+    const aplicacoes = await Dados.listar("aplicacoes");
+    APLICADAS = {
+      ids: new Set(aplicacoes.filter(a => a.vagaId).map(a => a.vagaId)),
+      chaves: new Set(aplicacoes.map(a => sp(a.empresa) + "|" + sp(a.titulo))),
+    };
+  } catch (e) {
+    console.warn("Meu Controle indisponível na lista de vagas", e);
+  }
+}
+
+function marcarAplicadas() {
+  try {
+    if (!APLICADAS.ids.size && !APLICADAS.chaves.size) return;
+
+    document.querySelectorAll(".vaga[data-vid]").forEach(el => {
+      const v = TODAS.find(x => x.id === el.dataset.vid);
+      if (!v) return;
+      if (!jaApliquei(v)) return;
+      const onde = el.querySelector(".v-emp");
+      if (!onde || onde.querySelector(".selo-aplicada")) return;
+      const selo = document.createElement("span");
+      selo.className = "selo-aplicada";
+      selo.textContent = "já me candidatei";
+      onde.appendChild(selo);
+    });
+  } catch (e) {
+    console.warn("Meu Controle indisponível na lista de vagas", e);
+  }
+}
+
+document.getElementById("ordem").onchange = ev => { ordem = ev.target.value; aplicar(); };
+
+iniciar();
+</script>
+</body>
+</html>
