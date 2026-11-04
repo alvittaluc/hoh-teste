@@ -2,12 +2,12 @@
    Lembrete de candidatura
 
    Quando a pessoa clica em "Candidatar-se a esta vaga", a página
-   oficial abre em outra aba e o Hub anota qual vaga foi. Quando
-   ela volta para o Hub (para esta aba ou abrindo outra página do
-   site depois), aparece a pergunta "Conseguiu se candidatar?",
-   com um clique para guardar a candidatura no Meu Controle.
+   oficial abre em outra aba e, na aba do Hub, a pergunta
+   "Conseguiu se candidatar?" já fica aberta, esperando a pessoa
+   voltar, com um clique para guardar a candidatura no Meu Controle.
+   Se ela fechar a aba do Hub, a pergunta aparece quando voltar ao
+   site por qualquer página.
 
-   - Só pergunta se a pessoa ficou fora pelo menos MIN_FORA.
    - Não pergunta se a candidatura já está no Meu Controle.
    - "Ainda não terminei" pergunta de novo na próxima volta, até 3 vezes.
    - "Não me candidatei" esquece a vaga.
@@ -16,8 +16,6 @@
    ══════════════════════════════════════════════════════════ */
 (function () {
   const CHAVE = "hub-lembrete-candidatura";
-  const rapido = /[?&]rapido\b/.test(location.search);
-  const MIN_FORA = rapido ? 1500 : 10000;       // 10 s fora do Hub
   const VALIDADE = 3 * 24 * 3600 * 1000;        // 3 dias
   const MAX_VEZES = 3;
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -42,6 +40,7 @@
         foto: Dados.fotoDaVaga(v), saiu: Date.now(), vezes: 0,
       });
       gravarTodos(lista);
+      setTimeout(() => verificar(true), 300);   // a pergunta já fica aberta para quando ela voltar
     });
   }
 
@@ -50,14 +49,18 @@
     catch (e) { return false; }
   }
 
-  async function verificar() {
-    if (aberto || document.visibilityState !== "visible" || typeof Dados === "undefined") return;
+  /* agoraMesmo: logo depois do clique em Candidatar-se, com a página oficial já na frente.
+     voltou: a pessoa trocou de aba e voltou para o Hub; aí até a vaga adiada com
+     "Ainda não terminei" é perguntada de novo. Ao abrir outra página do Hub, não. */
+  async function verificar(agoraMesmo, voltou) {
+    if (aberto || (!agoraMesmo && document.visibilityState !== "visible") || typeof Dados === "undefined") return;
     const agora = Date.now();
     let lista = lerTodos().filter(r => agora - r.saiu < VALIDADE && r.vezes < MAX_VEZES);
+    if (voltou) lista.forEach(r => { r.adiada = false; });
     gravarTodos(lista);
+    lista = lista.filter(r => !r.adiada);
     // a vaga desta página vem primeiro; depois a mais recente
-    lista = lista.filter(r => agora - r.saiu >= MIN_FORA)
-      .sort((a, b) => (vagaDaPagina && b.vagaId === vagaDaPagina.v.id) - (vagaDaPagina && a.vagaId === vagaDaPagina.v.id) || b.saiu - a.saiu);
+    lista = lista.sort((a, b) => (vagaDaPagina && b.vagaId === vagaDaPagina.v.id) - (vagaDaPagina && a.vagaId === vagaDaPagina.v.id) || b.saiu - a.saiu);
     for (const r of lista) {
       if (await jaGuardada(r)) { tirar(r.vagaId); continue; }
       perguntar(r);
@@ -122,7 +125,7 @@
       document.removeEventListener("keydown", tecla);
       if (antes && antes.focus) antes.focus();
     }
-    function depois() { atualizar(r.vagaId, { saiu: Date.now(), vezes: (r.vezes || 0) + 1 }); fechar(); }
+    function depois() { atualizar(r.vagaId, { saiu: Date.now(), vezes: (r.vezes || 0) + 1, adiada: true }); fechar(); }
     function tecla(ev) {
       if (ev.key === "Escape") { ev.preventDefault(); depois(); }
       if (ev.key === "Tab") {   // o foco fica dentro da janela
@@ -170,9 +173,8 @@
     });
   }
 
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") verificar(); });
-  window.addEventListener("focus", verificar);
-  window.addEventListener("pageshow", () => setTimeout(verificar, 600));
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") verificar(false, true); });
+  window.addEventListener("pageshow", () => setTimeout(verificar, 300));
 
   window.LembreteCandidatura = { vaga, verificar };
 })();
