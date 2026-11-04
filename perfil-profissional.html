@@ -168,8 +168,7 @@ try { montarLayout("ferramentas"); } catch (e) {}
   const NIVEIS_INGLES = ["Nativo", "C2", "C1", "B2"];
   const ehIngles = l => /^\s*(ingl[eê]s|english)(?![a-z])/i.test(l || "");
   const niveisDe = l => ehIngles(l) ? NIVEIS_INGLES : NIVEIS;
-  const DICA_INGLES = "No inglês, o perfil começa no B2. Nas vagas abertas a todos, ninguém precisa ser fluente: com esforço e usando tradutor e IA, dá para entender as diretrizes e ir bem nos projetos. Algumas empresas aplicam uma prova de inglês na seleção, então estude as diretrizes com calma antes dela.";
-  const dicaDe = l => ehIngles(l) ? DICA_INGLES : NIVEIS_DICA;
+  const dicaDe = l => ehIngles(l) ? "" : NIVEIS_DICA;
   const NIVEIS_DICA = "Na dúvida entre dois níveis, escolha o mais baixo: nos projetos, a prova de idioma mostra o nível de verdade, e é melhor surpreender do que ser reprovado. Um teste on-line, como o EF SET, ajuda a ter uma ideia.";
 
   let P = ler() || vazio();
@@ -199,7 +198,6 @@ try { montarLayout("ferramentas"); } catch (e) {}
           <p>É a escala que as empresas de fora usam para dizer o nível de um idioma. Vai do A1, quem está começando, ao C2, quem usa o idioma quase como um nativo.</p>
           <dl>${NIVEIS.filter(n => n !== "Nativo").map(n => `<dt>${n}</dt><dd>${esc(NIVEL_DIZ[n])}</dd>`).join("")}</dl>
           <p>${esc(NIVEIS_DICA)}</p>
-          <p><b>No inglês, o perfil começa no B2.</b> Nas vagas abertas a todos, ninguém precisa ser fluente: com esforço e usando tradutor e IA, dá para entender as diretrizes e ir bem nos projetos.</p>
         </details>
         ${P.idiomas.map((l, i) => `<div class="pp-item"><div class="tx"><b>${esc(l.lingua)}</b> · ${esc(l.nivel)}
           <small>${l.certificado ? "Certificado: " + esc(l.certificado) : "Sem certificado: o nível é o que você diz"}</small></div>
@@ -305,7 +303,7 @@ try { montarLayout("ferramentas"); } catch (e) {}
         <fieldset class="pp-niveis" id="niveis"><legend class="pp-rot">Seu nível <small>(toque no que mais parece com você)</small></legend>
           ${opcoesNivel(l.lingua, l.nivel)}
         </fieldset>
-        <p class="dica" id="niveisDica">${esc(dicaDe(l.lingua))}</p>
+        <p class="dica" id="niveisDica" ${ehIngles(l.lingua) ? "hidden" : ""}>${esc(dicaDe(l.lingua))}</p>
         <div><label class="pp-rot">Certificado <small>(opcional: nome e ano)</small></label><input class="pp-campo" name="certificado" value="${esc(l.certificado)}" placeholder="TOEFL, Cambridge, EF SET…"></div>`;
     } else if (tipo === "formacao") {
       const f = i >= 0 ? P.formacao[i] : { curso: "", onde: "", situacao: "Completo", ano: "" };
@@ -335,7 +333,7 @@ try { montarLayout("ferramentas"); } catch (e) {}
       if (!lista.includes(marcado)) marcado = "B2";
       fs.querySelectorAll(".pp-nivel").forEach(x => x.remove());
       fs.insertAdjacentHTML("beforeend", opcoesNivel(campoLingua.value, marcado));
-      form.querySelector("#niveisDica").textContent = dicaDe(campoLingua.value);
+      const dc = form.querySelector("#niveisDica"); dc.textContent = dicaDe(campoLingua.value); dc.hidden = !dc.textContent;
     });
     const atual = form.querySelector("[name=atual]");
     if (atual) atual.addEventListener("change", () => { form.querySelector("[name=fim]").disabled = atual.checked; });
