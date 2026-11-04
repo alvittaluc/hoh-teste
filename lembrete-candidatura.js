@@ -9,8 +9,9 @@
    site por qualquer página.
 
    - Não pergunta se a candidatura já está no Meu Controle.
-   - "Ainda não terminei" pergunta de novo na próxima volta, até 3 vezes.
-   - "Não me candidatei" esquece a vaga.
+   - Pergunta uma vez só a cada clique em Candidatar-se. Fechar a janela
+     ou responder "Agora não" não traz a pergunta de volta; a tarja da
+     página da vaga continua lá para marcar depois.
    - A anotação vale por 3 dias.
    Usa Dados (controle-dados.js); sem ele, não faz nada.
    ══════════════════════════════════════════════════════════ */
@@ -100,6 +101,7 @@
   const ICONE = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12l2 2 4-4"/></svg>`;
 
   function perguntar(r) {
+    tirar(r.vagaId);   // já perguntou: não volta a perguntar desta vaga até um novo clique em Candidatar-se
     estilo();
     aberto = true;
     const antes = document.activeElement;
@@ -113,7 +115,7 @@
       <div class="lc-vaga"><b>${esc(r.titulo)}</b><small>${esc(r.empresa)}</small></div>
       <div class="lc-bts">
         <button class="lc-bt forte" data-lc="sim">Sim, guardar no Meu Controle</button>
-        <div class="lc-par"><button class="lc-bt" data-lc="depois">Ainda não terminei</button><button class="lc-bt" data-lc="nao">Não me candidatei</button></div>
+        <button class="lc-bt" data-lc="depois">Agora não</button>
       </div>
     </div>`;
     document.body.appendChild(veu);
@@ -125,7 +127,7 @@
       document.removeEventListener("keydown", tecla);
       if (antes && antes.focus) antes.focus();
     }
-    function depois() { atualizar(r.vagaId, { saiu: Date.now(), vezes: (r.vezes || 0) + 1, adiada: true }); fechar(); }
+    function depois() { fechar(); }
     function tecla(ev) {
       if (ev.key === "Escape") { ev.preventDefault(); depois(); }
       if (ev.key === "Tab") {   // o foco fica dentro da janela
