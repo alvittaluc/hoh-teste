@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu perfil profissional · Home Office Hub</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+/* SÓ NA PRÉVIA: o perfil profissional que a ferramenta de currículo usa. Fica só neste navegador. */
+.pp-main { max-width:860px; margin:0 auto; padding:40px 20px 120px; }
+.pp-trilha { font-size:13.5px; color:var(--ink-3); margin-bottom:8px; }
+.pp-trilha a { color:var(--ink-3); }
+.pp-main h1 { font-family:var(--display); font-weight:400; font-size:clamp(30px,4vw,42px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); }
+.pp-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; line-height:1.55; }
+.pp-topo { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin:22px 0 6px; }
+.pp-medidor { flex:1; min-width:220px; }
+.pp-medidor .tr { height:9px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin-top:6px; }
+.pp-medidor .tr i { display:block; height:100%; background:var(--signal); border-radius:99px; transition:width .3s; }
+.pp-medidor b { font-size:14px; color:var(--ink); }
+.pp-medidor small { font-size:13px; color:var(--ink-3); }
+.pp-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; margin-top:16px; }
+.pp-cx h2 { font-size:17px; font-weight:600; color:var(--ink); margin:0; display:flex; align-items:center; gap:10px; }
+.pp-cx h2 .ok { font-size:12px; font-weight:600; color:#2F6B3F; background:#E7F2EA; border-radius:99px; padding:2px 9px; }
+.pp-cx h2 .falta { font-size:12px; font-weight:600; color:var(--ink-3); background:var(--bg-soft); border-radius:99px; padding:2px 9px; }
+.pp-cx .por { font-size:13.5px; color:var(--ink-3); margin:4px 0 14px; line-height:1.5; }
+.pp-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer;
+  padding:9px 16px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); white-space:nowrap; text-decoration:none; }
+.pp-bt:hover { border-color:var(--ink-3); }
+.pp-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; }
+.pp-bt.pq { padding:6px 12px; font-size:13px; }
+.pp-link { border:0; background:none; font:inherit; font-size:13px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.pp-link.tirar { color:#8E2233; }
+.pp-campo { width:100%; font:inherit; font-size:14px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--ink); }
+textarea.pp-campo { min-height:84px; resize:vertical; line-height:1.5; }
+.pp-rot { display:block; font-size:13px; font-weight:500; color:var(--ink-2); margin:0 0 5px; }
+.pp-rot small { font-weight:400; color:var(--ink-3); }
+.pp-linha { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); align-items:end; }
+.pp-item { display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-top:1px solid var(--line-soft); }
+.pp-item:first-of-type { border-top:0; }
+.pp-item .tx { flex:1; min-width:0; }
+.pp-item b { font-size:14.5px; color:var(--ink); }
+.pp-item small { display:block; font-size:13px; color:var(--ink-3); margin-top:2px; line-height:1.5; }
+.pp-item p { font-size:13.5px; color:var(--ink-2); margin:6px 0 0; line-height:1.5; }
+.pp-item .acoes { display:flex; gap:12px; flex-shrink:0; padding-top:2px; }
+.pp-selo { display:inline-block; font-size:11.5px; font-weight:600; border-radius:99px; padding:2px 8px; margin-left:6px; vertical-align:1px; }
+.pp-selo.mc { color:var(--signal); background:var(--signal-suave); }
+.pp-selo.cv { color:#7A4318; background:var(--amber-suave); }
+.pp-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.pp-chip { font:inherit; font-size:13.5px; padding:7px 13px; border-radius:99px; border:1px solid var(--line); background:var(--panel); color:var(--ink-2); cursor:pointer; }
+.pp-chip[aria-pressed="true"] { background:var(--signal-suave); border-color:#9DB8DE; color:var(--signal); font-weight:500; }
+.pp-area { display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:9px 0; border-top:1px solid var(--line-soft); font-size:14px; color:var(--ink); }
+.pp-area b { min-width:150px; font-weight:500; }
+.pp-area select { width:auto; padding:7px 10px; }
+.pp-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.pp-tag { display:inline-flex; align-items:center; gap:6px; font-size:13.5px; background:var(--bg-soft); border-radius:99px; padding:5px 6px 5px 12px; color:var(--ink); }
+.pp-tag button { border:0; background:#fff; width:20px; height:20px; border-radius:50%; cursor:pointer; color:var(--ink-3); font-size:13px; line-height:1; }
+.pp-mc { display:flex; gap:12px; align-items:center; flex-wrap:wrap; background:var(--signal-suave); border:1px solid #CFDEEF; border-radius:14px; padding:12px 14px; margin-bottom:14px; }
+.pp-mc .tx { flex:1; min-width:200px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+.pp-mc b { color:var(--ink); }
+.pp-aviso { background:var(--amber-suave); border:1px solid #F0DCC6; color:#7A4318; border-radius:12px; padding:10px 14px; font-size:13px; margin-top:18px; line-height:1.5; }
+.pp-barra { margin-top:22px; border-top:1px solid var(--line-soft);
+  padding:12px 0; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pp-barra .msg { font-size:13.5px; color:#2F6B3F; flex:1; }
+dialog.pp-jan { border:0; border-radius:18px; padding:0; width:min(560px, calc(100vw - 32px)); box-shadow:var(--sombra-alta); }
+dialog.pp-jan::backdrop { background:rgba(15,29,51,.45); }
+.pp-jan form { padding:22px 24px; display:grid; gap:12px; }
+.pp-jan h3 { font-size:18px; font-weight:600; color:var(--ink); margin:0; }
+.pp-jan .dica { font-size:13px; color:var(--ink-3); line-height:1.5; margin:-4px 0 0; }
+.pp-jan .rodape { display:flex; gap:8px; justify-content:flex-end; margin-top:6px; }
+.pp-check { display:flex; gap:8px; align-items:center; font-size:14px; color:var(--ink-2); }
+</style>
+</head>
+<body>
+
+<main class="pp-main">
+  <p class="pp-trilha"><a href="ferramenta-curriculo.html">Avaliar currículo</a> › Seu perfil profissional</p>
+  <h1>Seu perfil profissional</h1>
+  <p class="pp-sub">Conte o que você sabe fazer, mesmo o que não está no currículo. Quando você avalia o currículo para uma vaga, a ferramenta usa estas informações para sugerir o que acrescentar. Ela só usa o que estiver aqui ou no currículo e nunca inventa nada por você.</p>
+
+  <div class="pp-topo">
+    <div class="pp-medidor"><b id="medTxt">Perfil 0% preenchido</b> <small id="medSub"></small><div class="tr"><i id="medBarra" style="width:0"></i></div></div>
+    <button class="pp-link" id="exemplo">Preencher com o exemplo da Ana</button>
+  </div>
+  <p class="pp-sub" style="font-size:13.5px;color:var(--ink-3);margin-top:6px">Só você vê e edita o seu perfil. Ele vai junto apenas na hora de uma avaliação.</p>
+
+  <div id="secoes"></div>
+
+  <div class="pp-aviso">Prévia: o perfil fica só neste navegador. No site, ele fica guardado na sua conta.</div>
+
+  <div class="pp-barra">
+    <span class="msg" id="salvoMsg"></span>
+    <a class="pp-bt" href="ferramenta-curriculo.html">Voltar para a avaliação</a>
+    <button class="pp-bt forte" id="salvar">Salvar perfil</button>
+  </div>
+</main>
+
+<dialog class="pp-jan" id="jan"><form method="dialog" id="janForm"></form></dialog>
+
+<script src="layout.js"></script>
+<script>
+try { montarLayout("ferramentas"); } catch (e) {}
+(function () {
+  const CHAVE = "hub-perfil-prof-previa";
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const ler = () => { try { return JSON.parse(localStorage.getItem(CHAVE)) || null; } catch (e) { return null; } };
+  const gravar = p => { try { localStorage.setItem(CHAVE, JSON.stringify(p)); return true; } catch (e) { return false; } };
+  const vazio = () => ({ idiomas: [], formacao: [], areas: {}, experiencias: [], ferramentas: [], mora: "", cidade: "", horas: "", importados: [] });
+
+  const EXEMPLO = {
+    idiomas: [
+      { lingua: "Português", nivel: "Nativo", certificado: "" },
+      { lingua: "Inglês", nivel: "C1", certificado: "Cambridge C1 Advanced, 2023" },
+      { lingua: "Espanhol", nivel: "B1", certificado: "" },
+    ],
+    formacao: [{ curso: "Letras (Português e Inglês)", onde: "UFMG", situacao: "Completo", ano: "2020" }],
+    areas: { "Tradução e revisão": "3 a 5 anos", "Educação": "1 a 2 anos" },
+    experiencias: [
+      { oque: "Avaliadora de anúncios (Ads Assessor)", onde: "TELUS Digital, remoto", inicio: "03/2025", fim: "", atual: true,
+        fez: "Avaliava se os anúncios combinavam com o que a pessoa buscou, seguindo as diretrizes do projeto.",
+        numeros: "Cerca de 15 horas por semana", origem: "mc" },
+      { oque: "Tradutora voluntária de legendas", onde: "Projeto de cursos online, remoto", inicio: "2022", fim: "2023", atual: false,
+        fez: "Traduzia e revisava legendas de vídeos de inglês para português.",
+        numeros: "40 vídeos legendados", origem: "" },
+    ],
+    ferramentas: ["Google Planilhas", "Excel", "Subtitle Edit", "Digitação rápida"],
+    mora: "Brasil", cidade: "Belo Horizonte", horas: "20",
+    importados: ["mc-telus"],
+  };
+
+  // Na prévia, os trabalhos do Meu Controle são de exemplo.
+  const DO_CONTROLE = [
+    { id: "mc-telus", oque: "Avaliadora de anúncios (Ads Assessor)", onde: "TELUS Digital, remoto", inicio: "03/2025", atual: true },
+    { id: "mc-oneforma", oque: "Avaliadora de buscas de mapas", onde: "OneForma, remoto", inicio: "08/2025", atual: true },
+  ];
+
+  const AREAS = ["Tradução e revisão", "Educação", "Saúde", "Direito", "Finanças e contabilidade", "Programação", "Marketing e redes sociais",
+    "Atendimento ao cliente", "Administração", "Engenharia", "Ciências", "Psicologia", "Música e áudio", "Design", "Jornalismo e escrita"];
+  const TEMPOS = ["menos de 1 ano", "1 a 2 anos", "3 a 5 anos", "mais de 5 anos"];
+  const NIVEIS = ["Nativo", "C2", "C1", "B2", "B1", "A2", "Básico"];
+
+  let P = ler() || vazio();
+  let mudou = false;
+
+  function pontos() {
+    const s = [P.idiomas.length > 0, P.formacao.length > 0, Object.keys(P.areas).length > 0, P.experiencias.length > 0, P.ferramentas.length > 0, !!P.mora];
+    return { feitos: s.filter(Boolean).length, total: s.length, s };
+  }
+  function medidor() {
+    const { feitos, total } = pontos();
+    const pct = Math.round(feitos / total * 100);
+    document.getElementById("medTxt").textContent = `Perfil ${pct}% preenchido`;
+    document.getElementById("medSub").textContent = feitos < total ? `· faltam ${total - feitos} parte${total - feitos > 1 ? "s" : ""}` : "· tudo preenchido";
+    document.getElementById("medBarra").style.width = pct + "%";
+  }
+  const marca = ok => ok ? `<span class="ok">Preenchido</span>` : `<span class="falta">Falta</span>`;
+
+  function desenhar() {
+    const { s } = pontos();
+    const faltamMc = DO_CONTROLE.filter(t => !P.importados.includes(t.id));
+    document.getElementById("secoes").innerHTML = `
+      <section class="pp-cx">
+        <h2>Idiomas ${marca(s[0])}</h2>
+        <p class="por">O nível de cada idioma. Se tiver certificado, diga qual: a ferramenta usa isso no currículo.</p>
+        ${P.idiomas.map((l, i) => `<div class="pp-item"><div class="tx"><b>${esc(l.lingua)}</b> · ${esc(l.nivel)}
+          <small>${l.certificado ? "Certificado: " + esc(l.certificado) : "Sem certificado: o nível é o que você diz"}</small></div>
+          <div class="acoes"><button class="pp-link" data-ed="idioma:${i}">Editar</button><button class="pp-link tirar" data-tira="idiomas:${i}">Tirar</button></div></div>`).join("")}
+        <button class="pp-bt pq" data-novo="idioma" style="margin-top:8px">+ Acrescentar idioma</button>
+      </section>
+
+      <section class="pp-cx">
+        <h2>Formação ${marca(s[1])}</h2>
+        <p class="por">Faculdade, curso técnico ou outro curso longo. Vale também se ainda está cursando ou trancou.</p>
+        ${P.formacao.map((f, i) => `<div class="pp-item"><div class="tx"><b>${esc(f.curso)}</b>
+          <small>${esc([f.onde, f.situacao, f.ano].filter(Boolean).join(" · "))}</small></div>
+          <div class="acoes"><button class="pp-link" data-ed="formacao:${i}">Editar</button><button class="pp-link tirar" data-tira="formacao:${i}">Tirar</button></div></div>`).join("")}
+        <button class="pp-bt pq" data-novo="formacao" style="margin-top:8px">+ Acrescentar formação</button>
+      </section>
+
+      <section class="pp-cx">
+        <h2>Áreas que você conhece ${marca(s[2])}</h2>
+        <p class="por">Marque as áreas em que você trabalhou ou estudou e diga há quanto tempo. Muitas vagas de IA procuram quem entende de um assunto.</p>
+        <div class="pp-chips">${AREAS.map(a => `<button class="pp-chip" aria-pressed="${a in P.areas}" data-area="${esc(a)}">${esc(a)}</button>`).join("")}</div>
+        ${Object.keys(P.areas).length ? `<div style="margin-top:12px">${Object.entries(P.areas).map(([a, t]) => `<div class="pp-area"><b>${esc(a)}</b>
+          <select class="pp-campo" data-tempo="${esc(a)}">${TEMPOS.map(x => `<option ${x === t ? "selected" : ""}>${x}</option>`).join("")}</select></div>`).join("")}</div>` : ""}
+      </section>
+
+      <section class="pp-cx">
+        <h2>Experiências ${marca(s[3])}</h2>
+        <p class="por">Trabalhos, projetos de IA, freelas e trabalho voluntário, principalmente os que <b>não estão no currículo</b>. Os números ajudam muito: horas por semana, tarefas, nota de qualidade.</p>
+        ${faltamMc.length ? `<div class="pp-mc"><div class="tx"><b>No seu Meu Controle há ${faltamMc.length} trabalho${faltamMc.length > 1 ? "s" : ""} que não está${faltamMc.length > 1 ? "ão" : ""} aqui.</b><br>
+          ${faltamMc.map(t => esc(t.oque + ", " + t.onde.split(",")[0] + ", desde " + t.inicio)).join("<br>")}</div>
+          ${faltamMc.map(t => `<button class="pp-bt pq" data-traz="${t.id}">Trazer ${esc(t.onde.split(",")[0])}</button>`).join("")}</div>` : ""}
+        ${P.experiencias.map((x, i) => `<div class="pp-item"><div class="tx"><b>${esc(x.oque)}</b>${x.origem === "mc" ? `<span class="pp-selo mc">do Meu Controle</span>` : ""}
+          <small>${esc(x.onde)} · ${esc(x.inicio)}${x.atual ? " até hoje" : x.fim ? " a " + esc(x.fim) : ""}</small>
+          ${x.fez ? `<p>${esc(x.fez)}</p>` : `<p style="color:#A85D24">Falta dizer o que você fazia.</p>`}
+          ${x.numeros ? `<p><b style="font-weight:500">Números:</b> ${esc(x.numeros)}</p>` : ""}</div>
+          <div class="acoes"><button class="pp-link" data-ed="exp:${i}">Editar</button><button class="pp-link tirar" data-tira="experiencias:${i}">Tirar</button></div></div>`).join("")}
+        <button class="pp-bt pq" data-novo="exp" style="margin-top:8px">+ Acrescentar experiência</button>
+      </section>
+
+      <section class="pp-cx">
+        <h2>Ferramentas e habilidades ${marca(s[4])}</h2>
+        <p class="por">Programas e habilidades que você usa com segurança. Escreva e aperte Enter.</p>
+        <input class="pp-campo" id="novaFerr" placeholder="Por exemplo: Excel, transcrição, Canva, digitação rápida">
+        <div class="pp-tags">${P.ferramentas.map((f, i) => `<span class="pp-tag">${esc(f)}<button aria-label="Tirar ${esc(f)}" data-tira="ferramentas:${i}">×</button></span>`).join("")}</div>
+      </section>
+
+      <section class="pp-cx">
+        <h2>Onde você mora e quanto tempo tem ${marca(s[5])}</h2>
+        <p class="por">Muitas vagas pedem um país ou um mínimo de horas. Com isso, a ferramenta avisa antes se a vaga não serve para você.</p>
+        <div class="pp-linha">
+          <div><label class="pp-rot" for="mora">País onde mora</label><input class="pp-campo" id="mora" value="${esc(P.mora)}" placeholder="Brasil"></div>
+          <div><label class="pp-rot" for="cidade">Cidade <small>(opcional)</small></label><input class="pp-campo" id="cidade" value="${esc(P.cidade)}"></div>
+          <div><label class="pp-rot" for="horas">Horas por semana que pode trabalhar</label><input class="pp-campo" id="horas" inputmode="numeric" value="${esc(P.horas)}" placeholder="20"></div>
+        </div>
+      </section>`;
+    medidor();
+    ligar();
+  }
+
+  function marcarMudanca() { mudou = true; document.getElementById("salvoMsg").textContent = ""; }
+
+  function ligar() {
+    const raiz = document.getElementById("secoes");
+    raiz.querySelectorAll("[data-area]").forEach(b => b.addEventListener("click", () => {
+      const a = b.dataset.area;
+      if (a in P.areas) delete P.areas[a]; else P.areas[a] = "1 a 2 anos";
+      marcarMudanca(); desenhar();
+    }));
+    raiz.querySelectorAll("[data-tempo]").forEach(s => s.addEventListener("change", () => { P.areas[s.dataset.tempo] = s.value; marcarMudanca(); }));
+    raiz.querySelectorAll("[data-tira]").forEach(b => b.addEventListener("click", () => {
+      const [lista, i] = b.dataset.tira.split(":");
+      const x = P[lista][+i];
+      if (lista === "experiencias" && x && x.origem === "mc") P.importados = P.importados.filter(id => !DO_CONTROLE.some(t => t.id === id && t.oque === x.oque));
+      P[lista].splice(+i, 1); marcarMudanca(); desenhar();
+    }));
+    raiz.querySelectorAll("[data-novo]").forEach(b => b.addEventListener("click", () => abrir(b.dataset.novo, -1)));
+    raiz.querySelectorAll("[data-ed]").forEach(b => b.addEventListener("click", () => { const [t, i] = b.dataset.ed.split(":"); abrir(t, +i); }));
+    raiz.querySelectorAll("[data-traz]").forEach(b => b.addEventListener("click", () => {
+      const t = DO_CONTROLE.find(x => x.id === b.dataset.traz);
+      abrir("exp", -1, { oque: t.oque, onde: t.onde, inicio: t.inicio, atual: t.atual, fim: "", fez: "", numeros: "", origem: "mc", _id: t.id });
+    }));
+    const nf = raiz.querySelector("#novaFerr");
+    nf.addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      const v = nf.value.trim();
+      if (v && !P.ferramentas.includes(v)) { P.ferramentas.push(v); marcarMudanca(); desenhar(); document.getElementById("novaFerr").focus(); }
+    });
+    ["mora", "cidade", "horas"].forEach(id => raiz.querySelector("#" + id).addEventListener("input", e => { P[id] = e.target.value; marcarMudanca(); medidor(); }));
+  }
+
+  const jan = document.getElementById("jan"), form = document.getElementById("janForm");
+  function abrir(tipo, i, pre) {
+    let html = "";
+    if (tipo === "idioma") {
+      const l = i >= 0 ? P.idiomas[i] : { lingua: "", nivel: "B2", certificado: "" };
+      html = `<h3>${i >= 0 ? "Editar idioma" : "Acrescentar idioma"}</h3>
+        <div class="pp-linha"><div><label class="pp-rot">Idioma</label><input class="pp-campo" name="lingua" required value="${esc(l.lingua)}" placeholder="Inglês"></div>
+        <div><label class="pp-rot">Nível</label><select class="pp-campo" name="nivel">${NIVEIS.map(n => `<option ${n === l.nivel ? "selected" : ""}>${n}</option>`).join("")}</select></div></div>
+        <p class="dica">Não sabe o nível? C1 é quem lê diretrizes longas e escreve sem dificuldade; B2 é quem se vira bem, mas ainda trava às vezes.</p>
+        <div><label class="pp-rot">Certificado <small>(opcional: nome e ano)</small></label><input class="pp-campo" name="certificado" value="${esc(l.certificado)}" placeholder="TOEFL, Cambridge, EF SET…"></div>`;
+    } else if (tipo === "formacao") {
+      const f = i >= 0 ? P.formacao[i] : { curso: "", onde: "", situacao: "Completo", ano: "" };
+      html = `<h3>${i >= 0 ? "Editar formação" : "Acrescentar formação"}</h3>
+        <div><label class="pp-rot">Curso</label><input class="pp-campo" name="curso" required value="${esc(f.curso)}" placeholder="Letras, Administração, técnico em…"></div>
+        <div class="pp-linha"><div><label class="pp-rot">Onde</label><input class="pp-campo" name="onde" value="${esc(f.onde)}"></div>
+        <div><label class="pp-rot">Situação</label><select class="pp-campo" name="situacao">${["Completo", "Cursando", "Trancado"].map(x => `<option ${x === f.situacao ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+        <div><label class="pp-rot">Ano de conclusão</label><input class="pp-campo" name="ano" value="${esc(f.ano)}" inputmode="numeric"></div></div>`;
+    } else {
+      const x = pre || (i >= 0 ? P.experiencias[i] : { oque: "", onde: "", inicio: "", fim: "", atual: false, fez: "", numeros: "", origem: "" });
+      html = `<h3>${pre ? "Trazer do Meu Controle" : i >= 0 ? "Editar experiência" : "Acrescentar experiência"}</h3>
+        ${pre ? `<p class="dica">O projeto e a data vieram do seu Meu Controle. Falta contar o que você fazia.</p>` : ""}
+        <div><label class="pp-rot">O que você fazia (cargo ou tarefa)</label><input class="pp-campo" name="oque" required value="${esc(x.oque)}"></div>
+        <div><label class="pp-rot">Onde</label><input class="pp-campo" name="onde" value="${esc(x.onde)}" placeholder="Empresa ou projeto, remoto ou cidade"></div>
+        <div class="pp-linha"><div><label class="pp-rot">Começou em</label><input class="pp-campo" name="inicio" value="${esc(x.inicio)}" placeholder="mês/ano"></div>
+        <div><label class="pp-rot">Terminou em</label><input class="pp-campo" name="fim" value="${esc(x.fim)}" placeholder="mês/ano" ${x.atual ? "disabled" : ""}></div></div>
+        <label class="pp-check"><input type="checkbox" name="atual" ${x.atual ? "checked" : ""}> Ainda faço este trabalho</label>
+        <div><label class="pp-rot">O que você fazia, com as suas palavras</label><textarea class="pp-campo" name="fez" placeholder="Pode escrever em português. A ferramenta passa para o inglês do currículo.">${esc(x.fez)}</textarea></div>
+        <div><label class="pp-rot">Números <small>(opcional: só se você souber de verdade)</small></label><input class="pp-campo" name="numeros" value="${esc(x.numeros)}" placeholder="horas por semana, tarefas por dia, nota de qualidade…"></div>`;
+    }
+    form.innerHTML = html + `<div class="rodape"><button class="pp-bt" value="cancelar" formnovalidate>Cancelar</button><button class="pp-bt forte" value="ok">Guardar</button></div>`;
+    const atual = form.querySelector("[name=atual]");
+    if (atual) atual.addEventListener("change", () => { form.querySelector("[name=fim]").disabled = atual.checked; });
+    jan.onclose = () => {
+      if (jan.returnValue !== "ok") return;
+      const d = Object.fromEntries(new FormData(form));
+      if (tipo === "idioma") { const v = { lingua: d.lingua.trim(), nivel: d.nivel, certificado: d.certificado.trim() }; i >= 0 ? P.idiomas[i] = v : P.idiomas.push(v); }
+      else if (tipo === "formacao") { const v = { curso: d.curso.trim(), onde: d.onde.trim(), situacao: d.situacao, ano: d.ano.trim() }; i >= 0 ? P.formacao[i] = v : P.formacao.push(v); }
+      else {
+        const base = pre || (i >= 0 ? P.experiencias[i] : {});
+        const v = { oque: d.oque.trim(), onde: d.onde.trim(), inicio: d.inicio.trim(), fim: d.atual ? "" : (d.fim || "").trim(), atual: !!d.atual,
+          fez: d.fez.trim(), numeros: d.numeros.trim(), origem: base.origem || "" };
+        i >= 0 ? P.experiencias[i] = v : P.experiencias.push(v);
+        if (pre && pre._id) P.importados.push(pre._id);
+      }
+      marcarMudanca(); desenhar();
+    };
+    jan.returnValue = "";
+    jan.showModal();
+  }
+
+  document.getElementById("exemplo").addEventListener("click", () => { P = JSON.parse(JSON.stringify(EXEMPLO)); marcarMudanca(); desenhar(); });
+  document.getElementById("salvar").addEventListener("click", () => {
+    P.salvoEm = new Date().toISOString();
+    const ok = gravar(P); mudou = false;
+    document.getElementById("salvoMsg").textContent = ok ? "Perfil salvo. A próxima avaliação já usa estas informações." : "Não deu para salvar neste navegador.";
+  });
+  window.addEventListener("beforeunload", e => { if (mudou) { e.preventDefault(); e.returnValue = ""; } });
+  if (new URLSearchParams(location.search).has("exemplo") && !ler()) { P = JSON.parse(JSON.stringify(EXEMPLO)); }
+  desenhar();
+})();
+</script>
+<nav class="teste-barra" aria-label="Cópia de teste">
+<style>.teste-barra{position:fixed;z-index:500;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:2px;align-items:center;padding:5px;border-radius:999px;background:#10203A;box-shadow:0 10px 30px -10px rgba(16,32,58,.6);font:500 13px/1 Geist,system-ui,sans-serif;max-width:calc(100% - 24px);overflow-x:auto}
+.teste-barra span{color:#A9B4C6;padding:0 6px 0 10px;white-space:nowrap}.teste-barra a{color:#fff;text-decoration:none;padding:9px 12px;border-radius:999px;white-space:nowrap}
+.teste-barra a:hover,.teste-barra a:focus-visible{background:rgba(255,255,255,.14);outline:none}.teste-barra a[aria-current]{background:#fff;color:#10203A}@media(max-width:430px){.teste-barra span{display:none}.teste-barra a{padding:9px 9px;font-size:12.5px}}</style>
+<span>Teste</span><a href="index.html" data-p="index.html">Início</a><a href="vagas.html" data-p="vagas.html vaga.html">Vagas</a><a href="ferramenta-curriculo.html" data-p="ferramenta-curriculo.html">Currículo</a><a href="estudo-diretriz.html" data-p="estudo-diretriz.html">Estudo</a><a href="painel.html" data-p="painel.html">Painel</a><a href="comunidade.html" data-p="comunidade.html">Comunidade</a>
+<script>(function(){var n=location.pathname.split("/").pop();document.querySelectorAll(".teste-barra a").forEach(function(a){if(a.dataset.p.split(" ").indexOf(n)>=0)a.setAttribute("aria-current","page")});})();</script>
+</nav>
+</body>
+</html>
