@@ -274,7 +274,7 @@ const Acesso = (function () {
   function chegandoPorLink() { return /access_token=|error_code=|[?&]code=/.test(location.hash + location.search); }
 
   function porta() {
-    if (!localStorage.getItem("plat-exemplo-pronto")) { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
+    if (localStorage.getItem("plat-exemplo-pronto") !== "2") { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
     if (!SO_COM_CONTA || chegandoPorLink()) return;
     const pg = paginaAtual();
     let ir = "";
