@@ -60,6 +60,10 @@
 .selo-nova { font-size:11px; font-weight:600; color:var(--amber); background:var(--amber-suave); padding:1px 8px; border-radius:999px; }
 
 /* coluna da direita */
+.in-cx.verde { background:linear-gradient(170deg,#F4FAF6 0%,#E9F5EE 100%); border-color:#D3EBDD; }
+.in-cx.verde .in-cab a { color:#1F7A4D; }
+.in-cx.verde .nm a { border-top-color:#D3EBDD; }
+.in-cx.verde .nm a b { color:#16603C; }
 .nm { display:grid; gap:2px; }
 .nm a { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:11px 0; border-top:1px solid var(--line-soft); font-size:14px; color:var(--ink-2); }
 .nm a:first-child { border-top:0; padding-top:2px; }
@@ -110,16 +114,16 @@
 
     <div>
       <section class="in-cx">
-        <div class="in-cab"><h2>Seu mês</h2><a href="controle.html#painel">Abrir o Painel</a></div>
-        <div class="nm" id="mes"></div>
-      </section>
-      <section class="in-cx">
         <div class="in-cab"><h2>Atalhos</h2></div>
         <div class="at">
           <a href="controle.html#aplicacoes"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Marcar uma candidatura</a>
           <a href="controle.html#hoje"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>Lançar as horas de hoje</a>
           <a href="ferramenta-curriculo.html"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Avaliar o meu currículo</a>
         </div>
+      </section>
+      <section class="in-cx verde">
+        <div class="in-cab"><h2>Ganhos e horas</h2><a href="controle.html#painel">Ver os ganhos</a></div>
+        <div class="nm" id="mes"></div>
       </section>
     </div>
   </div>
@@ -175,7 +179,14 @@ montarLayout("inicio");
   $("#fazer").innerHTML = itens.length ? itens.slice(0, 5).map(i => `<div class="fz"><span class="fz-ic ${i.cor}">${svg(i.ic)}</span>
       <div><b>${esc(i.titulo)}</b><small class="${i.cor === "am" ? "urgente" : ""}">${esc(i.quando)}</small></div>
       <a class="fz-bt" href="${i.href}">${i.bt}</a></div>`).join("")
-    : `<p class="fz-vazio">Nada marcado para os próximos dias. Quando você guardar um teste, uma entrevista ou horas de trabalho no Meu Controle, eles aparecem aqui.</p>`;
+    : aps.length || trabs.length
+      ? `<p class="fz-vazio">Nada marcado para os próximos dias. Quando você guardar um teste, uma entrevista ou horas de trabalho no Meu Controle, eles aparecem aqui.</p>`
+      : /* conta nova: os primeiros passos no lugar da lista */
+        [["vagas", "Veja as vagas abertas a todos", "Não pedem diploma: anotação, avaliação de IA, tradução e QA.", "Ver as vagas", "vagas.html?ver=todas"],
+         ["agenda", "Comece pelo curso de Fundamentos", "Uma hora para entender como o trabalho funciona antes do primeiro teste.", "Começar", "curso-fundamentos.html"],
+         ["teste", "Guarde a sua primeira candidatura", "No Meu Controle, para saber em que etapa está cada uma.", "Abrir", "controle.html#aplicacoes"]]
+        .map(([i, t, d, b, h]) => `<div class="fz"><span class="fz-ic">${svg(i === "vagas" ? "perfil" : i)}</span><div><b>${t}</b><small>${d}</small></div><a class="fz-bt" href="${h}">${b}</a></div>`).join("");
+  if (!itens.length && !aps.length && !trabs.length) document.querySelector("#fazer").previousElementSibling.querySelector("h2").textContent = "Para começar";
 
   const ativas = aps.filter(a => ["aplicado", "teste", "prova", "entrevista"].includes(a.estado)).length;
   $("#olaSub").textContent = itens.length
@@ -190,7 +201,6 @@ montarLayout("inicio");
   regs.filter(r => r.data.slice(0, 7) === mes).forEach(r => { const t = trabs.find(x => x.id === r.trabalhoId); if (t && t.pagamento === "hora") { ganho += (+r.horas || 0) * (+t.valor || 0); if (t.moeda === "BRL") moeda = "R$"; } });
   const n = v => (Math.round(v * 10) / 10).toLocaleString("pt-BR");
   $("#mes").innerHTML = `
-    <a href="controle.html#aplicacoes"><span>Candidaturas andando</span><b>${ativas}</b></a>
     <a href="controle.html#trabalhos"><span>Horas nesta semana</span><b>${n(horasSemana)} h</b></a>
     <a href="controle.html#painel"><span>Ganhos em ${new Date().toLocaleDateString("pt-BR", { month: "long" })}</span><b>${moeda} ${ganho.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b></a>`;
 

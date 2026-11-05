@@ -88,12 +88,12 @@
   document.addEventListener("DOMContentLoaded", () => {
     const b = document.createElement("div");
     b.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:950;background:#10203A;color:#fff;font:500 12.5px/1.4 Geist,system-ui,sans-serif;padding:8px 14px;border-radius:999px;box-shadow:0 10px 30px -10px rgba(16,32,58,.6);max-width:calc(100% - 24px);text-align:center";
-    b.innerHTML = 'Cópia de teste: as contas ficam só neste navegador. <a href="#" style="color:#BBD3F2" id="testeZerar">Apagar as contas de teste</a>';
+    b.innerHTML = 'Cópia de teste com dados de exemplo. Nada sai deste navegador. <a href="#" style="color:#BBD3F2" id="testeZerar">Recomeçar o exemplo</a>';
     document.body.appendChild(b);
     b.querySelector("#testeZerar").addEventListener("click", ev => {
       ev.preventDefault();
       [SESSAO, CONTAS, PERFIS, "hub-equipe", "hub-plano", "hub-controle:dono", "hub-perfil-prof-previa"].forEach(k => localStorage.removeItem(k));
-      location.href = "entrar.html";
+      location.href = "index.html";
     });
   });
 })();

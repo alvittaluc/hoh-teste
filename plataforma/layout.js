@@ -760,9 +760,9 @@ const Plataforma = (function () {
   /* Os itens da coluna. Os do Meu Controle têm os mesmos nomes e a mesma
      ordem da coluna que ele já tem hoje. */
   const GRUPOS = [
-    ["", [["inicio", "Início", "inicio.html"], ["vagas", "Vagas", "vagas.html"], ["empresas", "Empresas", "empresas.html"], ["cursos", "Cursos", "cursos.html"]]],
+    ["", [["inicio", "Início", "inicio.html"], ["vagas", "Vagas", "vagas.html"], ["v-voce", "Para você", "vagas.html?ver=voce", "", "sub"], ["v-todas", "Abertas a todos", "vagas.html?ver=todas", "", "sub"], ["v-form", "Pedem formação", "vagas.html?areas=1", "", "sub"], ["empresas", "Empresas", "empresas.html"], ["cursos", "Cursos", "cursos.html"]]],
     ["Meu Controle", [["mc-hoje", "Hoje", "controle.html#hoje", "hoje"], ["mc-agenda", "Agenda", "controle.html#agenda", "agenda"],
-      ["mc-painel", "Painel", "controle.html#painel", "painel"], ["mc-imposto", "Imposto", "controle.html#imposto", "imposto"],
+      ["mc-painel", "Ganhos", "controle.html#painel", "painel"], ["mc-imposto", "Imposto", "controle.html#imposto", "imposto"],
       ["mc-aplicacoes", "Candidaturas", "controle.html#aplicacoes", "candidaturas"], ["mc-trabalhos", "Trabalhos", "controle.html#trabalhos", "trabalhos"]]],
     ["Ferramentas", [["curriculo", "Avaliar currículo", "ferramenta-curriculo.html"], ["estudo", "Estudar uma diretriz", "estudo-diretriz.html"], ["transcricao", "Transcrição ao vivo", "transcricao.html"]]],
   ];
@@ -770,6 +770,7 @@ const Plataforma = (function () {
   function atual() {
     const pg = location.pathname.split("/").pop() || "index.html";
     if (/^curso-/.test(pg)) return "cursos";
+    if (pg === "vagas.html") { const q = location.search; return /areas=1|area=/.test(q) ? "v-form" : /ver=todas/.test(q) ? "v-todas" : /ver=voce/.test(q) || !q ? "v-voce" : "vagas"; }
     if (pg === "controle.html") {
       const t = (location.hash.slice(1).split("/")[0]) || "hoje";
       if (t === "trabalho") return "mc-trabalhos";
@@ -807,6 +808,11 @@ const Plataforma = (function () {
   .pl-item:hover { background:var(--l-hover); color:var(--l-forte); }
   .pl-item[aria-current="page"] { background:var(--l-ativo); color:var(--l-ativo-txt); font-weight:550; box-shadow:var(--l-sombra-ativo); }
   .pl-item[aria-current="page"] .pl-ic { color:var(--l-ativo-ic); }
+  .pl-sub { padding:6px 10px 6px 39px; font-size:13.5px; position:relative; }
+  .pl-sub::before { content:""; position:absolute; left:19px; top:0; bottom:0; width:1.5px; background:var(--l-borda); }
+  .pl-lado[data-cor="escura"] .pl-sub::before { background:rgba(255,255,255,.12); }
+  .pl-sub .pl-n { margin-left:auto; font-size:11.5px; font-weight:500; color:var(--l-rot); }
+  .pl-sub[aria-current="page"] .pl-n { color:var(--l-ativo-txt); }
   .pl-ic { width:18px; height:18px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .pl-pe { border-top:1px solid var(--l-borda); padding:10px 12px 12px; position:relative; }
   .pl-lado[data-cor="escura"] .pl-pe { border-top-color:rgba(255,255,255,.08); }
@@ -831,6 +837,14 @@ const Plataforma = (function () {
   .pl-cor .c-clara { background:#fff; } .pl-cor .c-azul { background:#DCE6F1; } .pl-cor .c-escura { background:#26334A; }
   .pl-barra { display:none; }
   .pl-veu { display:none; }
+  body.plat #abas { gap:10px; border-bottom:0; margin:4px 0 18px; padding:2px; }
+  body.plat #abas .aba { padding:13px 20px; border:1px solid var(--line,#DED7CA); border-radius:14px; background:#fff; font-size:15px; font-weight:550; color:var(--ink,#10203A); margin:0; box-shadow:0 1px 2px rgba(16,32,58,.04); }
+  body.plat #abas .aba .n { font-size:12.5px; font-weight:600; background:var(--bg-soft,#F1ECE3); color:var(--ink-2,#54606F); padding:2px 8px; border-radius:999px; }
+  body.plat #abas .aba:hover { border-color:#C9C0B0; }
+  body.plat #abas .aba.on { background:var(--signal-suave,#EAF1F8); border-color:#9DBBE0; color:var(--signal,#1A4893); }
+  body.plat #abas .aba.on .n { background:#fff; color:var(--signal,#1A4893); }
+  body.plat #abas .aba.form.on { background:#F1EEF7; border-color:#C9BEE6; color:var(--violet,#5B4B9E); }
+  body.plat #abas .aba.form.on .n { background:#fff; color:var(--violet,#5B4B9E); }
   /* o Meu Controle perde a coluna dele: os itens agora estão na coluna da plataforma */
   body.plat .ct-lado { display:none !important; }
   body.plat .ct-app { grid-template-columns:minmax(0,1fr) !important; }
@@ -864,8 +878,9 @@ const Plataforma = (function () {
     lado.setAttribute("aria-label", "Menu do Hub");
     lado.innerHTML = `
       <a class="pl-topo" href="inicio.html" style="text-decoration:none">${marca(30)}<b>Home Office Hub</b></a>
-      <nav class="pl-nav">${GRUPOS.map(([g, itens]) => `<div class="pl-grupo">${g ? `<span>${g}</span>` : ""}${itens.map(([id, n, href, icone]) =>
-        `<a class="pl-item" data-id="${id}" href="${href}">${ic(icone || id)}<span>${n}</span></a>`).join("")}</div>`).join("")}
+      <nav class="pl-nav">${GRUPOS.map(([g, itens]) => `<div class="pl-grupo">${g ? `<span>${g}</span>` : ""}${itens.map(([id, n, href, icone, sub]) =>
+        sub ? `<a class="pl-item pl-sub" data-id="${id}" href="${href}"><span>${n}</span><b class="pl-n" data-conta="${id}"></b></a>`
+            : `<a class="pl-item" data-id="${id}" href="${href}">${ic(icone || id)}<span>${n}</span></a>`).join("")}</div>`).join("")}
         <div class="pl-grupo" id="plEquipe" hidden><span>Equipe</span><a class="pl-item" data-id="equipe" href="../painel.html">${ic("equipe")}<span>Painel da equipe</span></a></div>
       </nav>
       <div class="pl-pe">
@@ -913,6 +928,14 @@ const Plataforma = (function () {
       try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {}
       lado.querySelectorAll(".pl-cor button").forEach(x => x.setAttribute("aria-pressed", x === b));
     }));
+    // quantas vagas em cada lista, como a página de vagas conta
+    Promise.all([lerVagas(), lerEspecificas()]).then(([g, e]) => {
+      const minhas = Acesso.areas() || [], subs = Acesso.subareas();
+      const nG = (g.vagas || []).length, nE = (e.vagas || []).length;
+      const nV = nG + (e.vagas || []).filter(v => Acesso.vagaDasMinhasAreas(v, minhas, subs)).length;
+      const pinta = (id, n) => { const el = lado.querySelector(`[data-conta="${id}"]`); if (el) el.textContent = n; };
+      pinta("v-voce", nV); pinta("v-todas", nG); pinta("v-form", nE);
+    }).catch(() => {});
     try { if (JSON.parse(localStorage.getItem("hub-equipe") || "null").sim) lado.querySelector("#plEquipe").hidden = false; } catch (e) {}
   }
 
