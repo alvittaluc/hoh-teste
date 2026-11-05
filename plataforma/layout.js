@@ -8,9 +8,8 @@ const ABAS = [
   { id: "inicio",   nome: "Início",        href: "index.html" },
   { id: "vagas",    nome: "Vagas",         href: "vagas.html" },
   { id: "empresas", nome: "Empresas",      href: "empresas.html" },
-  { id: "ferramentas", nome: "Ferramentas", href: "ferramentas.html" },
   { id: "guia",     nome: "Como funciona", href: "como-funciona.html" },
-  { id: "cursos", nome: "Cursos", href: "cursos.html" },
+  { id: "aluno", nome: "Área do aluno", href: "inicio.html" },
   { id: "mentorias", nome: "Mentorias", href: "mentorias.html" },
 ];
 
@@ -275,12 +274,12 @@ const Acesso = (function () {
   function chegandoPorLink() { return /access_token=|error_code=|[?&]code=/.test(location.hash + location.search); }
 
   function porta() {
+    if (!localStorage.getItem("plat-exemplo-pronto")) { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
     if (!SO_COM_CONTA || chegandoPorLink()) return;
     const pg = paginaAtual();
     let ir = "";
     if (!logado()) { if (!ABERTAS.test(pg)) ir = pg === "index.html" && !location.search ? "entrar.html" : linkEntrar(); }
     else if (!perfilFeito() && !ABERTAS.test(pg) && pg !== "perfil-profissional.html") ir = linkPerfil();
-    else if (perfilFeito() && pg === "index.html") ir = "inicio.html";
     if (!ir) return;
     // a página não chega a aparecer: some na hora e troca de endereço
     document.documentElement.style.visibility = "hidden";
@@ -754,16 +753,18 @@ const Plataforma = (function () {
     sair: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     acima: '<path d="M7 14l5-5 5 5"/>',
+    volta: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
   };
   const ic = n => `<svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || ""}</svg>`;
 
   /* Os itens da coluna. Os do Meu Controle têm os mesmos nomes e a mesma
      ordem da coluna que ele já tem hoje. */
   const GRUPOS = [
-    ["", [["inicio", "Início", "inicio.html"], ["vagas", "Vagas", "vagas.html"], ["v-voce", "Para você", "vagas.html?ver=voce", "", "sub"], ["v-todas", "Abertas a todos", "vagas.html?ver=todas", "", "sub"], ["v-form", "Pedem formação", "vagas.html?areas=1", "", "sub"], ["empresas", "Empresas", "empresas.html"], ["cursos", "Cursos", "cursos.html"]]],
+    ["", [["inicio", "Início", "inicio.html"]]],
     ["Meu Controle", [["mc-hoje", "Hoje", "controle.html#hoje", "hoje"], ["mc-agenda", "Agenda", "controle.html#agenda", "agenda"],
       ["mc-painel", "Ganhos", "controle.html#painel", "painel"], ["mc-imposto", "Imposto", "controle.html#imposto", "imposto"],
       ["mc-aplicacoes", "Candidaturas", "controle.html#aplicacoes", "candidaturas"], ["mc-trabalhos", "Trabalhos", "controle.html#trabalhos", "trabalhos"]]],
+    ["Aprender", [["cursos", "Cursos", "cursos.html"]]],
     ["Ferramentas", [["curriculo", "Avaliar currículo", "ferramenta-curriculo.html"], ["estudo", "Estudar uma diretriz", "estudo-diretriz.html"], ["transcricao", "Transcrição ao vivo", "transcricao.html"]]],
   ];
 
@@ -798,7 +799,11 @@ const Plataforma = (function () {
     --l-ativo:rgba(255,255,255,.11); --l-ativo-txt:#FFFFFF; --l-ativo-ic:#A9CBEA; }
   .pl-topo { display:flex; align-items:center; gap:10px; padding:20px 20px 12px; color:var(--l-forte); }
   .pl-topo img { width:30px; height:30px; display:block; }
-  .pl-topo b { font-weight:600; font-size:15px; letter-spacing:-.015em; }
+  .pl-topo b { display:block; font-weight:600; font-size:15px; letter-spacing:-.015em; line-height:1.2; }
+  .pl-area { display:block; font-size:11.5px; font-weight:500; color:var(--l-rot); }
+  .pl-volta { display:flex; align-items:center; gap:8px; margin:0 12px 4px; padding:7px 10px; border-radius:10px; font-size:13px; color:var(--l-rot); text-decoration:none; }
+  .pl-volta:hover { background:var(--l-hover); color:var(--l-forte); }
+  .pl-volta .pl-ic { width:16px; height:16px; }
   .pl-nav { flex:1; overflow-y:auto; padding:4px 12px 12px; scrollbar-width:thin; }
   .pl-grupo { margin-top:16px; }
   .pl-grupo:first-child { margin-top:4px; }
@@ -877,7 +882,8 @@ const Plataforma = (function () {
     lado.className = "pl-lado"; lado.id = "plLado"; lado.dataset.cor = corGuardada();
     lado.setAttribute("aria-label", "Menu do Hub");
     lado.innerHTML = `
-      <a class="pl-topo" href="inicio.html" style="text-decoration:none">${marca(30)}<b>Home Office Hub</b></a>
+      <a class="pl-topo" href="inicio.html" style="text-decoration:none">${marca(30)}<span><b>Home Office Hub</b><small class="pl-area">Área do aluno</small></span></a>
+      <a class="pl-volta" href="index.html">${ic("volta")}Voltar para o site</a>
       <nav class="pl-nav">${GRUPOS.map(([g, itens]) => `<div class="pl-grupo">${g ? `<span>${g}</span>` : ""}${itens.map(([id, n, href, icone, sub]) =>
         sub ? `<a class="pl-item pl-sub" data-id="${id}" href="${href}"><span>${n}</span><b class="pl-n" data-conta="${id}"></b></a>`
             : `<a class="pl-item" data-id="${id}" href="${href}">${ic(icone || id)}<span>${n}</span></a>`).join("")}</div>`).join("")}
@@ -942,8 +948,19 @@ const Plataforma = (function () {
   return { montar };
 })();
 
+/* O site continua com o menu do topo (Início, Vagas, Empresas, Como funciona).
+   A coluna aparece só nas páginas da Área do aluno, para quem está na conta. */
+const PAGINAS_DO_ALUNO = /^(inicio|controle|cursos|curso-[a-z]+|ferramenta-curriculo|estudo-diretriz|transcricao|perfil-profissional|perfil)\.html$/;
 function montarLayout(ativa) {
-  // fora da conta, na entrada e no primeiro perfil, fica o topo de hoje
-  if (!Acesso.logado() || !Acesso.perfilFeito()) return montarLayoutTopo(ativa);
+  const pg = location.pathname.split("/").pop() || "index.html";
+  const naArea = PAGINAS_DO_ALUNO.test(pg) && !(pg === "perfil-profissional.html" && /primeira=1/.test(location.search));
+  if (!Acesso.logado() || !Acesso.perfilFeito() || !naArea) {
+    montarLayoutTopo(ativa === "ferramentas" || ativa === "cursos" ? "aluno" : ativa);
+    // a aba da Área do aluno se destaca um pouco das outras
+    const s = document.createElement("style");
+    s.textContent = 'nav.tabs a[href="inicio.html"]{color:var(--signal);background:var(--signal-suave);font-weight:550}nav.tabs a[href="inicio.html"]:hover{background:#DDE9F5}';
+    document.head.appendChild(s);
+    return;
+  }
   Plataforma.montar(ativa);
 }

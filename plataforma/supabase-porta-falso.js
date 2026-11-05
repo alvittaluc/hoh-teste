@@ -92,7 +92,7 @@
     document.body.appendChild(b);
     b.querySelector("#testeZerar").addEventListener("click", ev => {
       ev.preventDefault();
-      [SESSAO, CONTAS, PERFIS, "hub-equipe", "hub-plano", "hub-controle:dono", "hub-perfil-prof-previa"].forEach(k => localStorage.removeItem(k));
+      [SESSAO, CONTAS, PERFIS, "hub-equipe", "hub-plano", "hub-controle:dono", "hub-perfil-prof-previa", "plat-exemplo-pronto"].forEach(k => localStorage.removeItem(k));
       location.href = "index.html";
     });
   });

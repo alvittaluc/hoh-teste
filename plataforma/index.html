@@ -1,84 +1,1224 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
 <meta name="robots" content="noindex, nofollow">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Abrindo a conta de exemplo · Home Office Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Office Hub — Trabalho remoto com IA e dados para quem mora no Brasil</title>
+<meta name="description" content="Entenda o que é o trabalho de anotação, avaliação de IA e tradução, conheça as empresas que contratam brasileiros e veja as vagas abertas para quem mora no Brasil.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Home Office Hub">
+<meta property="og:description" content="Vagas remotas internacionais de IA, dados e tradução, abertas para quem mora no Brasil.">
+<meta property="og:url" content="https://alvittaluc.github.io/home-office-hub/">
+<meta property="og:image" content="https://alvittaluc.github.io/home-office-hub/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="canonical" href="https://alvittaluc.github.io/home-office-hub/">
+<link rel="alternate" type="application/rss+xml" title="Vagas abertas — Home Office Hub" href="feed.xml">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilo.css">
-<style>body{display:grid;place-items:center;min-height:100vh;font-size:15px}</style>
+<style>
+  /* ═══════════ HERO ═══════════ */
+  .hero { max-width:900px; margin:0 auto; padding:76px 22px 44px; text-align:center; }
+  @media (max-width:700px){ .hero{ padding:46px 22px 30px; } }
+  .hero h1 { margin:0 auto 22px; max-width:19ch; }
+  .hero p.lead { margin:0 auto 32px; max-width:52ch; }
+  .hero-cta { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  /* ═══════════ CARROSSEL DO QUE TEM NO SITE ═══════════ */
+  .vitrine { max-width:var(--wrap); margin:0 auto; padding:0 22px; }
+  .palco { padding:34px 38px 26px; }
+  @media (max-width:860px){ .palco{ padding:26px 22px 20px; } }
+  .palco::before {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(80% 60% at 78% 8%, rgba(78,154,200,0.26), transparent 62%),
+      radial-gradient(60% 50% at 6% 96%, rgba(26,72,147,0.38), transparent 66%),
+      radial-gradient(40% 40% at 96% 92%, rgba(78,154,200,0.14), transparent 70%);
+  }
+  /* o grão tira o ar plástico do gradiente, é o truque que a Apple usa */
+  .palco::after, .fim .escuro::after {
+    content:''; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.30;
+    mix-blend-mode:overlay; background-size:150px 150px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .trilhos { position:relative; z-index:1; overflow:hidden; }
+  .slides { display:flex; transition:transform .62s cubic-bezier(.4,0,.2,1); }
+  .slide {
+    flex:0 0 100%; display:grid; grid-template-columns:1.05fr 1.15fr; gap:46px; align-items:center;
+    min-height:352px; opacity:.25; transition:opacity .5s;
+  }
+  /* sem isto o conteúdo das maquetes empurra o slide e vaza da tela no celular */
+  .slide, .slide > *, .janela, .linha-vaga, .linha-vaga .tx, .perfil-emp, .passo-mq { min-width:0; }
+  .slide.ativo { opacity:1; }
+  @media (max-width:860px){
+    .slide { grid-template-columns:1fr; gap:24px; min-height:0; }
+    .slide .arte { order:-1; }
+  }
+  .slide .texto .eyebrow { color:#7FB2DA; }
+  .slide .texto h2 {
+    font-family:var(--display); font-weight:400; font-size:clamp(25px,3.2vw,37px);
+    line-height:1.14; letter-spacing:-0.015em; color:var(--ink-claro); margin-bottom:15px; max-width:18ch;
+  }
+  .slide .texto p { font-size:15.5px; line-height:1.62; color:var(--ink-claro-2); max-width:42ch; margin-bottom:22px; }
+  .slide .texto .btn { margin-top:2px; }
+
+  /* controles */
+  .controles { display:flex; align-items:center; gap:16px; margin-top:22px; position:relative; }
+  .pontos { display:flex; gap:8px; }
+  .ponto {
+    width:26px; height:4px; border-radius:999px; border:0; padding:0; cursor:pointer;
+    background:rgba(255,255,255,.2); transition:background .25s, width .25s;
+  }
+  .ponto:hover { background:rgba(255,255,255,.38); }
+  .ponto.on { background:#7FB2DA; width:42px; }
+  .setas { display:flex; gap:7px; margin-left:auto; }
+  .seta {
+    width:36px; height:36px; border-radius:999px; cursor:pointer; padding:0;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);
+    color:var(--ink-claro-2); font-size:15px; display:grid; place-items:center; transition:all .16s;
+  }
+  .seta:hover { background:rgba(255,255,255,.15); color:#fff; border-color:rgba(255,255,255,.3); }
+
+  /* ── maquetes dentro do carrossel ── */
+  .arte { position:relative; }
+  .janela {
+    background:#fff; border-radius:16px; box-shadow:0 24px 50px -24px rgba(0,0,0,.55);
+    overflow:hidden; border:1px solid rgba(255,255,255,.5);
+  }
+  .jn-topo {
+    display:flex; align-items:center; gap:7px; padding:11px 14px;
+    background:var(--bg-soft); border-bottom:1px solid var(--line-soft);
+  }
+  .jn-topo i { width:9px; height:9px; border-radius:50%; background:#DDD6C9; display:block; }
+  .jn-topo b { margin-left:6px; font-size:11.5px; font-weight:500; color:var(--ink-3); }
+  .jn-corpo { padding:14px; }
+
+  .linha-vaga {
+    display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:11px;
+    border:1px solid var(--line-soft); margin-bottom:8px; background:#fff;
+  }
+  .linha-vaga:last-child { margin-bottom:0; }
+  .linha-vaga .mk {
+    width:26px; height:26px; border-radius:7px; flex-shrink:0; display:grid; place-items:center;
+    font-size:9.5px; font-weight:600; color:#fff; overflow:hidden;
+  }
+  /* o logo real vem do favicon da empresa; se não carregar, a sigla assume.
+     O quadrado branco vem da regra .mk:has(img) do estilo.css */
+  .perfil-emp .mk { overflow:hidden; }
+  .linha-vaga .tx { min-width:0; flex:1; }
+  .linha-vaga .tx b { display:block; font-size:12.5px; font-weight:500; color:var(--ink); line-height:1.35;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .linha-vaga .tx span { font-size:11px; color:var(--ink-3); }
+  .linha-vaga .et {
+    font-size:10px; font-weight:500; padding:3px 8px; border-radius:999px; flex-shrink:0;
+    background:var(--amber-suave); color:var(--amber);
+  }
+  .linha-vaga .et.az { background:var(--signal-suave); color:var(--signal); }
+
+  .perfil-emp { display:flex; align-items:center; gap:12px; padding-bottom:13px; border-bottom:1px solid var(--line-soft); margin-bottom:13px; }
+  .perfil-emp .mk { width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:12px; font-weight:700; color:#fff; }
+  .perfil-emp b { display:block; font-size:14px; color:var(--ink); font-weight:600; }
+  .perfil-emp span { font-size:11.5px; color:var(--ink-3); }
+  .campos { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .campo { background:var(--bg-soft); border-radius:9px; padding:9px 11px; }
+  .campo i { display:block; font-style:normal; font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); margin-bottom:3px; }
+  .campo b { font-size:11.5px; font-weight:500; color:var(--ink); }
+
+  .passo-mq { display:flex; gap:11px; align-items:flex-start; padding:9px 0; }
+  .passo-mq .bola {
+    width:22px; height:22px; border-radius:50%; flex-shrink:0; display:grid; place-items:center;
+    font-size:10px; font-weight:600; background:var(--signal-suave); color:var(--signal);
+  }
+  .passo-mq.feito .bola { background:var(--signal); color:#fff; }
+  .passo-mq b { display:block; font-size:12.5px; font-weight:500; color:var(--ink); }
+  .passo-mq span { font-size:11px; color:var(--ink-3); }
+
+  /* A foto é o próprio material anotado. Proporção fixa de 3 para 1, para
+     que as caixas em porcentagem caiam sempre no lugar certo, em qualquer
+     largura de tela. Trocar a foto exige remedir as caixas. */
+  .cx-anot {
+    position:relative; aspect-ratio:3/1; border-radius:11px; overflow:hidden;
+    background:#E4E2DD url('anotacao.jpg') center/cover no-repeat;
+    border:1px solid var(--line-soft); container-type:inline-size;
+  }
+  .cx-anot .bx { position:absolute; border:1.5px solid; border-radius:3px; box-shadow:0 0 0 1px rgba(255,255,255,.35); }
+  .cx-anot .bx b { position:absolute; top:-15px; left:-1.5px; font-size:8.5px; font-weight:600;
+    padding:1px 5px; border-radius:3px 3px 0 0; white-space:nowrap; color:#fff; }
+  /* etiqueta embaixo, para caixa colada no topo da foto */
+  .cx-anot .bx.abaixo b { top:auto; bottom:-15px; border-radius:0 0 3px 3px; }
+  /* a caixa da placa é pequena demais para telas estreitas */
+  @container (max-width:420px){ .cx-anot .bx.mini { display:none; } }
+
+  /* ═══════════ AS MAQUETES DO CARROSSEL SE MEXEM ═══════════
+     Cada maquete mostra, em uns seis segundos, o que aquela aba do site faz:
+     abrir uma vaga, trocar de empresa, cumprir as etapas, anotar uma foto.
+
+     A animação começa quando o slide entra em cena (classe .anima, posta
+     pelo script do carrossel) e para no último quadro. Sem a classe, a
+     maquete fica parada no desenho de sempre: é o que vê quem pediu menos
+     movimento ao sistema, e é o que aparece antes de o carrossel entrar na
+     tela.
+
+     --t0 existe para os testes: adianta o relógio de todas as peças juntas. */
+  .mq .jn-corpo { position:relative; }
+  .mq-cursor {
+    position:absolute; left:84%; top:88%; z-index:3; width:18px; height:18px; opacity:0;
+    pointer-events:none; transform-origin:2px 2px; filter:drop-shadow(0 2px 3px rgba(16,32,58,.35));
+  }
+  .mq-cursor svg { display:block; }
+  @keyframes mq-sobe { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* 1. vagas: clica numa vaga e abre a página dela */
+  .mq-ficha {
+    position:absolute; inset:0; padding:14px; background:#fff; display:flex; flex-direction:column; gap:9px;
+    opacity:0; visibility:hidden; overflow:hidden;
+  }
+  .mq-ficha-topo { display:flex; align-items:center; gap:11px; min-width:0; }
+  .mq-ficha-topo .mk {
+    width:34px; height:34px; border-radius:9px; flex-shrink:0; display:grid; place-items:center;
+    font-size:11px; font-weight:600; color:#fff; overflow:hidden;
+  }
+  .mq-ficha-topo .tx { min-width:0; }
+  .mq-ficha-topo .tx b { display:block; font-size:13.5px; font-weight:600; color:var(--ink); line-height:1.3; }
+  .mq-ficha-topo .tx span { font-size:11px; color:var(--ink-3); }
+  .mq-bloco { background:var(--bg-soft); border-radius:10px; padding:9px 12px; }
+  .mq-bloco i { display:block; font-style:normal; font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); margin-bottom:3px; }
+  .janela .mq-bloco p { font-size:12px; line-height:1.45; color:var(--ink); margin:0; max-width:none; }
+  .mq-botao {
+    margin-top:auto; align-self:flex-start; font-size:12px; font-weight:600; color:#fff;
+    background:var(--signal); border-radius:999px; padding:9px 16px; white-space:nowrap;
+  }
+
+  .slide.anima .mq-v .mq-cursor { animation:mq1-cursor 6s ease-in-out both; animation-delay:var(--t0,0s); }
+  .slide.anima .mq-v .linha-vaga.alvo { animation:mq1-alvo .7s ease both; animation-delay:calc(var(--t0,0s) + 1.25s); }
+  .slide.anima .mq-v .mq-lista { animation:mq1-lista-sai .4s ease forwards; animation-delay:calc(var(--t0,0s) + 2.05s); }
+  .slide.anima .mq-v .mq-ficha { animation:mq1-ficha-entra .45s ease forwards; animation-delay:calc(var(--t0,0s) + 2.2s); }
+  .slide.anima .mq-v .mq-ficha-topo { animation:mq-sobe .45s ease both; animation-delay:calc(var(--t0,0s) + 2.35s); }
+  .slide.anima .mq-v .mq-bloco.b1 { animation:mq-sobe .45s ease both; animation-delay:calc(var(--t0,0s) + 2.85s); }
+  .slide.anima .mq-v .mq-bloco.b2 { animation:mq-sobe .45s ease both; animation-delay:calc(var(--t0,0s) + 3.45s); }
+  .slide.anima .mq-v .mq-botao {
+    animation:mq-sobe .45s ease both, mq1-aperta .75s ease both;
+    animation-delay:calc(var(--t0,0s) + 4.05s), calc(var(--t0,0s) + 5.45s);
+  }
+  @keyframes mq1-cursor {
+    0%   { left:84%; top:88%; opacity:0; transform:scale(1); }
+    5%   { left:84%; top:88%; opacity:1; }
+    21%  { left:44%; top:14%; }
+    29%  { left:44%; top:14%; transform:scale(1); }
+    31%  { left:44%; top:14%; transform:scale(.78); }
+    34%  { left:44%; top:14%; transform:scale(1); }
+    46%  { left:70%; top:50%; }
+    76%  { left:70%; top:50%; }
+    88%  { left:22%; top:89%; }
+    90%  { left:22%; top:89%; transform:scale(1); }
+    92%  { left:22%; top:89%; transform:scale(.78); }
+    95%, 100% { left:22%; top:89%; transform:scale(1); opacity:1; }
+  }
+  @keyframes mq1-alvo {
+    0%   { border-color:var(--line-soft); background:#fff; transform:none; }
+    35%  { border-color:#9DBEE0; background:var(--signal-suave); transform:none; }
+    80%  { border-color:var(--signal); background:var(--signal-suave); transform:scale(.985); }
+    100% { border-color:var(--signal); background:var(--signal-suave); transform:none; }
+  }
+  @keyframes mq1-lista-sai { to { opacity:0; transform:translateX(-16px); } }
+  @keyframes mq1-ficha-entra {
+    from { opacity:0; visibility:visible; transform:translateX(18px); }
+    to   { opacity:1; visibility:visible; transform:none; }
+  }
+  @keyframes mq1-aperta {
+    0%   { background:var(--signal); box-shadow:0 0 0 0 rgba(26,72,147,.5); }
+    22%  { background:#123572; box-shadow:0 0 0 0 rgba(26,72,147,.5); }
+    100% { background:var(--signal); box-shadow:0 0 0 11px rgba(26,72,147,0); }
+  }
+
+  /* 2. empresas: troca de empresa e a ficha muda junto */
+  .mq-abas { display:flex; gap:7px; margin-bottom:12px; }
+  .mq-aba {
+    width:30px; height:30px; border-radius:9px; overflow:hidden; flex-shrink:0; background:#fff;
+    border:1px solid var(--line-soft); opacity:.5;
+  }
+  .mq-aba img { display:block; width:100%; height:100%; object-fit:contain; padding:3px; box-sizing:border-box; }
+  .mq-aba.sel { opacity:1; border-color:var(--signal); box-shadow:0 0 0 2.5px var(--signal-suave); }
+  .mq-fichas { display:grid; }
+  .mq-emp { grid-area:1/1; min-width:0; }
+  .mq-emp.e2 { opacity:0; visibility:hidden; }
+
+  .slide.anima .mq-e .mq-emp .perfil-emp,
+  .slide.anima .mq-e .mq-emp .campo,
+  .slide.anima .mq-e .mq-emp .kv { animation:mq-sobe .4s ease both; }
+  .slide.anima .mq-e .e1 .perfil-emp { animation-delay:calc(var(--t0,0s) + .3s); }
+  .slide.anima .mq-e .e1 .campo:nth-child(1) { animation-delay:calc(var(--t0,0s) + .55s); }
+  .slide.anima .mq-e .e1 .campo:nth-child(2) { animation-delay:calc(var(--t0,0s) + .68s); }
+  .slide.anima .mq-e .e1 .campo:nth-child(3) { animation-delay:calc(var(--t0,0s) + .81s); }
+  .slide.anima .mq-e .e1 .campo:nth-child(4) { animation-delay:calc(var(--t0,0s) + .94s); }
+  .slide.anima .mq-e .e1 .kv { animation-delay:calc(var(--t0,0s) + 1.12s); }
+  .slide.anima .mq-e .e1 { animation:mq2-sai .3s ease forwards; animation-delay:calc(var(--t0,0s) + 3.25s); }
+  .slide.anima .mq-e .e2 { animation:mq2-entra .01s linear forwards; animation-delay:calc(var(--t0,0s) + 3.5s); }
+  .slide.anima .mq-e .e2 .perfil-emp { animation-delay:calc(var(--t0,0s) + 3.5s); }
+  .slide.anima .mq-e .e2 .campo:nth-child(1) { animation-delay:calc(var(--t0,0s) + 3.75s); }
+  .slide.anima .mq-e .e2 .campo:nth-child(2) { animation-delay:calc(var(--t0,0s) + 3.88s); }
+  .slide.anima .mq-e .e2 .campo:nth-child(3) { animation-delay:calc(var(--t0,0s) + 4.01s); }
+  .slide.anima .mq-e .e2 .campo:nth-child(4) { animation-delay:calc(var(--t0,0s) + 4.14s); }
+  .slide.anima .mq-e .e2 .kv { animation-delay:calc(var(--t0,0s) + 4.32s); }
+  .slide.anima .mq-e .mq-aba.a1 { animation:mq2-desmarca .25s ease forwards; animation-delay:calc(var(--t0,0s) + 3.15s); }
+  .slide.anima .mq-e .mq-aba.a2 { animation:mq2-marca .25s ease forwards; animation-delay:calc(var(--t0,0s) + 3.15s); }
+  .slide.anima .mq-e .mq-cursor { animation:mq2-cursor 6s ease-in-out both; animation-delay:var(--t0,0s); }
+  @keyframes mq2-sai { to { opacity:0; visibility:hidden; } }
+  @keyframes mq2-entra { to { opacity:1; visibility:visible; } }
+  @keyframes mq2-desmarca { to { opacity:.5; border-color:var(--line-soft); box-shadow:0 0 0 0 transparent; } }
+  @keyframes mq2-marca { to { opacity:1; border-color:var(--signal); box-shadow:0 0 0 2.5px var(--signal-suave); } }
+  @keyframes mq2-cursor {
+    0%, 30% { left:78%; top:84%; opacity:0; transform:scale(1); }
+    35%  { left:78%; top:84%; opacity:1; }
+    49%  { left:16.5%; top:9%; }
+    51%  { left:16.5%; top:9%; transform:scale(1); }
+    53%  { left:16.5%; top:9%; transform:scale(.78); }
+    56%  { left:16.5%; top:9%; transform:scale(1); }
+    74%  { left:58%; top:60%; opacity:1; }
+    86%, 100% { left:58%; top:60%; opacity:0; }
+  }
+
+  /* 3. como funciona: as etapas vão sendo cumpridas, uma por vez */
+  .passo-mq { position:relative; }
+  .passo-mq .bola { position:relative; }
+  .passo-mq .bola i { font-style:normal; }
+  .passo-mq .bola .ok { display:none; }
+  .passo-mq.feito .bola .n { display:none; }
+  .passo-mq.feito .bola .ok { display:block; }
+  /* o fio que liga uma etapa à seguinte */
+  .passo-mq:not(.ultimo)::before {
+    content:''; position:absolute; left:10.5px; top:34px; bottom:-6px; width:1px; background:var(--line);
+  }
+  .mq-pg { border-radius:8px; margin:0 -8px; padding-left:8px !important; padding-right:8px !important; }
+
+  .slide.anima .mq-c .bola { animation:mq3-bola .5s cubic-bezier(.3,1.5,.5,1) both; }
+  .slide.anima .mq-c .bola .n { display:block; animation:mq3-n .2s ease both; }
+  .slide.anima .mq-c .bola .ok { display:grid; place-items:center; position:absolute; inset:0; animation:mq3-ok .35s ease both; }
+  .slide.anima .mq-c .passo-mq:not(.ultimo)::after {
+    content:''; position:absolute; left:10px; top:34px; bottom:-6px; width:2px; border-radius:2px;
+    background:var(--signal); transform-origin:top; animation:mq3-fio .65s ease both;
+  }
+  .slide.anima .mq-c .p1 .bola, .slide.anima .mq-c .p1 .bola i { animation-delay:calc(var(--t0,0s) + .6s); }
+  .slide.anima .mq-c .p1::after { animation-delay:calc(var(--t0,0s) + 1.05s); }
+  .slide.anima .mq-c .p2 .bola, .slide.anima .mq-c .p2 .bola i { animation-delay:calc(var(--t0,0s) + 1.8s); }
+  .slide.anima .mq-c .p2::after { animation-delay:calc(var(--t0,0s) + 2.25s); }
+  .slide.anima .mq-c .p3 .bola, .slide.anima .mq-c .p3 .bola i { animation-delay:calc(var(--t0,0s) + 3s); }
+  .slide.anima .mq-c .p3::after { animation-delay:calc(var(--t0,0s) + 3.45s); }
+  .slide.anima .mq-c .p4 .bola, .slide.anima .mq-c .p4 .bola i { animation-delay:calc(var(--t0,0s) + 4.2s); }
+  .slide.anima .mq-c .mq-pg { animation:mq3-pg .9s ease both; animation-delay:calc(var(--t0,0s) + 5.2s); }
+  .slide.anima .mq-c .mq-pg span:last-child { animation:mq3-pg-valor .9s ease both; animation-delay:calc(var(--t0,0s) + 5.2s); }
+  @keyframes mq3-bola {
+    from { background:var(--signal-suave); color:var(--signal); transform:scale(1); }
+    55%  { transform:scale(1.2); }
+    to   { background:var(--signal); color:#fff; transform:scale(1); }
+  }
+  @keyframes mq3-n { from { opacity:1; } to { opacity:0; } }
+  @keyframes mq3-ok { from { opacity:0; transform:scale(.4); } to { opacity:1; transform:none; } }
+  @keyframes mq3-fio { from { transform:scaleY(0); } to { transform:scaleY(1); } }
+  @keyframes mq3-pg { 0% { background:transparent; } 40% { background:#CDEBE3; } 100% { background:#E4F3F0; } }
+  @keyframes mq3-pg-valor { from { color:var(--ink); } to { color:#1F7A6E; } }
+
+  /* 4. áreas: as caixas são desenhadas na foto, uma por vez */
+  .mq-mira { position:absolute; left:30%; top:84%; z-index:2; width:0; height:0; opacity:0; pointer-events:none; }
+  .mq-mira::before, .mq-mira::after {
+    content:''; position:absolute; background:#fff; box-shadow:0 0 0 1px rgba(16,32,58,.6); border-radius:1px;
+  }
+  .mq-mira::before { left:-1px; top:-8px; width:2px; height:16px; }
+  .mq-mira::after  { left:-8px; top:-1px; width:16px; height:2px; }
+  .mq-rolo { display:inline-block; height:1.35em; line-height:1.35em; overflow:hidden; vertical-align:bottom; }
+  .mq-rolo span { display:block; }
+  .mq-rolo i { display:block; height:1.35em; font-style:normal; }
+
+  .slide.anima .mq-a .bx { animation:mq4-caixa .6s ease-in-out both; }
+  .slide.anima .mq-a .bx b { overflow:hidden; animation:mq4-rotulo .4s steps(7,end) both; }
+  .slide.anima .mq-a .bx.c1 { animation-delay:calc(var(--t0,0s) + .7s); }
+  .slide.anima .mq-a .bx.c1 b { animation-delay:calc(var(--t0,0s) + 1.3s); }
+  .slide.anima .mq-a .bx.c2 { animation-delay:calc(var(--t0,0s) + 2s); }
+  .slide.anima .mq-a .bx.c2 b { animation-delay:calc(var(--t0,0s) + 2.6s); }
+  .slide.anima .mq-a .bx.c3 { animation-duration:.4s; animation-delay:calc(var(--t0,0s) + 3.3s); }
+  .slide.anima .mq-a .bx.c3 b { animation-delay:calc(var(--t0,0s) + 3.7s); }
+  .slide.anima .mq-a .bx.c4 { animation-delay:calc(var(--t0,0s) + 4.3s); }
+  .slide.anima .mq-a .bx.c4 b { animation-delay:calc(var(--t0,0s) + 4.9s); }
+  .slide.anima .mq-a .mq-mira { animation:mq4-mira 6s ease-in-out both; animation-delay:var(--t0,0s); }
+  .slide.anima .mq-a .mq-rolo span { animation:mq4-rolo 6s ease both; animation-delay:var(--t0,0s); }
+  /* em tela estreita a caixa da placa não existe, e a mira pula esse trecho */
+  @container (max-width:420px){ .slide.anima .mq-a .mq-mira { animation-name:mq4-mira-curta; } }
+  @keyframes mq4-caixa { from { width:0; height:0; opacity:0; } 12% { opacity:1; } }
+  @keyframes mq4-rotulo {
+    from { max-width:0; padding-left:0; padding-right:0; opacity:0; }
+    2%   { opacity:1; }
+    to   { max-width:80px; opacity:1; }
+  }
+  @keyframes mq4-mira {
+    0%    { left:30%; top:84%; opacity:0; }
+    6%    { left:30%; top:84%; opacity:1; }
+    11.7% { left:13%; top:39%; }
+    21.7% { left:19%; top:79%; }
+    33.3% { left:54.5%; top:46%; }
+    43.3% { left:69%; top:78%; }
+    55%   { left:59.3%; top:65.5%; }
+    61.7% { left:64.3%; top:70.5%; }
+    71.7% { left:80.5%; top:6%; }
+    81.7% { left:88.5%; top:26%; }
+    90%   { left:95%; top:62%; opacity:1; }
+    96%, 100% { left:95%; top:62%; opacity:0; }
+  }
+  @keyframes mq4-mira-curta {
+    0%    { left:30%; top:84%; opacity:0; }
+    6%    { left:30%; top:84%; opacity:1; }
+    11.7% { left:13%; top:39%; }
+    21.7% { left:19%; top:79%; }
+    33.3% { left:54.5%; top:46%; }
+    43.3% { left:69%; top:78%; }
+    71.7% { left:80.5%; top:6%; }
+    81.7% { left:88.5%; top:26%; }
+    90%   { left:95%; top:62%; opacity:1; }
+    96%, 100% { left:95%; top:62%; opacity:0; }
+  }
+  @keyframes mq4-rolo {
+    0%, 21%   { transform:translateY(0); }
+    23%, 42.5% { transform:translateY(-1.35em); }
+    44.5%, 61% { transform:translateY(-2.7em); }
+    63%, 81%  { transform:translateY(-4.05em); }
+    83%, 100% { transform:translateY(-5.4em); }
+  }
+
+  /* ═══════════ BLOCO DE ABERTURA ═══════════ */
+  .abertura {
+    max-width:var(--wrap); margin:0 auto; padding:88px 22px 20px;
+    display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;
+  }
+  @media (max-width:860px){ .abertura{ grid-template-columns:1fr; gap:22px; padding:60px 22px 10px; } }
+  .abertura h2 { max-width:15ch; }
+  .abertura .corpo p { font-size:16px; line-height:1.72; color:var(--ink-2); margin-bottom:15px; }
+  .abertura .corpo p:last-child { margin-bottom:0; }
+
+  /* ═══════════ ÁREAS ═══════════ */
+  .areas { max-width:var(--wrap); margin:0 auto; padding:20px 22px 0; }
+  .area {
+    display:grid; grid-template-columns:minmax(0,0.86fr) minmax(0,1.34fr); gap:58px; align-items:center;
+    padding:88px 0; border-top:1px solid var(--line-soft); scroll-margin-top:100px;
+  }
+  /* a maquete avança em direção à borda da tela, como foto de produto.
+     O overflow-x:hidden do body impede que isso crie barra horizontal. */
+  .area > .moldura { margin-right:calc(-1 * min(5vw, 64px)); }
+  .area:nth-child(even) > .moldura { margin-right:0; margin-left:calc(-1 * min(5vw, 64px)); }
+  @media (max-width:980px){
+    .area > .moldura, .area:nth-child(even) > .moldura { margin-left:0; margin-right:0; }
+    /* a imagem que entra de lado não pode passar da borda da tela */
+    .areas { overflow-x:clip; }
+  }
+  @media (max-width:860px){ .area{ grid-template-columns:1fr; gap:28px; padding:52px 0; } }
+  .area:nth-child(even) .lado-texto { order:2; }
+  @media (max-width:860px){ .area:nth-child(even) .lado-texto{ order:0; } }
+  .area h3 {
+    font-family:var(--display); font-weight:400; font-size:clamp(24px,3vw,34px);
+    line-height:1.12; letter-spacing:-0.018em; color:var(--ink); margin-bottom:15px; max-width:16ch;
+  }
+  .area p { font-size:15.5px; line-height:1.68; color:var(--ink-2); margin-bottom:18px; max-width:46ch; }
+  .area ul { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+  .area li { font-size:14.5px; color:var(--ink-2); padding-left:22px; position:relative; line-height:1.55; }
+  .area li::before {
+    content:''; position:absolute; left:2px; top:9px; width:6px; height:6px;
+    border-radius:50%; background:var(--signal-dim);
+  }
+  .moldura { border-radius:26px; padding:34px; background:var(--bg-soft); border:1px solid var(--line-soft); }
+  @media (max-width:860px){ .moldura{ padding:20px; border-radius:20px; } }
+  /* dentro da moldura tudo respira um pouco mais, para a maquete ganhar presença */
+  .moldura .janela { box-shadow:0 34px 66px -30px rgba(16,32,58,.46), 0 8px 18px -10px rgba(16,32,58,.16); }
+  .moldura .jn-corpo { padding:18px; }
+  .moldura .jn-topo b { font-size:12.5px; }
+  .moldura .kv { font-size:12.5px; padding:10px 0; }
+  .moldura .onda { height:92px; }
+  .moldura .seg-trad p { font-size:13.5px; }
+  .moldura .seg-trad > div { padding:16px 17px; }
+  .moldura .ab-col { padding:16px; }
+  .moldura .ab-col .h { font-size:12px; }
+  .moldura .ab-b { font-size:12px; padding:9px; }
+  .moldura.a2 { background:#EDF2F7; }
+  .moldura.a3 { background:#F2EFE7; }
+  .moldura.a4 { background:#EFF1EC; }
+  /* A maquete de cada área entra pelo lado em que fica, desfocada, e fica
+     nítida no lugar quando a pessoa chega nela: a da direita vem da direita,
+     a da esquerda vem da esquerda. Quem liga é o script lá embaixo; sem ele,
+     ou com menos movimento pedido no sistema, ela fica parada. */
+  .moldura.vem { opacity:0; transform:translateX(var(--vem-de, 84px)); filter:blur(14px);
+    transition:opacity .8s cubic-bezier(.22,.61,.36,1) .12s, transform 1.1s cubic-bezier(.22,.61,.36,1) .12s,
+               filter .95s cubic-bezier(.22,.61,.36,1) .12s; }
+  .area:nth-child(even) > .moldura.vem { --vem-de:-84px; }
+  .moldura.vem.chegou { opacity:1; transform:none; filter:blur(0); }
+  /* no celular a maquete fica embaixo do texto, na largura toda: todas vêm
+     da direita, num deslize curto, para não passar da borda da tela */
+  @media (max-width:860px){ .moldura.vem, .area:nth-child(even) > .moldura.vem { --vem-de:20px; filter:blur(10px); } }
+
+  .seg-trad { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-soft);
+    border:1px solid var(--line-soft); border-radius:11px; overflow:hidden; }
+  .seg-trad > div { background:#fff; padding:13px 14px; }
+  .seg-trad i { display:block; font-style:normal; font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); margin-bottom:7px; }
+  .seg-trad p { font-size:12.5px; line-height:1.5; color:var(--ink-2); margin:0; }
+  .seg-trad p em { font-style:normal; border-bottom:1.5px solid var(--amber); color:var(--ink); }
+
+  .ab { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .ab-col { background:#fff; border:1px solid var(--line-soft); border-radius:11px; padding:13px; }
+  .ab-col .h { font-size:11px; color:var(--ink-3); margin-bottom:9px; display:flex; justify-content:space-between; }
+  .ab-l { height:6px; border-radius:3px; background:#E9E4DA; margin-bottom:7px; }
+  .ab-col.win { border-color:#BBD4EA; background:var(--signal-suave); }
+  .ab-col.win .ab-l { background:#B7D0E8; }
+  .ab-acoes { display:flex; gap:7px; margin-top:12px; }
+  .ab-b { flex:1; text-align:center; font-size:11px; padding:8px; border-radius:999px; border:1px solid var(--line-soft); background:#fff; color:var(--ink-3); }
+  .ab-b.sel { border-color:var(--signal); color:var(--signal); background:var(--signal-suave); font-weight:500; }
+
+  .onda { display:flex; align-items:flex-end; gap:3px; height:72px; padding:8px 4px; }
+  .onda i { flex:1; background:var(--signal-dim); border-radius:2px; }
+
+  .kv { display:flex; justify-content:space-between; gap:10px; font-size:11.5px; padding:8px 0; border-top:1px solid var(--line-soft); }
+  .kv span:first-child { color:var(--ink-3); }
+  .kv span:last-child { color:var(--ink); font-weight:500; }
+
+  /* ═══════════ PASSOS ═══════════ */
+  .passos-sec { max-width:var(--wrap); margin:0 auto; padding:76px 22px 0; }
+  .passos { display:grid; grid-template-columns:repeat(auto-fit,minmax(232px,1fr)); gap:14px; margin-top:32px; }
+  .passo .n {
+    font-family:var(--display); font-size:30px; color:var(--signal-dim); line-height:1; margin-bottom:14px;
+  }
+  .passo h3 { font-weight:600; font-size:16px; color:var(--ink); margin-bottom:8px; letter-spacing:-0.01em; }
+  .passo p { font-size:14px; color:var(--ink-2); line-height:1.6; }
+  /* Os passos aparecem um depois do outro quando a pessoa chega neles: o 01
+     primeiro, depois o 02 vai clareando, e assim até o 04. Quem liga é o
+     script lá embaixo; sem ele, ou com menos movimento pedido, ficam parados. */
+  .passo.na-fila { opacity:0; transform:translateY(18px); filter:blur(8px);
+    transition:opacity .7s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1),
+               filter .7s cubic-bezier(.22,.61,.36,1); }
+  .passo.na-fila.chegou { opacity:1; transform:none; filter:blur(0); }
+
+  /* ═══════════ CURSOS ═══════════
+     Faixa levemente mais escura, para quebrar a sequência de seções
+     claras e marcar que aqui começa outro assunto. As trilhas são
+     listas numeradas de propósito: os cursos têm ordem de verdade. */
+  .ini-cursos {
+    margin-top:82px; padding:66px 0 62px;
+    background:var(--bg-soft);
+    border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);
+  }
+  .ini-dentro { max-width:var(--wrap); margin:0 auto; padding:0 22px; }
+  .ini-cabeca { max-width:640px; margin-bottom:38px; }
+  .ini-cabeca h2 { text-wrap:balance; }
+  .ini-cabeca p { font-size:16px; color:var(--ink-2); margin-top:14px; }
+  .ini-fatos {
+    display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:18px;
+    font-size:13.5px; color:var(--ink-3);
+  }
+  .ini-fatos span { display:flex; align-items:center; gap:8px; }
+  .ini-fatos span::before {
+    content:''; width:4px; height:4px; border-radius:50%; background:var(--signal-dim); flex:none;
+  }
+
+  /* align-items:start para cada trilha ter a altura do próprio conteúdo.
+     Sem isso a trilha de 3 cursos esticava até a de 4 e sobrava um vazio. */
+  .ini-trilhas { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  .ini-trilha { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:26px 26px 20px; }
+  .ini-trilha > .eyebrow { margin-bottom:10px; }
+  .ini-trilha h3 {
+    font-family:var(--display); font-weight:400; font-size:23px; line-height:1.15;
+    letter-spacing:-0.012em; color:var(--ink); margin:0 0 4px;
+  }
+  .ini-trilha > p { font-size:14px; color:var(--ink-2); line-height:1.6; margin:0 0 16px; }
+
+  .ini-lista { display:flex; flex-direction:column; }
+  .ini-curso {
+    display:grid; grid-template-columns:26px 1fr 14px; gap:12px; align-items:center;
+    padding:13px 0; border-top:1px solid var(--line-soft);
+    font-size:14.5px; color:var(--ink); text-decoration:none;
+    transition:color .16s;
+  }
+  .ini-curso .num {
+    font-size:13px; color:var(--ink-3); font-variant-numeric:tabular-nums;
+    transition:color .16s;
+  }
+  .ini-curso .arr { color:var(--signal); opacity:0; transform:translateX(-4px); transition:opacity .16s, transform .16s; }
+  .ini-curso:hover { color:var(--signal); }
+  .ini-curso:hover .num { color:var(--signal); }
+  .ini-curso:hover .arr { opacity:1; transform:none; }
+
+  .ini-cursos .link-seta { margin-top:26px; }
+
+  /* ═══════════ FERRAMENTAS ═══════════
+     Só duas, e de propósito mais quietas que os cursos: linhas largas
+     em vez de cartões, para não abrir uma grade com um buraco. */
+  .ini-ferr { max-width:var(--wrap); margin:0 auto; padding:74px 22px 0; }
+  .ini-ferr .ini-cabeca { margin-bottom:30px; }
+  /* largura própria: sem isso a seta ficava a meia tela de distância do texto */
+  .ini-linhas { display:flex; flex-direction:column; gap:12px; max-width:880px; }
+  .ini-ferramenta {
+    display:grid; grid-template-columns:46px 1fr auto; gap:18px; align-items:center;
+    background:var(--panel); border:1px solid var(--line-soft); border-radius:16px;
+    padding:20px 24px; text-decoration:none;
+    transition:border-color .18s, transform .18s, box-shadow .18s;
+  }
+  .ini-ferramenta:hover { border-color:var(--line); transform:translateY(-2px); box-shadow:var(--sombra-alta); }
+  .ini-icone {
+    width:46px; height:46px; border-radius:13px; display:grid; place-items:center;
+    background:var(--signal-suave); color:var(--signal);
+  }
+  .ini-ferramenta h3 { font-weight:600; font-size:16.5px; color:var(--ink); margin:0 0 3px; letter-spacing:-0.01em; }
+  .ini-ferramenta p { font-size:14px; color:var(--ink-2); line-height:1.55; margin:0; max-width:58ch; }
+  .ini-ferramenta .arr { color:var(--signal); font-size:15px; transition:transform .18s; }
+  .ini-ferramenta:hover .arr { transform:translateX(3px); }
+
+  @media (max-width:860px){
+    .ini-trilhas { grid-template-columns:1fr; }
+  }
+  @media (max-width:560px){
+    .ini-ferramenta { grid-template-columns:40px 1fr; gap:14px; padding:18px 18px; }
+    .ini-ferramenta .arr { display:none; }
+    .ini-icone { width:40px; height:40px; border-radius:11px; }
+  }
+
+  /* ═══════════ CHAMADA FINAL ═══════════ */
+  .fim { max-width:var(--wrap); margin:0 auto; padding:80px 22px 0; }
+  .fim .escuro { padding:76px 34px; text-align:center; }
+  .fim .escuro::before {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(70% 100% at 50% 0%, rgba(78,154,200,0.26), transparent 62%),
+      radial-gradient(55% 70% at 12% 110%, rgba(26,72,147,0.45), transparent 68%),
+      radial-gradient(45% 60% at 92% 106%, rgba(78,154,200,0.18), transparent 70%);
+  }
+  .fim h2 { position:relative; z-index:1; margin-bottom:16px; }
+  .fim p { position:relative; z-index:1; max-width:46ch; margin:0 auto 30px; font-size:16.5px; }
+  .fim .acoes { position:relative; z-index:1; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+</style>
 </head>
 <body>
-<p id="msg">Abrindo a conta de exemplo da Marina…</p>
-<script src="controle-dados.js?v=6"></script>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="eyebrow">Trabalho remoto com dados e inteligência artificial</div>
+  <h1 class="big">O trabalho que ensina as máquinas começa com você.</h1>
+  <p class="lead">Empresas do mundo inteiro pagam pessoas comuns para ensinar e avaliar sistemas de inteligência artificial. Aqui você encontra quem contrata e as vagas abertas para quem mora no Brasil.</p>
+  <div class="hero-cta">
+    <a href="vagas.html" class="btn primary">Ver vagas abertas <span class="arr">→</span></a>
+    <a href="como-funciona.html" class="btn">Como funciona</a>
+  </div>
+</section>
+
+<!-- ══════════ CARROSSEL ══════════ -->
+<section class="vitrine">
+  <div class="escuro palco">
+    <div class="trilhos">
+      <div class="slides" id="slides">
+
+        <!-- 1. vagas -->
+        <article class="slide ativo">
+          <div class="texto">
+            <div class="eyebrow">Vagas</div>
+            <h2>Tudo que está aberto para o Brasil, em um lugar só</h2>
+            <p>As oportunidades desse mercado ficam espalhadas em plataformas que quase ninguém conhece. Aqui elas chegam reunidas, filtradas por área, empresa e data.</p>
+            <a href="vagas.html" class="btn claro">Ver as vagas <span class="arr">→</span></a>
+          </div>
+          <div class="arte">
+            <div class="janela mq mq-v">
+              <div class="jn-topo"><i></i><i></i><i></i><b>Vagas abertas</b></div>
+              <div class="jn-corpo">
+                <div class="mq-lista">
+                <div class="linha-vaga alvo">
+                  <span class="mk" style="background:#1A4893;"><img src="logos/welocalize.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='WL';}"></span>
+                  <span class="tx"><b>Search Quality Rater, português (Brasil)</b><span>Welocalize · remoto</span></span>
+                  <span class="et">nova</span>
+                </div>
+                <div class="linha-vaga">
+                  <span class="mk" style="background:#4E9AC8;"><img src="logos/oneforma.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='1F';}"></span>
+                  <span class="tx"><b>Multilingual AI Response Evaluator</b><span>OneForma · remoto</span></span>
+                  <span class="et az">IA</span>
+                </div>
+                <div class="linha-vaga">
+                  <span class="mk" style="background:#5B4B9E;"><img src="logos/rws.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='RW';}"></span>
+                  <span class="tx"><b>Brazilian Portuguese Subject Matter Expert</b><span>RWS TrainAI · remoto</span></span>
+                  <span class="et az">SME</span>
+                </div>
+                <div class="linha-vaga">
+                  <span class="mk" style="background:#2C6BB5;"><img src="logos/toloka.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='TK';}"></span>
+                  <span class="tx"><b>Grave vídeos para treinar IA</b><span>Toloka AI · remoto</span></span>
+                  <span class="et">nova</span>
+                </div>
+                </div>
+                <!-- a página da vaga, que a animação abre por cima da lista -->
+                <div class="mq-ficha" aria-hidden="true">
+                  <div class="mq-ficha-topo">
+                    <span class="mk" style="background:#1A4893;"><img src="logos/welocalize.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:4px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='WL';}"></span>
+                    <span class="tx"><b>Search Quality Rater, português (Brasil)</b><span>Welocalize · remoto</span></span>
+                  </div>
+                  <div class="mq-bloco b1"><i>O que você vai fazer</i><p>Avaliar se os resultados de uma busca respondem ao que a pessoa procurou.</p></div>
+                  <div class="mq-bloco b2"><i>Requisitos</i><p>Português nativo, inglês para ler as instruções e atenção a detalhes.</p></div>
+                  <span class="mq-botao">Candidatar-se a esta vaga →</span>
+                </div>
+                <span class="mq-cursor" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 1.8l11.4 6.5-4.9 1.2-2.6 4.7z" fill="#fff" stroke="#10203A" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. empresas -->
+        <article class="slide">
+          <div class="texto">
+            <div class="eyebrow">Empresas</div>
+            <h2>Saiba com quem você vai trabalhar antes de se candidatar</h2>
+            <p>Cada empresa tem uma ficha com o que ela faz, o tipo de projeto, como é o processo de entrada e como o pagamento chega até o Brasil.</p>
+            <a href="empresas.html" class="btn claro">Conhecer as empresas <span class="arr">→</span></a>
+          </div>
+          <div class="arte">
+            <div class="janela mq mq-e">
+              <div class="jn-topo"><i></i><i></i><i></i><b>Perfil da empresa</b></div>
+              <div class="jn-corpo">
+                <div class="mq-abas" aria-hidden="true">
+                  <span class="mq-aba a1 sel"><img src="logos/welocalize.png" alt="" loading="lazy"></span>
+                  <span class="mq-aba a2"><img src="logos/oneforma.png" alt="" loading="lazy"></span>
+                  <span class="mq-aba"><img src="logos/toloka.png" alt="" loading="lazy"></span>
+                  <span class="mq-aba"><img src="logos/rws.png" alt="" loading="lazy"></span>
+                  <span class="mq-aba"><img src="logos/telus.png" alt="" loading="lazy"></span>
+                </div>
+                <div class="mq-fichas">
+                  <div class="mq-emp e1">
+                    <div class="perfil-emp">
+                      <span class="mk" style="background:#1A4893;"><img src="logos/welocalize.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:4px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='WL';}"></span>
+                      <span><b>Welocalize</b><span>Serviços linguísticos · Nova York</span></span>
+                    </div>
+                    <div class="campos">
+                      <div class="campo"><i>Fundação</i><b>1997</b></div>
+                      <div class="campo"><i>Porte</i><b>2.000+ clientes</b></div>
+                      <div class="campo"><i>Como paga</i><b>Por hora, freelancer</b></div>
+                      <div class="campo"><i>Clientes</i><b>Meta, Amazon, Spotify</b></div>
+                    </div>
+                    <div class="kv" style="margin-top:12px;"><span>Áreas</span><span>Avaliação · Tradução · QA</span></div>
+                  </div>
+                  <!-- a segunda ficha, que a animação mostra ao trocar de empresa -->
+                  <div class="mq-emp e2" aria-hidden="true">
+                    <div class="perfil-emp">
+                      <span class="mk" style="background:#4E9AC8;"><img src="logos/oneforma.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:4px;box-sizing:border-box;" onerror="var p=this.parentNode; if(p){p.textContent='1F';}"></span>
+                      <span><b>OneForma</b><span>Plataforma de projetos · Estados Unidos</span></span>
+                    </div>
+                    <div class="campos">
+                      <div class="campo"><i>Grupo</i><b>Centific</b></div>
+                      <div class="campo"><i>Porte</i><b>Paga em 100+ países</b></div>
+                      <div class="campo"><i>Como paga</i><b>Duas vezes por mês</b></div>
+                      <div class="campo"><i>Clientes</i><b>Empresas de tecnologia</b></div>
+                    </div>
+                    <div class="kv" style="margin-top:12px;"><span>Áreas</span><span>Anotação · Coleta · Transcrição</span></div>
+                  </div>
+                </div>
+                <span class="mq-cursor" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 1.8l11.4 6.5-4.9 1.2-2.6 4.7z" fill="#fff" stroke="#10203A" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. como funciona -->
+        <article class="slide">
+          <div class="texto">
+            <div class="eyebrow">Como funciona</div>
+            <h2>Do primeiro cadastro ao dinheiro na conta</h2>
+            <p>Um guia direto sobre o teste de entrada, o currículo que passa nos filtros, como o pagamento chega ao Brasil, imposto e como reconhecer golpe.</p>
+            <a href="como-funciona.html" class="btn claro">Ler o guia <span class="arr">→</span></a>
+          </div>
+          <div class="arte">
+            <div class="janela mq mq-c">
+              <div class="jn-topo"><i></i><i></i><i></i><b>Etapas até a primeira vaga</b></div>
+              <div class="jn-corpo">
+                <div class="passo-mq feito p1"><span class="bola"><i class="n">1</i><i class="ok">✓</i></span><span><b>Cadastro e perfil</b><span>de cinco a vinte minutos</span></span></div>
+                <div class="passo-mq feito p2"><span class="bola"><i class="n">2</i><i class="ok">✓</i></span><span><b>Candidatura à vaga</b><span>currículo em inglês</span></span></div>
+                <div class="passo-mq p3"><span class="bola"><i class="n">3</i><i class="ok">✓</i></span><span><b>Material de estudo e teste</b><span>a etapa que mais elimina gente</span></span></div>
+                <div class="passo-mq p4 ultimo"><span class="bola"><i class="n">4</i><i class="ok">✓</i></span><span><b>Período de calibragem</b><span>qualidade acima de volume</span></span></div>
+                <div class="kv mq-pg" style="margin-top:10px;"><span>Primeiro pagamento</span><span>de 3 a 8 semanas</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. áreas -->
+        <article class="slide">
+          <div class="texto">
+            <div class="eyebrow">Áreas</div>
+            <h2>Quatro tipos de projeto, do mais simples ao de especialista</h2>
+            <p>Anotação, avaliação de IA, tradução e coleta de dados. Cada um pede uma habilidade diferente, e nem todos exigem experiência prévia.</p>
+            <a href="#anotacao" class="btn claro">Ver as áreas <span class="arr">↓</span></a>
+          </div>
+          <div class="arte">
+            <div class="janela mq mq-a">
+              <div class="jn-topo"><i></i><i></i><i></i><b>Anotação de imagem</b></div>
+              <div class="jn-corpo">
+                <div class="cx-anot" role="img" aria-label="Foto de uma esquina com caixas marcando pessoa, veículo, placa e sinal de trânsito">
+                  <div class="bx c1" style="left:13%;top:39%;width:6%;height:40%;border-color:#1A4893;"><b style="background:#1A4893;">pessoa</b></div>
+                  <div class="bx c2" style="left:54.5%;top:46%;width:14.5%;height:32%;border-color:#2C6BB5;"><b style="background:#2C6BB5;">veículo</b></div>
+                  <div class="bx abaixo mini c3" style="left:59.3%;top:65.5%;width:5%;height:5%;border-color:#A85D24;"><b style="background:#A85D24;">placa</b></div>
+                  <div class="bx abaixo c4" style="left:80.5%;top:6%;width:8%;height:20%;border-color:#5B4B9E;"><b style="background:#5B4B9E;">sinal</b></div>
+                  <span class="mq-mira" aria-hidden="true"></span>
+                </div>
+                <div class="kv" style="margin-top:12px;"><span>Itens marcados hoje</span><span><span class="mq-rolo"><span><i>412</i><i>413</i><i>414</i><i>415</i><i>416</i></span></span> de 500</span></div>
+                <div class="kv"><span>Pagamento</span><span>por item aprovado</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="controles">
+      <div class="pontos" id="pontos"></div>
+      <div class="setas">
+        <button class="seta" id="setaAnt" aria-label="Anterior">‹</button>
+        <button class="seta" id="setaProx" aria-label="Próximo">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABERTURA ══════════ -->
+<section class="abertura">
+  <h2 class="sec">Um mercado que quase ninguém no Brasil sabe que existe</h2>
+  <div class="corpo">
+    <p>Todo modelo de inteligência artificial precisa de gente para ensinar e corrigir o que ele produz. É trabalho de pessoas comuns, de casa, em horário flexível, pago em dólar ou euro.</p>
+  </div>
+</section>
+
+<!-- ══════════ ÁREAS ══════════ -->
+<section class="areas">
+
+  <article class="area" id="anotacao">
+    <div class="lado-texto">
+      <div class="eyebrow">Anotação de dados</div>
+      <h3>Ensinar a máquina a enxergar o mundo</h3>
+      <p>Antes de um modelo reconhecer um carro, um tumor ou uma frase irônica, alguém apontou aquilo para ele. Anotar é marcar e classificar dados até o sistema aprender o que é o quê.</p>
+      <ul>
+        <li>Desenhar caixas em imagens e vídeos para identificar objetos e cenas</li>
+        <li>Classificar textos por tema, intenção, tom ou risco</li>
+        <li>Marcar trechos de áudio e transcrever fala</li>
+        <li>Corrigir rótulos que o próprio modelo errou</li>
+      </ul>
+      <a href="vagas.html?cat=ai" class="link-seta">Ver vagas de IA e dados <span class="arr">→</span></a>
+    </div>
+    <div class="moldura">
+      <div class="janela">
+        <div class="jn-topo"><i></i><i></i><i></i><b>projeto_anotacao_ptbr</b></div>
+        <div class="jn-corpo">
+          <div class="cx-anot" role="img" aria-label="Foto de uma esquina com caixas marcando pessoa, veículo, placa e sinal de trânsito">
+            <div class="bx" style="left:13%;top:39%;width:6%;height:40%;border-color:#1A4893;"><b style="background:#1A4893;">pessoa 0.97</b></div>
+                  <div class="bx" style="left:54.5%;top:46%;width:14.5%;height:32%;border-color:#2C6BB5;"><b style="background:#2C6BB5;">veículo 0.94</b></div>
+                  <div class="bx abaixo mini" style="left:59.3%;top:65.5%;width:5%;height:5%;border-color:#A85D24;"><b style="background:#A85D24;">placa 0.88</b></div>
+                  <div class="bx abaixo" style="left:80.5%;top:6%;width:8%;height:20%;border-color:#5B4B9E;"><b style="background:#5B4B9E;">sinal 0.79</b></div>
+          </div>
+          <div class="kv" style="margin-top:13px;"><span>Itens marcados hoje</span><span>412 de 500</span></div>
+          <div class="kv"><span>Rótulos do projeto</span><span>pessoa · veículo · placa · sinal</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="area" id="avaliacao">
+    <div class="lado-texto">
+      <div class="eyebrow">Avaliação de IA</div>
+      <h3>Dizer para a IA qual resposta é melhor</h3>
+      <p>É a área que mais cresce. Você lê duas respostas do modelo, escolhe a melhor e explica o porquê. Esse julgamento é o que ensina o sistema a ser útil, correto e seguro.</p>
+      <ul>
+        <li>Comparar respostas de IA e ordenar por precisão e utilidade</li>
+        <li>Avaliar se um resultado de busca responde de fato à pergunta feita</li>
+        <li>Marcar conteúdo perigoso, enganoso ou inadequado</li>
+        <li>Escrever perguntas difíceis de propósito para testar o modelo</li>
+      </ul>
+      <a href="vagas.html?cat=qa" class="link-seta">Ver vagas de QA e avaliação <span class="arr">→</span></a>
+    </div>
+    <div class="moldura a2">
+      <div class="janela">
+        <div class="jn-topo"><i></i><i></i><i></i><b>avaliacao_resposta_2841</b></div>
+        <div class="jn-corpo">
+          <div class="ab">
+            <div class="ab-col">
+              <div class="h"><span>Resposta A</span><span>modelo 1</span></div>
+              <div class="ab-l" style="width:100%"></div><div class="ab-l" style="width:86%"></div>
+              <div class="ab-l" style="width:94%"></div><div class="ab-l" style="width:52%"></div>
+            </div>
+            <div class="ab-col win">
+              <div class="h"><span style="color:var(--signal);font-weight:500;">Resposta B</span><span>modelo 2</span></div>
+              <div class="ab-l" style="width:100%"></div><div class="ab-l" style="width:96%"></div>
+              <div class="ab-l" style="width:88%"></div><div class="ab-l" style="width:70%"></div>
+            </div>
+          </div>
+          <div class="ab-acoes">
+            <div class="ab-b">A é melhor</div><div class="ab-b">empate</div><div class="ab-b sel">B é melhor</div>
+          </div>
+          <div class="kv" style="margin-top:12px;"><span>Critérios</span><span>precisão · utilidade · segurança</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="area" id="traducao">
+    <div class="lado-texto">
+      <div class="eyebrow">Tradução e localização</div>
+      <h3>O português brasileiro é o produto aqui</h3>
+      <p>Empresas globais precisam de conteúdo que soe natural para o brasileiro, não traduzido ao pé da letra. Boa parte dessas vagas é pós-edição: a máquina traduz e você corrige.</p>
+      <ul>
+        <li>Pós-edição de tradução automática, corrigindo o que a máquina errou</li>
+        <li>Tradução e revisão de conteúdo de produto, marketing e suporte</li>
+        <li>Adaptação cultural de gírias, exemplos e referências</li>
+        <li>Legendagem, transcrição e controle de qualidade linguístico</li>
+      </ul>
+      <a href="vagas.html?cat=transl" class="link-seta">Ver vagas de tradução <span class="arr">→</span></a>
+    </div>
+    <div class="moldura a3">
+      <div class="janela">
+        <div class="jn-topo"><i></i><i></i><i></i><b>segmento 47 de 120 · en-US para pt-BR</b></div>
+        <div class="jn-corpo">
+          <div class="seg-trad">
+            <div><i>Original</i><p>Push the door to open.</p></div>
+            <div><i>Português (Brasil)</i><p><em>Puxe</em> a porta para abrir.</p></div>
+          </div>
+          <div class="kv" style="margin-top:13px;"><span>Alerta de qualidade</span><span style="color:var(--amber);">sentido trocado: “push” é “empurre”</span></div>
+          <div class="kv"><span>Progresso</span><span>39% · 1.240 palavras</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="area" id="coleta">
+    <div class="lado-texto">
+      <div class="eyebrow">Coleta de dados</div>
+      <h3>Sua voz, sua letra, seu jeito de falar</h3>
+      <p>Muitos projetos precisam de material novo, criado do zero por pessoas reais. São as tarefas mais simples e as melhores para quem está começando, porque quase nunca pedem experiência.</p>
+      <ul>
+        <li>Gravar frases, diálogos e comandos de voz em português brasileiro</li>
+        <li>Enviar fotos e vídeos seguindo um roteiro definido pelo projeto</li>
+        <li>Escrever textos e exemplos dentro de um tema</li>
+        <li>Responder a questionários sobre linguagem e cultura</li>
+      </ul>
+      <a href="vagas.html" class="link-seta">Ver todas as vagas abertas <span class="arr">→</span></a>
+    </div>
+    <div class="moldura a4">
+      <div class="janela">
+        <div class="jn-topo"><i></i><i></i><i></i><b>coleta_voz_ptbr · frase 12</b></div>
+        <div class="jn-corpo">
+          <div style="background:var(--bg-soft);border-radius:11px;padding:13px 15px;">
+            <i style="display:block;font-style:normal;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;">Leia em voz alta</i>
+            <span style="font-size:14px;color:var(--ink);">“Marca um lembrete pra sexta às nove da manhã.”</span>
+          </div>
+          <div class="onda" id="onda"></div>
+          <div class="kv"><span>Duração</span><span>00:03.2 de 00:10</span></div>
+          <div class="kv"><span>Aprovadas</span><span>11 de 40 · pagamento por item</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<!-- ══════════ PASSOS ══════════ -->
+<section class="passos-sec">
+  <div class="eyebrow">Como começar</div>
+  <h2 class="sec">Do zero à primeira vaga</h2>
+  <div class="passos">
+    <div class="card passo">
+      <div class="n">01</div>
+      <h3>Comece com 2 ou 3 vagas</h3>
+      <p>Não tente tudo de uma vez. Escolha as que combinam com seu perfil e construa reputação primeiro.</p>
+    </div>
+    <div class="card passo">
+      <div class="n">02</div>
+      <h3>Faça o teste de entrada</h3>
+      <p>Quase toda vaga tem uma prova inicial. Estude o material com calma, porque a preparação faz toda a diferença.</p>
+    </div>
+    <div class="card passo">
+      <div class="n">03</div>
+      <h3>Adapte seu currículo</h3>
+      <p>Ajuste o CV a cada vaga, destacando experiências relevantes e as palavras-chave da descrição.</p>
+    </div>
+    <div class="card passo">
+      <div class="n">04</div>
+      <h3>Trabalhe no seu ritmo</h3>
+      <p>A maioria dos projetos é flexível: você escolhe quando e quanto trabalhar, de onde estiver no Brasil.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CURSOS ══════════ -->
+<section class="ini-cursos">
+  <div class="ini-dentro">
+
+    <div class="ini-cabeca">
+      <div class="eyebrow">Cursos</div>
+      <h2 class="sec">Chegar à candidatura já sabendo o que a empresa mede</h2>
+      <p>
+        Quase toda vaga tem um teste de entrada, e é ali que a maioria para. Estes cursos
+        cobrem o que a prova cobra: o vocabulário da área, o que é uma guideline, e por que
+        a consistência vale mais que a opinião.
+      </p>
+      <div class="ini-fatos">
+        <span>7 cursos</span>
+        <span>cerca de 1 hora cada</span>
+      </div>
+    </div>
+
+    <div class="ini-trilhas">
+
+      <div class="ini-trilha">
+        <div class="eyebrow">Trilha 1</div>
+        <h3>Avaliação e julgamento</h3>
+        <p>Do motivo de o trabalho existir até a régua de segurança. Na ordem em que fazem sentido.</p>
+        <div class="ini-lista">
+          <a class="ini-curso" href="curso-fundamentos.html">
+            <span class="num">01</span><span>Fundamentos da Avaliação de IA</span><span class="arr">→</span>
+          </a>
+          <a class="ini-curso" href="curso-guidelines.html">
+            <span class="num">02</span><span>Guidelines, Rubricas e Consistência</span><span class="arr">→</span>
+          </a>
+          <a class="ini-curso" href="curso-comparacao.html">
+            <span class="num">03</span><span>Comparação de Respostas e LLM como Juiz</span><span class="arr">→</span>
+          </a>
+          <a class="ini-curso" href="curso-seguranca.html">
+            <span class="num">04</span><span>Segurança, Red Teaming e Conteúdo Sensível</span><span class="arr">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="ini-trilha">
+        <div class="eyebrow">Trilha 2</div>
+        <h3>Voz e áudio</h3>
+        <p>A área com mais vaga para quem fala português do Brasil, e a que menos tem material.</p>
+        <div class="ini-lista">
+          <a class="ini-curso" href="curso-tts.html">
+            <span class="num">01</span><span>Avaliação de TTS: MOS, CMOS e as Escalas</span><span class="arr">→</span>
+          </a>
+          <a class="ini-curso" href="curso-transcricao.html">
+            <span class="num">02</span><span>Transcrição e Convenções</span><span class="arr">→</span>
+          </a>
+          <a class="ini-curso" href="curso-fonetica.html">
+            <span class="num">03</span><span>Fonética Prática para Quem Avalia Voz</span><span class="arr">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <a href="cursos.html" class="link-seta">Ver todos os cursos <span class="arr">→</span></a>
+
+  </div>
+</section>
+
+<!-- ══════════ FERRAMENTAS ══════════ -->
+<section class="ini-ferr">
+
+  <div class="ini-cabeca">
+    <div class="eyebrow">Ferramentas</div>
+    <h2 class="sec">Para facilitar o seu dia a dia</h2>
+  </div>
+
+  <div class="ini-linhas">
+
+    <a class="ini-ferramenta" href="transcricao.html">
+      <span class="ini-icone">
+        <svg width="21" height="21" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 2.2a2.6 2.6 0 0 0-2.6 2.6v5.1a2.6 2.6 0 1 0 5.2 0V4.8A2.6 2.6 0 0 0 10 2.2Z" fill="currentColor"/>
+          <path d="M4.5 9.3v.9a5.5 5.5 0 0 0 11 0v-.9M10 15.7v2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <h3>Transcrição ao vivo</h3>
+        <p>Transcreve o áudio que está tocando no computador, enquanto toca, no idioma original ou já em português. Serve para acompanhar reunião, aula ou vídeo em outro idioma.</p>
+      </span>
+      <span class="arr">→</span>
+    </a>
+
+    <a class="ini-ferramenta" href="controle.html">
+      <span class="ini-icone">
+        <svg width="21" height="21" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3.5 16.5V9M8 16.5V4M12.5 16.5v-5M17 16.5V7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <h3>Meu Controle</h3>
+        <p>Registra as suas candidaturas e a etapa de cada uma, do currículo enviado à aprovação. Para quem já trabalha, soma as horas e os ganhos de cada projeto, converte para real e acompanha as metas da semana e do mês.</p>
+      </span>
+      <span class="arr">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══════════ ALERTA POR E-MAIL (alerta-email.js) ══════════ -->
+
+<!-- ══════════ CHAMADA FINAL ══════════ -->
+<section class="fim">
+  <div class="escuro">
+    <h2 class="sec">Pronto para a primeira candidatura?</h2>
+    <p>Cada vaga leva direto para a página oficial da empresa, sem intermediário e sem cadastro. Alguns links são de indicação: se você for contratado, a empresa paga uma comissão que ajuda a manter o Hub.</p>
+    <div class="acoes">
+      <a href="vagas.html" class="btn branco">Ver vagas abertas <span class="arr">→</span></a>
+      <a href="como-funciona.html" class="btn claro">Ler o guia completo</a>
+    </div>
+  </div>
+</section>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
 <script>
-/* SÓ NA CÓPIA DE TESTE: cria a conta de mentira da Marina, com perfil feito e
-   o Meu Controle preenchido, e abre o Início. Nada sai deste navegador.
-   Se a Marina já está aberta neste navegador, vai direto para o Início. */
-(async function () {
-  const vazia = false;
-  const uid = "teste-marina", email = "marina@exemplo.com";
-  try { const s = JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token")); if (s && s.user && s.user.id === uid) { location.replace("inicio.html"); return; } } catch (e) {}
-  const user = { id: uid, email, identities: [{}], user_metadata: { nome: "Marina Souza", perfil_prof: true,
-    areas: ["Linguistica", "Educacao e Ensino"], subareas: [], areas_respondido: true } };
-  const ler = (k, p) => { try { return JSON.parse(localStorage.getItem(k)) || p; } catch (e) { return p; } };
-  const contas = ler("teste-porta-contas", {}); contas[email] = user; localStorage.setItem("teste-porta-contas", JSON.stringify(contas));
-  const perfil = { idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "C1", certificado: "TOEFL" }, { lingua: "Espanhol", nivel: "B1", certificado: "" }],
-    formacao: [{ curso: "Letras, Português e Inglês", onde: "Universidade Federal", situacao: "Completo", ano: "2019" }], semFormacao: false,
-    areas: { "Linguistica": "3 a 5 anos", "Educacao e Ensino": "mais de 5 anos" },
-    experiencias: [{ oque: "Professora de inglês", onde: "Escola de idiomas", inicio: "2019-02", fim: "", atual: true, fez: "Aulas para adultos, do básico ao avançado", numeros: "", origem: "" }],
-    ferramentas: [], mora: "Brasil", cidade: "Belo Horizonte", horas: "20", importados: [], salvoEm: new Date().toISOString() };
-  const perfis = ler("teste-porta-perfis", {}); perfis[uid] = { user_id: uid, dados: perfil, atualizado_em: perfil.salvoEm }; localStorage.setItem("teste-porta-perfis", JSON.stringify(perfis));
-  localStorage.setItem("hub-perfil-prof-previa", JSON.stringify(perfil));
-  localStorage.setItem("sb-zrqucjktympnwilbvisw-auth-token", JSON.stringify({ access_token: "teste-" + uid, refresh_token: "teste", expires_at: Math.floor(Date.now() / 1000) + 30 * 86400, user }));
-  localStorage.setItem("hub-plano", JSON.stringify({ uid, plano: "pro", quando: Date.now() }));
-  localStorage.setItem("hub-equipe", JSON.stringify({ uid, sim: true, quando: Date.now() }));
-  localStorage.setItem("hub-controle:dono", uid);   // o Meu Controle não apaga o exemplo ao abrir
+montarLayout("inicio");
+revelarAoRolar(".abertura, .areas .lado-texto, .ini-trilha, .ini-ferramenta, .fim .escuro");
 
-  await Dados.abrir(); await Dados.apagarTudo();
-  if (!vazia) {
-    const hoje = Dados.hoje();
-    const dia = n => { const d = new Date(hoje + "T12:00:00"); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
-    const vagas = (await (await fetch("vagas.json?v=" + Date.now())).json()).vagas;
-    const empresas = (await (await fetch("empresas.json?v=" + Date.now())).json()).empresas;
-    const nomeEmp = id => (empresas.find(e => e.id === id) || {}).nome || id;
-    const vg = id => vagas.find(v => v.id === id);
-    const cand = async (id, estado, desde, extra) => {
-      const v = vg(id); if (!v) return null;
-      const passos = {}; const ordem = ["aplicado", "teste", "prova", "entrevista", "aprovado"];
-      const ate = ordem.indexOf(estado); ordem.forEach((e, i) => { if (ate >= 0 && i <= ate) passos[e] = dia(desde + i * 3); });
-      if (ate < 0) passos.aplicado = dia(desde);
-      return Dados.salvar("aplicacoes", Object.assign({ vagaId: v.id, empresa: nomeEmp(v.empresa), titulo: v.titulo.replace(/^\*/, ""), url: v.url,
-        data: dia(desde), estado, origem: "Home Office Hub", remuneracao: (v.resumo && v.resumo.remuneracao) || "",
-        proximo: "", proximoEm: "", observacoes: "", email: "", curriculo: "CV em inglês", passos, vaga: Dados.fotoDaVaga(v) }, extra || {}));
+// onda de áudio da seção de coleta
+(function(){
+  const onda = document.getElementById("onda");
+  if (!onda) return;
+  const alturas = [22,48,31,68,84,55,39,72,90,61,44,78,52,35,66,88,47,29,58,74,41,63,86,50,33,70,45,80];
+  onda.innerHTML = alturas.map((h,i) =>
+    `<i style="height:${h}%;opacity:${i < 13 ? 0.9 : 0.28};"></i>`).join("");
+})();
+
+/* ── as maquetes das áreas entram pelo lado em que ficam, desfocadas ──
+   Cada uma toca uma vez, quando a pessoa chega nela. Depois a classe sai,
+   para a maquete não ficar com filtro nenhum. Quem pediu menos movimento,
+   ou usa navegador sem o recurso, vê as maquetes paradas. */
+(function(){
+  const molduras = document.querySelectorAll(".areas .area > .moldura");
+  if (!molduras.length || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const limpar = el => el.classList.remove("vem", "chegou");
+  function soltar(el) {
+    requestAnimationFrame(() => el.classList.add("chegou"));
+    const fim = ev => {
+      if (ev.target !== el || ev.propertyName !== "transform") return;
+      el.removeEventListener("transitionend", fim);
+      limpar(el);
     };
-    const aTelus = await cand("b24061003e", "aprovado", -56);
-    const aOne = await cand("d1856cbd96", "aprovado", -38);
-    const aHand = await cand("6d22784714", "teste", -12, { proximo: "Fazer o teste de proficiência", proximoEm: dia(2) });
-    const aMicro = await cand("2252f79c1f", "entrevista", -15, { proximo: "Entrevista", proximoEm: dia(1), passos: { aplicado: dia(-15), entrevista: dia(-6) } });
-    await cand("c86034f6fe", "prova", -9, { proximo: "Esperar a correção da prova", proximoEm: dia(6) });
-    await cand("37f8a23a09", "aplicado", -3);
-    await cand("40bde685a9", "aplicado", -1);
-    await cand("65762fd387", "semresposta", -24);
-    await cand("a8641549b5", "recusado", -19, { recusaEtapa: "teste", recusaMotivo: "Ingles" });
-
-    const t1 = await Dados.salvar("trabalhos", { empresa: "TELUS Digital", projeto: "Personalized Internet Assessor", pagamento: "hora", valor: 5, moeda: "USD", ciclo: "mensal", inicio: dia(-50), estado: "ativo", cor: "#1A4893", diaPeriodo: 1, aplicacaoId: aTelus && aTelus.id });
-    const t2 = await Dados.salvar("trabalhos", { empresa: "OneForma", projeto: "Local Maps Search Evaluator", pagamento: "hora", valor: 8, moeda: "USD", ciclo: "mensal", inicio: dia(-32), estado: "ativo", cor: "#A85D24", diaPeriodo: 1, aplicacaoId: aOne && aOne.id });
-    for (let i = 1; i <= 48; i++) {
-      const d = dia(-i), w = new Date(d + "T12:00:00").getDay();
-      if (w === 0) continue;
-      await Dados.salvar("registros", { trabalhoId: t1.id, data: d, horas: w === 6 ? 1 : 2 });
-      if (i <= 30 && (w === 2 || w === 4)) await Dados.salvar("registros", { trabalhoId: t2.id, data: d, horas: 1.5 });
-    }
-    await Dados.salvar("agenda", { tipo: "trabalho", trabalhoId: t1.id, data: dia(0), horas: 2, inicio: "20:00" });
-    await Dados.salvar("agenda", { tipo: "trabalho", trabalhoId: t2.id, data: dia(1), horas: 1, inicio: "09:00" });
-    await Dados.salvar("agenda", { tipo: "entrevista", titulo: "Entrevista micro1", data: dia(1), inicio: "14:00", fim: "14:30", aplicacaoId: aMicro && aMicro.id, nota: "" });
-    await Dados.salvar("agenda", { tipo: "prazo", titulo: "Teste da Handshake AI", data: dia(2), inicio: "", fim: "", aplicacaoId: aHand && aHand.id, nota: "" });
-    await Dados.salvar("agenda", { tipo: "estudo", titulo: "Curso Guidelines, aula 2", data: dia(2), inicio: "19:00", fim: "20:00", aplicacaoId: "", nota: "" });
+    el.addEventListener("transitionend", fim);
+    setTimeout(() => limpar(el), 2000);   // se o fim da transição não avisar
   }
-  location.replace("inicio.html");
-})().catch(e => { document.getElementById("msg").textContent = "Não deu para abrir o exemplo: " + e.message; console.error(e); });
+
+  const obs = new IntersectionObserver(entradas => {
+    entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      soltar(e.target);
+    });
+  }, { rootMargin: "0px 0px -12% 0px", threshold: 0.15 });
+
+  molduras.forEach(el => { el.classList.add("vem"); obs.observe(el); });
+  // na impressão (ou salvar em PDF) tudo aparece, mesmo o que não foi visto
+  window.addEventListener("beforeprint", () => molduras.forEach(limpar));
+})();
+
+/* ── os passos aparecem um depois do outro ──
+   No computador os quatro chegam juntos na tela e entram em fila, com um
+   intervalo entre eles. No celular, um embaixo do outro, cada um entra
+   quando aparece, sem passar na frente do anterior. */
+(function(){
+  const passos = [...document.querySelectorAll(".passos-sec .passo")];
+  if (!passos.length || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const INTERVALO = 420;   // de um passo para o próximo, em milissegundos
+  let livreEm = 0;         // quando o próximo pode começar, para manter a ordem
+  const limpar = el => { el.classList.remove("na-fila", "chegou"); el.style.transitionDelay = ""; };
+
+  const obs = new IntersectionObserver(entradas => {
+    entradas.filter(e => e.isIntersecting).map(e => e.target)
+      .sort((a, b) => passos.indexOf(a) - passos.indexOf(b))
+      .forEach(el => {
+        obs.unobserve(el);
+        const agora = performance.now();
+        const atraso = Math.max(0, livreEm - agora);
+        livreEm = agora + atraso + INTERVALO;
+        el.style.transitionDelay = Math.round(atraso) + "ms";
+        requestAnimationFrame(() => el.classList.add("chegou"));
+        setTimeout(() => limpar(el), atraso + 1300);
+      });
+  }, { rootMargin: "0px 0px -12% 0px", threshold: 0.35 });
+
+  passos.forEach(el => { el.classList.add("na-fila"); obs.observe(el); });
+  window.addEventListener("beforeprint", () => passos.forEach(limpar));
+})();
+
+/* ── carrossel do topo ──
+   Mostra o que existe em cada aba do site. Avança sozinho, para quando o
+   visitante passa o mouse, e responde às setas e aos pontos. */
+(function(){
+  const trilho = document.getElementById("slides");
+  if (!trilho) return;
+  const slides = [...trilho.children];
+  const pontos = document.getElementById("pontos");
+  const parado = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const TEMPO = 8000;
+  let atual = 0, relogio = null, sobre = false;
+  /* As maquetes só se mexem depois que o carrossel aparece na tela: quem
+     está lendo o topo da página não perde a animação do primeiro slide. */
+  let visto = false;
+
+  pontos.innerHTML = slides.map((s,i) => {
+    const nome = (s.querySelector(".eyebrow") || {}).textContent || ("Slide " + (i+1));
+    return `<button class="ponto${i === 0 ? " on" : ""}" data-i="${i}" aria-label="${nome.trim()}"></button>`;
+  }).join("");
+
+  function ir(i){
+    atual = (i + slides.length) % slides.length;
+    trilho.style.transform = `translateX(-${atual * 100}%)`;
+    slides.forEach((s,k) => s.classList.toggle("ativo", k === atual));
+    [...pontos.children].forEach((p,k) => p.classList.toggle("on", k === atual));
+    animar(slides[atual]);
+  }
+  /* Recomeça a animação da maquete do slide que entrou. Tirar a classe,
+     ler uma medida e pôr de novo é o que faz o navegador tocar do início.
+     Os outros slides ficam como estão: o que está saindo não dá um pulo
+     para o desenho parado no meio da troca. */
+  function animar(slide){
+    if (parado || !visto || !slide) return;
+    slide.classList.remove("anima");
+    void slide.offsetWidth;
+    slide.classList.add("anima");
+  }
+  function tocar(){
+    if (parado || !visto) return;
+    clearInterval(relogio);
+    relogio = setInterval(() => { if (!sobre) ir(atual + 1); }, TEMPO);
+  }
+
+  pontos.onclick = e => { const b = e.target.closest("[data-i]"); if (b) { ir(+b.dataset.i); tocar(); } };
+  document.getElementById("setaAnt").onclick  = () => { ir(atual - 1); tocar(); };
+  document.getElementById("setaProx").onclick = () => { ir(atual + 1); tocar(); };
+
+  const palco = trilho.closest(".palco");
+  palco.addEventListener("pointerenter", () => sobre = true);
+  palco.addEventListener("pointerleave", () => sobre = false);
+  palco.addEventListener("focusin",  () => sobre = true);
+  palco.addEventListener("focusout", () => sobre = false);
+
+  // arrastar com o dedo no celular
+  let x0 = null;
+  trilho.addEventListener("pointerdown", e => x0 = e.clientX);
+  trilho.addEventListener("pointerup", e => {
+    if (x0 === null) return;
+    const d = e.clientX - x0; x0 = null;
+    if (Math.abs(d) > 45) { ir(atual + (d < 0 ? 1 : -1)); tocar(); }
+  });
+
+  ir(0);
+  /* Tudo começa quando pelo menos um terço do carrossel está na tela. */
+  function comecar(){ if (visto) return; visto = true; ir(atual); tocar(); }
+  if ("IntersectionObserver" in window) {
+    const olho = new IntersectionObserver(ent => {
+      if (ent.some(e => e.isIntersecting)) { olho.disconnect(); comecar(); }
+    }, { threshold: 0.35 });
+    olho.observe(palco);
+  } else comecar();
+})();
 </script>
 </body>
 </html>
