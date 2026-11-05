@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abrindo a conta de exemplo · Home Office Hub</title>
+<link rel="stylesheet" href="estilo.css">
+<style>body{display:grid;place-items:center;min-height:100vh;font-size:15px}</style>
+</head>
+<body>
+<p id="msg">Abrindo a conta de exemplo da Marina…</p>
+<script src="controle-dados.js?v=6"></script>
+<script>
+/* SÓ NA CÓPIA DE TESTE: cria a conta de mentira da Marina, com perfil feito e
+   o Meu Controle preenchido, e abre o Início. Nada sai deste navegador.
+   ?vazia=1 cria a mesma conta sem nada no Meu Controle. */
+(async function () {
+  const vazia = /vazia=1/.test(location.search);
+  const uid = "teste-marina" + (vazia ? "-vazia" : "");
+  const email = vazia ? "marina.nova@exemplo.com" : "marina@exemplo.com";
+  const user = { id: uid, email, identities: [{}], user_metadata: { nome: "Marina Souza", perfil_prof: true,
+    areas: ["Linguistica", "Educacao e Ensino"], subareas: [], areas_respondido: true } };
+  const ler = (k, p) => { try { return JSON.parse(localStorage.getItem(k)) || p; } catch (e) { return p; } };
+  const contas = ler("teste-porta-contas", {}); contas[email] = user; localStorage.setItem("teste-porta-contas", JSON.stringify(contas));
+  const perfil = { idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "C1", certificado: "TOEFL" }, { lingua: "Espanhol", nivel: "B1", certificado: "" }],
+    formacao: [{ curso: "Letras, Português e Inglês", onde: "Universidade Federal", situacao: "Completo", ano: "2019" }], semFormacao: false,
+    areas: { "Linguistica": "3 a 5 anos", "Educacao e Ensino": "mais de 5 anos" },
+    experiencias: [{ oque: "Professora de inglês", onde: "Escola de idiomas", inicio: "2019-02", fim: "", atual: true, fez: "Aulas para adultos, do básico ao avançado", numeros: "", origem: "" }],
+    ferramentas: [], mora: "Brasil", cidade: "Belo Horizonte", horas: "20", importados: [], salvoEm: new Date().toISOString() };
+  const perfis = ler("teste-porta-perfis", {}); perfis[uid] = { user_id: uid, dados: perfil, atualizado_em: perfil.salvoEm }; localStorage.setItem("teste-porta-perfis", JSON.stringify(perfis));
+  localStorage.setItem("hub-perfil-prof-previa", JSON.stringify(perfil));
+  localStorage.setItem("sb-zrqucjktympnwilbvisw-auth-token", JSON.stringify({ access_token: "teste-" + uid, refresh_token: "teste", expires_at: Math.floor(Date.now() / 1000) + 30 * 86400, user }));
+  localStorage.setItem("hub-plano", JSON.stringify({ uid, plano: "pro", quando: Date.now() }));
+  localStorage.setItem("hub-equipe", JSON.stringify({ uid, sim: true, quando: Date.now() }));
+  localStorage.setItem("hub-controle:dono", uid);   // o Meu Controle não apaga o exemplo ao abrir
+
+  await Dados.abrir(); await Dados.apagarTudo();
+  if (!vazia) {
+    const hoje = Dados.hoje();
+    const dia = n => { const d = new Date(hoje + "T12:00:00"); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+    const vagas = (await (await fetch("vagas.json?v=" + Date.now())).json()).vagas;
+    const empresas = (await (await fetch("empresas.json?v=" + Date.now())).json()).empresas;
+    const nomeEmp = id => (empresas.find(e => e.id === id) || {}).nome || id;
+    const vg = id => vagas.find(v => v.id === id);
+    const cand = async (id, estado, desde, extra) => {
+      const v = vg(id); if (!v) return null;
+      const passos = {}; const ordem = ["aplicado", "teste", "prova", "entrevista", "aprovado"];
+      const ate = ordem.indexOf(estado); ordem.forEach((e, i) => { if (ate >= 0 && i <= ate) passos[e] = dia(desde + i * 3); });
+      if (ate < 0) passos.aplicado = dia(desde);
+      return Dados.salvar("aplicacoes", Object.assign({ vagaId: v.id, empresa: nomeEmp(v.empresa), titulo: v.titulo.replace(/^\*/, ""), url: v.url,
+        data: dia(desde), estado, origem: "Home Office Hub", remuneracao: (v.resumo && v.resumo.remuneracao) || "",
+        proximo: "", proximoEm: "", observacoes: "", email: "", curriculo: "CV em inglês", passos, vaga: Dados.fotoDaVaga(v) }, extra || {}));
+    };
+    const aTelus = await cand("b24061003e", "aprovado", -56);
+    const aOne = await cand("d1856cbd96", "aprovado", -38);
+    const aHand = await cand("6d22784714", "teste", -12, { proximo: "Fazer o teste de proficiência", proximoEm: dia(2) });
+    const aMicro = await cand("2252f79c1f", "entrevista", -15, { proximo: "Entrevista", proximoEm: dia(1), passos: { aplicado: dia(-15), entrevista: dia(-6) } });
+    await cand("c86034f6fe", "prova", -9, { proximo: "Esperar a correção da prova", proximoEm: dia(6) });
+    await cand("37f8a23a09", "aplicado", -3);
+    await cand("40bde685a9", "aplicado", -1);
+    await cand("65762fd387", "semresposta", -24);
+    await cand("a8641549b5", "recusado", -19, { recusaEtapa: "teste", recusaMotivo: "Ingles" });
+
+    const t1 = await Dados.salvar("trabalhos", { empresa: "TELUS Digital", projeto: "Personalized Internet Assessor", pagamento: "hora", valor: 5, moeda: "USD", ciclo: "mensal", inicio: dia(-50), estado: "ativo", cor: "#1A4893", diaPeriodo: 1, aplicacaoId: aTelus && aTelus.id });
+    const t2 = await Dados.salvar("trabalhos", { empresa: "OneForma", projeto: "Local Maps Search Evaluator", pagamento: "hora", valor: 8, moeda: "USD", ciclo: "mensal", inicio: dia(-32), estado: "ativo", cor: "#A85D24", diaPeriodo: 1, aplicacaoId: aOne && aOne.id });
+    for (let i = 1; i <= 48; i++) {
+      const d = dia(-i), w = new Date(d + "T12:00:00").getDay();
+      if (w === 0) continue;
+      await Dados.salvar("registros", { trabalhoId: t1.id, data: d, horas: w === 6 ? 1 : 2 });
+      if (i <= 30 && (w === 2 || w === 4)) await Dados.salvar("registros", { trabalhoId: t2.id, data: d, horas: 1.5 });
+    }
+    await Dados.salvar("agenda", { tipo: "trabalho", trabalhoId: t1.id, data: dia(0), horas: 2, inicio: "20:00" });
+    await Dados.salvar("agenda", { tipo: "trabalho", trabalhoId: t2.id, data: dia(1), horas: 1, inicio: "09:00" });
+    await Dados.salvar("agenda", { tipo: "entrevista", titulo: "Entrevista micro1", data: dia(1), inicio: "14:00", fim: "14:30", aplicacaoId: aMicro && aMicro.id, nota: "" });
+    await Dados.salvar("agenda", { tipo: "prazo", titulo: "Teste da Handshake AI", data: dia(2), inicio: "", fim: "", aplicacaoId: aHand && aHand.id, nota: "" });
+    await Dados.salvar("agenda", { tipo: "estudo", titulo: "Curso Guidelines, aula 2", data: dia(2), inicio: "19:00", fim: "20:00", aplicacaoId: "", nota: "" });
+  }
+  location.replace("inicio.html");
+})().catch(e => { document.getElementById("msg").textContent = "Não deu para abrir o exemplo: " + e.message; console.error(e); });
+</script>
+</body>
+</html>

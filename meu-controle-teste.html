@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Candidaturas (teste) · Home Office Hub</title>

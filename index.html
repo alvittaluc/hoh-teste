@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -69,9 +70,9 @@ a.bt:focus-visible, button.bt:focus-visible { outline: 2px solid var(--azul); ou
   <section class="cx">
     <div>
       <h2>O Hub como plataforma</h2>
-      <p>Uma proposta de como o Hub fica depois de entrar na conta: uma coluna fixa à esquerda com tudo da pessoa (vagas, Meu Controle em partes, cursos, ferramentas, perfil e conta) e um início que resume o dia. Os dados da Marina são de exemplo; as vagas e empresas são as de hoje no Hub.</p>
+      <p>O site inteiro com a coluna fixa à esquerda no lugar do menu do topo. As páginas são as de hoje (vagas, Em alta, Meu Controle, cursos); só a moldura muda, mais o Início novo, que mostra o que fazer, as vagas em alta e as novas. A conta de exemplo da Marina já vem com candidaturas, horas e agenda; a conta vazia mostra como fica para quem acabou de chegar. No pé da coluna dá para testar três cores. Nada sai do seu navegador e nada mexe no site de verdade.</p>
     </div>
-    <div class="bts"><a class="bt forte" href="plataforma/index.html">Abrir a plataforma</a></div>
+    <div class="bts"><a class="bt forte" href="plataforma/exemplo.html">Abrir com a conta da Marina</a><a class="bt" href="plataforma/exemplo.html?vazia=1">Abrir com uma conta vazia</a><a class="bt" href="plataforma/entrar.html">Criar a minha conta de teste</a></div>
   </section>
 
   <section class="cx">

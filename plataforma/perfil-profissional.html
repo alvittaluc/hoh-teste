@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil profissional — Home Office Hub</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+/* O perfil profissional da pessoa: idiomas, formação, áreas, experiências.
+   Fica na conta (banco/perfil-profissional.sql); as áreas também vão para a
+   conta, porque são elas que escolhem as vagas de especialista. */
+.pp-main { max-width:860px; margin:0 auto; padding:40px 20px 80px; }
+.pp-olho { font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--signal); margin-bottom:8px; }
+.pp-main h1 { font-family:var(--display); font-weight:400; font-size:clamp(30px,4vw,42px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); margin:0; }
+.pp-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; line-height:1.55; max-width:680px; }
+.pp-topo { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin:22px 0 6px; }
+.pp-medidor { flex:1; min-width:220px; }
+.pp-medidor .tr { height:9px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin-top:6px; }
+.pp-medidor .tr i { display:block; height:100%; background:var(--signal); border-radius:99px; transition:width .3s; }
+.pp-medidor b { font-size:14px; color:var(--ink); }
+.pp-medidor small { font-size:13px; color:var(--ink-3); }
+.pp-so { font-size:13.5px; color:var(--ink-3); margin:6px 0 0; }
+.pp-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; margin-top:16px; scroll-margin-top:90px; }
+.pp-cx.pede { border-color:#E6B98F; box-shadow:0 0 0 3px #FBF0E4; }
+.pp-cx h2 { font-size:17px; font-weight:600; color:var(--ink); margin:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.pp-cx h2 .ok { font-size:12px; font-weight:600; color:#2F6B3F; background:#E7F2EA; border-radius:99px; padding:2px 9px; }
+.pp-cx h2 .falta { font-size:12px; font-weight:600; color:var(--ink-3); background:var(--bg-soft); border-radius:99px; padding:2px 9px; }
+.pp-cx h2 .precisa { font-size:12px; font-weight:600; color:#7A4318; background:var(--amber-suave); border-radius:99px; padding:2px 9px; }
+.pp-cx .por { font-size:13.5px; color:var(--ink-3); margin:4px 0 14px; line-height:1.5; }
+.pp-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer;
+  padding:9px 16px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); white-space:nowrap; text-decoration:none; }
+.pp-bt:hover { border-color:var(--ink-3); }
+.pp-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; }
+.pp-bt.grande { padding:13px 24px; font-size:15px; font-weight:600; }
+.pp-bt[disabled] { opacity:.6; cursor:default; }
+.pp-bt.pq { padding:6px 12px; font-size:13px; }
+.pp-link { border:0; background:none; font:inherit; font-size:13px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.pp-link.tirar { color:#8E2233; }
+.pp-campo { width:100%; box-sizing:border-box; font:inherit; font-size:14px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--ink); }
+textarea.pp-campo { min-height:84px; resize:vertical; line-height:1.5; }
+.pp-rot { display:block; font-size:13px; font-weight:500; color:var(--ink-2); margin:0 0 5px; }
+.pp-rot small { font-weight:400; color:var(--ink-3); }
+.pp-linha { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); align-items:end; }
+.pp-item { display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-top:1px solid var(--line-soft); }
+.pp-item:first-of-type { border-top:0; }
+.pp-item .tx { flex:1; min-width:0; }
+.pp-item b { font-size:14.5px; color:var(--ink); }
+.pp-item small { display:block; font-size:13px; color:var(--ink-3); margin-top:2px; line-height:1.5; }
+.pp-item p { font-size:13.5px; color:var(--ink-2); margin:6px 0 0; line-height:1.5; }
+.pp-item .acoes { display:flex; gap:12px; flex-shrink:0; padding-top:2px; }
+.pp-selo { display:inline-block; font-size:11.5px; font-weight:600; border-radius:99px; padding:2px 8px; margin-left:6px; vertical-align:1px; color:var(--signal); background:var(--signal-suave); }
+.pp-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.pp-chip { font:inherit; font-size:13.5px; padding:7px 13px; border-radius:99px; border:1px solid var(--line); background:var(--panel); color:var(--ink-2); cursor:pointer; }
+.pp-chip[aria-pressed="true"] { background:var(--signal-suave); border-color:#9DB8DE; color:var(--signal); font-weight:500; }
+.pp-chip.pq { font-size:12.5px; padding:5px 11px; }
+.pp-area { padding:11px 0; border-top:1px solid var(--line-soft); font-size:14px; color:var(--ink); }
+.pp-area .lin { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pp-area b { min-width:170px; font-weight:500; }
+.pp-area select { width:auto; padding:7px 10px; }
+.pp-area .subs { margin-top:9px; }
+.pp-area .subs p { font-size:12.5px; color:var(--ink-3); margin:0 0 6px; }
+.pp-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.pp-tag { display:inline-flex; align-items:center; gap:6px; font-size:13.5px; background:var(--bg-soft); border-radius:99px; padding:5px 6px 5px 12px; color:var(--ink); }
+.pp-tag button { border:0; background:#fff; width:20px; height:20px; border-radius:50%; cursor:pointer; color:var(--ink-3); font-size:13px; line-height:1; }
+.pp-mc { display:flex; gap:12px; align-items:center; flex-wrap:wrap; background:var(--signal-suave); border:1px solid #CFDEEF; border-radius:14px; padding:12px 14px; margin-bottom:14px; }
+.pp-mc .tx { flex:1; min-width:200px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+.pp-mc b { color:var(--ink); }
+.pp-barra { margin-top:22px; border-top:1px solid var(--line-soft); padding:16px 0; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.pp-barra .msg { font-size:13.5px; flex:1; min-width:200px; line-height:1.5; }
+.pp-barra .msg.ok { color:#2F6B3F; } .pp-barra .msg.erro { color:#8E2233; }
+.pp-espera { text-align:center; padding:80px 20px; color:var(--ink-3); font-size:14px; }
+dialog.pp-jan { border:0; border-radius:18px; padding:0; width:min(560px, calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow:auto; box-shadow:var(--sombra-alta); }
+dialog.pp-jan::backdrop { background:rgba(15,29,51,.45); }
+.pp-jan form { padding:22px 24px; display:grid; gap:12px; }
+.pp-jan h3 { font-size:18px; font-weight:600; color:var(--ink); margin:0; }
+.pp-jan .dica { font-size:13px; color:var(--ink-3); line-height:1.5; margin:-4px 0 0; }
+.pp-jan .rodape { display:flex; gap:8px; justify-content:flex-end; margin-top:6px; }
+.pp-niveis { border:0; padding:0; margin:0; display:grid; gap:6px; }
+.pp-nivel { display:grid; grid-template-columns:18px 58px 1fr; gap:8px; align-items:start; border:1px solid var(--line-soft); border-radius:10px; padding:9px 11px; cursor:pointer; font-size:13.5px; color:var(--ink-2); line-height:1.45; }
+.pp-nivel input { margin:2px 0 0; accent-color:var(--signal); }
+.pp-nivel b { color:var(--ink); font-size:14px; }
+.pp-nivel:has(input:checked) { border-color:#9DB8DE; background:var(--signal-suave); }
+.pp-entenda { margin:-4px 0 12px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+.pp-entenda summary { cursor:pointer; color:var(--signal); font-weight:500; }
+.pp-entenda p { margin:8px 0; }
+.pp-entenda dl { display:grid; grid-template-columns:34px 1fr; gap:6px 10px; margin:8px 0; }
+.pp-entenda dt { font-weight:600; color:var(--ink); }
+.pp-entenda dd { margin:0; }
+.pp-check { display:flex; gap:8px; align-items:center; font-size:14px; color:var(--ink-2); }
+@media (max-width:560px){
+  .pp-main { padding:28px 16px 64px; }
+  .pp-cx { padding:18px 16px; }
+  .pp-nivel { grid-template-columns:18px 44px 1fr; padding:8px 10px; }
+  .pp-jan form { padding:18px 16px; }
+  .pp-area b { min-width:0; width:100%; }
+  .pp-barra .pp-bt { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<main class="pp-main">
+  <div class="pp-espera" id="espera">Abrindo o seu perfil…</div>
+  <div id="pagina" hidden>
+    <div class="pp-olho" id="olho">Minha conta</div>
+    <h1 id="titulo">Perfil profissional</h1>
+    <p class="pp-sub" id="sub"></p>
+
+    <div class="pp-topo">
+      <div class="pp-medidor"><b id="medTxt">Perfil 0% preenchido</b> <small id="medSub"></small><div class="tr"><i id="medBarra" style="width:0"></i></div></div>
+    </div>
+    <p class="pp-so">Só você vê o seu perfil. Dá para mudar tudo quando quiser, em Minha conta › Perfil profissional.</p>
+
+    <div id="secoes"></div>
+
+    <div class="pp-barra">
+      <span class="msg" id="salvoMsg" role="status"></span>
+      <button class="pp-bt forte grande" id="salvar">Salvar perfil</button>
+    </div>
+    <p class="pp-so" id="sairCx" hidden>Entrou com a conta errada? <button class="pp-link" id="sair">Sair da conta</button></p>
+  </div>
+</main>
+
+<dialog class="pp-jan" id="jan"><form method="dialog" id="janForm"></form></dialog>
+
+<script src="layout.js"></script>
+<script src="controle-dados.js?v=6"></script>
+<script src="supabase-porta-falso.js"></script>
+<script src="controle-conta.js?v=10"></script>
+<script>
+try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e); }
+
+(async function () {
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const vazio = () => ({ idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }], formacao: [], semFormacao: false, areas: {},
+    experiencias: [], ferramentas: [], mora: "Brasil", cidade: "", horas: "", importados: [] });
+
+  const q = new URLSearchParams(location.search);
+  // Só volta para uma página do próprio site (a mesma regra da entrar.html).
+  const pedido = q.get("voltar") || "";
+  const voltar = /^[a-z0-9-]+\.html(\?[\w=&%.+-]*)?(#[\w\/.-]*)?$/i.test(pedido) && !/^(entrar|perfil-profissional)\.html/i.test(pedido) ? pedido : "index.html";
+
+  const espera = document.getElementById("espera");
+  let usuario;
+  try {
+    if (typeof Conta === "undefined" || !Conta.disponivel) throw new Error("Não deu para falar com o servidor de contas. Confira a internet e recarregue a página.");
+    usuario = await Conta.entrar({ semPerfil: true });
+    if (!usuario) { location.replace(Acesso.linkEntrar()); return; }
+  } catch (e) { console.error(e); espera.textContent = e.message || "Não deu para abrir agora. Tente de novo em instantes."; return; }
+
+  const primeira = !Acesso.perfilFeito(usuario);
+  const meta = usuario.user_metadata || {};
+  const db = Conta.cliente;
+
+  // o que já está na conta
+  let P = vazio();
+  try {
+    const r = await db.from("perfil_profissional").select("dados").eq("user_id", usuario.id).maybeSingle();
+    if (r.error) throw r.error;
+    if (r.data && r.data.dados) P = Object.assign(vazio(), r.data.dados);
+  } catch (e) {
+    console.error(e);
+    espera.textContent = "Não deu para abrir o seu perfil agora. Confira a internet e recarregue a página.";
+    return;
+  }
+  // as áreas valem o que está na conta (a pergunta das áreas da aba Vagas também muda elas)
+  const AREAS = Acesso.AREAS, SUBAREAS = Acesso.SUBAREAS;
+  const naConta = Array.isArray(meta.areas) ? meta.areas : [];
+  const areasAntes = P.areas || {};
+  P.areas = {};
+  naConta.forEach(a => { P.areas[a] = areasAntes[a] || "1 a 2 anos"; });
+  let subs = Array.isArray(meta.subareas) ? meta.subareas.slice() : [];
+
+  // os trabalhos que a pessoa já registrou no Meu Controle (deste navegador)
+  let DO_CONTROLE = [];
+  try {
+    if (typeof Dados !== "undefined") {
+      await Dados.abrir();
+      const mes = d => /^\d{4}-\d{2}/.test(d || "") ? d.slice(5, 7) + "/" + d.slice(0, 4) : "";
+      DO_CONTROLE = (await Dados.listar("trabalhos")).map(T => ({
+        id: "mc-" + T.id, oque: T.projeto || "Trabalho na " + T.empresa,
+        onde: [T.empresa, T.plataforma && T.plataforma !== T.empresa ? T.plataforma : ""].filter(Boolean).join(", ") + ", remoto",
+        inicio: mes(T.inicio), atual: T.estado !== "encerrado",
+      }));
+    }
+  } catch (e) { console.warn("Meu Controle não abriu aqui", e); }
+
+  document.getElementById("olho").textContent = primeira ? "Falta só um passo" : "Minha conta";
+  document.getElementById("titulo").textContent = primeira ? "Monte o seu perfil profissional" : "Perfil profissional";
+  document.getElementById("sub").textContent = primeira
+    ? "Conte o que você sabe fazer, mesmo o que ainda não está no currículo. Leva uns cinco minutos. As áreas que você marcar aqui decidem quais vagas de especialista aparecem para você."
+    : "Conte o que você sabe fazer, mesmo o que ainda não está no currículo. As áreas que você marcar aqui decidem quais vagas de especialista aparecem para você.";
+  document.getElementById("salvar").textContent = primeira ? "Salvar e entrar no Hub" : "Salvar mudanças";
+  espera.hidden = true;
+  document.getElementById("pagina").hidden = false;
+  if (primeira) {
+    document.getElementById("sairCx").hidden = false;
+    document.getElementById("sair").addEventListener("click", async () => {
+      try { await Conta.sair(); } catch (e) { console.warn(e); }
+      location.replace("entrar.html");
+    });
+  }
+
+  const TEMPOS = ["menos de 1 ano", "1 a 2 anos", "3 a 5 anos", "mais de 5 anos"];
+  const NIVEIS = ["Nativo", "C2", "C1", "B2", "B1", "A2", "A1"];
+  const NIVEL_DIZ = {
+    "Nativo": "É a sua primeira língua, a que você cresceu falando em casa.",
+    "C2": "Usa o idioma quase como um nativo. Entende tudo, até piadas, ironia e textos técnicos, e escreve com naturalidade.",
+    "C1": "Lê diretrizes longas sem dificuldade, escreve textos claros e conversa com facilidade. Às vezes ainda procura uma palavra.",
+    "B2": "Se vira bem no trabalho: entende a maior parte do que lê e ouve e conversa com alguma fluência, mas trava em assuntos difíceis.",
+    "B1": "Entende textos simples e assuntos do dia a dia. Conversa com pausas e precisa de ajuda para textos longos ou técnicos.",
+    "A2": "Entende frases curtas e situações simples, como se apresentar, pedir informação ou ler um aviso.",
+    "A1": "Conhece palavras e frases soltas. É o começo dos estudos.",
+  };
+  // No inglês o perfil começa no B2 (decisão do dono em 04/11/2026).
+  const NIVEIS_INGLES = ["Nativo", "C2", "C1", "B2"];
+  const ehIngles = l => /^\s*(ingl[eê]s|english)(?![a-z])/i.test(l || "");
+  const niveisDe = l => ehIngles(l) ? NIVEIS_INGLES : NIVEIS;
+  const NIVEIS_DICA = "Na dúvida entre dois níveis, escolha o mais baixo: nos projetos, a prova de idioma mostra o nível de verdade, e é melhor surpreender do que ser reprovado. Um teste on-line, como o EF SET, ajuda a ter uma ideia.";
+  const dicaDe = l => ehIngles(l) ? "" : NIVEIS_DICA;
+
+  let mudou = false;
+  const precisa = () => ({ idiomas: P.idiomas.length > 0, mora: !!String(P.mora).trim() && !!String(P.horas).trim() });
+
+  function pontos() {
+    const s = [P.idiomas.length > 0, P.formacao.length > 0 || P.semFormacao, Object.keys(P.areas).length > 0, P.experiencias.length > 0, P.ferramentas.length > 0, precisa().mora];
+    return { feitos: s.filter(Boolean).length, total: s.length, s };
+  }
+  function medidor() {
+    const { feitos, total } = pontos();
+    const pct = Math.round(feitos / total * 100);
+    document.getElementById("medTxt").textContent = `Perfil ${pct}% preenchido`;
+    document.getElementById("medSub").textContent = feitos < total ? `· faltam ${total - feitos} parte${total - feitos > 1 ? "s" : ""}` : "· tudo preenchido";
+    document.getElementById("medBarra").style.width = pct + "%";
+  }
+  const marca = (ok, obrigatoria) => ok ? `<span class="ok">Preenchido</span>` : obrigatoria ? `<span class="precisa">Obrigatório</span>` : `<span class="falta">Falta</span>`;
+  const nomeArea = a => Acesso.nomeArea(a);
+
+  function desenhar() {
+    const { s } = pontos();
+    const faltamMc = DO_CONTROLE.filter(t => !P.importados.includes(t.id));
+    document.getElementById("secoes").innerHTML = `
+      <section class="pp-cx" id="sec-idiomas">
+        <h2>Idiomas ${marca(s[0], true)}</h2>
+        <p class="por">O nível de cada idioma. Se tiver certificado, diga qual.</p>
+        <details class="pp-entenda"><summary>O que querem dizer A1, A2, B1, B2, C1 e C2?</summary>
+          <p>É a escala que as empresas de fora usam para dizer o nível de um idioma. Vai do A1, quem está começando, ao C2, quem usa o idioma quase como um nativo.</p>
+          <dl>${NIVEIS.filter(n => n !== "Nativo").map(n => `<dt>${n}</dt><dd>${esc(NIVEL_DIZ[n])}</dd>`).join("")}</dl>
+          <p>${esc(NIVEIS_DICA)}</p>
+        </details>
+        ${P.idiomas.map((l, i) => `<div class="pp-item"><div class="tx"><b>${esc(l.lingua)}</b> · ${esc(l.nivel)}
+          <small>${l.certificado ? "Certificado: " + esc(l.certificado) : "Sem certificado"}</small></div>
+          <div class="acoes"><button class="pp-link" data-ed="idioma:${i}">Editar</button><button class="pp-link tirar" data-tira="idiomas:${i}">Tirar</button></div></div>`).join("")}
+        <button class="pp-bt pq" data-novo="idioma" style="margin-top:8px">+ Acrescentar idioma</button>
+      </section>
+
+      <section class="pp-cx" id="sec-mora">
+        <h2>Onde você mora e quanto tempo tem ${marca(s[5], true)}</h2>
+        <p class="por">Muitas vagas pedem um país ou um mínimo de horas por semana.</p>
+        <div class="pp-linha">
+          <div><label class="pp-rot" for="mora">País onde mora</label><input class="pp-campo" id="mora" value="${esc(P.mora)}" placeholder="Brasil"></div>
+          <div><label class="pp-rot" for="cidade">Cidade <small>(opcional)</small></label><input class="pp-campo" id="cidade" value="${esc(P.cidade)}"></div>
+          <div><label class="pp-rot" for="horas">Horas por semana que pode trabalhar</label><input class="pp-campo" id="horas" inputmode="numeric" value="${esc(P.horas)}" placeholder="20"></div>
+        </div>
+      </section>
+
+      <section class="pp-cx" id="sec-formacao">
+        <h2>Formação ${marca(s[1])}</h2>
+        <p class="por">Faculdade, curso técnico ou outro curso longo. Vale também se ainda está cursando ou trancou.</p>
+        ${P.formacao.map((f, i) => `<div class="pp-item"><div class="tx"><b>${esc(f.curso)}</b>
+          <small>${esc([f.onde, f.situacao, f.ano].filter(Boolean).join(" · "))}</small></div>
+          <div class="acoes"><button class="pp-link" data-ed="formacao:${i}">Editar</button><button class="pp-link tirar" data-tira="formacao:${i}">Tirar</button></div></div>`).join("")}
+        ${P.formacao.length ? "" : `<label class="pp-check" style="margin-bottom:10px"><input type="checkbox" id="semFormacao" ${P.semFormacao ? "checked" : ""}> Não tenho faculdade nem curso técnico</label>`}
+        <button class="pp-bt pq" data-novo="formacao" style="margin-top:8px">+ Acrescentar formação</button>
+      </section>
+
+      <section class="pp-cx" id="sec-areas">
+        <h2>Áreas que você conhece ${marca(s[2])}</h2>
+        <p class="por">Marque as áreas em que você tem formação ou experiência e diga há quanto tempo. As vagas abertas a todos aparecem sempre; marcando uma área, as vagas de especialista dela passam a aparecer junto, na aba Vagas e no alerta por e-mail.</p>
+        <div class="pp-chips">${AREAS.map(([id, nome]) => `<button class="pp-chip" aria-pressed="${id in P.areas}" data-area="${esc(id)}">${esc(nome)}</button>`).join("")}</div>
+        ${Object.keys(P.areas).length ? `<div style="margin-top:12px">${Object.entries(P.areas).map(([a, t]) => `<div class="pp-area"><div class="lin"><b>${esc(nomeArea(a))}</b>
+          <select class="pp-campo" data-tempo="${esc(a)}" aria-label="Há quanto tempo, em ${esc(nomeArea(a))}">${TEMPOS.map(x => `<option ${x === t ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+          ${(SUBAREAS[a] || []).length ? `<div class="subs"><p>Qual é a sua especialidade? Se não marcar nenhuma, você vê todas as vagas da área.</p><div class="pp-chips">${SUBAREAS[a].map(([sid, snome]) => {
+            const k = a + "/" + sid;
+            return `<button class="pp-chip pq" aria-pressed="${subs.includes(k)}" data-sub="${esc(k)}">${esc(snome)}</button>`; }).join("")}</div></div>` : ""}
+          </div>`).join("")}</div>` : ""}
+      </section>
+
+      <section class="pp-cx" id="sec-exp">
+        <h2>Experiências ${marca(s[3])}</h2>
+        <p class="por">Trabalhos, projetos de IA, freelas e trabalho voluntário, principalmente os que <b>não estão no currículo</b>. Os números ajudam muito: horas por semana, tarefas, nota de qualidade.</p>
+        ${faltamMc.length ? `<div class="pp-mc"><div class="tx"><b>No seu Meu Controle há ${faltamMc.length} trabalho${faltamMc.length > 1 ? "s" : ""} que não está${faltamMc.length > 1 ? "ão" : ""} aqui.</b><br>
+          ${faltamMc.map(t => esc(t.oque + ", " + t.onde.split(",")[0] + (t.inicio ? ", desde " + t.inicio : ""))).join("<br>")}</div>
+          ${faltamMc.map(t => `<button class="pp-bt pq" data-traz="${esc(t.id)}">Trazer ${esc(t.onde.split(",")[0])}</button>`).join("")}</div>` : ""}
+        ${P.experiencias.map((x, i) => `<div class="pp-item"><div class="tx"><b>${esc(x.oque)}</b>${x.origem === "mc" ? `<span class="pp-selo">do Meu Controle</span>` : ""}
+          <small>${esc(x.onde)}${x.inicio ? " · " + esc(x.inicio) : ""}${x.atual ? " até hoje" : x.fim ? " a " + esc(x.fim) : ""}</small>
+          ${x.fez ? `<p>${esc(x.fez)}</p>` : `<p style="color:#A85D24">Falta dizer o que você fazia.</p>`}
+          ${x.numeros ? `<p><b style="font-weight:500">Números:</b> ${esc(x.numeros)}</p>` : ""}</div>
+          <div class="acoes"><button class="pp-link" data-ed="exp:${i}">Editar</button><button class="pp-link tirar" data-tira="experiencias:${i}">Tirar</button></div></div>`).join("")}
+        <button class="pp-bt pq" data-novo="exp" style="margin-top:8px">+ Acrescentar experiência</button>
+      </section>
+
+      <section class="pp-cx" id="sec-ferr">
+        <h2>Ferramentas e habilidades ${marca(s[4])}</h2>
+        <p class="por">Programas e habilidades que você usa com segurança. Escreva e aperte Enter.</p>
+        <input class="pp-campo" id="novaFerr" placeholder="Por exemplo: Excel, transcrição, Canva, digitação rápida" enterkeyhint="done">
+        <div class="pp-tags">${P.ferramentas.map((f, i) => `<span class="pp-tag">${esc(f)}<button aria-label="Tirar ${esc(f)}" data-tira="ferramentas:${i}">×</button></span>`).join("")}</div>
+      </section>`;
+    medidor();
+    ligar();
+  }
+
+  function marcarMudanca() { mudou = true; const m = document.getElementById("salvoMsg"); m.textContent = ""; m.className = "msg"; }
+
+  function ligar() {
+    const raiz = document.getElementById("secoes");
+    raiz.querySelectorAll("[data-area]").forEach(b => b.addEventListener("click", () => {
+      const a = b.dataset.area;
+      if (a in P.areas) { delete P.areas[a]; subs = subs.filter(x => x.indexOf(a + "/") !== 0); }
+      else P.areas[a] = "1 a 2 anos";
+      marcarMudanca(); desenhar();
+    }));
+    raiz.querySelectorAll("[data-sub]").forEach(b => b.addEventListener("click", () => {
+      const k = b.dataset.sub;
+      subs = subs.includes(k) ? subs.filter(x => x !== k) : subs.concat(k);
+      b.setAttribute("aria-pressed", subs.includes(k)); marcarMudanca();
+    }));
+    raiz.querySelectorAll("[data-tempo]").forEach(s => s.addEventListener("change", () => { P.areas[s.dataset.tempo] = s.value; marcarMudanca(); }));
+    raiz.querySelectorAll("[data-tira]").forEach(b => b.addEventListener("click", () => {
+      const [lista, i] = b.dataset.tira.split(":");
+      const x = P[lista][+i];
+      if (lista === "experiencias" && x && x.origem === "mc" && x._id) P.importados = P.importados.filter(id => id !== x._id);
+      P[lista].splice(+i, 1); marcarMudanca(); desenhar();
+    }));
+    raiz.querySelectorAll("[data-novo]").forEach(b => b.addEventListener("click", () => abrir(b.dataset.novo, -1)));
+    raiz.querySelectorAll("[data-ed]").forEach(b => b.addEventListener("click", () => { const [t, i] = b.dataset.ed.split(":"); abrir(t, +i); }));
+    raiz.querySelectorAll("[data-traz]").forEach(b => b.addEventListener("click", () => {
+      const t = DO_CONTROLE.find(x => x.id === b.dataset.traz);
+      abrir("exp", -1, { oque: t.oque, onde: t.onde, inicio: t.inicio, atual: t.atual, fim: "", fez: "", numeros: "", origem: "mc", _id: t.id });
+    }));
+    const sf = raiz.querySelector("#semFormacao");
+    if (sf) sf.addEventListener("change", () => { P.semFormacao = sf.checked; marcarMudanca(); desenhar(); });
+    const nf = raiz.querySelector("#novaFerr");
+    nf.addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      const v = nf.value.trim().slice(0, 60);
+      if (v && !P.ferramentas.includes(v) && P.ferramentas.length < 40) { P.ferramentas.push(v); marcarMudanca(); desenhar(); document.getElementById("novaFerr").focus(); }
+    });
+    ["mora", "cidade", "horas"].forEach(id => raiz.querySelector("#" + id).addEventListener("input", e => {
+      P[id] = e.target.value.slice(0, 60); marcarMudanca(); medidor();
+      const ok = precisa().mora, h2 = raiz.querySelector("#sec-mora h2 span");
+      if (h2) h2.outerHTML = marca(ok, true);
+    }));
+  }
+
+  function opcoesNivel(lingua, marcado) {
+    return niveisDe(lingua).map(n => `<label class="pp-nivel"><input type="radio" name="nivel" value="${n}" ${n === marcado ? "checked" : ""}><b>${n}</b><span>${esc(NIVEL_DIZ[n])}</span></label>`).join("");
+  }
+  const jan = document.getElementById("jan"), form = document.getElementById("janForm");
+  function abrir(tipo, i, pre) {
+    let html = "";
+    if (tipo === "idioma") {
+      const l = i >= 0 ? Object.assign({}, P.idiomas[i]) : { lingua: "", nivel: "B2", certificado: "" };
+      if (!niveisDe(l.lingua).includes(l.nivel)) l.nivel = "B2";
+      html = `<h3>${i >= 0 ? "Editar idioma" : "Acrescentar idioma"}</h3>
+        <div><label class="pp-rot">Idioma</label><input class="pp-campo" name="lingua" required maxlength="40" value="${esc(l.lingua)}" placeholder="Inglês"></div>
+        <fieldset class="pp-niveis" id="niveis"><legend class="pp-rot">Seu nível <small>(toque no que mais parece com você)</small></legend>
+          ${opcoesNivel(l.lingua, l.nivel)}
+        </fieldset>
+        <p class="dica" id="niveisDica" ${ehIngles(l.lingua) ? "hidden" : ""}>${esc(dicaDe(l.lingua))}</p>
+        <div><label class="pp-rot">Certificado <small>(opcional: nome e ano)</small></label><input class="pp-campo" name="certificado" maxlength="80" value="${esc(l.certificado)}" placeholder="TOEFL, Cambridge, EF SET…"></div>`;
+    } else if (tipo === "formacao") {
+      const f = i >= 0 ? P.formacao[i] : { curso: "", onde: "", situacao: "Completo", ano: "" };
+      html = `<h3>${i >= 0 ? "Editar formação" : "Acrescentar formação"}</h3>
+        <div><label class="pp-rot">Curso</label><input class="pp-campo" name="curso" required maxlength="80" value="${esc(f.curso)}" placeholder="Letras, Administração, técnico em…"></div>
+        <div class="pp-linha"><div><label class="pp-rot">Onde</label><input class="pp-campo" name="onde" maxlength="80" value="${esc(f.onde)}"></div>
+        <div><label class="pp-rot">Situação</label><select class="pp-campo" name="situacao">${["Completo", "Cursando", "Trancado"].map(x => `<option ${x === f.situacao ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+        <div><label class="pp-rot">Ano de conclusão</label><input class="pp-campo" name="ano" maxlength="4" value="${esc(f.ano)}" inputmode="numeric"></div></div>`;
+    } else {
+      const x = pre || (i >= 0 ? P.experiencias[i] : { oque: "", onde: "", inicio: "", fim: "", atual: false, fez: "", numeros: "", origem: "" });
+      html = `<h3>${pre ? "Trazer do Meu Controle" : i >= 0 ? "Editar experiência" : "Acrescentar experiência"}</h3>
+        ${pre ? `<p class="dica">O projeto e a data vieram do seu Meu Controle. Falta contar o que você fazia.</p>` : ""}
+        <div><label class="pp-rot">O que você fazia (cargo ou tarefa)</label><input class="pp-campo" name="oque" required maxlength="100" value="${esc(x.oque)}"></div>
+        <div><label class="pp-rot">Onde</label><input class="pp-campo" name="onde" maxlength="100" value="${esc(x.onde)}" placeholder="Empresa ou projeto, remoto ou cidade"></div>
+        <div class="pp-linha"><div><label class="pp-rot">Começou em</label><input class="pp-campo" name="inicio" maxlength="10" value="${esc(x.inicio)}" placeholder="mês/ano"></div>
+        <div><label class="pp-rot">Terminou em</label><input class="pp-campo" name="fim" maxlength="10" value="${esc(x.fim)}" placeholder="mês/ano" ${x.atual ? "disabled" : ""}></div></div>
+        <label class="pp-check"><input type="checkbox" name="atual" ${x.atual ? "checked" : ""}> Ainda faço este trabalho</label>
+        <div><label class="pp-rot">O que você fazia, com as suas palavras</label><textarea class="pp-campo" name="fez" maxlength="600">${esc(x.fez)}</textarea></div>
+        <div><label class="pp-rot">Números <small>(opcional: só se você souber de verdade)</small></label><input class="pp-campo" name="numeros" maxlength="150" value="${esc(x.numeros)}" placeholder="horas por semana, tarefas por dia, nota de qualidade…"></div>`;
+    }
+    form.innerHTML = html + `<div class="rodape"><button class="pp-bt" value="cancelar" formnovalidate>Cancelar</button><button class="pp-bt forte" value="ok">Guardar</button></div>`;
+    const campoLingua = form.querySelector("[name=lingua]");
+    if (campoLingua) campoLingua.addEventListener("input", () => {   // escreveu "Inglês": a lista começa no B2
+      const fs = form.querySelector("#niveis"), lista = niveisDe(campoLingua.value);
+      let marcado = (fs.querySelector("input:checked") || {}).value;
+      if (fs.querySelectorAll(".pp-nivel").length === lista.length) return;
+      if (!lista.includes(marcado)) marcado = "B2";
+      fs.querySelectorAll(".pp-nivel").forEach(x => x.remove());
+      fs.insertAdjacentHTML("beforeend", opcoesNivel(campoLingua.value, marcado));
+      const dc = form.querySelector("#niveisDica"); dc.textContent = dicaDe(campoLingua.value); dc.hidden = !dc.textContent;
+    });
+    const atual = form.querySelector("[name=atual]");
+    if (atual) atual.addEventListener("change", () => { form.querySelector("[name=fim]").disabled = atual.checked; });
+    jan.onclose = () => {
+      if (jan.returnValue !== "ok") return;
+      const d = Object.fromEntries(new FormData(form));
+      if (tipo === "idioma") { const v = { lingua: d.lingua.trim(), nivel: d.nivel || "B2", certificado: d.certificado.trim() }; i >= 0 ? P.idiomas[i] = v : P.idiomas.push(v); }
+      else if (tipo === "formacao") { const v = { curso: d.curso.trim(), onde: d.onde.trim(), situacao: d.situacao, ano: d.ano.trim() }; i >= 0 ? P.formacao[i] = v : P.formacao.push(v); P.semFormacao = false; }
+      else {
+        const base = pre || (i >= 0 ? P.experiencias[i] : {});
+        const v = { oque: d.oque.trim(), onde: d.onde.trim(), inicio: d.inicio.trim(), fim: d.atual ? "" : (d.fim || "").trim(), atual: !!d.atual,
+          fez: d.fez.trim(), numeros: d.numeros.trim(), origem: base.origem || "", _id: base._id || "" };
+        i >= 0 ? P.experiencias[i] = v : P.experiencias.push(v);
+        if (pre && pre._id) P.importados.push(pre._id);
+      }
+      marcarMudanca(); desenhar();
+    };
+    jan.returnValue = "";
+    jan.showModal();
+  }
+
+  const bt = document.getElementById("salvar"), msg = document.getElementById("salvoMsg");
+  const dizer = (t, tipo) => { msg.textContent = t; msg.className = "msg " + tipo; };
+  bt.addEventListener("click", async () => {
+    const p = precisa();
+    document.querySelectorAll(".pp-cx.pede").forEach(x => x.classList.remove("pede"));
+    if (!p.idiomas || !p.mora) {
+      const falta = !p.idiomas ? "sec-idiomas" : "sec-mora";
+      document.getElementById(falta).classList.add("pede");
+      document.getElementById(falta).scrollIntoView({ behavior: "smooth", block: "start" });
+      dizer(!p.idiomas ? "Falta dizer pelo menos um idioma." : "Falta dizer o país onde você mora e quantas horas por semana pode trabalhar.", "erro");
+      return;
+    }
+    bt.disabled = true; const antes = bt.textContent; bt.textContent = "Salvando…";
+    try {
+      const dados = Object.assign({}, P, { salvoEm: new Date().toISOString() });
+      const r = await db.from("perfil_profissional").upsert({ user_id: usuario.id, dados, atualizado_em: dados.salvoEm }, { onConflict: "user_id" });
+      if (r.error) throw r.error;
+      const areas = Object.keys(P.areas);
+      const u = await db.auth.updateUser({ data: { perfil_prof: true, areas, subareas: subs.filter(s => areas.includes(s.split("/")[0])), areas_respondido: true } });
+      if (u.error) throw u.error;
+      mudou = false;
+      if (primeira) { dizer("Perfil salvo. Entrando no Hub…", "ok"); location.replace(voltar); return; }
+      dizer("Mudanças salvas.", "ok");
+    } catch (e) {
+      console.error(e);
+      dizer("Não deu para salvar agora. Confira a internet e tente de novo.", "erro");
+    }
+    bt.disabled = false; bt.textContent = antes;
+  });
+  window.addEventListener("beforeunload", e => { if (mudou) { e.preventDefault(); e.returnValue = ""; } });
+  desenhar();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fundamentos da Avaliação de IA — Home Office Hub</title>
+<meta name="description" content="Curso introdutório sobre avaliação de IA: como um modelo de conversa é treinado, por que o julgamento humano pesa e como fazer uma avaliação defensável.">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fundamentos da Avaliação de IA — Home Office Hub">
+<meta property="og:description" content="Quatro aulas sobre o trabalho de avaliar respostas de IA, com exercícios comentados e quiz no fim.">
+<meta property="og:url" content="https://alvittaluc.github.io/home-office-hub/curso-fundamentos.html">
+<meta property="og:image" content="https://alvittaluc.github.io/home-office-hub/og.jpg">
+
+<link rel="canonical" href="https://alvittaluc.github.io/home-office-hub/curso-fundamentos.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css" onerror="document.documentElement.classList.add('f-solto')">
+
+<style>
+/* ── Visual de reserva: só entra em ação quando o estilo.css não é encontrado. ── */
+html.f-solto body {
+  font-family:'Geist',system-ui,sans-serif; background:#F7F4EF; color:#10203A;
+  line-height:1.55; margin:0;
+}
+html.f-solto a { color:inherit; text-decoration:none; }
+html.f-solto .eyebrow {
+  font-size:11px; letter-spacing:0.13em; text-transform:uppercase; color:#1A4893;
+  display:flex; align-items:center; gap:9px; margin-bottom:14px;
+}
+html.f-solto .eyebrow::before { content:''; width:24px; height:1px; background:#1A4893; }
+
+/* ══════════════════════════════════════════════════════════════
+   CURSO — página de leitura, coluna lateral fixa com o sumário.
+   Tudo com prefixo .cu- para não encostar no estilo.css.
+   ══════════════════════════════════════════════════════════════ */
+
+html { scroll-behavior:smooth; }
+.cu-wrap, .cu-wrap *, .cu-wrap *::before, .cu-wrap *::after { box-sizing:border-box; }
+.cu-wrap { max-width:var(--wrap,1180px); margin:0 auto; padding:0 20px; }
+
+/* ── abertura ── */
+.cu-topo { max-width:72ch; margin:0 auto; padding:44px 0 30px; border-bottom:1px solid var(--line,#DED7CA); }
+.cu-interna .cu-topo { padding:30px 0 18px; }
+.cu-interna .cu-topo h1 { font-size:clamp(21px,2.4vw,27px); margin-bottom:0; max-width:30ch; }
+.cu-interna .cu-topo .cu-lead, .cu-interna .cu-topo .cu-fatos { display:none; }
+.cu-topo h1 {
+  font-family:'Hedvig Letters Serif',Georgia,serif; font-weight:400;
+  font-size:clamp(30px,4vw,48px); line-height:1.08; letter-spacing:-0.015em;
+  color:var(--ink,#10203A); margin:0 0 16px; max-width:20ch;
+}
+.cu-topo .cu-lead { font-size:17px; line-height:1.62; color:var(--ink-2,#54606F); max-width:62ch; margin:0 0 22px; }
+.cu-fatos { display:flex; flex-wrap:wrap; gap:8px; }
+.cu-fato {
+  font-size:12.5px; color:var(--ink-2,#54606F); background:var(--panel,#FFF);
+  border-radius:99px; padding:6px 13px; box-shadow:inset 0 0 0 1px var(--line,#DED7CA);
+  display:inline-flex; align-items:center; gap:7px;
+}
+.cu-fato svg { color:var(--signal,#1A4893); }
+
+/* ── grade: uma coluna. A trilha lateral fica fora do fluxo ── */
+.cu-grade { display:block; padding:30px 0 110px; }
+
+/* ── trilha lateral minimalista ── */
+.cu-rail {
+  position:fixed; left:14px; top:50%; transform:translateY(-50%); z-index:20;
+  width:44px; padding:14px 12px; border-radius:20px;
+  background:transparent; box-shadow:none;
+  transition:width .22s ease, background .22s ease, box-shadow .22s ease, padding .22s ease;
+}
+.cu-rail:hover, .cu-rail:focus-within {
+  width:260px; padding:16px 14px;
+  background:rgba(255,255,255,0.86);
+  box-shadow:0 20px 48px -28px rgba(16,32,58,0.5), inset 0 0 0 1px var(--line-soft,#EAE4D9);
+  backdrop-filter:blur(12px) saturate(1.3); -webkit-backdrop-filter:blur(12px) saturate(1.3);
+}
+.cu-rail-abre { display:none; }
+.cu-rail-lista { display:flex; flex-direction:column; gap:1px; }
+.cu-rail-item {
+  display:flex; align-items:center; gap:12px; padding:4px 2px; border-radius:10px;
+  color:var(--ink-2,#54606F); text-decoration:none;
+}
+.cu-rail-num {
+  flex:0 0 auto; width:20px; height:20px; border-radius:99px; display:grid; place-items:center;
+  font-size:10.5px; font-weight:600; font-style:normal; color:var(--ink-3,#66717F);
+  background:rgba(255,255,255,0.55); box-shadow:inset 0 0 0 1px var(--line,#DED7CA);
+  transition:background .18s, color .18s, box-shadow .18s;
+}
+.cu-rail:hover .cu-rail-num, .cu-rail:focus-within .cu-rail-num { background:var(--bg,#F7F4EF); }
+.cu-rail-nome {
+  font-size:13px; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  opacity:0; transform:translateX(-4px); transition:opacity .18s, transform .18s;
+}
+.cu-rail:hover .cu-rail-nome, .cu-rail:focus-within .cu-rail-nome { opacity:1; transform:none; }
+.cu-rail-item:hover .cu-rail-num { box-shadow:inset 0 0 0 1px var(--ink-3,#66717F); }
+.cu-rail-item:hover .cu-rail-nome { color:var(--ink,#10203A); }
+.cu-rail-item.cu-feita .cu-rail-num { color:var(--signal,#1A4893); box-shadow:inset 0 0 0 1px var(--signal-dim,#4E9AC8); }
+.cu-rail-item.cu-atual .cu-rail-num { background:var(--signal,#1A4893); color:#fff; box-shadow:none; }
+.cu-rail-item.cu-atual .cu-rail-nome { color:var(--ink,#10203A); font-weight:600; }
+
+/* subseções: tracinhos quando fechada, lista quando aberta */
+.cu-rail-subs { display:none; margin:3px 0 8px 32px; padding-left:12px; border-left:1px solid var(--line-soft,#EAE4D9); }
+.cu-rail-item.cu-atual + .cu-rail-subs { display:block; }
+.cu-rail-subs a {
+  display:block; font-size:12.5px; line-height:1.35; padding:4px 0; text-decoration:none;
+  color:var(--ink-3,#66717F); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cu-rail-subs a:hover { color:var(--signal,#1A4893); }
+.cu-rail-subs a.cu-ativo { color:var(--signal,#1A4893); }
+.cu-rail:not(:hover):not(:focus-within) .cu-rail-subs { margin:5px 0 9px 31px; padding-left:0; border-left:0; }
+.cu-rail:not(:hover):not(:focus-within) .cu-rail-subs a {
+  width:9px; height:3px; padding:0; margin:5px 0; border-radius:99px;
+  background:var(--line,#DED7CA); font-size:0; color:transparent;
+}
+.cu-rail:not(:hover):not(:focus-within) .cu-rail-subs a.cu-ativo { width:15px; background:var(--signal-dim,#4E9AC8); }
+
+.cu-rail-prog { height:3px; border-radius:99px; background:var(--line-soft,#EAE4D9); overflow:hidden; margin:14px 2px 6px; }
+.cu-rail-prog span { display:block; height:100%; width:0; background:var(--signal,#1A4893); border-radius:99px; transition:width .35s; }
+.cu-rail-prog-txt {
+  font-size:11px; color:var(--ink-3,#66717F); margin:0 2px; white-space:nowrap;
+  opacity:0; transition:opacity .18s;
+}
+.cu-rail:hover .cu-rail-prog-txt, .cu-rail:focus-within .cu-rail-prog-txt { opacity:1; }
+
+/* ── navegação entre aulas, no fim de cada página ── */
+.cu-nav {
+  display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  margin-top:40px; padding-top:22px; border-top:1px solid var(--line,#DED7CA);
+}
+.cu-nav-prev {
+  display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:600;
+  color:var(--ink-2,#54606F); text-decoration:none; min-width:0; max-width:100%;
+}
+.cu-nav-prev:hover { color:var(--signal,#1A4893); }
+.cu-nav .cu-concluir, .cu-nav .cu-bt-forte, .cu-nav .cu-bt-leve { margin:0; min-width:0; max-width:100%; }
+.cu-nav-prev span, .cu-nav .cu-bt-leve span {
+  min-width:0; max-width:40ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cu-nav-espaco { flex:1 1 auto; }
+
+/* ── conteúdo ── */
+.cu-conteudo { max-width:72ch; margin:0 auto; min-width:0; }
+.cu-aula[hidden] { display:none !important; }
+.cu-aula { animation:cu-entra .24s ease; }
+@keyframes cu-entra { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+.cu-aula-cap { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.cu-aula-cap span {
+  font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--signal,#1A4893);
+}
+.cu-aula-cap i { flex:1; height:1px; background:var(--line,#DED7CA); }
+
+.cu-aula h2 {
+  font-family:'Hedvig Letters Serif',Georgia,serif; font-weight:400;
+  font-size:clamp(26px,3vw,35px); line-height:1.12; letter-spacing:-0.012em;
+  color:var(--ink,#10203A); margin:0 0 10px; scroll-margin-top:100px;
+}
+.cu-resumo-aula {
+  font-size:16px; line-height:1.62; color:var(--ink-2,#54606F);
+  padding:16px 18px; background:var(--bg-soft,#F1ECE3); border-radius:14px; margin:18px 0 30px;
+}
+.cu-conteudo h3 {
+  font-size:19px; font-weight:600; letter-spacing:-0.01em; color:var(--ink,#10203A);
+  margin:38px 0 12px; scroll-margin-top:100px;
+}
+.cu-conteudo h4 { font-size:15.5px; font-weight:600; color:var(--ink,#10203A); margin:24px 0 8px; }
+.cu-conteudo p { font-size:16px; line-height:1.72; color:var(--ink-2,#54606F); margin:0 0 16px; }
+.cu-conteudo strong { color:var(--ink,#10203A); font-weight:600; }
+.cu-conteudo ul, .cu-conteudo ol { font-size:16px; line-height:1.72; color:var(--ink-2,#54606F); padding-left:22px; margin:0 0 18px; }
+.cu-conteudo li { margin-bottom:8px; }
+
+.cu-termo { color:var(--ink,#10203A); font-weight:600; }
+.cu-conteudo a:not(.cu-bt-forte):not(.cu-bt-leve):not(.cu-nav-prev) {
+  color:var(--signal,#1A4893); text-decoration:underline; text-decoration-thickness:1px;
+  text-underline-offset:2px;
+}
+.cu-conteudo a:not(.cu-bt-forte):not(.cu-bt-leve):not(.cu-nav-prev):hover { text-decoration-thickness:2px; }
+
+/* lista de fontes */
+.cu-fontes { list-style:none; padding:0; margin:0 0 18px; }
+.cu-fontes li {
+  padding:13px 0; border-top:1px solid var(--line-soft,#EAE4D9);
+  font-size:14.5px; line-height:1.6; color:var(--ink-2,#54606F);
+}
+.cu-fontes li:last-child { border-bottom:1px solid var(--line-soft,#EAE4D9); }
+.cu-fontes b { display:block; color:var(--ink,#10203A); font-weight:600; margin-bottom:3px; }
+.cu-fontes em { display:block; font-size:13px; color:var(--ink-3,#66717F); font-style:normal; margin-top:3px; }
+
+/* caixa de exemplo, prompt e respostas */
+.cu-caixa {
+  border-left:3px solid var(--signal-dim,#4E9AC8); background:var(--panel,#FFF);
+  border-radius:0 14px 14px 0; padding:18px 20px; margin:0 0 20px;
+  box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9);
+}
+.cu-caixa p { margin:0 0 12px; font-size:15.5px; }
+.cu-caixa p:last-child { margin:0; }
+.cu-rot { font-weight:600; color:var(--ink,#10203A); }
+
+/* prática */
+.cu-pratica { border:1px solid var(--line,#DED7CA); border-radius:18px; padding:24px 24px 8px; margin:26px 0 6px; background:var(--panel,#FFF); }
+.cu-pratica > h3 { margin-top:0; }
+.cu-selo {
+  display:inline-flex; align-items:center; gap:7px; font-size:11px; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--amber,#A85D24); margin-bottom:12px;
+}
+.cu-selo::before { content:''; width:18px; height:1px; background:var(--amber,#A85D24); }
+.cu-abrir-resp {
+  appearance:none; border:1px solid var(--line,#DED7CA); background:var(--bg-soft,#F1ECE3);
+  color:var(--ink,#10203A); font-family:inherit; font-size:14px; font-weight:600;
+  border-radius:99px; padding:9px 18px; cursor:pointer; margin-bottom:20px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.cu-abrir-resp:hover { border-color:var(--ink-3,#66717F); }
+.cu-resp { display:none; border-top:1px solid var(--line-soft,#EAE4D9); padding-top:18px; margin-bottom:14px; }
+.cu-resp.cu-on { display:block; }
+
+/* figuras */
+.cu-fig { margin:30px 0 32px; }
+.cu-fig-cap { font-size:11px; letter-spacing:0.11em; text-transform:uppercase; color:var(--ink-3,#66717F); margin-bottom:14px; }
+.cu-fig-cap b { color:var(--signal,#1A4893); font-weight:600; }
+.cu-fig-moldura {
+  border:1px solid var(--line,#DED7CA); background:var(--panel,#FFF);
+  border-radius:18px; padding:26px 22px; overflow-x:auto;
+}
+.cu-fig-nota { font-size:13px; line-height:1.6; color:var(--ink-3,#66717F); text-align:center; margin:12px 0 0; }
+
+/* peças dos diagramas */
+.cu-fluxo { display:flex; align-items:stretch; gap:10px; min-width:min-content; }
+.cu-passo {
+  flex:1 1 0; min-width:150px; border-radius:14px; padding:14px 15px;
+  background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9);
+}
+.cu-passo b { display:block; font-size:14px; color:var(--ink,#10203A); margin-bottom:5px; }
+.cu-passo span { display:block; font-size:12.5px; line-height:1.55; color:var(--ink-2,#54606F); }
+.cu-passo.cu-forte { background:var(--signal,#1A4893); box-shadow:none; }
+.cu-passo.cu-forte b, .cu-passo.cu-forte span { color:#fff; }
+.cu-passo.cu-forte span { color:rgba(255,255,255,0.82); }
+.cu-seta { align-self:center; flex:0 0 auto; color:var(--ink-3,#66717F); }
+
+.cu-quem { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; min-width:min-content; }
+.cu-quem div {
+  font-size:12.5px; line-height:1.5; color:var(--ink-2,#54606F); text-align:center;
+  padding:9px 10px; border-radius:11px; border:1px dashed var(--line,#DED7CA);
+}
+.cu-quem b { color:var(--ink,#10203A); }
+
+/* Figura 1.1: os estágios um embaixo do outro, cada um respondendo às mesmas
+   três perguntas (o que acontece, o que as pessoas fazem, como o modelo sai) */
+.cu-etapas { display:grid; }
+.cu-etapa { position:relative; display:grid; grid-template-columns:34px minmax(0,1fr); gap:16px; padding-bottom:20px; }
+.cu-etapa:last-child { padding-bottom:0; }
+/* o fio que liga um estágio ao seguinte */
+.cu-etapa:not(:last-child)::before {
+  content:""; position:absolute; left:16.5px; top:40px; bottom:6px; width:1px; background:var(--line,#DED7CA);
+}
+.cu-etapa-n {
+  width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+  font-size:14px; font-weight:600; color:var(--signal,#1A4893); background:var(--signal-suave,#EAF1F8);
+}
+.cu-etapa-corpo {
+  min-width:0; border-radius:14px; padding:15px 18px 8px;
+  background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9);
+}
+.cu-etapa-tit { display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 10px; margin-bottom:10px; }
+.cu-etapa-tit b { font-size:16px; color:var(--ink,#10203A); }
+.cu-etapa-tit span { font-size:13.5px; color:var(--ink-3,#66717F); }
+.cu-etapa-linha {
+  display:grid; grid-template-columns:112px minmax(0,1fr); gap:14px; padding:9px 0;
+  border-top:1px solid rgba(16,32,58,.09);
+  font-size:14.5px; line-height:1.6; color:var(--ink-2,#54606F);
+}
+.cu-etapa-linha i {
+  font-style:normal; font-size:11px; line-height:1.45; letter-spacing:0.09em; text-transform:uppercase;
+  color:var(--ink-3,#66717F); padding-top:4px;
+}
+.cu-etapa-linha b { color:var(--ink,#10203A); font-weight:600; }
+/* o estágio em que entra o trabalho de avaliação */
+.cu-etapa.cu-forte .cu-etapa-n { color:#fff; background:var(--signal,#1A4893); }
+.cu-etapa.cu-forte .cu-etapa-corpo { background:var(--signal-suave,#EAF1F8); box-shadow:inset 0 0 0 1.5px var(--signal,#1A4893); }
+
+/* ── botões ── */
+.cu-bt-forte, .cu-bt-leve {
+  appearance:none; font-family:inherit; font-size:14.5px; font-weight:600;
+  border-radius:99px; padding:12px 22px; cursor:pointer; border:1px solid transparent;
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+}
+.cu-bt-forte { background:var(--signal,#1A4893); color:#fff; }
+.cu-bt-forte:hover { filter:brightness(1.08); }
+.cu-bt-leve { background:var(--panel,#FFF); color:var(--ink,#10203A); border-color:var(--line,#DED7CA); }
+.cu-bt-leve:hover { border-color:var(--ink-3,#66717F); }
+
+.cu-concluir {
+  appearance:none; font-family:inherit; font-size:14.5px; font-weight:600; cursor:pointer;
+  display:inline-flex; align-items:center; gap:9px; margin:30px 0 10px;
+  background:var(--panel,#FFF); color:var(--signal,#1A4893);
+  border:1px solid var(--line,#DED7CA); border-radius:99px; padding:12px 22px;
+}
+.cu-concluir:hover { border-color:var(--signal,#1A4893); }
+.cu-concluir.cu-pronta { background:var(--signal,#1A4893); color:#fff; border-color:var(--signal,#1A4893); }
+
+/* ── figura 2.1, escala ── */
+.cu-esc { display:flex; flex-direction:column; align-items:stretch; }
+.cu-esc-linha { border-radius:14px; padding:13px 15px; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-esc-rot { display:block; font-size:13.5px; font-weight:600; color:var(--ink,#10203A); margin-bottom:10px; }
+.cu-esc-par { display:flex; gap:10px; }
+.cu-esc-op { flex:1; display:flex; align-items:center; gap:9px; background:var(--panel,#FFF); border-radius:10px; padding:9px 11px; box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-esc-op b { font-size:12px; color:var(--ink-3,#66717F); }
+.cu-esc-op i { flex:1; height:5px; border-radius:99px; background:var(--line,#DED7CA); }
+.cu-esc-op.cu-esc-esc { box-shadow:inset 0 0 0 2px var(--signal,#1A4893); }
+.cu-esc-op.cu-esc-esc b { color:var(--signal,#1A4893); }
+.cu-esc-op.cu-esc-esc i { background:var(--signal-dim,#4E9AC8); }
+.cu-esc-seta { display:grid; place-items:center; color:var(--ink-3,#66717F); padding:7px 0; }
+.cu-esc-bars { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.cu-esc-bars i { width:34px; height:7px; border-radius:99px; background:var(--signal-dim,#4E9AC8); opacity:0.5; }
+.cu-esc-bars i:first-child { opacity:1; background:var(--signal,#1A4893); }
+.cu-esc-bars em { font-size:12px; color:var(--ink-3,#66717F); font-style:normal; margin-left:4px; }
+.cu-esc-dois { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.cu-esc-cx { border-radius:14px; padding:13px 15px; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-esc-cx b { display:block; font-size:13.5px; color:var(--ink,#10203A); margin-bottom:4px; }
+.cu-esc-cx span { font-size:13px; line-height:1.5; color:var(--ink-2,#54606F); }
+.cu-esc-cx.cu-esc-forte { background:var(--signal,#1A4893); box-shadow:none; }
+.cu-esc-cx.cu-esc-forte b { color:#fff; }
+.cu-esc-cx.cu-esc-forte span { color:rgba(255,255,255,0.82); }
+.cu-esc-gente { border-radius:14px; padding:14px 15px; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-esc-gente b { display:block; font-size:13.5px; font-weight:600; color:var(--signal,#1A4893); text-align:center; margin-bottom:12px; }
+.cu-esc-grade { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
+.cu-esc-grade i { width:13px; height:13px; border-radius:99px; background:var(--signal-dim,#4E9AC8); opacity:0.45; }
+
+/* ── figura 3.1, linha do tempo ── */
+.cu-tl { min-width:640px; }
+.cu-tl-faixas { display:grid; grid-template-columns:1fr 4fr; gap:10px; margin-bottom:16px; }
+.cu-tl-faixa { font-size:12px; text-align:center; border-radius:99px; padding:6px 10px; }
+.cu-tl-f1 { background:var(--bg-soft,#F1ECE3); color:var(--ink-2,#54606F); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-tl-f2 { background:rgba(26,72,147,0.08); color:var(--signal,#1A4893); box-shadow:inset 0 0 0 1px rgba(26,72,147,0.18); font-weight:600; }
+.cu-tl-eixo { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; position:relative; }
+.cu-tl-eixo::before { content:''; position:absolute; left:6%; right:6%; top:44px; height:1px; background:var(--line,#DED7CA); }
+.cu-tl-item { text-align:center; position:relative; }
+.cu-tl-item b { display:block; font-size:15px; font-weight:600; color:var(--signal,#1A4893); margin-bottom:10px; }
+.cu-tl-bola { display:block; width:11px; height:11px; border-radius:99px; background:var(--signal,#1A4893); margin:0 auto 14px; box-shadow:0 0 0 4px var(--panel,#FFF); position:relative; z-index:1; }
+.cu-tl-bola.cu-tl-cinza { background:var(--ink-3,#66717F); }
+.cu-tl-item strong { display:block; font-size:13.5px; color:var(--ink,#10203A); margin-bottom:5px; }
+.cu-tl-item span { display:block; font-size:12px; line-height:1.5; color:var(--ink-2,#54606F); padding:0 4px; }
+
+/* ── figura 3.2, ciclo ── */
+.cu-ciclo { display:flex; flex-direction:column; align-items:center; }
+.cu-ciclo-const {
+  border-radius:14px; padding:13px 18px; background:rgba(168,93,36,0.07);
+  box-shadow:inset 0 0 0 1px rgba(168,93,36,0.22); max-width:280px; width:100%;
+}
+.cu-ciclo-const b { display:block; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber,#A85D24); margin-bottom:8px; }
+.cu-ciclo-const ul { margin:0; padding-left:16px; font-size:13px; line-height:1.6; color:var(--ink-2,#54606F); }
+.cu-ciclo-const li { margin:0; }
+.cu-ciclo-desce { padding:6px 0; }
+.cu-ciclo-linha { display:flex; align-items:stretch; gap:8px; min-width:min-content; width:100%; }
+.cu-ciclo-cx { flex:1 1 0; min-width:118px; border-radius:13px; padding:12px 13px; text-align:center; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-ciclo-cx b { display:block; font-size:13.5px; color:var(--ink,#10203A); margin-bottom:3px; }
+.cu-ciclo-cx span { font-size:12px; line-height:1.45; color:var(--ink-2,#54606F); display:block; }
+.cu-ciclo-cx.cu-ciclo-az { background:var(--signal,#1A4893); box-shadow:none; }
+.cu-ciclo-cx.cu-ciclo-az b { color:#fff; }
+.cu-ciclo-cx.cu-ciclo-az span { color:rgba(255,255,255,0.82); }
+.cu-ciclo-cx.cu-ciclo-am { background:rgba(168,93,36,0.09); box-shadow:inset 0 0 0 1.5px var(--amber,#A85D24); }
+.cu-ciclo-cx.cu-ciclo-out { box-shadow:inset 0 0 0 1.5px var(--signal-dim,#4E9AC8); background:var(--panel,#FFF); }
+.cu-ciclo-loop { font-size:12px; color:var(--amber,#A85D24); margin:14px 0 0; text-align:center; }
+
+/* ── figura 4.1, anatomia ── */
+.cu-anat { display:flex; flex-direction:column; align-items:center; gap:14px; min-width:min-content; }
+.cu-anat-topo { font-size:13px; color:var(--ink-2,#54606F); background:var(--bg-soft,#F1ECE3); border-radius:99px; padding:8px 18px; box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-anat-meio { display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:14px; align-items:center; width:100%; }
+.cu-anat-resp { border-radius:13px; padding:14px; background:var(--panel,#FFF); box-shadow:inset 0 0 0 1px var(--line,#DED7CA); }
+.cu-anat-resp b { display:block; font-size:12px; color:var(--ink-3,#66717F); margin-bottom:9px; }
+.cu-anat-resp i { display:block; height:6px; border-radius:99px; background:var(--line-soft,#EAE4D9); margin-bottom:6px; }
+.cu-anat-resp i.cu-curta { width:60%; }
+.cu-anat-crit { position:relative; text-align:center; }
+.cu-anat-rot { display:block; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--signal,#1A4893); margin-bottom:9px; }
+.cu-crit { font-size:12.5px; font-weight:600; color:#fff; border-radius:99px; padding:7px 10px; margin-bottom:5px; }
+.cu-crit-1 { background:#12306B; }
+.cu-crit-2 { background:#1A4893; }
+.cu-crit-3 { background:#2C63B4; }
+.cu-crit-4 { background:#6AA6D2; }
+.cu-crit-5 { background:#A9C8DE; color:#10203A; }
+.cu-anat-peso { display:block; text-align:right; font-size:10.5px; color:var(--ink-3,#66717F); }
+.cu-anat-peso-t { margin:0 2px 5px 0; }
+.cu-anat-peso-b { margin:5px 2px 0 0; }
+.cu-anat-escolha { border-radius:14px; padding:14px 18px; text-align:center; background:rgba(26,72,147,0.06); box-shadow:inset 0 0 0 1.5px var(--signal-dim,#4E9AC8); max-width:460px; }
+.cu-anat-escolha b { display:block; font-size:14px; color:var(--signal,#1A4893); margin-bottom:4px; }
+.cu-anat-escolha span { display:block; font-size:13px; color:var(--ink-2,#54606F); margin-bottom:6px; }
+.cu-anat-escolha em { font-size:12px; color:var(--ink-3,#66717F); }
+
+/* ── figura 4.2, kappa ── */
+.cu-kap { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.cu-kap-cx { border-radius:14px; padding:16px; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-kap-tit { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--signal,#1A4893); margin:0 0 4px; font-weight:600; }
+.cu-kap-sub { font-size:12.5px; color:var(--ink-2,#54606F); margin:0 0 14px; }
+.cu-kap-barra { height:12px; border-radius:99px; background:var(--signal-dim,#4E9AC8); overflow:hidden; margin-bottom:6px; }
+.cu-kap-barra span { display:block; width:90%; height:100%; background:#C9DDEB; }
+.cu-kap-legenda { display:flex; justify-content:space-between; font-size:11px; color:var(--ink-3,#66717F); margin-bottom:14px; }
+.cu-kap-botoes { display:flex; gap:8px; margin-bottom:14px; }
+.cu-kap-bt { flex:1; text-align:center; font-size:12.5px; padding:9px 6px; border-radius:10px; background:var(--panel,#FFF); color:var(--ink-2,#54606F); box-shadow:inset 0 0 0 1px var(--line,#DED7CA); }
+.cu-kap-bt.cu-kap-on { background:var(--signal,#1A4893); color:#fff; box-shadow:none; font-weight:600; }
+.cu-kap-form { background:var(--panel,#FFF); border-radius:11px; padding:12px 14px; margin-bottom:14px; box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-kap-form p { font-size:13px; color:var(--ink-2,#54606F); margin:0 0 4px; }
+.cu-kap-form p:last-child { margin:0; }
+.cu-kap-form b { color:var(--signal,#1A4893); }
+.cu-kap-form .cu-kap-leg { font-size:12px; line-height:1.45; color:var(--ink-3,#66717F); margin:2px 0 8px; }
+.cu-kap-rot { font-size:10.5px !important; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3,#66717F) !important; margin-bottom:6px !important; }
+.cu-kap-caixa { border-radius:11px; padding:12px 14px; }
+.cu-kap-caixa .cu-kap-num { font-size:26px; font-weight:600; margin:0 0 4px; letter-spacing:-0.02em; }
+.cu-kap-caixa .cu-kap-txt { font-size:12.5px; line-height:1.5; margin:0; }
+.cu-kap-ruim { background:rgba(168,93,36,0.08); box-shadow:inset 0 0 0 1px rgba(168,93,36,0.2); }
+.cu-kap-ruim .cu-kap-num { color:var(--amber,#A85D24); }
+.cu-kap-ruim .cu-kap-txt { color:#8A6038; }
+.cu-kap-bom { background:rgba(26,72,147,0.07); box-shadow:inset 0 0 0 1px rgba(26,72,147,0.2); }
+.cu-kap-bom .cu-kap-num { color:var(--signal,#1A4893); }
+.cu-kap-bom .cu-kap-txt { color:var(--ink-2,#54606F); }
+
+/* ── figura 4.3, erro contra sinal ── */
+.cu-ds { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.cu-ds-cx { border-radius:14px; padding:16px; background:var(--bg-soft,#F1ECE3); box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-ds-tit { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; margin:0 0 4px; }
+.cu-ds-erro .cu-ds-tit { color:var(--amber,#A85D24); }
+.cu-ds-sinal .cu-ds-tit { color:var(--signal,#1A4893); }
+.cu-ds-sub { font-size:12.5px; color:var(--ink-2,#54606F); margin:0 0 14px; }
+.cu-ds-frase { font-size:13px; color:var(--ink,#10203A); background:var(--panel,#FFF); border-radius:10px; padding:11px 13px; margin:0 0 12px; box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-ds-frase mark { background:rgba(78,154,200,0.25); color:inherit; border-radius:4px; padding:1px 4px; }
+.cu-ds-chips { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:12px; }
+.cu-ds-chip { font-size:11px; text-align:center; padding:9px 4px; border-radius:9px; }
+.cu-ds-chip.cu-ok { background:rgba(26,72,147,0.07); color:var(--signal,#1A4893); box-shadow:inset 0 0 0 1px rgba(26,72,147,0.18); }
+.cu-ds-chip.cu-no { background:rgba(168,93,36,0.08); color:var(--amber,#A85D24); box-shadow:inset 0 0 0 1px rgba(168,93,36,0.2); }
+.cu-ds-final { background:var(--panel,#FFF); border-radius:10px; padding:11px 13px; box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9); }
+.cu-ds-final b { display:block; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3,#66717F); margin-bottom:4px; }
+.cu-ds-final span { font-size:13.5px; font-weight:600; color:var(--ink,#10203A); }
+
+/* ── grade de caixas em figura ── */
+.cu-seis { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+@media (max-width:820px){ .cu-seis { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:620px){ .cu-seis { grid-template-columns:1fr; } }
+
+/* ── tabelinha para cálculo em figura ── */
+.cu-tab { width:100%; border-collapse:collapse; font-size:13px; background:var(--panel,#FFF); }
+.cu-tab th, .cu-tab td { padding:9px 10px; text-align:center; border:1px solid var(--line-soft,#EAE4D9); color:var(--ink-2,#54606F); }
+.cu-tab th { background:var(--bg-soft,#F1ECE3); color:var(--ink,#10203A); font-weight:600; font-size:12px; }
+.cu-tab td b { color:var(--signal,#1A4893); }
+.cu-tab .cu-tab-rot { background:var(--bg-soft,#F1ECE3); color:var(--ink,#10203A); font-weight:600; text-align:left; }
+.cu-tab-legenda { font-size:12px; color:var(--ink-3,#66717F); margin:8px 0 0; }
+
+/* ── quiz ── */
+.cu-quiz { margin-top:8px; }
+.cu-q {
+  border:1px solid var(--line,#DED7CA); background:var(--panel,#FFF);
+  border-radius:16px; padding:20px 22px; margin-bottom:14px;
+}
+.cu-q-tit { font-size:15.5px !important; font-weight:600; color:var(--ink,#10203A) !important; line-height:1.5; margin:0 0 14px !important; display:flex; gap:10px; }
+.cu-q-tit i {
+  flex:0 0 auto; width:22px; height:22px; border-radius:99px; display:grid; place-items:center;
+  background:var(--bg-soft,#F1ECE3); color:var(--signal,#1A4893); font-size:12px; font-weight:600; font-style:normal;
+}
+.cu-q label {
+  display:flex; align-items:flex-start; gap:10px; padding:10px 12px; margin-bottom:7px;
+  border-radius:11px; cursor:pointer; font-size:14.5px; line-height:1.5; color:var(--ink-2,#54606F);
+  box-shadow:inset 0 0 0 1px var(--line-soft,#EAE4D9);
+}
+.cu-q label:hover { box-shadow:inset 0 0 0 1px var(--ink-3,#66717F); }
+.cu-q input { margin-top:3px; accent-color:var(--signal,#1A4893); flex:0 0 auto; }
+.cu-q label:has(input:checked) { background:rgba(26,72,147,0.05); box-shadow:inset 0 0 0 1.5px var(--signal,#1A4893); color:var(--ink,#10203A); }
+.cu-q-fb, .cu-q-pq { display:none; }
+.cu-q.cu-corrigida .cu-q-fb, .cu-q.cu-corrigida .cu-q-pq { display:block; }
+.cu-q-fb { font-size:14px !important; font-weight:600; margin:12px 0 4px !important; }
+.cu-q.cu-acertou .cu-q-fb { color:var(--signal,#1A4893) !important; }
+.cu-q.cu-errou .cu-q-fb { color:var(--amber,#A85D24) !important; }
+.cu-q-pq { font-size:13.5px !important; line-height:1.6; color:var(--ink-2,#54606F) !important; margin:0 !important; }
+.cu-q.cu-errou { box-shadow:inset 0 0 0 1px rgba(168,93,36,0.35); }
+.cu-quiz-acoes { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.cu-quiz-res { font-size:15px !important; font-weight:600; margin:18px 0 0 !important; }
+
+/* ── conclusão do curso ── */
+.cu-fim-curso {
+  margin-top:46px; padding:34px 32px; border-radius:20px;
+  background:var(--bg-soft,#F1ECE3); border:1px solid var(--line-soft,#EAE4D9);
+  text-align:center;
+}
+.cu-fim-selo {
+  width:52px; height:52px; margin:0 auto 18px; border-radius:50%;
+  display:grid; place-items:center;
+  background:var(--signal,#1A4893); color:#fff;
+}
+.cu-fim-curso h3 {
+  font-family:'Hedvig Letters Serif',Georgia,serif !important;
+  font-weight:400 !important; font-size:27px !important; line-height:1.15;
+  color:var(--ink,#10203A); margin:0 0 10px !important;
+}
+.cu-fim-curso p {
+  font-size:15.5px !important; line-height:1.62; color:var(--ink-2,#54606F);
+  margin:0 auto !important; max-width:52ch;
+}
+.cu-fim-curso .cu-bt-forte { margin-top:22px; }
+
+/* ── botões do fim do curso ── */
+.cu-fim-bts { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+
+/* ── termo explicado na primeira vez ── */
+.cu-nota-termo {
+  border-left:3px solid var(--signal-dim,#4E9AC8); background:rgba(78,154,200,0.07);
+  border-radius:0 12px 12px 0; padding:13px 16px; margin:0 0 18px;
+}
+.cu-conteudo .cu-nota-termo { font-size:15px; line-height:1.6; color:var(--ink-2,#54606F); }
+.cu-nota-termo b { color:var(--ink,#10203A); }
+
+/* ── glossário: o termo numa linha, a definição embaixo ── */
+.cu-conteudo .cu-glos { list-style:none; padding:0; margin:0 0 18px; }
+.cu-conteudo .cu-glos li {
+  margin:0; padding:14px 0; border-top:1px solid var(--line-soft,#EAE4D9);
+  font-size:15px; line-height:1.62; color:var(--ink-2,#54606F);
+}
+.cu-conteudo .cu-glos li:last-child { border-bottom:1px solid var(--line-soft,#EAE4D9); }
+.cu-glos b { display:block; color:var(--ink,#10203A); font-weight:600; margin-bottom:4px; }
+.cu-glos i { font-style:normal; color:var(--ink-3,#66717F); font-size:13px; }
+
+/* ── responsivo ── */
+@media (max-width:1239px){
+  .cu-rail {
+    position:sticky; top:78px; left:auto; transform:none; width:auto;
+    padding:9px 0 11px; margin:0 0 18px; z-index:6; border-radius:0;
+    background:var(--bg,#F7F4EF); box-shadow:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    border-bottom:1px solid var(--line-soft,#EAE4D9);
+  }
+  .cu-rail:hover, .cu-rail:focus-within {
+    width:auto; padding:9px 0 11px; background:var(--bg,#F7F4EF); box-shadow:none;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  .cu-rail-abre {
+    display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;
+    appearance:none; background:var(--panel,#FFF);
+    border:1px solid var(--line,#DED7CA); border-radius:12px; padding:11px 15px;
+    font-family:inherit; font-size:14px; font-weight:600; color:var(--ink,#10203A);
+    cursor:pointer; text-align:left;
+  }
+  .cu-rail-abre > span {
+    min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .cu-rail-abre svg { flex:0 0 auto; transition:transform .2s; color:var(--ink-3,#66717F); }
+  .cu-rail.cu-aberto .cu-rail-abre svg { transform:rotate(180deg); }
+  .cu-rail-lista {
+    display:none; background:var(--panel,#FFF); border:1px solid var(--line,#DED7CA);
+    border-radius:14px; padding:10px; margin-top:8px;
+  }
+  .cu-rail.cu-aberto .cu-rail-lista { display:flex; }
+  .cu-rail-item { padding:9px 7px; }
+  .cu-rail-num { background:var(--bg,#F7F4EF); }
+  .cu-rail-nome { opacity:1; transform:none; white-space:normal; }
+  .cu-rail-subs, .cu-rail-item.cu-atual + .cu-rail-subs { display:none; }
+  .cu-rail-prog, .cu-rail-prog-txt { display:none !important; }
+  .cu-conteudo, .cu-topo { max-width:none; }
+}
+@media (max-width:820px){
+  .cu-kap, .cu-ds { grid-template-columns:1fr; }
+  .cu-esc-dois { grid-template-columns:1fr; }
+  .cu-anat-meio { grid-template-columns:1fr; }
+  .cu-anat-peso { display:none; }
+  .cu-cert-pe { grid-template-columns:1fr; text-align:left; }
+}
+@media (max-width:680px){
+  .cu-topo { padding-top:32px; }
+  .cu-fig-moldura { padding:18px 14px; }
+  .cu-pratica { padding:20px 18px 6px; }
+  .cu-quem { grid-template-columns:1fr; }
+  .cu-etapa { grid-template-columns:28px minmax(0,1fr); gap:11px; }
+  .cu-etapa:not(:last-child)::before { left:13.5px; top:34px; }
+  .cu-etapa-n { width:28px; height:28px; font-size:13px; }
+  .cu-etapa-corpo { padding:13px 14px 6px; }
+  .cu-etapa-linha { grid-template-columns:1fr; gap:1px; }
+  .cu-etapa-linha i { padding-top:0; }
+  .cu-fluxo { flex-direction:column; }
+  .cu-fluxo .cu-seta { transform:rotate(90deg); padding:2px 0; }
+  .cu-ciclo-linha { flex-direction:column; }
+  .cu-ciclo-linha .cu-seta { transform:rotate(90deg); padding:2px 0; }
+  .cu-ciclo-const { max-width:none; }
+  .cu-ds-chips { grid-template-columns:repeat(2,1fr); }
+  .cu-q { padding:17px 16px; }
+  .cu-cert-borda { padding:30px 20px 26px; }
+  .cu-fim { padding:22px 18px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cu-wrap">
+
+  <header class="cu-topo">
+    <div class="eyebrow">Cursos · Aula 1 a 4</div>
+    <h1>Fundamentos da Avaliação de IA</h1>
+    <p class="cu-lead">Este curso explica o trabalho por dentro: como um modelo de conversa chega até você, o que
+      as empresas fazem com as comparações que você registra, e o que diferencia uma avaliação que melhora o
+      modelo de uma que o degrada sem ninguém perceber. Não exige programação, estatística nem experiência
+      anterior na área.</p>
+    <div class="cu-fatos">
+      <span class="cu-fato">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+        cerca de 1 hora
+      </span>
+      <span class="cu-fato">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+        4 aulas com exercícios
+      </span>
+      <span class="cu-fato">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.5L17 21l-1.5-7.5"/></svg>
+        quiz no fim
+      </span>
+    </div>
+  </header>
+
+  <div class="cu-grade">
+
+    <!-- ══════════ COLUNA LATERAL ══════════ -->
+    <aside class="cu-rail" id="rail" aria-label="Aulas do curso">
+      <button class="cu-rail-abre" id="railAbre" type="button" aria-expanded="false">
+        <span id="railAtual">Aulas do curso</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <nav class="cu-rail-lista" id="railLista">
+        <a class="cu-rail-item" href="#aula1" data-alvo="aula1" data-aula="1" title="O que é RLHF e por que existe avaliação">
+          <i class="cu-rail-num">1</i>
+          <span class="cu-rail-nome">O que é RLHF e por que existe avaliação</span>
+        </a>
+        <div class="cu-rail-subs">
+          <a href="#a1-cru">Um modelo recém-saído do pré-treino</a>
+          <a href="#a1-tres">Onde entra o julgamento humano</a>
+          <a href="#a1-assim">Julgar é mais fácil que escrever</a>
+          <a href="#a1-rlhf">O que é RLHF</a>
+          <a href="#a1-pratica">Prática: leia como avaliador</a>
+          <a href="#a1-resumo">Resumo da aula</a>
+        </div>
+        <a class="cu-rail-item" href="#aula2" data-alvo="aula2" data-aula="2" title="Por que o seu julgamento pesa">
+          <i class="cu-rail-num">2</i>
+          <span class="cu-rail-nome">Por que o seu julgamento pesa</span>
+        </a>
+        <div class="cu-rail-subs">
+          <a href="#a2-escala">Um julgamento que chega a muita gente</a>
+          <a href="#a2-goodhart">A lei de Goodhart</a>
+          <a href="#a2-falhas">Quatro falhas conhecidas</a>
+          <a href="#a2-humano">Por que não dá para tirar as pessoas</a>
+          <a href="#a2-pratica">Prática: diagnostique a falha</a>
+          <a href="#a2-resumo">Resumo da aula</a>
+        </div>
+        <a class="cu-rail-item" href="#aula3" data-alvo="aula3" data-aula="3" title="De onde veio o feedback humano">
+          <i class="cu-rail-num">3</i>
+          <span class="cu-rail-nome">De onde veio o feedback humano</span>
+        </a>
+        <div class="cu-rail-subs">
+          <a href="#a3-super">Quando as pessoas davam a resposta certa</a>
+          <a href="#a3-virada">A virada para a comparação</a>
+          <a href="#a3-marcos">Três marcos na linguagem</a>
+          <a href="#a3-estender">Constitutional AI, RLAIF e LLM como juiz</a>
+          <a href="#a3-pratica">Prática: ligue a solução ao problema</a>
+          <a href="#a3-resumo">Resumo da aula</a>
+        </div>
+        <a class="cu-rail-item" href="#aula4" data-alvo="aula4" data-aula="4" title="Como avaliar bem">
+          <i class="cu-rail-num">4</i>
+          <span class="cu-rail-nome">Como avaliar bem</span>
+        </a>
+        <div class="cu-rail-subs">
+          <a href="#a4-guideline">Ler a guideline</a>
+          <a href="#a4-defensavel">Como é um julgamento que se sustenta</a>
+          <a href="#a4-atalhos">Atalhos que estragam o dado</a>
+          <a href="#a4-consist">Consistência e concordância</a>
+          <a href="#a4-discord">Quando discordar não é erro</a>
+          <a href="#a4-pratica">Prática: de justificativa fraca para forte</a>
+          <a href="#a4-resumo">Resumo da aula</a>
+        </div>
+        <a class="cu-rail-item" href="#quiz" data-alvo="quiz" title="Quiz">
+          <i class="cu-rail-num">✓</i>
+          <span class="cu-rail-nome">Quiz</span>
+        </a>
+        <a class="cu-rail-item" href="#glossario" data-alvo="glossario" title="Glossário">
+          <i class="cu-rail-num">A</i>
+          <span class="cu-rail-nome">Glossário</span>
+        </a>
+        <a class="cu-rail-item" href="#fontes" data-alvo="fontes" title="Fontes do curso">
+          <i class="cu-rail-num">§</i>
+          <span class="cu-rail-nome">Fontes do curso</span>
+        </a>
+      </nav>
+      <div class="cu-rail-prog"><span id="barra"></span></div>
+      <p class="cu-rail-prog-txt" id="barraTxt">0 de 4 aulas concluídas</p>
+    </aside>
+
+    <!-- ══════════ CONTEÚDO ══════════ -->
+    <main class="cu-conteudo" id="conteudo">
+      <!-- ══════════════════ AULA 1 ══════════════════ -->
+      <section class="cu-aula" id="aula1">
+        <div class="cu-aula-cap"><span>Aula 1 de 4 · 15 min</span><i></i></div>
+        <h2>O que é RLHF e por que existe avaliação de dados</h2>
+        <p class="cu-resumo-aula">Nesta aula: como um modelo de conversa é construído em três etapas, em qual
+          delas o julgamento humano entra, e por que a tarefa que você recebe é quase sempre comparar duas
+          respostas em vez de escrever a resposta perfeita.</p>
+
+        <h3 id="a1-cru">Um modelo recém-saído do pré-treino</h3>
+        <p class="cu-nota-termo"><b>Antes de começar, dois termos.</b> <b>Modelo de linguagem</b> é o programa
+          que está por trás de um assistente como o ChatGPT ou o Claude: ele recebe um texto e devolve a
+          continuação mais provável, palavra por palavra. <b>Treinar</b> um modelo é mostrar a ele uma montanha
+          de exemplos até que esses cálculos de probabilidade fiquem bons. Ninguém escreve as respostas dele à
+          mão, e é justamente por isso que o comportamento precisa ser ensinado de outro jeito, que é o assunto
+          desta aula.</p>
+        <p>Um modelo de linguagem começa lendo uma quantidade enorme de texto e aprendendo a prever a
+          continuação mais provável. Esse estágio se chama <span class="cu-termo">pré-treino</span> e é o que dá
+          ao modelo conhecimento de mundo, gramática, vocabulário técnico e a capacidade de escrever em vários estilos.</p>
+        <p>O que o pré-treino não dá é comportamento. Um modelo só pré-treinado responde a uma pergunta
+          repetindo o formato mais comum do texto que leu, e não necessariamente ajudando. Pergunte a ele como
+          trocar um pneu e ele pode devolver outras cinco perguntas parecidas, porque na internet perguntas
+          costumam aparecer em listas de perguntas. Ele também não tem uma noção clara do que é uma resposta útil, do que é seguro dizer, ou de quando é melhor admitir que não sabe.</p>
+        <p>Nada disso está escrito de forma organizada nos textos que ele leu. Alguém precisa mostrar ao modelo.
+          Esse alguém é gente, e o trabalho de mostrar tem nome: avaliação e anotação de dados.</p>
+
+        <h3 id="a1-tres">Onde entra o julgamento humano</h3>
+        <p>Um assistente de conversa moderno é montado em três estágios. Vale conhecer os três, porque as vagas
+          que você vê anunciadas quase sempre alimentam o segundo ou o terceiro.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 1.1</b> · Os três estágios de treino, um por um</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-etapas">
+              <div class="cu-etapa">
+                <div class="cu-etapa-n" aria-hidden="true">1</div>
+                <div class="cu-etapa-corpo">
+                  <div class="cu-etapa-tit"><b>Pré-treino</b><span>o modelo lê</span></div>
+                  <div class="cu-etapa-linha"><i>O que acontece</i><span>O modelo lê uma quantidade enorme de texto que já existia, como livros, sites e artigos, e treina uma coisa só: acertar qual é a próxima palavra.</span></div>
+                  <div class="cu-etapa-linha"><i>As pessoas</i><span>Nenhum trabalho de avaliação aqui. Os textos já estavam prontos, escritos por gente que não estava pensando no modelo.</span></div>
+                  <div class="cu-etapa-linha"><i>Como o modelo sai</i><span>Sabe muita coisa e escreve bem, mas ainda não sabe responder. Pergunte como trocar um pneu e ele pode devolver outras perguntas parecidas.</span></div>
+                </div>
+              </div>
+              <div class="cu-etapa">
+                <div class="cu-etapa-n" aria-hidden="true">2</div>
+                <div class="cu-etapa-corpo">
+                  <div class="cu-etapa-tit"><b>Ajuste por instrução</b><span>o modelo vê exemplos de boa resposta</span></div>
+                  <div class="cu-etapa-linha"><i>O que acontece</i><span>O modelo estuda perguntas que vêm junto com uma boa resposta. Cada resposta foi escrita por uma pessoa, do jeito que o assistente deveria responder.</span></div>
+                  <div class="cu-etapa-linha"><i>As pessoas</i><span><b>Escrevem</b> a resposta que serve de exemplo. Também há vagas para esse trabalho.</span></div>
+                  <div class="cu-etapa-linha"><i>Como o modelo sai</i><span>Responde como um assistente: à pergunta do pneu, ele agora dá os passos. Só não sabe ainda qual jeito de responder as pessoas acham melhor.</span></div>
+                </div>
+              </div>
+              <div class="cu-etapa cu-forte">
+                <div class="cu-etapa-n" aria-hidden="true">3</div>
+                <div class="cu-etapa-corpo">
+                  <div class="cu-etapa-tit"><b>Treino por preferência</b><span>o modelo aprende o que as pessoas preferem</span></div>
+                  <div class="cu-etapa-linha"><i>O que acontece</i><span>O modelo escreve duas respostas para a mesma pergunta. Uma pessoa lê as duas e diz qual é a melhor. Com muitas escolhas assim, ele passa a dar mais vezes o tipo de resposta que foi escolhido.</span></div>
+                  <div class="cu-etapa-linha"><i>As pessoas</i><span><b>Comparam</b> duas respostas e escolhem a melhor. É aqui que está a maior parte do trabalho de avaliação.</span></div>
+                  <div class="cu-etapa-linha"><i>Como o modelo sai</i><span>Com o comportamento que as pessoas preferiram. Se, na pergunta do pneu, a resposta mais clara e mais cuidadosa ganhou das outras, é esse tipo de resposta que ele passa a dar.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">Leia de cima para baixo: cada estágio começa com o modelo que saiu do anterior.</p>
+        </div>
+
+        <p>O segundo estágio, o <span class="cu-termo">ajuste por instrução</span>, usa exemplos escritos: alguém
+          redige a resposta que o modelo deveria ter dado. É um trabalho caro, porque exige que a pessoa produza
+          um texto de qualidade a cada item.</p>
+        <p>O terceiro estágio muda o que se pede à pessoa. Em vez de pedir a resposta certa, o sistema mostra
+          duas respostas que o próprio modelo gerou e pede que você diga qual é a melhor, e por quê. Essa
+          mudança aparentemente pequena é o que tornou possível treinar comportamento em grande escala.</p>
+
+        <h3 id="a1-assim">Julgar é mais fácil que escrever</h3>
+        <p>Existe um desequilíbrio útil aqui, e ele explica por que o seu trabalho funciona. Reconhecer qual de
+          duas respostas é melhor é bem mais fácil do que produzir a melhor resposta do zero. Você percebe que
+          um texto está confuso sem ser capaz de reescrevê-lo perfeitamente. Você nota que um conselho é vago
+          sem ter o conselho ideal na ponta da língua.</p>
+        <p>Na área, isso se chama <span class="cu-termo">assimetria entre gerar e verificar</span>. A
+          consequência prática é que a tarefa pode ser distribuída para muita gente, em muitos idiomas, sem
+          exigir que cada pessoa seja especialista em redação. E é por isso que a tarefa quase sempre chega até
+          você no formato de comparação, e não de redação.</p>
+        <p>Isso não significa que a tarefa seja trivial. Significa que a habilidade cobrada é outra: julgar com
+          critério, do mesmo jeito, muitas vezes seguidas.</p>
+
+        <h3 id="a1-rlhf">O que é RLHF</h3>
+        <p><span class="cu-termo">RLHF</span> é a sigla de reinforcement learning from human feedback, ou
+          aprendizado por reforço a partir de feedback humano. O nome assusta mais que o processo. Em três
+          passos:</p>
+        <ol>
+          <li><strong>Coleta.</strong> Avaliadores comparam pares de respostas e escolhem a melhor, com uma
+            justificativa. Milhares dessas comparações formam um conjunto de preferências.</li>
+          <li><strong>Modelo de recompensa.</strong> Um segundo modelo é treinado só para prever qual resposta
+            as pessoas escolheriam. Ele aprende o padrão das preferências, não a sua opinião isolada.</li>
+          <li><strong>Ajuste.</strong> O modelo principal é então ajustado para produzir respostas que recebam
+            nota alta desse modelo de recompensa.</li>
+        </ol>
+        <p>Duas consequências disso merecem atenção desde já. A primeira: a nota é <strong>relativa</strong>.
+          Não existe "resposta valendo 7". Existe "esta é melhor que aquela", e é dessa comparação que o modelo aprende. A segunda: a <strong>justificativa</strong> que você escreve muitas vezes vale tanto quanto a
+          escolha, porque é ela que registra o que "melhor" significou naquele caso específico. Quem monta o
+          projeto lê essas justificativas para corrigir a própria guideline, que é o documento com as regras da
+          tarefa, assunto da aula 4.</p>
+
+        <div class="cu-caixa">
+          <p><span class="cu-rot">Dado verificável:</span> no artigo do InstructGPT, a OpenAI conta que contratou
+            cerca de 40 pessoas, selecionadas por um teste de triagem, para produzir as demonstrações e as
+            comparações. O mesmo artigo informa que os avaliadores de treino concordavam entre si em 72,6 por
+            cento das vezes, com margem de 1,5 ponto, e os avaliadores de fora do treino em 77,3 por cento, com
+            margem de 1,3 ponto. Guarde esse número: concordância de pouco mais de 70 por cento é o normal em
+            tarefa subjetiva feita com cuidado, e não sinal de trabalho ruim.</p>
+        </div>
+
+        <div class="cu-pratica" id="a1-pratica">
+          <p class="cu-selo">Prática</p>
+          <h3 style="margin-top:0">Leia como avaliador</h3>
+          <p>Um conceito se fixa melhor depois de usado. Leia o pedido e as duas respostas abaixo.</p>
+          <div class="cu-caixa">
+            <p><span class="cu-rot">Pergunta do usuário:</span> "Tenho um projeto grande no trabalho e faz semanas que estou adiando. Não consigo começar. Alguma dica?"</p>
+            <p><span class="cu-rot">Resposta A:</span> "Você consegue! O segredo é disciplina. Pare de
+              procrastinar, foque no seu objetivo e comece agora. Acredite em você mesmo, o primeiro passo é o
+              mais importante."</p>
+            <p><span class="cu-rot">Resposta B:</span> "Quando a gente trava num projeto grande, quase sempre é porque a tarefa está vaga, ou grande demais para um primeiro passo. Tente separar uma ação bem específica, de uns 20 minutos, como abrir o documento e escrever só os títulos das seções. Um começo pequeno é mais fácil de encarar. E se existe uma parte que você sempre deixa para depois, isso costuma mostrar qual pedaço parece mais difícil, e saber disso já ajuda."</p>
+          </div>
+          <p>Antes de continuar, decida qual resposta é melhor e escreva uma ou duas frases dizendo o motivo. O
+            motivo é a parte que importa.</p>
+          <button class="cu-abrir-resp" type="button">Ver o comentário
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cu-resp">
+            <p>Uma leitura que se sustenta: <strong>B é a melhor resposta</strong>. Ela propõe uma causa provável
+              para o travamento e uma primeira ação concreta, enquanto A só dá incentivo. A não é
+              ofensiva nem errada, e é justamente por isso que ela serve de teste: é bem escrita, positiva e agradável de ler.</p>
+            <p>Um avaliador com pressa pode premiar esse tom confiante. Se muitos fizerem o mesmo, o modelo
+              aprende que respostas animadas e vazias recebem nota alta. A avaliação cuidadosa existe, entre outras coisas, para evitar isso.</p>
+            <p>Perceba também que você conseguiu dizer qual das duas é melhor sem precisar escrever a resposta B.
+              É a assimetria entre gerar e verificar funcionando na prática.</p>
+          </div>
+        </div>
+
+        <h3 id="a1-resumo">Resumo da aula</h3>
+        <ul>
+          <li>Um modelo de conversa é montado em três estágios: pré-treino, que dá conhecimento, ajuste por
+            instrução, que dá a forma da resposta, e treino por preferência, que dá o comportamento.</li>
+          <li>O pré-treino sozinho produz um modelo capaz, mas sem nenhum critério confiável de utilidade ou
+            segurança. Quem dá esse critério é gente.</li>
+          <li>Julgar qual resposta é melhor é mais fácil que escrever a melhor resposta, e é isso que permite
+            coletar o julgamento de muita gente.</li>
+          <li>O RLHF transforma comparações em um modelo de recompensa, e usa esse modelo para ajustar o modelo
+            principal.</li>
+          <li>A nota é relativa, não absoluta. O modelo aprende da comparação, e a justificativa costuma valer tanto quanto a escolha.</li>
+        </ul>
+
+        <h4>Para ir além</h4>
+        <ul>
+          <li><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Training language models
+            to follow instructions with human feedback</a> (Ouyang e outros, OpenAI, 2022). Descreve o processo
+            completo por trás do ChatGPT, incluindo quem produziu os dados.</li>
+          <li><a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep reinforcement
+            learning from human preferences</a> (Christiano e outros, 2017). Mostra que comparações entre pares conseguem ensinar um comportamento que ninguém demonstrou.</li>
+          <li><em>The Alignment Problem</em> (Brian Christian, 2020). Livro sem jargão sobre por que é difícil
+            transmitir valores humanos para uma máquina.</li>
+        </ul>
+
+        <button class="cu-concluir" type="button" data-aula="1" data-proxima="aula2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          Concluir a aula 1 e ir para a aula 2
+        </button>
+      </section>
+
+      <!-- ══════════════════ AULA 2 ══════════════════ -->
+      <section class="cu-aula" id="aula2">
+        <div class="cu-aula-cap"><span>Aula 2 de 4 · 15 min</span><i></i></div>
+        <h2>Por que o seu julgamento pesa</h2>
+        <p class="cu-resumo-aula">Nesta aula: como a preferência de um avaliador chega a todo mundo que usa o
+          modelo, por que o modelo vai atrás exatamente do que a recompensa mede, e não do que os autores queriam, e quatro falhas já documentadas que nascem de avaliação descuidada.</p>
+
+        <h3 id="a2-escala">Um julgamento que chega a muita gente</h3>
+        <p>Uma avaliação isolada raramente parece importante. É uma comparação entre muitas, feita em poucos
+          minutos, numa tela. Só que a influência dela não termina ali. Ela é somada a milhares de julgamentos
+          parecidos para treinar o modelo de recompensa, o modelo de recompensa molda o modelo principal, e o
+          modelo principal responde à mesma pergunta para todo mundo que usa o produto.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 2.1</b> · De um julgamento até milhões de conversas</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-esc">
+              <div class="cu-esc-linha">
+                <span class="cu-esc-rot">1. Você compara duas respostas e escolhe a melhor</span>
+                <div class="cu-esc-par">
+                  <div class="cu-esc-op"><b>A</b><i></i></div>
+                  <div class="cu-esc-op cu-esc-esc"><b>B</b><i></i></div>
+                </div>
+              </div>
+              <div class="cu-esc-seta">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+              </div>
+              <div class="cu-esc-linha">
+                <span class="cu-esc-rot">2. A sua escolha se junta a milhares de outras</span>
+                <div class="cu-esc-bars">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <em>a barra escura é a sua escolha</em>
+                </div>
+              </div>
+              <div class="cu-esc-seta">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+              </div>
+              <div class="cu-esc-dois">
+                <div class="cu-esc-cx"><b>3. Modelo de recompensa</b><span>Um segundo modelo estuda essas escolhas e aprende a prever qual resposta as pessoas escolheriam.</span></div>
+                <div class="cu-esc-cx cu-esc-forte"><b>4. Modelo ajustado</b><span>O modelo principal é treinado para dar respostas que tirem nota alta no modelo de recompensa.</span></div>
+              </div>
+              <div class="cu-esc-seta">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+              </div>
+              <div class="cu-esc-gente">
+                <b>5. O modelo ajustado responde a muita gente, em muitas conversas</b>
+                <div class="cu-esc-grade" id="gradeGente"></div>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">Uma escolha entre duas respostas, somada a milhares de outras e transformada em
+            treino, molda o que muita gente recebe como resposta.</p>
+        </div>
+
+        <p>O efeito vale nos dois sentidos. Julgamento consistente e cuidadoso produz um modelo mais útil, de um jeito que dá para medir. Um viés compartilhado por muitos avaliadores, uma tendência comum a premiar a
+          característica errada, produz um modelo que carrega esse mesmo viés em toda resposta que dá. É por chegar a tanta gente que o trabalho cuidadoso vale o esforço.</p>
+
+        <h3 id="a2-goodhart">A lei de Goodhart</h3>
+        <p>Um único princípio explica boa parte do que dá errado, e ele é mais antigo que o aprendizado de
+          máquina. A <span class="cu-termo">lei de Goodhart</span> diz que quando uma medida se torna a meta,
+          ela deixa de ser uma boa medida. Quando alguém força demais um indicador a subir, ele começa a se afastar da qualidade que deveria representar.</p>
+        <p>Um modelo não tem intenção: ele só busca a nota mais alta. Durante o treino, ele descobre qual característica das suas avaliações rende nota alta com mais frequência e vai atrás dela, seja ela a que você queria premiar ou não. Se respostas mais longas são escolhidas um pouco mais vezes, ele
+          aprende a escrever mais longo. Se respostas que concordam com o usuário tendem a ganhar, ele aprende a
+          concordar. Não é malícia, é o resultado previsível de aprender com o que as avaliações premiaram.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 2.2</b> · A lei de Goodhart em um gráfico</p>
+          <div class="cu-fig-moldura">
+            <svg viewBox="0 0 760 340" width="100%" style="min-width:520px;display:block" role="img" aria-label="Gráfico com duas curvas: a nota do modelo de recompensa continua subindo enquanto a preferência real das pessoas atinge um topo e começa a cair.">
+              <line x1="70" y1="292" x2="716" y2="292" stroke="#DED7CA" stroke-width="1.2"/>
+              <line x1="70" y1="30" x2="70" y2="292" stroke="#DED7CA" stroke-width="1.2"/>
+              <g font-family="Geist,system-ui,sans-serif" font-size="11" fill="#66717F">
+                <text x="60" y="296" text-anchor="end">0</text>
+                <text x="60" y="226" text-anchor="end">25</text>
+                <text x="60" y="156" text-anchor="end">50</text>
+                <text x="60" y="86" text-anchor="end">75</text>
+                <text x="60" y="36" text-anchor="end">100</text>
+                <text x="393" y="326" text-anchor="middle" letter-spacing="0.06em">QUANTO MAIS O MODELO É TREINADO PARA TIRAR NOTA ALTA →</text>
+                <text x="34" y="160" text-anchor="middle" transform="rotate(-90 34 160)" letter-spacing="0.08em">QUALIDADE</text>
+              </g>
+              <path d="M420,104 C520,74 610,62 706,54 L706,206 C610,146 520,100 420,112 Z" fill="#A85D24" opacity="0.13"/>
+              <path d="M70,286 C180,224 270,146 420,104 C530,72 620,60 706,54" fill="none" stroke="#A85D24" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M70,286 C180,240 260,152 420,112 C520,96 620,146 706,206" fill="none" stroke="#1A4893" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="420" cy="108" r="5" fill="#A85D24"/>
+              <line x1="420" y1="108" x2="330" y2="66" stroke="#A85D24" stroke-width="1" stroke-dasharray="3 3"/>
+              <g font-family="Geist,system-ui,sans-serif">
+                <rect x="150" y="46" width="180" height="26" rx="13" fill="#FFF" stroke="#DED7CA"/>
+                <text x="240" y="63" font-size="12" fill="#A85D24" text-anchor="middle" font-weight="600">as curvas se separam</text>
+                <text x="712" y="48" font-size="12" fill="#A85D24" text-anchor="end" font-weight="600">a nota continua subindo</text>
+                <text x="712" y="224" font-size="12" fill="#1A4893" text-anchor="end" font-weight="600">a qualidade real cai</text>
+                <text x="698" y="104" font-size="12.5" fill="#8A6038" text-anchor="end" font-weight="600">aqui a nota já não mede</text>
+                <text x="698" y="120" font-size="12.5" fill="#8A6038" text-anchor="end" font-weight="600">a qualidade real</text>
+              </g>
+              <g font-family="Geist,system-ui,sans-serif" font-size="12">
+                <rect x="86" y="78" width="232" height="44" rx="10" fill="#FFF" opacity="0.92"/>
+                <rect x="98" y="92" width="14" height="3" rx="1.5" fill="#1A4893"/>
+                <text x="120" y="98" fill="#54606F">o que as pessoas preferem</text>
+                <rect x="98" y="110" width="14" height="3" rx="1.5" fill="#A85D24"/>
+                <text x="120" y="116" fill="#54606F">a nota do modelo de recompensa</text>
+              </g>
+            </svg>
+          </div>
+          <p class="cu-fig-nota">Leia da esquerda para a direita. No começo, a nota e a qualidade real sobem juntas. Depois de certo ponto, a nota continua subindo e a qualidade real cai. O desenho é um esquema, não um resultado medido.</p>
+        </div>
+
+        <p>A figura mostra por que o desvio é fácil de não perceber. Durante um bom tempo, melhorar a medida e
+          melhorar a qualidade real andam juntos. A partir de certo ponto elas se separam: o modelo continua tirando nota cada vez melhor no modelo de recompensa enquanto fica menos útil para quem o usa. Boa parte do
+          valor de um avaliador está em impedir isso, garantindo que a resposta que recebe nota alta seja de fato
+          a melhor.</p>
+
+        <h3 id="a2-falhas">Quatro falhas conhecidas</h3>
+        <p>As falhas abaixo já foram observadas em sistemas em uso, e cada uma tem origem num padrão dos dados de treino.</p>
+
+        <h4>Bajulação</h4>
+        <p>Modelos treinados em preferências humanas tendem a concordar com o usuário. Se os avaliadores
+          favorecem, mesmo que de leve, respostas que aceitam a premissa da pergunta, ou seja, a ideia que a
+          pergunta já dá como certa, ou que elogiam a opinião de quem perguntou, o modelo aprende que concordar
+          é premiado e começa a puxar a resposta para o lado do usuário, em vez de buscar a resposta certa. Aquele assistente que abre com "você está absolutamente certo"
+          antes de dizer algo errado pegou esse hábito nas avaliações.</p>
+
+        <h4>Viés de tamanho e de formatação</h4>
+        <p>Imagine um projeto de assistente de programação em que os avaliadores recebem dois trechos de código
+          e escolhem o melhor, considerando correção, clareza, eficiência, estilo e comentários. Em poucas
+          semanas, o modelo treinado começa a encher funções simples de comentários, quase linha por linha.</p>
+        <p>O motivo aparece quando se investiga: quem avalia com pressa usa a quantidade de comentários como
+          atalho para julgar correção e clareza, que são mais difíceis de conferir. Código mais comentado parece
+          mais cuidadoso, é escolhido mais vezes, o modelo de recompensa absorve essa preferência e o modelo principal aprende a encher a resposta. Desfazer isso custa várias rodadas de treino.</p>
+
+        <h4>Exploração da recompensa</h4>
+        <p>É a forma geral do caso acima. O modelo encontra uma característica de aparência, fácil de produzir, que costuma vir junto com nota alta: mais texto, mais estrutura, tom mais confiante. E passa a produzir essa característica no lugar da qualidade que ela deveria indicar. A resposta parece melhor sem ser
+          melhor.</p>
+
+        <h4>Alucinação confiante</h4>
+        <p>Quando os avaliadores premiam respostas bem escritas e seguras de si, mesmo quando estão erradas, e dão pouco valor às que admitem dúvida, o modelo aprende que parecer seguro compensa. Com o tempo, ele prefere afirmar uma coisa falsa com naturalidade a reconhecer que não tem certeza. Um modelo que diz "não tenho certeza" menos do
+          que deveria foi moldado por avaliações que deram pouco crédito à honestidade sobre os próprios
+          limites.</p>
+
+        <p>Nos quatro casos, o modelo aproveitou um atalho que as avaliações criaram sem ninguém querer. E nos quatro a falha pode ser evitada no momento do julgamento, por alguém que reconhece o
+          atalho e se recusa a premiá-lo.</p>
+
+        <h3 id="a2-humano">Por que não dá para tirar as pessoas</h3>
+        <p>Se as falhas nascem em julgamento humano, seria razoável perguntar por que não se tiram as pessoas do processo. A resposta é que as palavras de que o trabalho depende, como útil, honesto e inofensivo, não cabem inteiras numa regra escrita de antemão. Tente definir "útil" numa regra única e ela logo
+          desemboca em outras palavras igualmente vagas, como adequado, relevante e pertinente, cada uma
+          precisando da própria definição. As pessoas reconhecem uma resposta útil quando leem uma, sem conseguir dizer que regra seguiram.</p>
+        <p>A dificuldade não é exclusiva da IA. Um juiz entende o que é dúvida razoável depois de muitos casos,
+          não decorando uma frase. Um médico aprende diagnóstico ao lado do paciente. Esse tipo de julgamento se forma decidindo um caso concreto depois do outro. O trabalho de avaliação é exatamente isso: dizer o que vale, um caso por vez. Ao escolher qual de duas respostas é mais útil, o avaliador mostra ao modelo, de um jeito que ele consegue aprender, o que "útil" vai significar para ele. E o modelo herda a qualidade dessas escolhas.</p>
+
+        <div class="cu-pratica" id="a2-pratica">
+          <p class="cu-selo">Prática</p>
+          <h3 style="margin-top:0">Diagnostique a falha</h3>
+          <p>Leia a conversa abaixo, de um assistente hipotético que já está em uso.</p>
+          <div class="cu-caixa">
+            <p><span class="cu-rot">Usuário:</span> "Acho que o núcleo da Terra é feito de ouro maciço. É por
+              isso que ela é tão pesada, né?"</p>
+            <p><span class="cu-rot">Assistente:</span> "Boa observação! Você tem razão: o núcleo é muito denso e pesado. Um núcleo de ouro é um jeito bem interessante de pensar no assunto!"</p>
+          </div>
+          <p>Duas perguntas. Primeira: qual das falhas desta aula a conversa mostra? Segunda: o que os avaliadores deveriam ter feito, na época do treino, para evitar isso?</p>
+          <button class="cu-abrir-resp" type="button">Ver o comentário
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cu-resp">
+            <p>A conversa mostra <strong>bajulação</strong>, junto com uma forma leve de <strong>alucinação
+              confiante</strong>. A afirmação do usuário é falsa, porque o núcleo é composto principalmente de
+              ferro e níquel, e o assistente não corrige o erro e ainda concorda com a ideia: elogia o raciocínio e passa por cima do engano.</p>
+            <p>Para evitar, os avaliadores que compararam respostas a esse tipo de pergunta precisariam preferir,
+              de forma consistente, a resposta que corrige a premissa falsa em vez da que agrada o usuário, mesmo
+              quando a resposta agradável soa mais simpática. Aplicada a muitos casos parecidos, essa preferência
+              é o que ensina um modelo a pôr a resposta certa acima do agrado.</p>
+            <p>Note que identificar a falha é fácil, embora redigir a correção ideal dê mais trabalho. É a
+              assimetria entre gerar e verificar outra vez.</p>
+          </div>
+        </div>
+
+        <h3 id="a2-resumo">Resumo da aula</h3>
+        <ul>
+          <li>O julgamento de um avaliador se multiplica: as avaliações somadas treinam o modelo de recompensa,
+            que molda o modelo que muita gente usa.</li>
+          <li>A lei de Goodhart se aplica direto. Quando a medida se torna a meta do treino, o modelo passa a correr atrás da medida e pode se afastar da qualidade real.</li>
+          <li>Avaliação descuidada produz falhas documentadas: bajulação, viés de tamanho e formatação,
+            exploração da recompensa e alucinação confiante.</li>
+          <li>Cada falha se origina de um atalho nos dados de avaliação, e pode ser barrada por quem reconhece o
+            atalho e não o premia.</li>
+          <li>O julgamento humano não pode ser automatizado por completo, porque os valores em jogo não são
+            escritos por inteiro em regras. A avaliação diz quais são, caso por caso.</li>
+        </ul>
+
+        <h4>Para ir além</h4>
+        <ul>
+          <li><a href="https://aclanthology.org/2022.emnlp-main.731/" target="_blank" rel="noopener">The
+            "Problem" of Human Label Variation</a> (Barbara Plank, EMNLP 2022). Sobre por que a discordância
+            entre avaliadores muitas vezes é informação, e não um erro a apagar.</li>
+          <li><a href="https://arxiv.org/abs/2310.13548" target="_blank" rel="noopener">Towards Understanding
+            Sycophancy in Language Models</a> (Sharma e outros, Anthropic, 2023). Mede a bajulação e mostra que
+            ela nasce, em parte, da própria preferência humana coletada.</li>
+          <li><a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">Concrete Problems in AI
+            Safety</a> (Amodei e outros, 2016). Lista inicial, fácil de ler, das formas como um sistema acaba perseguindo o objetivo errado.</li>
+        </ul>
+
+        <button class="cu-concluir" type="button" data-aula="2" data-proxima="aula3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          Concluir a aula 2 e ir para a aula 3
+        </button>
+      </section>
+
+      <!-- ══════════════════ AULA 3 ══════════════════ -->
+      <section class="cu-aula" id="aula3">
+        <div class="cu-aula-cap"><span>Aula 3 de 4 · 12 min</span><i></i></div>
+        <h2>De onde veio o feedback humano</h2>
+        <p class="cu-resumo-aula">Nesta aula: por que, durante décadas, as pessoas davam a resposta certa em vez de comparar, qual experimento mudou isso, e o que significam os nomes que você vai encontrar nas
+          descrições de vaga, como RLHF, Constitutional AI, RLAIF e LLM como juiz.</p>
+
+        <h3 id="a3-super">Quando as pessoas davam a resposta certa</h3>
+        <p>Comparar respostas de um modelo e dar nota pode parecer um jeito natural e antigo de trabalhar. Na
+          verdade é recente. Durante a maior parte da história do aprendizado de máquina, as pessoas contribuíam
+          de outra forma.</p>
+        <p>O método padrão se chamava <span class="cu-termo">aprendizado supervisionado</span>: alguém rotula cada exemplo, isto é, anota nele a resposta correta, e o modelo aprende a dar a mesma resposta. Em 1989, uma
+          equipe treinou uma rede para ler códigos postais escritos à mão, usando milhares de dígitos
+          transcritos por pessoas. O arranjo que dominaria a área pelos trinta e cinco anos seguintes já estava
+          montado: pessoas dando a resposta certa, um rótulo por vez, e o modelo imitando.</p>
+        <p>Isso funciona bem onde existe uma resposta certa clara. Um dígito manuscrito é um sete ou não é. Um trecho de áudio corresponde a uma sequência definida de palavras. Nesses casos quem rotula sabe a
+          resposta e a registra.</p>
+        <p>A abordagem quebra quando não existe resposta única para escrever. Não há uma nota de condolências
+          correta, nem um resumo verdadeiro de um artigo longo, e uma pergunta aberta pode ser bem respondida de
+          muitas maneiras diferentes. Diante dessas tarefas, quem rotula não consegue dar a resposta perfeita, porque ela não existe. Existem apenas tentativas melhores e piores, e o aprendizado
+          supervisionado não tem como aproveitar essa distinção.</p>
+
+        <h3 id="a3-virada">A virada para a comparação</h3>
+        <p>A mudança que tornou possível o método atual foi alterar a tarefa dada à pessoa. Em vez de pedir a
+          resposta certa, perguntar qual de duas tentativas é a melhor. É a assimetria entre gerar e verificar,
+          da aula 1, posta em prática.</p>
+        <p>A demonstração mais clara veio em 2017, quando pesquisadores treinaram um robô simulado a dar um
+          salto mortal para trás usando apenas comparações entre pares. Ninguém na equipe conseguia descrever com precisão como é um salto mortal bem feito. Avaliadores sem qualquer especialidade assistiam a dois
+          clipes curtos das tentativas do robô e escolhiam a que parecia mais próxima do movimento desejado.
+          Essas comparações treinaram um modelo de recompensa, e esse modelo treinou o robô. Nenhum
+          salto correto foi mostrado a ele em nenhum momento. As pessoas envolvidas apenas julgaram qual das duas
+          tentativas chegou mais perto.</p>
+        <p>O que isso mostrou: a contribuição das pessoas podia deixar de ser saber a resposta e passar a ser reconhecer a melhor tentativa. O resto da história é essa ideia aplicada à linguagem, em volume cada vez maior.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 3.1</b> · Linha do tempo do feedback humano</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-tl">
+              <div class="cu-tl-faixas">
+                <span class="cu-tl-faixa cu-tl-f1">"escreva a resposta"</span>
+                <span class="cu-tl-faixa cu-tl-f2">"diga qual tentativa é melhor"</span>
+              </div>
+              <div class="cu-tl-eixo">
+                <div class="cu-tl-item">
+                  <b>1989</b><i class="cu-tl-bola cu-tl-cinza"></i>
+                  <strong>Aprendizado supervisionado</strong>
+                  <span>Uma rede aprende a ler códigos postais. Pessoas anotam o dígito certo de cada imagem.</span>
+                </div>
+                <div class="cu-tl-item">
+                  <b>2017</b><i class="cu-tl-bola"></i>
+                  <strong>Aprender com preferências</strong>
+                  <span>Um robô simulado aprende um salto mortal só com pessoas escolhendo a melhor de duas tentativas.</span>
+                </div>
+                <div class="cu-tl-item">
+                  <b>2020</b><i class="cu-tl-bola"></i>
+                  <strong>Resumo com feedback</strong>
+                  <span>O método funciona com linguagem: pessoas comparam resumos e o modelo aprende quais elas preferem.</span>
+                </div>
+                <div class="cu-tl-item">
+                  <b>2022</b><i class="cu-tl-bola"></i>
+                  <strong>InstructGPT</strong>
+                  <span>A OpenAI publica a receita completa: exemplos escritos, modelo de recompensa e ajuste final.</span>
+                </div>
+                <div class="cu-tl-item">
+                  <b>2022 em diante</b><i class="cu-tl-bola"></i>
+                  <strong>Princípios e feedback de IA</strong>
+                  <span>Com Constitutional AI e RLAIF, modelos aplicam princípios escritos por pessoas e fazem parte das comparações.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">As duas faixas de cima mostram o que se pedia às pessoas em cada época: primeiro escrever a resposta, depois dizer qual tentativa é melhor. O método que hoje está no centro do trabalho de avaliação tem poucos anos.</p>
+        </div>
+
+        <h3 id="a3-marcos">Três marcos na linguagem</h3>
+        <p>Três trabalhos transformaram a ideia no processo usado hoje.</p>
+        <p><em>Learning to summarize from human feedback</em> (Stiennon e outros, OpenAI, 2020) aplicou
+          preferências e um modelo de recompensa à tarefa de resumir textos. Pessoas comparavam pares de resumos,
+          um modelo de recompensa aprendeu essas preferências, e o modelo resultante produziu resumos que os
+          leitores preferiram aos de um treino supervisionado comum. Ficou demonstrado que o método funcionava também fora do robô simulado, numa tarefa real de linguagem.</p>
+        <p><em>InstructGPT</em> (Ouyang e outros, OpenAI, 2022) estendeu a abordagem para seguir instruções em
+          geral e publicou a receita completa pela primeira vez. São três etapas: primeiro, o modelo é ajustado
+          com respostas escritas por pessoas; depois, um modelo de recompensa é treinado com as comparações que
+          elas fizeram; por fim, o modelo principal é ajustado para agradar esse modelo de recompensa. É o
+          processo de três estágios da aula 1.</p>
+        <p>O mesmo artigo descreve quem produziu esses dados: cerca de quarenta pessoas contratadas e pagas,
+          trabalhando a partir de instruções detalhadas. Essa receita virou a base do ChatGPT no fim daquele ano
+          e da maioria dos assistentes desde então, e continua sendo o relato público mais claro de como é o trabalho de avaliação por trás de um modelo grande.</p>
+        <p>Vale guardar este ponto: o trabalho descrito nesse artigo é o mesmo tipo de trabalho anunciado nas vagas
+          que você encontra hoje.</p>
+
+        <h3 id="a3-estender">Constitutional AI, RLAIF e LLM como juiz</h3>
+        <p>Conforme o método cresceu, dois problemas apareceram. Dados de preferência humana são caros e lentos
+          de coletar, e as pessoas não são perfeitamente consistentes quando precisam fazer julgamentos finos em grande volume. Duas técnicas foram criadas para levar o julgamento humano mais longe, e não para substituí-lo.</p>
+        <p><span class="cu-termo">Constitutional AI</span> (Bai e outros, Anthropic, 2022) introduz um conjunto
+          de princípios escritos, uma espécie de constituição, e treina o modelo a criticar e revisar as próprias respostas com base nesses princípios. Uma pessoa escreve os princípios uma vez, e o modelo os aplica a muitos
+          casos. O julgamento humano deixa de avaliar resposta por resposta e passa a definir as regras pelas quais as respostas são avaliadas.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 3.2</b> · Crítica e revisão guiadas por princípios</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-ciclo">
+              <div class="cu-ciclo-const">
+                <b>Princípios escritos por pessoas</b>
+                <ul>
+                  <li>ser útil</li>
+                  <li>ser honesto</li>
+                  <li>não causar dano</li>
+                  <li>recusar pedido perigoso</li>
+                </ul>
+              </div>
+              <div class="cu-ciclo-desce">
+                <svg width="16" height="26" viewBox="0 0 16 26" fill="none" stroke="#A85D24" stroke-width="1.4" stroke-dasharray="3 3" stroke-linecap="round"><path d="M8 1v18"/><path d="M3 15l5 6 5-6" stroke-dasharray="0"/></svg>
+              </div>
+              <div class="cu-ciclo-linha">
+                <div class="cu-ciclo-cx cu-ciclo-in"><b>Pedido</b><span>o que a pessoa pediu</span></div>
+                <div class="cu-seta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+                <div class="cu-ciclo-cx cu-ciclo-az"><b>Gerar</b><span>o modelo escreve a primeira resposta</span></div>
+                <div class="cu-seta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+                <div class="cu-ciclo-cx cu-ciclo-am"><b>Criticar</b><span>o modelo confere a resposta com os princípios</span></div>
+                <div class="cu-seta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+                <div class="cu-ciclo-cx cu-ciclo-az"><b>Revisar</b><span>o modelo reescreve o que a crítica apontou</span></div>
+                <div class="cu-seta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+                <div class="cu-ciclo-cx cu-ciclo-out"><b>Resposta final</b><span>o que a pessoa recebe</span></div>
+              </div>
+              <p class="cu-ciclo-loop">criticar e revisar se repetem até a crítica não ter mais o que apontar</p>
+            </div>
+          </div>
+          <p class="cu-fig-nota">O modelo critica e revisa o próprio texto, guiado por princípios escritos por
+            pessoas.</p>
+        </div>
+
+        <p><span class="cu-termo">RLAIF</span>, aprendizado por reforço a partir de feedback de IA, vai além:
+          um modelo gera parte das comparações que uma pessoa faria. Perde-se um pouco de fidelidade aos valores humanos e ganha-se muito em volume.</p>
+        <p>Uma prática próxima, hoje comum, é o <span class="cu-termo">LLM como juiz</span>, onde LLM é só a
+          sigla em inglês para modelo de linguagem grande. Funciona assim: um modelo competente, guiado por uma
+          rubrica, faz a primeira rodada de avaliação, e pessoas conferem uma amostra do resultado. Rubrica,
+          aqui, é a lista escrita de critérios e notas que o avaliador deve aplicar, e ela vale tanto para a
+          pessoa quanto para o modelo que faz esse papel.</p>
+        <p>Nada disso tira as pessoas do processo: muda o lugar delas. À medida que os modelos absorvem as
+          comparações rotineiras, os avaliadores migram para o trabalho mais difícil: escrever e refinar
+          guidelines, decidir os casos ambíguos que um modelo não resolve, auditar julgamentos feitos por
+          máquina, e cobrir áreas novas que ainda não têm regra estabelecida. A fatia do treino que depende de
+          julgamento humano cresceu com o tempo, e o julgamento exigido ficou mais qualificado e passou a pesar mais.</p>
+
+        <div class="cu-pratica" id="a3-pratica">
+          <p class="cu-selo">Prática</p>
+          <h3 style="margin-top:0">Ligue a solução ao problema</h3>
+          <p>Cada técnica desta aula resolveu uma limitação da anterior. Faça a ligação antes de ver o
+            comentário.</p>
+          <div class="cu-caixa">
+            <p><span class="cu-rot">Técnicas:</span> 1. aprendizado supervisionado · 2. RLHF, treino por
+              preferência · 3. Constitutional AI · 4. RLAIF</p>
+            <p><span class="cu-rot">Limitações:</span> (a) coletar comparações humanas em volume é lento e caro ·
+              (b) muitas tarefas não têm uma resposta certa única para escrever como rótulo · (c) mesmo a coleta
+              de preferências precisa de julgamento humano para chegar a áreas novas em grande volume</p>
+          </div>
+          <button class="cu-abrir-resp" type="button">Ver o comentário
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cu-resp">
+            <p>O aprendizado supervisionado (1) trava na limitação (b), que o RLHF (2) resolve pedindo
+              comparações em vez de respostas certas. O RLHF então encontra a limitação (a), o custo de coletar
+              todas essas comparações, que o Constitutional AI (3) alivia fazendo uma pessoa escrever princípios
+              uma vez em lugar de julgar cada caso. O que sobra, levar o julgamento a áreas novas, (c), é o que o RLAIF (4) resolve deixando um modelo gerar comparações que pessoas
+              supervisionam.</p>
+            <p>Cada técnica resolve um gargalo concreto, e nenhuma é melhor em tudo. Saber qual gargalo cada uma resolve deixa a sequência fácil de acompanhar, e faz a descrição de um projeto parar de parecer sopa de letrinhas.</p>
+          </div>
+        </div>
+
+        <h3 id="a3-resumo">Resumo da aula</h3>
+        <ul>
+          <li>Durante décadas, ensinar um modelo significava dar o rótulo correto. Isso falha onde não
+            existe uma resposta certa única.</li>
+          <li>A virada decisiva, demonstrada em 2017, foi pedir às pessoas que julgassem qual de duas tentativas
+            é melhor em vez de produzir a resposta.</li>
+          <li>Em 2020 o método se firmou na linguagem, e em 2022 o InstructGPT montou a receita completa de
+            exemplos, modelo de recompensa e RLHF que está por trás dos assistentes atuais.</li>
+          <li>Constitutional AI e RLAIF levam o julgamento humano mais longe: pessoas definem princípios e supervisionam
+            feedback gerado por modelo, em vez de avaliar cada caso à mão.</li>
+          <li>Com a automação, os avaliadores passaram a cuidar dos julgamentos mais difíceis e de maior valor.</li>
+        </ul>
+
+        <button class="cu-concluir" type="button" data-aula="3" data-proxima="aula4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          Concluir a aula 3 e ir para a aula 4
+        </button>
+      </section>
+
+      <!-- ══════════════════ AULA 4 ══════════════════ -->
+      <section class="cu-aula" id="aula4">
+        <div class="cu-aula-cap"><span>Aula 4 de 4 · 18 min</span><i></i></div>
+        <h2>Como avaliar bem</h2>
+        <p class="cu-resumo-aula">Nesta aula: a parte prática. Como ler a guideline, como montar um julgamento
+          que se sustenta, quais atalhos estragam o dado sem parecer descuido, e por que consistência é o que
+          torna o seu trabalho utilizável.</p>
+
+        <h3 id="a4-guideline">Ler a guideline</h3>
+        <p>Todo projeto sério de avaliação vem com uma <span class="cu-termo">guideline</span>: o documento que
+          diz o que observar, o que "melhor" significa naquela tarefa e como tratar casos de fronteira. É a peça mais importante do trabalho, porque funciona como o contrato entre quem precisa do dado e quem
+          o produz. Onde a guideline é clara e seguida, avaliadores treinados produzem dado consistente em
+          volume. Onde ela é vaga, ou onde os avaliadores se afastam dela, a habilidade de cada um não compensa a falta.</p>
+        <p>O caso do assistente de programação da aula 2 é um exemplo de contrato que falhou. A guideline listava
+          cinco critérios, correção, clareza, eficiência, estilo e comentários, sem ordená-los. Sob pressão de
+          tempo, os avaliadores recorreram ao critério mais fácil de ver de relance, a quantidade de comentários, e o modelo aprendeu a encher o código. A culpa foi menos dos avaliadores do que de uma guideline que
+          deu a um critério decisivo, correção, e a um critério menor, comentários, o mesmo peso.</p>
+        <p>A lição que fica é simples: <strong>encontre a ordem de prioridade</strong>. Se correção
+          vem primeiro, uma resposta simples e correta tem que vencer uma resposta polida e errada, por mais
+          agradável que a segunda seja de ler. Quando a ordem não está no documento, vale perguntar, porque um
+          atalho vai ocupar esse espaço vazio, com ou sem a sua intenção.</p>
+        <p>Leia a guideline inteira antes de começar. Repare nas definições, o que exatamente conta como
+          "prejudicial" ali, nas regras de decisão, o que fazer quando as duas respostas estão erradas, e nos
+          exemplos. E deixe o documento aberto enquanto trabalha.</p>
+
+        <h3 id="a4-defensavel">Como é um julgamento que se sustenta</h3>
+        <p>Um julgamento de preferência que se sustenta compara as duas respostas nos critérios que importam, aplica o
+          mesmo padrão de um caso para o outro, e registra o raciocínio de forma clara o suficiente para outra
+          pessoa seguir. Uma impressão rápida, ou um checklist feito de memória, não chega a esse nível.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 4.1</b> · Anatomia de um bom julgamento</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-anat">
+              <div class="cu-anat-topo">Um pedido e duas respostas para comparar</div>
+              <div class="cu-anat-meio">
+                <div class="cu-anat-resp"><b>A</b><i></i><i></i><i></i><i class="cu-curta"></i></div>
+                <div class="cu-anat-crit">
+                  <span class="cu-anat-rot">compare as duas nesta ordem</span>
+                  <span class="cu-anat-peso cu-anat-peso-t">pesa mais</span>
+                  <div class="cu-crit cu-crit-1">correta e precisa</div>
+                  <div class="cu-crit cu-crit-2">responde o que foi pedido</div>
+                  <div class="cu-crit cu-crit-3">segura e honesta</div>
+                  <div class="cu-crit cu-crit-4">clara e adequada</div>
+                  <div class="cu-crit cu-crit-5">estilo e tamanho</div>
+                  <span class="cu-anat-peso cu-anat-peso-b">pesa menos</span>
+                </div>
+                <div class="cu-anat-resp"><b>B</b><i></i><i></i><i class="cu-curta"></i><i></i></div>
+              </div>
+              <div class="cu-anat-escolha">
+                <b>Escolhida: B</b>
+                <span>B corrige a premissa falsa do pedido antes de responder. A concorda com ela.</span>
+                <em>Escreva o motivo em uma frase: é ele que registra o que decidiu a escolha.</em>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">Comece pelo critério mais importante e vá descendo. No fim, escreva o motivo.</p>
+        </div>
+
+        <p>A figura descreve o método. Comece perguntando se alguma das respostas está simplesmente errada, o que
+          em geral já resolve a comparação. Se as duas estão corretas, pergunte qual delas de fato responde ao
+          que foi pedido, e não a uma pergunta vizinha. Depois considere clareza, junto com segurança e honestidade
+          sobre incerteza. Deixe para o fim as características de aparência, como tom, tamanho e formatação, porque são as mais fáceis de notar e as que mais enganam. Termine escrevendo a justificativa,
+          uma ou duas frases nomeando o que decidiu a escolha.</p>
+        <p>Uma justificativa boa soa assim: "B é melhor porque corrige a premissa errada da pergunta antes de responder, enquanto A concorda com ela". Essa frase é valiosa para quem monta o projeto, porque registra o que
+          "melhor" significou naquele caso.</p>
+
+        <h3 id="a4-atalhos">Atalhos que estragam o dado</h3>
+        <p>A maior parte da avaliação ruim não parece descuidada. É uma pessoa competente tomando um atalho que
+          parece razoável no momento. Vale dar nome aos mais comuns para conseguir notá-los em si mesmo.</p>
+        <ul>
+          <li><strong>Julgar pelo tamanho.</strong> Uma resposta mais longa parece mais completa quando é apenas
+            mais longa. O teste é se o texto extra acrescenta informação ou só ocupa espaço.</li>
+          <li><strong>Julgar pela formatação.</strong> Tópicos, negrito e estrutura limpa passam impressão de
+            competência, e uma resposta bem formatada pode estar errada. Formatação, sozinha, não melhora a nota.</li>
+          <li><strong>Julgar pela confiança.</strong> Tom seguro é confundido com correção com facilidade. Quando
+            a resposta deveria expressar incerteza e soa categórica, isso conta contra ela.</li>
+          <li><strong>Concordar com o usuário.</strong> Quando o pedido já afirma uma opinião, a resposta que concorda com ela é mais agradável de ler, e preferi-la por isso ensina bajulação. A pergunta é se a resposta
+            está correta, não se é simpática.</li>
+          <li><strong>Perseguir o gabarito.</strong> Muitos projetos conferem o seu trabalho com itens de controle, que têm resposta conhecida, e pagam bônus por concordância. Esses itens existem para medir o seu
+            julgamento. Tratá-los como gabarito a adivinhar estraga justamente a medida que eles deveriam dar.</li>
+          <li><strong>Trabalhar rápido demais.</strong> Pagamento por tarefa premia velocidade, mas um julgamento raso num par difícil de verdade põe no dado um erro que o modelo vai aprender ao pé da letra. Caso difícil
+            merece mais tempo, não menos, porque é exatamente ali que o cuidado faz diferença.</li>
+        </ul>
+
+        <h3 id="a4-consist">Consistência e concordância</h3>
+        <p>Dado de avaliação só serve quando é consistente, isto é, quando avaliadores diferentes e cuidadosos, e
+          o mesmo avaliador em dias diferentes, chegam ao mesmo julgamento no mesmo item. A área mede isso com a
+          <span class="cu-termo">concordância entre anotadores</span>: a taxa com que avaliadores independentes concordam, descontadas as vezes em que concordariam por acaso.</p>
+        <p>Esse desconto importa mais do que parece. Imagine dois avaliadores classificando mensagens de clientes
+          como "reclamação" ou "não é reclamação", em uma base onde 90 por cento das mensagens não são
+          reclamação. Dois avaliadores que marcassem no mesmo ritmo da base, sem ler nada, já concordariam entre
+          si cerca de 82 por cento das vezes, porque 0,9 vezes 0,9 mais 0,1 vezes 0,1 dá 0,82. Uma concordância
+          bruta de 85 por cento, nesse cenário, quase não quer dizer nada: descontado o acaso, sobra muito pouco.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 4.2</b> · Por que 82% de concordância pode não valer nada</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-kap">
+              <div class="cu-kap-cx">
+                <p class="cu-kap-tit">Dois avaliadores clicando sem ler</p>
+                <p class="cu-kap-sub">De cada 100 mensagens, 90 não são reclamação. Os dois marcam nessa mesma proporção, sem ler nada.</p>
+                <div class="cu-kap-barra"><span></span></div>
+                <div class="cu-kap-legenda"><span>não é reclamação · 90%</span><span>reclamação · 10%</span></div>
+                <div class="cu-kap-botoes">
+                  <span class="cu-kap-bt cu-kap-on">não é reclamação</span>
+                  <span class="cu-kap-bt">reclamação</span>
+                </div>
+                <div class="cu-kap-caixa cu-kap-ruim">
+                  <p class="cu-kap-rot">Concordância bruta</p>
+                  <p class="cu-kap-num">82%</p>
+                  <p class="cu-kap-txt">É quanto os dois concordam só por acaso. Como quase tudo é "não é reclamação", eles coincidem na maior parte das vezes.</p>
+                </div>
+              </div>
+              <div class="cu-kap-cx">
+                <p class="cu-kap-tit">Descontando o acaso: kappa</p>
+                <p class="cu-kap-sub">O kappa separa a concordância de verdade da coincidência.</p>
+                <div class="cu-kap-form">
+                  <p class="cu-kap-rot">Fórmula</p>
+                  <p>k = (Po − Pe) / (1 − Pe)</p>
+                  <p class="cu-kap-leg">Po é a concordância que aconteceu. Pe é a que o acaso já daria.</p>
+                  <p>= (0,82 − 0,82) / (1 − 0,82)</p>
+                  <p>= 0 / 0,18 = <b>0</b></p>
+                </div>
+                <div class="cu-kap-caixa cu-kap-bom">
+                  <p class="cu-kap-rot">Kappa</p>
+                  <p class="cu-kap-num">0</p>
+                  <p class="cu-kap-txt">Zero. Aqueles 82 por cento eram puro acaso: não mostram que alguém leu as mensagens.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">Quando quase todos os itens caem na mesma categoria, só a medida que desconta o acaso diz a verdade.</p>
+        </div>
+
+        <p>Para o seu trabalho, o ponto é de hábito, não de estatística. Busque julgamentos que um colega
+          seguindo a mesma guideline também alcançaria. Motivos apoiados em gosto pessoal, numa ideia só sua de "melhor" ou no humor do dia não se repetem, e dado inconsistente treina um modelo com metas contraditórias. Apoiar cada julgamento na guideline, e em razões que você conseguiria dizer em voz alta, é o que mantém o dado consistente.</p>
+
+        <h3 id="a4-discord">Quando discordar não é erro</h3>
+        <p>Uma ressalva evita a correção exagerada: nem toda discordância é engano a ser eliminado. Dois
+          avaliadores cuidadosos podem divergir porque o caso é ambíguo de verdade, ou porque a guideline tem
+          uma lacuna que deixa espaço para mais de uma leitura válida. Trabalhos sobre variação de rótulo
+          humano argumentam que discordância desse tipo é informação sobre onde a tarefa é difícil ou a regra
+          está pouco clara, e deveria ser preservada em vez de diluída numa média.</p>
+
+        <div class="cu-fig">
+          <p class="cu-fig-cap"><b>Figura 4.3</b> · Duas discordâncias diferentes: erro e ambiguidade</p>
+          <div class="cu-fig-moldura">
+            <div class="cu-ds">
+              <div class="cu-ds-cx cu-ds-erro">
+                <p class="cu-ds-tit">Erro</p>
+                <p class="cu-ds-sub">Quatro avaliadores classificam o trecho destacado. Um deles se confundiu.</p>
+                <p class="cu-ds-frase">"O presidente da <mark>Apple Inc.</mark> fez um anúncio."</p>
+                <div class="cu-ds-chips">
+                  <span class="cu-ds-chip cu-ok">empresa</span>
+                  <span class="cu-ds-chip cu-ok">empresa</span>
+                  <span class="cu-ds-chip cu-ok">empresa</span>
+                  <span class="cu-ds-chip cu-no">pessoa</span>
+                </div>
+                <div class="cu-ds-final"><b>O que fazer</b><span>Vale a maioria: empresa</span></div>
+              </div>
+              <div class="cu-ds-cx cu-ds-sinal">
+                <p class="cu-ds-tit">Ambiguidade real</p>
+                <p class="cu-ds-sub">Quatro avaliadores leem a mesma regra, e ela permite duas leituras.</p>
+                <p class="cu-ds-frase">"resposta moderadamente pouco útil" é útil ou não é?</p>
+                <div class="cu-ds-chips">
+                  <span class="cu-ds-chip cu-ok">útil</span>
+                  <span class="cu-ds-chip cu-ok">útil</span>
+                  <span class="cu-ds-chip cu-no">não é útil</span>
+                  <span class="cu-ds-chip cu-no">não é útil</span>
+                </div>
+                <div class="cu-ds-final"><b>O que fazer</b><span>Manter o 2 a 2 e pedir que a regra seja reescrita</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="cu-fig-nota">Erro se corrige. Ambiguidade real se leva para quem escreve a guideline.</p>
+        </div>
+
+        <p>Na prática, quando você se vê discordando de um colega ou de um item de controle, não conclua
+          automaticamente que o errado é você. Decida primeiro de que tipo de discordância se trata. Se você leu a guideline de forma errada, corrija a leitura e ajuste o seu critério. Se o item está de fato numa fronteira, leve o caso a
+          quem conduz o projeto, porque em geral isso indica uma regra que precisa ser afinada. Avaliadores que
+          fazem isso contribuem de duas formas: pelos rótulos que entregam, e pela melhoria que as perguntas
+          deles provocam na guideline que todo mundo usa.</p>
+
+        <div class="cu-pratica" id="a4-pratica">
+          <p class="cu-selo">Prática</p>
+          <h3 style="margin-top:0">De justificativa fraca para forte</h3>
+          <p>A tarefa abaixo traz um pedido, duas respostas e uma justificativa escrita por alguém com pressa.</p>
+          <div class="cu-caixa">
+            <p><span class="cu-rot">Pedido:</span> "É seguro misturar água sanitária e vinagre para limpar meu
+              banheiro?"</p>
+            <p><span class="cu-rot">Resposta A:</span> "Ótima pergunta! Misturar produtos pode aumentar o poder de limpeza. Segue um passo a passo para deixar o banheiro brilhando, com um checklist prático."</p>
+            <p><span class="cu-rot">Resposta B:</span> "Não, não misture água sanitária com vinagre. Juntos eles
+              liberam gás cloro, que é tóxico e perigoso num ambiente fechado como o banheiro. Use os produtos
+              separadamente, com boa ventilação, e nunca combinados. Se quiser uma única solução para quase toda
+              superfície de banheiro, água sanitária diluída em água resolve bem."</p>
+            <p><span class="cu-rot">Justificativa apressada:</span> "A é mais detalhada e tem checklist, então A é melhor."</p>
+          </div>
+          <p>Duas tarefas. Primeira: identifique o que a justificativa apressada errou e em quais atalhos ela se
+            apoiou. Segunda: escreva a justificativa que você enviaria.</p>
+          <button class="cu-abrir-resp" type="button">Ver o comentário
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="cu-resp">
+            <p>O julgamento apressado é <strong>perigoso</strong>: ele escolhe a resposta que dá um conselho que põe a pessoa em risco. E chega nessa escolha apoiado em tamanho ("mais detalhada"), formatação ("tem checklist") e tom confiante, três dos atalhos descritos nesta aula. A resposta A falha no
+              critério que está acima de todos os outros aqui, segurança.</p>
+            <p>Uma justificativa que se sustenta soa assim: "B é claramente melhor. A incentiva o usuário a
+              misturar produtos, o que é perigoso de verdade, e apresenta o conselho num formato organizado, que o faz parecer confiável. B recusa a ação perigosa, explica o motivo, que é a liberação de gás
+              cloro, e ainda oferece uma alternativa segura. Segurança está acima de riqueza de detalhe nesta
+              tarefa, então o detalhe extra de A conta contra ela, e não a favor."</p>
+            <p>Essa justificativa nomeia o critério decisivo, coloca-o acima dos outros e outro avaliador cuidadoso chegaria à mesma conclusão. É esse o padrão a buscar.</p>
+          </div>
+        </div>
+
+        <h3 id="a4-resumo">Resumo da aula</h3>
+        <ul>
+          <li>A guideline é o contrato da tarefa. Leia inteira, ache a ordem de prioridade dos critérios e
+            mantenha aberta enquanto trabalha.</li>
+          <li>Um julgamento sólido compara as respostas pelos critérios em ordem, com correção e pertinência antes das características de aparência, e é registrado com uma justificativa curta, que diz o que decidiu a escolha.</li>
+          <li>Dado ruim nasce de atalhos que parecem razoáveis: tamanho, formatação, confiança, concordar com o
+            usuário, perseguir o gabarito e trabalhar rápido demais.</li>
+          <li>Outra pessoa precisa conseguir chegar ao mesmo julgamento, então apoie-se na guideline e em razões que você diria em voz alta, não em gosto. E lembre que concordância bruta engana em base desequilibrada.</li>
+          <li>Nem toda discordância é erro. Separe leitura equivocada, que você corrige, de ambiguidade real, que
+            vale levar adiante porque em geral aponta uma guideline que precisa ser afinada.</li>
+        </ul>
+
+        <h4>Na prática</h4>
+        <p>Avaliação bem feita é julgamento com método: apoiado na guideline, feito do critério mais importante para o menos importante, e registrado com clareza suficiente para outra pessoa acompanhar e repetir. As aulas anteriores explicaram para que o trabalho serve e por que ele importa. Esta mostrou como fazer. O que falta é prática em tarefas reais, que é o que transforma esses hábitos em rotina.</p>
+
+        <button class="cu-concluir" type="button" data-aula="4" data-proxima="quiz">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          Concluir a aula 4 e ir para o quiz
+        </button>
+      </section>
+
+      <!-- ══════════════════ QUIZ ══════════════════ -->
+      <section class="cu-aula" id="quiz">
+        <div class="cu-aula-cap"><span>Avaliação final</span><i></i></div>
+        <h2>Quiz do curso</h2>
+        <p class="cu-resumo-aula">Dez perguntas sobre as quatro aulas. Acertando oito ou mais, o curso é dado como concluído. Pode responder quantas vezes quiser, e cada correção mostra o motivo da
+          resposta certa.</p>
+
+        <form id="formQuiz" class="cu-quiz">
+
+          <div class="cu-q" data-certa="b">
+            <p class="cu-q-tit"><i>1</i> O que o estágio de pré-treino dá a um modelo de linguagem?</p>
+            <label><input type="radio" name="q1" value="a"><span>As regras de segurança que ele deve seguir</span></label>
+            <label><input type="radio" name="q1" value="b"><span>Conhecimento de linguagem e de mundo, sem comportamento definido</span></label>
+            <label><input type="radio" name="q1" value="c"><span>A preferência dos usuários por respostas úteis</span></label>
+            <label><input type="radio" name="q1" value="d"><span>A capacidade de recusar pedidos perigosos</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">O pré-treino dá conhecimento e fluência. Comportamento, utilidade e segurança vêm
+              dos estágios seguintes, com participação humana.</p>
+          </div>
+
+          <div class="cu-q" data-certa="c">
+            <p class="cu-q-tit"><i>2</i> No estágio de treino por preferência, qual é a tarefa típica do avaliador?</p>
+            <label><input type="radio" name="q2" value="a"><span>Escrever a resposta ideal para cada pergunta</span></label>
+            <label><input type="radio" name="q2" value="b"><span>Corrigir a gramática da resposta do modelo</span></label>
+            <label><input type="radio" name="q2" value="c"><span>Comparar duas respostas e indicar qual é melhor, com justificativa</span></label>
+            <label><input type="radio" name="q2" value="d"><span>Dar uma nota absoluta de 0 a 10 para cada resposta isolada</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">A tarefa é comparativa. A nota do sistema é relativa, e é da comparação que o modelo aprende.</p>
+          </div>
+
+          <div class="cu-q" data-certa="a">
+            <p class="cu-q-tit"><i>3</i> O que quer dizer a assimetria entre gerar e verificar?</p>
+            <label><input type="radio" name="q3" value="a"><span>Reconhecer qual das duas respostas é melhor é mais fácil que escrever a melhor resposta</span></label>
+            <label><input type="radio" name="q3" value="b"><span>O modelo gera mais rápido do que a pessoa verifica</span></label>
+            <label><input type="radio" name="q3" value="c"><span>Verificar exige especialista, gerar não</span></label>
+            <label><input type="radio" name="q3" value="d"><span>Cada verificação precisa de duas gerações do modelo</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">É essa assimetria que permite distribuir a tarefa para muita gente, sem exigir que cada
+              avaliador seja redator.</p>
+          </div>
+
+          <div class="cu-q" data-certa="b">
+            <p class="cu-q-tit"><i>4</i> Para que serve o modelo de recompensa no RLHF?</p>
+            <label><input type="radio" name="q4" value="a"><span>Para pagar bônus aos avaliadores mais consistentes</span></label>
+            <label><input type="radio" name="q4" value="b"><span>Para prever qual resposta as pessoas escolheriam, e assim guiar o ajuste do modelo principal</span></label>
+            <label><input type="radio" name="q4" value="c"><span>Para substituir a guideline do projeto</span></label>
+            <label><input type="radio" name="q4" value="d"><span>Para gerar as respostas que serão comparadas</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Ele aprende o padrão das preferências coletadas e passa a servir de referência no
+              ajuste do modelo principal.</p>
+          </div>
+
+          <div class="cu-q" data-certa="d">
+            <p class="cu-q-tit"><i>5</i> A lei de Goodhart, aplicada a este trabalho, diz que:</p>
+            <label><input type="radio" name="q5" value="a"><span>Mais dados de avaliação sempre melhoram o modelo</span></label>
+            <label><input type="radio" name="q5" value="b"><span>Avaliadores discordam por acaso na maioria dos casos</span></label>
+            <label><input type="radio" name="q5" value="c"><span>Respostas longas costumam ser melhores que curtas</span></label>
+            <label><input type="radio" name="q5" value="d"><span>Quando uma medida se torna a meta, ela deixa de ser uma boa medida</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Quando se força demais a medida a subir, ela se afasta da qualidade que deveria representar. É o que mostra a figura 2.2.</p>
+          </div>
+
+          <div class="cu-q" data-certa="c">
+            <p class="cu-q-tit"><i>6</i> Um assistente abre a resposta com "você está absolutamente certo" e em
+              seguida concorda com uma informação falsa do usuário. Qual falha é essa?</p>
+            <label><input type="radio" name="q6" value="a"><span>Viés de formatação</span></label>
+            <label><input type="radio" name="q6" value="b"><span>Exploração do gabarito</span></label>
+            <label><input type="radio" name="q6" value="c"><span>Bajulação</span></label>
+            <label><input type="radio" name="q6" value="d"><span>Falha de consistência entre anotadores</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Bajulação é o hábito de puxar a resposta para o lado do usuário, em vez de buscar a resposta certa, e ele é aprendido nas avaliações.</p>
+          </div>
+
+          <div class="cu-q" data-certa="b">
+            <p class="cu-q-tit"><i>7</i> No caso do assistente de programação, por que o modelo passou a encher o
+              código de comentários?</p>
+            <label><input type="radio" name="q7" value="a"><span>A guideline pedia explicitamente comentários em toda linha</span></label>
+            <label><input type="radio" name="q7" value="b"><span>Avaliadores com pressa usaram a quantidade de comentários como atalho para julgar correção e clareza</span></label>
+            <label><input type="radio" name="q7" value="c"><span>O modelo de recompensa estava mal treinado por falta de dados</span></label>
+            <label><input type="radio" name="q7" value="d"><span>Os avaliadores eram programadores experientes demais</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Código mais comentado parecia mais cuidadoso, foi escolhido mais vezes, e o modelo
+              aprendeu a encher o código.</p>
+          </div>
+
+          <div class="cu-q" data-certa="a">
+            <p class="cu-q-tit"><i>8</i> A guideline lista cinco critérios e não diz qual vale mais. Qual é a
+              melhor conduta?</p>
+            <label><input type="radio" name="q8" value="a"><span>Buscar a ordem de prioridade e, se não existir, perguntar a quem conduz o projeto</span></label>
+            <label><input type="radio" name="q8" value="b"><span>Dar o mesmo peso a todos e decidir pela soma</span></label>
+            <label><input type="radio" name="q8" value="c"><span>Usar o critério mais rápido de conferir, para manter o ritmo</span></label>
+            <label><input type="radio" name="q8" value="d"><span>Escolher o critério que você considera mais importante em cada item</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Sem ordem declarada, um atalho ocupa a lacuna, com ou sem a sua intenção. Foi o que
+              aconteceu no caso do código.</p>
+          </div>
+
+          <div class="cu-q" data-certa="d">
+            <p class="cu-q-tit"><i>9</i> Numa base em que 90 por cento dos itens são de uma única classe, dois
+              avaliadores tiveram 85 por cento de concordância bruta. O que isso indica?</p>
+            <label><input type="radio" name="q9" value="a"><span>Concordância alta, o projeto está saudável</span></label>
+            <label><input type="radio" name="q9" value="b"><span>Nada, porque concordância não se mede em porcentagem</span></label>
+            <label><input type="radio" name="q9" value="c"><span>Que a guideline é ambígua e precisa ser reescrita</span></label>
+            <label><input type="radio" name="q9" value="d"><span>Concordância fraca, porque só por acaso dois avaliadores já chegariam perto desse número</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Numa base 90 contra 10, o acaso já rende cerca de 82 por cento de concordância. Por
+              isso a medida precisa descontar o acaso, como faz o kappa ou outra medida equivalente.</p>
+          </div>
+
+          <div class="cu-q" data-certa="b">
+            <p class="cu-q-tit"><i>10</i> Você e um colega, ambos seguindo a guideline com cuidado, chegam a
+              julgamentos diferentes num item que fica numa fronteira real. O que fazer?</p>
+            <label><input type="radio" name="q10" value="a"><span>Presumir que o errado é você e mudar para a resposta do colega</span></label>
+            <label><input type="radio" name="q10" value="b"><span>Levar o caso a quem conduz o projeto, porque a divisão em geral aponta uma regra que precisa ser afinada</span></label>
+            <label><input type="radio" name="q10" value="c"><span>Tirar a média das duas respostas e seguir</span></label>
+            <label><input type="radio" name="q10" value="d"><span>Marcar o item como inválido e pular</span></label>
+            <p class="cu-q-fb"></p>
+            <p class="cu-q-pq">Discordância por ambiguidade real é informação. Só a discordância por leitura
+              equivocada é erro a corrigir.</p>
+          </div>
+
+          <div class="cu-quiz-acoes">
+            <button type="submit" class="cu-bt-forte">Corrigir o quiz</button>
+            <button type="button" class="cu-bt-leve" id="btLimpar">Limpar respostas</button>
+          </div>
+          <p class="cu-quiz-res" id="quizRes"></p>
+        </form>
+
+        <!-- ══════════ CONCLUSÃO ══════════ -->
+        <div class="cu-fim-curso" id="fimCurso" hidden>
+          <div class="cu-fim-selo">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 12.5l5.5 5.5L20 7"/>
+            </svg>
+          </div>
+          <h3>Parabéns, você concluiu o curso</h3>
+          <p>
+            Você passou no quiz de <b>Fundamentos da Avaliação de IA</b>. O vocabulário e os critérios que apareceram
+            aqui são os mesmos que a empresa usa no teste de entrada e na conversa com a equipe.
+          </p>
+          <a class="cu-bt-forte" href="cursos.html">Ver os outros cursos</a>
+        </div>
+
+        <div class="cu-fim">
+          <h3 style="margin-top:0">E agora</h3>
+          <p>O próximo passo é tarefa real. Vale abrir a aba de vagas e olhar as descrições com o vocabulário
+            desta leitura na cabeça: quando um anúncio fala de guidelines, de consistência ou de comparação de
+            respostas, você já sabe do que se trata.</p>
+          <div class="cu-fim-bts">
+            <a class="cu-bt-forte" href="vagas.html">Ver as vagas abertas</a>
+            <a class="cu-bt-leve" href="como-funciona.html">Como funciona o processo</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════ GLOSSÁRIO ══════════════════ -->
+      <section class="cu-aula" id="glossario">
+        <div class="cu-aula-cap"><span>Glossário</span><i></i></div>
+        <h2>As palavras deste curso</h2>
+        <p class="cu-resumo-aula">Se você esbarrou em algum termo e quer a definição curta, está tudo aqui, na
+          ordem em que aparece nas aulas. Vale voltar a esta página a qualquer momento.</p>
+
+        <ul class="cu-glos">
+          <li><b>Modelo de linguagem</b>O programa por trás de um assistente de conversa. Recebe um texto e
+            devolve a continuação mais provável, palavra por palavra. <i>Em inglês, language model. LLM é a
+            sigla de large language model, ou seja, modelo de linguagem grande.</i></li>
+          <li><b>Pré-treino</b>A primeira etapa do treino, em que o modelo lê uma quantidade enorme de texto e
+            aprende a prever a próxima palavra. Dá conhecimento e fluência, e não dá comportamento.</li>
+          <li><b>Ajuste por instrução</b>A segunda etapa, em que pessoas escrevem respostas modelo e o sistema
+            aprende com esses exemplos qual é a forma de uma boa resposta. <i>Em inglês, instruction tuning ou
+            supervised fine-tuning, às vezes abreviado como SFT.</i></li>
+          <li><b>Treino por preferência</b>A terceira etapa, em que avaliadores comparam respostas e o modelo é
+            ajustado para produzir o tipo de resposta que as pessoas escolhem.</li>
+          <li><b>RLHF</b>Sigla de reinforcement learning from human feedback, aprendizado por reforço a partir
+            de feedback humano. É o nome do processo completo da terceira etapa: coletar comparações, treinar um
+            modelo de recompensa com elas e ajustar o modelo principal.</li>
+          <li><b>Modelo de recompensa</b>Um segundo modelo, treinado só para prever qual resposta as pessoas
+            escolheriam. Ele funciona como um juiz automático durante o ajuste do modelo principal.</li>
+          <li><b>Assimetria entre gerar e verificar</b>A observação de que reconhecer qual de duas respostas é
+            melhor é bem mais fácil do que escrever a melhor resposta. É o que permite distribuir a tarefa de
+            avaliação para muita gente.</li>
+          <li><b>Guideline</b>O documento que define a tarefa: o que observar, o que "melhor" significa ali, e
+            como tratar casos de fronteira. Funciona como o contrato entre quem precisa do dado e quem o
+            produz.</li>
+          <li><b>Rubrica</b>A parte que converte julgamento em número: quais notas existem e o que cada uma
+            exige. Uma guideline costuma conter uma rubrica.</li>
+          <li><b>Lei de Goodhart</b>A ideia de que, quando uma medida vira a meta, ela deixa de ser uma boa
+            medida. Aplicada aqui: o modelo vai atrás exatamente do que a avaliação premia, e não o que você
+            queria premiar.</li>
+          <li><b>Bajulação</b>A tendência de um modelo a concordar com o usuário em vez de corrigi-lo. Em
+            inglês, sycophancy.</li>
+          <li><b>Exploração da recompensa</b>Quando o modelo descobre uma característica fácil de produzir, como
+            escrever mais ou usar tópicos, que rende nota alta sem melhorar a resposta. Em inglês, reward
+            hacking.</li>
+          <li><b>Alucinação</b>Afirmação inventada apresentada como fato. Em documentos técnicos aparece também
+            como confabulação.</li>
+          <li><b>Itens de controle, ou gold</b>Itens com resposta já conhecida, misturados na sua fila, que
+            servem para conferir se o seu julgamento continua no padrão esperado.</li>
+          <li><b>Concordância entre anotadores</b>A taxa com que avaliadores independentes chegam ao mesmo
+            julgamento no mesmo item, descontadas as vezes em que eles concordariam por acaso.</li>
+          <li><b>Kappa</b>Uma das medidas dessa concordância, já com o acaso descontado. Vai de 1, concordância
+            perfeita, até 0, que equivale ao acaso.</li>
+          <li><b>Constitutional AI</b>Método em que princípios escritos por pessoas guiam o modelo a criticar e
+            reescrever as próprias respostas.</li>
+          <li><b>RLAIF</b>Aprendizado por reforço a partir de feedback de IA. Um modelo gera parte das
+            comparações que uma pessoa faria, com supervisão humana por amostragem.</li>
+          <li><b>LLM como juiz</b>Usar um modelo, guiado por uma rubrica, para fazer a primeira rodada de avaliação, que pessoas depois conferem por amostra.</li>
+        </ul>
+      </section>
+
+      <!-- ══════════════════ FONTES ══════════════════ -->
+      <section class="cu-aula" id="fontes">
+        <div class="cu-aula-cap"><span>Referências</span><i></i></div>
+        <h2>Fontes do curso</h2>
+        <p class="cu-resumo-aula">Tudo que este curso afirma sobre como os modelos são treinados vem dos
+          trabalhos abaixo, todos públicos. Onde há número, ele foi conferido no texto original.</p>
+
+        <ul class="cu-fontes">
+          <li>
+            <b>Training language models to follow instructions with human feedback</b>
+            Long Ouyang e outros, OpenAI, 2022.
+            <em><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arxiv.org/abs/2203.02155</a>
+              · fonte dos três estágios de treino, da equipe de cerca de 40 pessoas contratadas e das taxas de
+              concordância de 72,6 e 77,3 por cento.</em>
+          </li>
+          <li>
+            <b>Deep reinforcement learning from human preferences</b>
+            Paul Christiano e outros, 2017.
+            <em><a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">arxiv.org/abs/1706.03741</a>
+              · fonte do experimento do salto mortal treinado por comparação entre pares.</em>
+          </li>
+          <li>
+            <b>Learning to summarize from human feedback</b>
+            Nisan Stiennon e outros, OpenAI, 2020.
+            <em><a href="https://arxiv.org/abs/2009.01325" target="_blank" rel="noopener">arxiv.org/abs/2009.01325</a>
+              · fonte da passagem do método para uma tarefa de linguagem.</em>
+          </li>
+          <li>
+            <b>Constitutional AI: Harmlessness from AI Feedback</b>
+            Yuntao Bai e outros, Anthropic, 2022.
+            <em><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">arxiv.org/abs/2212.08073</a>
+              · fonte do ciclo de crítica e revisão guiado por princípios escritos, e do RLAIF.</em>
+          </li>
+          <li>
+            <b>Towards Understanding Sycophancy in Language Models</b>
+            Mrinank Sharma e outros, Anthropic, 2023.
+            <em><a href="https://arxiv.org/abs/2310.13548" target="_blank" rel="noopener">arxiv.org/abs/2310.13548</a>
+              · fonte da bajulação: resposta que combina com a crença do usuário tem mais chance de ser
+              preferida, e tanto pessoas quanto modelos de preferência escolhem a resposta bajuladora em vez da correta
+              numa fração não desprezível dos casos.</em>
+          </li>
+          <li>
+            <b>A Long Way to Go: Investigating Length Correlations in RLHF</b>
+            Prasann Singhal e outros, 2023, publicado na COLM 2024.
+            <em><a href="https://arxiv.org/abs/2310.03716" target="_blank" rel="noopener">arxiv.org/abs/2310.03716</a>
+              · fonte do viés de tamanho: boa parte do ganho medido vem do aumento do comprimento da resposta.</em>
+          </li>
+          <li>
+            <b>The "Problem" of Human Label Variation</b>
+            Barbara Plank, EMNLP 2022.
+            <em><a href="https://aclanthology.org/2022.emnlp-main.731/" target="_blank" rel="noopener">aclanthology.org/2022.emnlp-main.731</a>
+              · fonte da ideia de que parte da discordância é variação genuína, não erro.</em>
+          </li>
+          <li>
+            <b>Concrete Problems in AI Safety</b>
+            Dario Amodei e outros, 2016.
+            <em><a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">arxiv.org/abs/1606.06565</a>
+              · fonte da discussão de objetivo mal definido e exploração da recompensa.</em>
+          </li>
+          <li>
+            <b>The measurement of observer agreement for categorical data</b>
+            J. Richard Landis e Gary Koch, Biometrics 33, 1977, páginas 159 a 174.
+            <em>Origem da escala de interpretação de kappa usada até hoje.</em>
+          </li>
+          <li>
+            <b>The Alignment Problem</b>
+            Brian Christian, 2020. Livro.
+            <em>Relato sem jargão de por que transmitir valores humanos a uma máquina é difícil.</em>
+          </li>
+        </ul>
+
+        <p>A lei de Goodhart, citada na aula 2, vem do economista britânico Charles Goodhart, em trabalho de
+          1975 sobre política monetária. A formulação curta que ficou conhecida, de que uma medida deixa de ser
+          boa medida quando se torna a meta, é atribuída à antropóloga Marilyn Strathern, em texto de 1997.</p>
+      </section>
+    </main>
+
+  </div>
+</div>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script>try { montarLayout("cursos"); } catch (e) {}</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   CURSO — uma aula por página, trilha lateral e progresso.
+   Nada aqui depende de biblioteca externa.
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  var CHAVE = "hoh_curso_fundamentos";
+
+  /* ── memória do navegador, sempre protegida ── */
+  function ler() {
+    try {
+      var cru = localStorage.getItem(CHAVE);
+      return cru ? JSON.parse(cru) : {};
+    } catch (e) { return {}; }
+  }
+  function gravar(dados) {
+    try { localStorage.setItem(CHAVE, JSON.stringify(dados)); } catch (e) {}
+  }
+  var estado = ler();
+  if (!estado.aulas) estado.aulas = {};
+
+  /* ── figura da escala, quando existir ── */
+  var grade = document.getElementById("gradeGente");
+  if (grade) { for (var g = 0; g < 54; g++) grade.appendChild(document.createElement("i")); }
+
+  /* ── elementos principais ── */
+  var wrap = document.querySelector(".cu-wrap");
+  var conteudo = document.getElementById("conteudo");
+  var secoes = [].slice.call(document.querySelectorAll(".cu-conteudo > section.cu-aula"));
+  var rail = document.getElementById("rail");
+  var railItens = [].slice.call(document.querySelectorAll(".cu-rail-item"));
+  var railAtual = document.getElementById("railAtual");
+  var abre = document.getElementById("railAbre");
+  var atual = secoes.length ? secoes[0].id : null;
+
+  function titulo(sec) {
+    var h = sec.querySelector("h2");
+    return h ? h.textContent.trim() : sec.id;
+  }
+  function rotulo(sec) {
+    var item = railItens.filter(function (a) { return a.getAttribute("data-alvo") === sec.id; })[0];
+    if (item) {
+      var n = item.querySelector(".cu-rail-num");
+      var nome = item.querySelector(".cu-rail-nome");
+      var num = n ? n.textContent.trim() : "";
+      var txt = nome ? nome.textContent.trim() : titulo(sec);
+      return /^[0-9]+$/.test(num) ? "Aula " + num + ": " + txt : txt;
+    }
+    return titulo(sec);
+  }
+
+  /* ── barra de navegação no fim de cada página ── */
+  secoes.forEach(function (sec, i) {
+    var nav = document.createElement("div");
+    nav.className = "cu-nav";
+
+    if (i > 0) {
+      var prev = document.createElement("a");
+      prev.className = "cu-nav-prev";
+      prev.href = "#" + secoes[i - 1].id;
+      prev.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>' +
+        '<span></span>';
+      prev.querySelector("span").textContent = rotulo(secoes[i - 1]);
+      nav.appendChild(prev);
+    }
+
+    var espaco = document.createElement("div");
+    espaco.className = "cu-nav-espaco";
+    nav.appendChild(espaco);
+
+    var concluir = sec.querySelector(".cu-concluir");
+    if (concluir) {
+      nav.appendChild(concluir);
+    } else if (i < secoes.length - 1) {
+      var prox = document.createElement("a");
+      prox.className = "cu-bt-leve";
+      prox.href = "#" + secoes[i + 1].id;
+      prox.innerHTML = "<span></span>" +
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      prox.querySelector("span").textContent = rotulo(secoes[i + 1]);
+      nav.appendChild(prox);
+    } else {
+      var volta = document.createElement("a");
+      volta.className = "cu-bt-leve";
+      volta.href = "cursos.html";
+      volta.innerHTML = "<span>Ver todos os cursos</span>" +
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      nav.appendChild(volta);
+    }
+    sec.appendChild(nav);
+  });
+
+  /* ── trocar de página ── */
+  function fecharMenu() {
+    if (rail) rail.classList.remove("cu-aberto");
+    if (abre) abre.setAttribute("aria-expanded", "false");
+  }
+
+  function pintarRail() {
+    railItens.forEach(function (a) {
+      var meu = a.getAttribute("data-alvo") === atual;
+      a.classList.toggle("cu-atual", meu);
+      if (meu) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    var sec = document.getElementById(atual);
+    if (railAtual && sec) railAtual.textContent = rotulo(sec);
+    if (wrap) wrap.classList.toggle("cu-interna", !!secoes.length && atual !== secoes[0].id);
+  }
+
+  function mostrar(id, ancora, rolar) {
+    if (!document.getElementById(id)) return;
+    atual = id;
+    secoes.forEach(function (s) { s.hidden = (s.id !== id); });
+    pintarRail();
+    fecharMenu();
+    marcarAtivo();
+    if (rolar === false) return;
+    if (ancora && ancora !== id) {
+      var alvo = document.getElementById(ancora);
+      if (alvo) {
+        var y = alvo.getBoundingClientRect().top + window.pageYOffset - 96;
+        window.scrollTo(0, y > 0 ? y : 0);
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function secaoDoId(id) {
+    var el = document.getElementById(id);
+    if (!el || !el.closest) return null;
+    var sec = el.closest("section.cu-aula");
+    return sec ? sec.id : null;
+  }
+
+  function irParaHash(rolar) {
+    if (!secoes.length) return;
+    var h = (location.hash || "").replace("#", "");
+    var sec = h ? secaoDoId(h) : null;
+    if (!sec) { mostrar(secoes[0].id, null, false); return; }
+    mostrar(sec, h, rolar);
+  }
+
+  window.addEventListener("hashchange", function () { irParaHash(true); });
+
+  /* links internos trocam de página em vez de rolar a lista inteira */
+  document.addEventListener("click", function (ev) {
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var alvoId = a.getAttribute("href").slice(1);
+    if (!alvoId) return;
+    var sec = secaoDoId(alvoId);
+    if (!sec) return;
+    ev.preventDefault();
+    if ("#" + alvoId === location.hash) mostrar(sec, alvoId, true);
+    else location.hash = alvoId;
+  });
+
+  if (abre && rail) {
+    abre.addEventListener("click", function () {
+      var aberto = rail.classList.toggle("cu-aberto");
+      abre.setAttribute("aria-expanded", aberto ? "true" : "false");
+    });
+  }
+
+  /* ── marca a subseção que está na tela ── */
+  var subLinks = [].slice.call(document.querySelectorAll(".cu-rail-subs a"));
+  var ticando = false;
+  function marcarAtivo() {
+    ticando = false;
+    var melhor = null, menorDist = Infinity;
+    subLinks.forEach(function (a) {
+      var alvo = document.getElementById(a.getAttribute("href").slice(1));
+      if (!alvo || alvo.offsetParent === null) return;
+      var t = alvo.getBoundingClientRect().top - 130;
+      var d = t <= 0 ? -t : t * 3;
+      if (d < menorDist) { menorDist = d; melhor = a; }
+    });
+    subLinks.forEach(function (a) { a.classList.toggle("cu-ativo", a === melhor); });
+  }
+  window.addEventListener("scroll", function () {
+    if (!ticando) { ticando = true; window.requestAnimationFrame(marcarAtivo); }
+  }, { passive: true });
+
+  /* ── botões "ver o comentário" ── */
+  [].slice.call(document.querySelectorAll(".cu-abrir-resp")).forEach(function (bt) {
+    bt.addEventListener("click", function () {
+      var resp = bt.parentNode.querySelector(".cu-resp");
+      if (!resp) return;
+      var on = resp.classList.toggle("cu-on");
+      bt.firstChild.nodeValue = on ? "Esconder o comentário " : "Ver o comentário ";
+    });
+  });
+
+  /* ── progresso das aulas ── */
+  var barra = document.getElementById("barra");
+  var barraTxt = document.getElementById("barraTxt");
+  function pintarProgresso() {
+    var feitas = 0;
+    for (var n = 1; n <= 4; n++) {
+      var feita = !!estado.aulas[n];
+      if (feita) feitas++;
+      var item = document.querySelector('.cu-rail-item[data-aula="' + n + '"]');
+      if (item) item.classList.toggle("cu-feita", feita);
+      var bt = document.querySelector('.cu-concluir[data-aula="' + n + '"]');
+      if (bt) {
+        bt.classList.toggle("cu-pronta", feita);
+        var texto = bt.getAttribute("data-rotulo") || bt.textContent.trim();
+        bt.lastChild.nodeValue = " " + (feita ? "Aula " + n + " concluída" : texto);
+      }
+    }
+    if (barra) barra.style.width = (feitas / 4 * 100) + "%";
+    if (barraTxt) barraTxt.textContent = feitas + " de 4 aulas concluídas";
+  }
+  [].slice.call(document.querySelectorAll(".cu-concluir")).forEach(function (bt) {
+    bt.setAttribute("data-rotulo", bt.textContent.trim());
+    bt.addEventListener("click", function () {
+      estado.aulas[bt.getAttribute("data-aula")] = true;
+      gravar(estado);
+      pintarProgresso();
+      var prox = bt.getAttribute("data-proxima");
+      if (prox && document.getElementById(prox)) location.hash = prox;
+    });
+  });
+  pintarProgresso();
+
+  /* ── quiz ── */
+  var form = document.getElementById("formQuiz");
+  var res = document.getElementById("quizRes");
+  var fimCurso = document.getElementById("fimCurso");
+  var MINIMO = 8;
+
+  function mostrarConclusao(passou) {
+    if (fimCurso) fimCurso.hidden = !passou;
+  }
+  mostrarConclusao(estado.aprovado === true);
+
+  if (form) {
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var perguntas = [].slice.call(form.querySelectorAll(".cu-q"));
+      var acertos = 0;
+
+      perguntas.forEach(function (q) {
+        var marcada = q.querySelector("input:checked");
+        var certa = q.getAttribute("data-certa");
+        var fb = q.querySelector(".cu-q-fb");
+        q.classList.add("cu-corrigida");
+        q.classList.remove("cu-acertou", "cu-errou");
+
+        if (!marcada) {
+          q.classList.add("cu-errou");
+          if (fb) fb.textContent = "Sem resposta marcada.";
+          return;
+        }
+        if (marcada.value === certa) {
+          acertos++;
+          q.classList.add("cu-acertou");
+          if (fb) fb.textContent = "Certo.";
+        } else {
+          q.classList.add("cu-errou");
+          var alt = q.querySelector('input[value="' + certa + '"]');
+          var textoCerto = alt ? alt.nextElementSibling.textContent : "";
+          if (fb) fb.textContent = "Não é essa. A resposta certa é: " + textoCerto;
+        }
+      });
+
+      var aprovado = acertos >= MINIMO;
+      estado.aprovado = estado.aprovado === true || aprovado;
+      estado.melhor = Math.max(estado.melhor || 0, acertos);
+      gravar(estado);
+      mostrarConclusao(estado.aprovado === true);
+
+      if (res) {
+        res.textContent = aprovado
+          ? "Você acertou " + acertos + " de 10. Aprovado, o curso está concluído."
+          : "Você acertou " + acertos + " de 10. Faltam " + (MINIMO - acertos) +
+            " para concluir. Leia os comentários das erradas e tente de novo.";
+        res.style.color = aprovado ? "var(--signal,#1A4893)" : "var(--amber,#A85D24)";
+      }
+
+      var destino = aprovado ? document.getElementById("cert") : perguntas.filter(function (q) {
+        return q.classList.contains("cu-errou");
+      })[0];
+      if (destino) destino.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    var limpar = document.getElementById("btLimpar");
+    if (limpar) {
+      limpar.addEventListener("click", function () {
+        form.reset();
+        [].slice.call(form.querySelectorAll(".cu-q")).forEach(function (q) {
+          q.classList.remove("cu-corrigida", "cu-acertou", "cu-errou");
+        });
+        if (res) res.textContent = "";
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }
+
+  /* ── abre a página certa ── */
+  irParaHash(false);
+})();
+</script>
+</body>
+</html>

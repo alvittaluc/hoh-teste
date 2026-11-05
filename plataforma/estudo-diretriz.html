@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudar diretriz · Home Office Hub</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+/* SÓ NA PRÉVIA: a IA como professor da diretriz. As aulas são de uma diretriz de exemplo. */
+.pf-main { max-width:var(--wrap,1180px); margin:0 auto; padding:34px 20px 40px; --ok:#2E7D4F; --ok-suave:#EAF5EE; --ok-linha:#BFE0CB; }
+.pf-trilha { font-size:13.5px; color:var(--ink-3); margin-bottom:8px; } .pf-trilha a { color:var(--ink-3); }
+.pf-aviso { background:var(--amber-suave); border:1px solid #F0DCC6; color:#7A4318; border-radius:12px; padding:9px 14px; font-size:13px; margin-bottom:18px; }
+.pf-h1 { font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,42px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); text-wrap:balance; }
+.pf-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; max-width:680px; line-height:1.55; }
+.pf-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer; padding:10px 18px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); }
+.pf-bt:hover { border-color:var(--ink-3); }
+.pf-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; } .pf-bt.forte:hover { background:#163E80; }
+.pf-bt.grande { font-size:16px; padding:14px 26px; }
+.pf-link { border:0; background:none; font:inherit; font-size:13.5px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.pf-leve { font-size:13px; color:var(--ink-3); line-height:1.5; }
+.pf-rot { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--signal); }
+.pf-bt:focus-visible, .pf-op:focus-visible, .pf-nota:focus-visible, .pf-parte:focus-visible { outline:2px solid var(--signal); outline-offset:2px; }
+
+/* ── subir a diretriz ── */
+.pf-passos { display:flex; gap:10px; flex-wrap:wrap; margin:22px 0 18px; }
+.pf-passo { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-2); background:var(--panel); border:1px solid var(--line-soft); border-radius:999px; padding:7px 14px 7px 8px; }
+.pf-passo b { width:24px; height:24px; border-radius:50%; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; font-size:12.5px; }
+.pf-solta { border:2px dashed #9DB8DE; background:var(--signal-suave); border-radius:18px; padding:38px 22px; text-align:center; }
+.pf-solta.em-cima { background:#DCE8F6; border-color:var(--signal); }
+.pf-solta .ic { width:52px; height:52px; margin:0 auto 12px; border-radius:14px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; color:var(--signal); }
+.pf-solta h2 { font-size:19px; font-weight:600; color:var(--ink); margin-bottom:6px; } .pf-solta p { font-size:14px; color:var(--ink-2); margin-bottom:16px; }
+.pf-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; }
+.pf-montando { max-width:560px; }
+.pf-etapa { display:flex; align-items:center; gap:12px; padding:9px 0; font-size:15px; color:var(--ink-3); }
+.pf-etapa i { width:22px; height:22px; border-radius:50%; border:2px solid var(--line); flex-shrink:0; display:grid; place-items:center; }
+.pf-etapa.vez { color:var(--ink); } .pf-etapa.vez i { border-color:var(--signal); border-top-color:transparent; animation:pf-gira .8s linear infinite; }
+.pf-etapa.feita { color:var(--ink); } .pf-etapa.feita i { border-color:var(--ok); background:var(--ok); }
+.pf-etapa.feita i::after { content:""; width:9px; height:5px; border:2px solid #fff; border-top:0; border-right:0; transform:rotate(-45deg) translate(1px,-1px); }
+@keyframes pf-gira { to { transform:rotate(360deg); } }
+.pf-barra { height:8px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin:14px 0 4px; }
+.pf-barra i { display:block; height:100%; border-radius:99px; background:var(--signal); transition:width .4s ease; }
+.pf-lista-dir { display:grid; gap:10px; margin-top:12px; }
+.pf-dir { display:flex; align-items:center; gap:14px; border:1px solid var(--line-soft); border-radius:14px; padding:12px 14px; background:var(--panel); flex-wrap:wrap; }
+.pf-dir .ic { width:36px; height:44px; border-radius:6px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
+.pf-dir .nm { flex:1; min-width:160px; } .pf-dir b { display:block; font-size:15px; color:var(--ink); } .pf-dir small { font-size:12.5px; color:var(--ink-3); }
+
+/* ── aula: caminho ao lado, conversa no meio ── */
+.pf-cab { margin-bottom:20px; }
+.pf-aula { display:grid; grid-template-columns:290px minmax(0,1fr); gap:24px; align-items:start; }
+@media (max-width:900px) { .pf-aula { grid-template-columns:minmax(0,1fr); gap:14px; } }
+.pf-caminho { position:sticky; top:96px; background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:16px; }
+@media (max-width:900px) { .pf-caminho { position:static; padding:12px 14px; } }
+.pf-caminho summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; }
+.pf-caminho summary::-webkit-details-marker { display:none; }
+.pf-caminho summary b { display:block; font-size:15px; color:var(--ink); } .pf-caminho summary small { font-size:12.5px; color:var(--ink-3); }
+.pf-caminho summary .seta { margin-left:auto; color:var(--ink-3); transition:transform .2s; flex-shrink:0; }
+.pf-caminho[open] summary .seta { transform:rotate(180deg); }
+@media (min-width:901px) { .pf-caminho summary { cursor:default; pointer-events:none; } .pf-caminho summary .seta { display:none; } }
+.pf-partes { list-style:none; margin-top:14px; display:grid; gap:2px; }
+.pf-parte { display:grid; grid-template-columns:24px minmax(0,1fr); gap:10px; width:100%; text-align:left; font:inherit; background:none; border:0; cursor:pointer; border-radius:12px; padding:8px; color:var(--ink-2); }
+.pf-parte:hover { background:var(--bg-soft); }
+.pf-parte.atual { background:var(--signal-suave); }
+.pf-marca { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:700; border:2px solid var(--line); color:var(--ink-3); background:var(--panel); }
+.pf-parte.feita .pf-marca { background:var(--ok); border-color:var(--ok); color:#fff; }
+.pf-parte.atual .pf-marca { border-color:var(--signal); color:var(--signal); }
+.pf-parte b { display:block; font-size:14px; font-weight:600; color:var(--ink); line-height:1.3; }
+.pf-parte small { display:block; font-size:12px; color:var(--ink-3); margin-top:2px; }
+.pf-sub-passos { list-style:none; margin:6px 0 0; display:grid; gap:3px; }
+.pf-sub-passos li { font-size:12.5px; color:var(--ink-3); display:flex; gap:7px; align-items:baseline; line-height:1.35; }
+.pf-sub-passos li::before { content:""; width:7px; height:7px; border-radius:50%; border:1.5px solid var(--line); flex-shrink:0; transform:translateY(-1px); }
+.pf-sub-passos li.feito::before { background:var(--ok); border-color:var(--ok); }
+.pf-sub-passos li.agora { color:var(--ink); font-weight:500; } .pf-sub-passos li.agora::before { border-color:var(--signal); background:var(--signal); }
+
+.pf-conversa { max-width:760px; width:100%; min-width:0; }
+.pf-msgs { display:grid; gap:12px; }
+.pf-msg { display:flex; gap:10px; align-items:flex-end; animation:pf-entra .25s ease; min-width:0; }
+@keyframes pf-entra { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) { .pf-msg, .pf-caso, .pf-concluida, .pf-etapa.vez i { animation:none; } }
+.pf-av { width:34px; height:34px; border-radius:50%; background:var(--signal); color:#fff; display:grid; place-items:center; flex-shrink:0; }
+.pf-msg .bal { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px 18px 18px 6px; padding:12px 15px; font-size:15.5px; line-height:1.55; color:var(--ink); max-width:min(600px, 88%); min-width:0; overflow-wrap:anywhere; }
+.pf-msg.pergunta .bal { border-color:#9DB8DE; background:#F6F9FD; font-weight:500; }
+.pf-msg.eu { justify-content:flex-end; }
+.pf-msg.eu .bal { background:var(--signal); color:#fff; border-color:var(--signal); border-radius:18px 18px 6px 18px; }
+.pf-msg.seguido .pf-av { visibility:hidden; }
+.pf-sis { justify-self:center; font-size:12.5px; font-weight:600; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:5px 14px; margin:8px 0 2px; text-align:center; }
+.pf-cita { margin-top:10px; background:var(--panel-2); border-left:3px solid var(--signal); border-radius:0 10px 10px 0; padding:8px 12px; }
+.pf-cita small { display:block; font-size:11.5px; font-weight:600; letter-spacing:.04em; color:var(--ink-3); margin-bottom:2px; }
+.pf-cita q { font-size:14px; font-style:italic; color:var(--ink); line-height:1.5; }
+.pf-plano { list-style:none; counter-reset:p; margin-top:10px; display:grid; gap:6px; }
+.pf-plano li { counter-increment:p; display:flex; gap:10px; align-items:center; font-size:14.5px; }
+.pf-plano li::before { content:counter(p); width:24px; height:24px; border-radius:50%; background:var(--signal-suave); color:var(--signal); display:grid; place-items:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.pf-plano li small { color:var(--ink-3); font-size:12.5px; margin-left:auto; white-space:nowrap; }
+.pf-caso { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px; max-width:600px; width:calc(100% - 44px); margin-left:44px; animation:pf-entra .25s ease; }
+@media (max-width:520px) { .pf-caso { margin-left:0; width:100%; } }
+.pf-caso .cx { border:1px solid var(--line-soft); border-radius:12px; padding:10px 12px; background:var(--panel-2); margin-bottom:8px; }
+.pf-caso .cx:last-child, .pf-caso .duas .cx { margin-bottom:0; }
+.pf-caso .cx.ia { background:#fff; }
+.pf-caso small { display:block; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+.pf-caso .txt { font-size:14.5px; color:var(--ink); line-height:1.5; white-space:pre-wrap; }
+.pf-caso .duas { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+@media (max-width:600px) { .pf-caso .duas { grid-template-columns:minmax(0,1fr); } }
+.pf-concluida { justify-self:center; display:flex; align-items:center; gap:10px; background:var(--ok-suave); border:1px solid var(--ok-linha); color:var(--ok); border-radius:14px; padding:10px 16px; font-weight:600; font-size:14.5px; margin:6px 0; animation:pf-entra .25s ease; text-align:center; }
+.pf-pronto { text-align:center; background:linear-gradient(135deg,#1A4893 0%,#2C6BB5 100%); color:#fff; border-radius:20px; padding:26px 22px; margin:8px 0; }
+.pf-pronto .grande { font-family:var(--display); font-size:34px; line-height:1.1; }
+.pf-pronto p { color:#D6E3F5; margin-top:6px; }
+.pf-digitando .bal { padding:14px 16px; }
+.pf-digitando .bal span { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ink-3); margin-right:4px; animation:pf-pisca 1s infinite; }
+.pf-digitando .bal span:nth-child(2) { animation-delay:.15s; } .pf-digitando .bal span:nth-child(3) { animation-delay:.3s; }
+@keyframes pf-pisca { 0%,100% { opacity:.25; } 50% { opacity:1; } }
+
+/* respostas do aluno: botões grandes, logo abaixo da última mensagem */
+.pf-acoes { margin:14px 0 0 44px; display:flex; flex-wrap:wrap; gap:8px; }
+@media (max-width:520px) { .pf-acoes { margin-left:0; } }
+.pf-acoes .pf-bt { font-size:14.5px; }
+.pf-opcoes { display:grid; gap:8px; width:100%; max-width:600px; }
+.pf-op { display:flex; align-items:center; gap:12px; width:100%; text-align:left; font:inherit; font-size:15px; color:var(--ink); background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; cursor:pointer; }
+.pf-op:hover { border-color:var(--signal); background:var(--signal-suave); }
+.pf-op kbd { width:26px; height:26px; border-radius:8px; background:var(--bg-soft); display:grid; place-items:center; font:inherit; font-size:12.5px; font-weight:600; color:var(--ink-3); flex-shrink:0; }
+.pf-notas { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; width:100%; max-width:600px; }
+.pf-nota { font:inherit; cursor:pointer; background:var(--panel); border:1.5px solid var(--line); border-radius:14px; padding:10px 4px 9px; color:var(--ink); text-align:center; min-width:0; }
+.pf-nota:hover { border-color:var(--signal); background:var(--signal-suave); }
+.pf-nota b { display:block; font-size:20px; line-height:1.1; } .pf-nota span { display:block; font-size:11.5px; color:var(--ink-3); margin-top:3px; }
+.pf-notas.lado .pf-nota b { font-size:14px; } .pf-notas.lado .pf-nota span { font-size:11px; }
+@media (max-width:420px) { .pf-notas { gap:5px; } .pf-nota span { font-size:10.5px; } }
+.pf-dica { width:100%; font-size:12px; color:var(--ink-3); }
+.pf-enviar { position:sticky; bottom:0; display:flex; gap:8px; padding:14px 0 calc(14px + env(safe-area-inset-bottom,0px)); margin-top:12px; background:linear-gradient(to bottom, rgba(247,244,239,0), var(--bg) 30%); }
+.pf-enviar input { flex:1; min-width:0; font:inherit; font-size:15px; padding:12px 16px; border:1.5px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink); }
+.pf-enviar input:focus { outline:none; border-color:var(--signal); }
+.pf-enviar input:disabled { background:var(--panel-2); }
+.pf-guia-bt { width:100%; margin-top:12px; }
+.pf-veu { position:fixed; inset:0; z-index:700; background:rgba(16,32,58,.45); display:flex; justify-content:center; align-items:flex-start; overflow-y:auto; padding:24px 16px calc(24px + env(safe-area-inset-bottom,0px)); }
+.pf-guia { background:var(--panel); border-radius:20px; width:min(780px,100%); box-shadow:0 30px 60px -30px rgba(16,32,58,.6); overflow:hidden; }
+.pf-guia-topo { background:linear-gradient(135deg,#1A4893 0%,#2C6BB5 100%); color:#fff; padding:22px 24px; }
+.pf-guia-topo .pf-rot { color:#BFD4F0; }
+.pf-guia-topo h2 { font-family:var(--display); font-weight:400; font-size:28px; line-height:1.15; margin:4px 0 6px; }
+.pf-guia-topo p { color:#D6E3F5; font-size:14px; }
+.pf-guia-acoes { display:flex; gap:8px; flex-wrap:wrap; padding:14px 24px; border-bottom:1px solid var(--line-soft); position:sticky; top:0; background:var(--panel); z-index:1; }
+.pf-guia-corpo { padding:8px 24px 26px; }
+@media (max-width:520px) { .pf-guia-topo, .pf-guia-corpo { padding-left:16px; padding-right:16px; } .pf-guia-acoes { padding:12px 16px; } }
+.pf-guia h3 { font-size:17px; color:var(--ink); margin:22px 0 4px; }
+.pf-guia h4 { font-size:14.5px; color:var(--ink); margin:14px 0 2px; }
+.pf-guia p, .pf-guia li { font-size:14.5px; color:var(--ink-2); line-height:1.55; }
+.pf-guia .pags { font-size:12.5px; font-weight:600; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:3px 10px; display:inline-block; margin:2px 0 6px; }
+.pf-guia .frase { color:var(--ink); }
+.pf-guia .onde { font-size:12.5px; color:var(--ink-3); margin-top:6px; }
+.pf-guia .revise { display:inline-block; font-size:12px; font-weight:600; color:#A85D24; background:var(--amber-suave); border-radius:99px; padding:2px 9px; margin-left:6px; }
+.pf-guia .naofeita { font-size:12px; color:var(--ink-3); font-weight:500; margin-left:6px; }
+.pf-indice { width:100%; border-collapse:collapse; margin-top:8px; font-size:13.5px; }
+.pf-indice th { text-align:left; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); padding:6px 8px; border-bottom:1px solid var(--line); }
+.pf-indice td { padding:7px 8px; border-bottom:1px solid var(--line-soft); color:var(--ink-2); vertical-align:top; }
+.pf-indice td.num { white-space:nowrap; color:var(--ink); font-variant-numeric:tabular-nums; }
+.pf-indice tr.parte td { background:var(--panel-2); color:var(--ink); font-weight:600; }
+.pf-tabela { overflow-x:auto; }
+.pf-toast { position:fixed; left:50%; bottom:calc(84px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:#fff; font-size:14px; padding:10px 16px; border-radius:12px; z-index:600; max-width:calc(100% - 32px); }
+</style>
+</head>
+<body>
+
+<main class="pf-main">
+  <p class="pf-trilha"><a href="ferramentas.html">Ferramentas</a> › Estudar diretriz</p>
+  <div class="pf-aviso">Prévia: a IA ainda não está ligada. As aulas são de uma diretriz de exemplo, e o seu progresso fica só neste navegador.</div>
+  <div id="app"></div>
+</main>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script src="estudo-dados.js"></script>
+<script src="estudo-aulas.js"></script>
+<script>
+try { montarLayout("ferramentas"); } catch (e) {}
+(function () {
+  const D = window.ESTUDO_EXEMPLO;
+  const app = document.getElementById("app");
+  const RAPIDO = /[?&]rapido/.test(location.search);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+  const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  const hoje = () => new Date().toISOString().slice(0, 10);
+  const dormir = ms => new Promise(r => setTimeout(r, RAPIDO ? 0 : ms));
+  const sorteio = a => a[Math.floor(Math.random() * a.length)];
+  const lista = a => a.length < 2 ? (a[0] || "") : `${a.slice(0, -1).join(", ")} e ${a[a.length - 1]}`;
+  const parteFeita = (a, i) => D.partes[i].passos.every(x => a.feitos[x.id]) && a.casos[i] !== undefined;
+  const regra = id => { for (const t of D.topicos) { const r = t.regras.find(x => x.id === id); if (r) return r; } return null; };
+  const caso = id => D.casos.find(c => c.id === id);
+  const pergunta = id => D.perguntas.find(q => q.id === id);
+  const NOMES_NOTA = ["Inaceitável", "Ruim", "Aceitável", "Boa", "Excelente"];
+  const LADO = [["A2", "A muito melhor"], ["A1", "A melhor"], ["0", "Parecidas"], ["B1", "B melhor"], ["B2", "B muito melhor"]];
+  const PROF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/><path d="M22 9v6"/></svg>';
+  const ARQ = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9 14l3-3 3 3"/></svg>';
+  const totalPassos = D.partes.reduce((s, p) => s + p.passos.length, 0);
+
+  /* ── o que fica guardado (na prévia, só neste navegador) ── */
+  const CHAVE = "hub-professor-previa";
+  let E = { diretrizes: [], atual: "", aulas: {} };
+  try { E = Object.assign(E, JSON.parse(localStorage.getItem(CHAVE)) || {}); } catch (e) {}
+  const salvar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(E)); } catch (e) {} };
+  const dirAtual = () => E.diretrizes.find(d => d.id === E.atual);
+  const S = () => E.aulas[E.atual];
+  const novaAula = () => ({ fase: "plano", p: 0, s: 0, feitos: {}, casos: {}, dificeis: [], msgs: [], pronto: false, final: null });
+  const pctDe = a => !a ? 0 : a.pronto ? 100 : Math.round((Object.keys(a.feitos).length + Object.keys(a.casos).length) / (totalPassos + D.partes.length) * 90);
+
+  /* ── tela de subir a diretriz ── */
+  function telaSubir() {
+    app.innerHTML = `
+      <h1 class="pf-h1">Aprenda a diretriz com um professor</h1>
+      <p class="pf-sub">Suba a diretriz que a empresa mandou. A IA lê tudo, divide o conteúdo em partes e ensina uma de cada vez, conversando com você. Ela pergunta para ver se você entendeu e, se não entendeu, explica de outro jeito, até você estar pronto para o teste.</p>
+      <div class="pf-passos"><span class="pf-passo"><b>1</b>Suba a diretriz</span><span class="pf-passo"><b>2</b>A IA divide em partes</span><span class="pf-passo"><b>3</b>Você aprende conversando</span></div>
+      <div id="subir"></div>
+      ${E.diretrizes.length ? `<div style="margin-top:28px"><h2 style="font-size:16px;color:var(--ink);font-weight:600">Minhas diretrizes</h2><div class="pf-lista-dir">${E.diretrizes.map(d => {
+        const pct = pctDe(E.aulas[d.id]);
+        return `<div class="pf-dir"><span class="ic">PDF</span><div class="nm"><b>${esc(d.titulo)}</b><small>${esc(d.arquivo)} · ${pct}% pronto para o teste</small></div>
+          <button class="pf-bt forte" data-abrir="${d.id}">${pct ? "Continuar" : "Começar"}</button><button class="pf-link" data-tirar="${d.id}">tirar</button></div>`; }).join("")}</div></div>` : ""}`;
+    const caixa = app.querySelector("#subir");
+    caixa.innerHTML = `<div class="pf-solta" id="solta"><div class="ic">${ARQ}</div>
+        <h2>Arraste o PDF da diretriz para cá</h2>
+        <p>ou escolha o arquivo no seu computador. Pode ser em inglês, do jeito que a empresa mandou.</p>
+        <label class="pf-bt forte grande" style="cursor:pointer">Escolher a diretriz<input type="file" accept="application/pdf" hidden id="arq"></label>
+        <p class="pf-leve" style="margin:14px 0 0">Não tem uma à mão? <button class="pf-link" id="exemplo">Usar a diretriz de exemplo</button></p></div>
+      <p class="pf-leve" style="margin-top:10px">As aulas ficam só na sua conta. Ninguém mais vê a diretriz que você subiu.</p>`;
+    const solta = caixa.querySelector("#solta");
+    ["dragenter", "dragover"].forEach(t => solta.addEventListener(t, ev => { ev.preventDefault(); solta.classList.add("em-cima"); }));
+    ["dragleave", "drop"].forEach(t => solta.addEventListener(t, ev => { ev.preventDefault(); solta.classList.remove("em-cima"); }));
+    solta.addEventListener("drop", ev => { const f = ev.dataTransfer.files[0]; if (f) montar(f.name); });
+    caixa.querySelector("#arq").onchange = ev => { const f = ev.target.files[0]; if (f) montar(f.name); };
+    caixa.querySelector("#exemplo").onclick = () => montar("");
+    app.querySelectorAll("[data-abrir]").forEach(b => b.onclick = () => { E.atual = b.dataset.abrir; salvar(); abrirAula(); });
+    app.querySelectorAll("[data-tirar]").forEach(b => b.onclick = () => {
+      const linha = b.closest(".pf-dir"); if (linha.querySelector(".conf")) return;
+      linha.insertAdjacentHTML("beforeend", `<span class="conf pf-leve" style="width:100%">Tirar esta diretriz e o progresso dela? <button class="pf-link" data-sim>Tirar</button> · <button class="pf-link" data-nao>Manter</button></span>`);
+      linha.querySelector("[data-nao]").onclick = () => linha.querySelector(".conf").remove();
+      linha.querySelector("[data-sim]").onclick = () => { E.diretrizes = E.diretrizes.filter(d => d.id !== b.dataset.tirar); delete E.aulas[b.dataset.tirar]; salvar(); telaSubir(); };
+    });
+  }
+  function montar(nome) {
+    const caixa = app.querySelector("#subir");
+    const etapas = [`Lendo as ${D.paginas} páginas`, "Entendendo o conteúdo", "Dividindo em partes, da base para o mais difícil", "Preparando as explicações e as perguntas"];
+    caixa.innerHTML = `<div class="pf-cx pf-montando"><span class="pf-rot">${esc(nome || D.arquivo)}</span>
+      <div style="margin-top:10px">${etapas.map(t => `<div class="pf-etapa"><i></i>${t}</div>`).join("")}</div>
+      <div class="pf-barra"><i style="width:0%"></i></div><p class="pf-leve">Isso leva menos de um minuto.</p></div>`;
+    let i = 0;
+    const passo = () => {
+      caixa.querySelectorAll(".pf-etapa").forEach((el, k) => el.className = "pf-etapa" + (k < i ? " feita" : k === i ? " vez" : ""));
+      caixa.querySelector(".pf-barra i").style.width = `${i / etapas.length * 100}%`;
+      if (i < etapas.length) { i++; setTimeout(passo, RAPIDO ? 0 : 750); return; }
+      const id = "d" + Date.now().toString(36);
+      E.diretrizes.push({ id, titulo: D.titulo, arquivo: nome || D.arquivo, outro: !!nome });
+      E.aulas[id] = novaAula(); E.atual = id; salvar();
+      abrirAula();
+    };
+    passo();
+  }
+
+  /* ── a aula ── */
+  let geracao = 0, msgsEl, acoesEl, entrada, oferta = null;
+  const PARE = { pare: true };
+  function abrirAula() {
+    const dir = dirAtual();
+    app.innerHTML = `
+      <div class="pf-cab"><h1 class="pf-h1">${esc(dir.titulo)}</h1>
+        <p class="pf-leve" style="margin-top:6px">${D.paginas} páginas · ${D.partes.length} partes · <button class="pf-link" id="trocar">Minhas diretrizes</button></p></div>
+      <div class="pf-aula">
+        <details class="pf-caminho" id="caminho"></details>
+        <section class="pf-conversa">
+          <div class="pf-msgs" id="msgs" aria-live="polite"></div>
+          <div class="pf-acoes" id="acoes"></div>
+          <form class="pf-enviar" id="form"><input id="entrada" placeholder="Escreva para o professor, por exemplo: não entendi" autocomplete="off" aria-label="Mensagem para o professor" disabled><button class="pf-bt forte" type="submit">Enviar</button></form>
+        </section>
+      </div>`;
+    msgsEl = app.querySelector("#msgs"); acoesEl = app.querySelector("#acoes"); entrada = app.querySelector("#entrada");
+    app.querySelector("#trocar").onclick = () => { geracao++; oferta = null; E.atual = ""; salvar(); telaSubir(); window.scrollTo({ top: 0, behavior: "instant" }); };
+    app.querySelector("#form").onsubmit = ev => { ev.preventDefault(); textoLivre(entrada.value); };
+    const cam = app.querySelector("#caminho"); if (window.innerWidth > 900) cam.open = true;
+    desenharCaminho();
+    // o que já foi conversado volta na tela
+    S().msgs.forEach(m => msgsEl.insertAdjacentHTML("beforeend", m));
+    if (dir.outro && !S().msgs.length) colocar(`<div class="pf-sis">Na prévia, as aulas são sempre as da diretriz de exemplo, seja qual for o arquivo.</div>`);
+    rolar(true);
+    iniciar(!!S().msgs.length && S().fase !== "plano");
+  }
+  function desenharCaminho() {
+    const a = S(), cam = app.querySelector("#caminho"); if (!cam || !a) return;
+    const aberto = cam.open, pct = pctDe(a);
+    const atual = a.fase === "final" || a.fase === "revisao" || a.fase === "pronto" ? -1 : a.p;
+    cam.innerHTML = `<summary>${anel(pct / 100)}<div><b>${pct === 100 ? "Pronto para o teste" : `${pct}% pronto para o teste`}</b><small>${a.fase === "pronto" ? "Você passou na prova final" : atual >= 0 ? `Parte ${atual + 1} de ${D.partes.length}: ${esc(D.partes[atual].nome)}` : "Prova final"}</small></div><svg class="seta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <ol class="pf-partes">${D.partes.map((p, i) => {
+        const feita = parteFeita(a, i);
+        return `<li><button class="pf-parte${feita ? " feita" : ""}${i === atual ? " atual" : ""}" data-parte="${i}" aria-current="${i === atual}"><span class="pf-marca">${feita ? "✓" : i + 1}</span><span><b>${esc(p.nome)}</b><small>${feita ? "Concluída" : i === atual ? "Agora" : `cerca de ${p.minutos} min`}</small>
+          ${i === atual ? `<ul class="pf-sub-passos">${p.passos.map((x, k) => `<li class="${a.feitos[x.id] ? "feito" : k === a.s && a.fase === "passo" ? "agora" : ""}">${esc(x.titulo)}</li>`).join("")}<li class="${a.casos[i] !== undefined ? "feito" : a.fase === "caso" ? "agora" : ""}">Caso para aplicar</li></ul>` : ""}</span></button></li>`; }).join("")}
+        <li><button class="pf-parte${a.pronto ? " feita" : ""}${atual === -1 ? " atual" : ""}" data-parte="final"><span class="pf-marca">${a.pronto ? "✓" : "★"}</span><span><b>Prova final</b><small>${a.pronto ? `Aprovado com ${a.final.acertos} de ${D.final.length}` : `${D.final.length} perguntas, sem explicação no meio`}</small></span></button></li></ol>
+      <button class="pf-bt pf-guia-bt" id="abrirGuia">Meu guia de estudo</button>`;
+    cam.open = aberto || window.innerWidth > 900;
+    cam.querySelectorAll("[data-parte]").forEach(b => b.onclick = () => pular(b.dataset.parte));
+    cam.querySelector("#abrirGuia").onclick = () => abrirGuia();
+  }
+  function anel(frac) {
+    const r = 16, c = 2 * Math.PI * r;
+    return `<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true" style="flex-shrink:0"><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--bg-soft)" stroke-width="5"/><circle cx="20" cy="20" r="${r}" fill="none" stroke="${frac >= 1 ? "var(--ok)" : "var(--signal)"}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - frac)}" transform="rotate(-90 20 20)"/></svg>`;
+  }
+  function rolar(ja) {
+    const alvo = acoesEl && acoesEl.children.length ? acoesEl : msgsEl && msgsEl.lastElementChild;
+    if (!alvo) return;
+    const fundo = alvo.getBoundingClientRect().bottom + 90 - window.innerHeight;
+    if (fundo > 0) window.scrollBy({ top: fundo, behavior: ja || RAPIDO ? "instant" : "smooth" });
+  }
+  function colocar(html) { msgsEl.insertAdjacentHTML("beforeend", html); const a = S(); a.msgs.push(html); if (a.msgs.length > 400) a.msgs.splice(0, a.msgs.length - 400); salvar(); rolar(); }
+
+  /* o professor fala: mostra "digitando" e depois a mensagem */
+  async function diz(html, op) {
+    op = op || {};
+    const g = geracao;
+    const ultimo = msgsEl.lastElementChild, seguido = !!(ultimo && ultimo.classList.contains("pf-msg") && !ultimo.classList.contains("eu"));
+    msgsEl.insertAdjacentHTML("beforeend", `<div class="pf-msg pf-digitando${seguido ? " seguido" : ""}"><span class="pf-av">${PROF}</span><div class="bal"><span></span><span></span><span></span></div></div>`);
+    const dig = msgsEl.lastElementChild; rolar();
+    await dormir(Math.min(1500, 380 + html.replace(/<[^>]+>/g, "").length * 9));
+    dig.remove();
+    if (g !== geracao) throw PARE;
+    const r = op.regra && regra(op.regra);
+    colocar(`<div class="pf-msg${op.pergunta ? " pergunta" : ""}${seguido ? " seguido" : ""}"><span class="pf-av">${PROF}</span><div class="bal">${html}${r ? `<div class="pf-cita"><small>NA DIRETRIZ · SEÇÃO ${esc(r.id)} · PÁGINA ${r.pag}</small><q>${esc(r.en)}</q></div>` : ""}</div></div>`);
+  }
+  const t = s => `<p>${esc(s)}</p>`;
+  const sis = s => colocar(`<div class="pf-sis">${esc(s)}</div>`);
+  const eu = s => colocar(`<div class="pf-msg eu"><div class="bal">${esc(s)}</div></div>`);
+
+  /* as respostas que o aluno pode dar agora: botões, alternativas ou notas */
+  function ofertar(itens, tipo) {
+    const g = geracao;
+    return new Promise(ok => { oferta = { itens, tipo: tipo || "botoes", ok, g }; desenharOferta(); });
+  }
+  function desenharOferta() {
+    const o = oferta; acoesEl.innerHTML = ""; if (!o) { entrada.disabled = true; return; }
+    entrada.disabled = false;
+    if (o.tipo === "botoes") acoesEl.innerHTML = o.itens.map((x, i) => `<button class="pf-bt${i === 0 ? " forte" : ""}" data-i="${i}">${esc(x.txt)}</button>`).join("");
+    else if (o.tipo === "opcoes") acoesEl.innerHTML = `<div class="pf-opcoes">${o.itens.map((x, i) => `<button class="pf-op" data-i="${i}"><kbd>${i + 1}</kbd><span>${esc(x.txt)}</span></button>`).join("")}</div><span class="pf-dica">Toque na resposta ou use as teclas 1 a ${o.itens.length}.</span>`;
+    else acoesEl.innerHTML = `<div class="pf-notas${o.tipo === "lado" ? " lado" : ""}">${o.itens.map((x, i) => `<button class="pf-nota" data-i="${i}"><b>${esc(x.cima)}</b><span>${x.baixo ? esc(x.baixo) : "&nbsp;"}</span></button>`).join("")}</div><span class="pf-dica">Toque na sua escolha ou use as teclas 1 a 5.</span>`;
+    acoesEl.querySelectorAll("[data-i]").forEach(b => b.onclick = () => escolher(+b.dataset.i));
+    rolar();
+  }
+  function escolher(i, semEco) {
+    const o = oferta; if (!o) return;
+    oferta = null; acoesEl.innerHTML = ""; entrada.disabled = true;
+    if (!semEco) eu(o.itens[i].eco || o.itens[i].txt);
+    o.ok(o.itens[i].k);
+  }
+  document.addEventListener("keydown", ev => {
+    if (!oferta || ev.ctrlKey || ev.metaKey || ev.altKey || ev.target === entrada || document.querySelector(".pf-veu")) return;
+    const n = +ev.key;
+    if (oferta.tipo !== "botoes" && n >= 1 && n <= oferta.itens.length) { ev.preventDefault(); escolher(n - 1); }
+    else if (oferta.tipo === "botoes" && ev.key === "Enter" && ev.target.tagName !== "BUTTON") { ev.preventDefault(); escolher(0); }
+  });
+
+  /* o aluno escreve: "não entendi" e "exemplo" viram os botões; uma dúvida recebe a resposta da diretriz */
+  async function textoLivre(txt) {
+    txt = txt.trim(); if (!txt || !oferta) return;
+    entrada.value = "";
+    const o = oferta, v = norm(txt);
+    const porTexto = o.itens.findIndex((x, i) => norm(x.txt || x.eco) === v || (o.tipo !== "botoes" && String(i + 1) === v));
+    if (porTexto >= 0) { escolher(porTexto); return; }
+    const quer = k => o.itens.findIndex(x => x.k === k);
+    if (/nao entendi|nao ficou claro|explica de novo|outro jeito|confus|dificil/.test(v) && quer("nao") >= 0) { eu(txt); escolher(quer("nao"), true); return; }
+    if (/exemplo/.test(v) && quer("ex") >= 0) { eu(txt); escolher(quer("ex"), true); return; }
+    oferta = null; acoesEl.innerHTML = ""; entrada.disabled = true;
+    eu(txt);
+    try {
+      const achou = D.chat.find(c => c.kws.some(k => v.indexOf(norm(k)) >= 0));
+      if (achou) await diz(t(achou.resp), { regra: achou.regra });
+      else if (o.tipo !== "botoes" && /nao entendi|nao sei|duvida/.test(v)) await diz(t("Tudo bem não ter certeza. Escolha a que parece mais certa: se errar, eu explico de outro jeito."));
+      else await diz(t("Boa pergunta! Nesta prévia eu ainda não respondo tudo. Dá para perguntar sobre as notas, recusas, idioma ou comparação de respostas."));
+      await diz(t(o.tipo === "botoes" ? "Voltando ao nosso passo:" : "Voltando à pergunta:"));
+    } catch (e) { if (e === PARE) return; throw e; }
+    if (o.g !== geracao) return;
+    oferta = o; desenharOferta();
+  }
+
+  /* ── o roteiro da aula ── */
+  function iniciar(voltando) {
+    geracao++; oferta = null; acoesEl.innerHTML = "";
+    roteiro(voltando).catch(e => { if (e !== PARE) console.error(e); });
+  }
+  function pular(alvo) {
+    const a = S();
+    if (alvo === "final") { if (a.fase === "final" || a.fase === "revisao") return; a.fase = "final"; }
+    else { const i = +alvo; if (i === a.p && (a.fase === "passo" || a.fase === "caso")) return; a.fase = "passo"; a.p = i; a.s = 0; }
+    salvar(); desenharCaminho();
+    if (window.innerWidth <= 900) app.querySelector("#caminho").open = false;
+    sis(alvo === "final" ? "Você foi para a prova final" : `Você escolheu a Parte ${+alvo + 1}: ${D.partes[+alvo].nome}`);
+    iniciar(false);
+  }
+  async function roteiro(voltando) {
+    const a = S();
+    if (voltando && a.fase !== "pronto") {
+      const parte = D.partes[a.p];
+      const onde = a.fase === "final" || a.fase === "revisao" ? "Paramos na prova final. Vamos retomar?"
+        : a.fase === "fimParte" ? `Você tinha acabado de terminar a Parte ${a.p + 1}, ${parte.nome}.`
+        : a.fase === "caso" ? `Paramos no caso para aplicar da Parte ${a.p + 1}, ${parte.nome}.`
+        : a.s === 0 ? `Vamos começar a Parte ${a.p + 1}, ${parte.nome}.`
+        : `Paramos na Parte ${a.p + 1}, ${parte.nome}, no passo "${parte.passos[a.s].titulo}". Vou retomar do começo desse passo, rapidinho.`;
+      await diz(t(`Que bom te ver de novo! ${onde}`));
+      await ofertar([{ k: "ok", txt: "Bora continuar" }]);
+    }
+    for (;;) {
+      if (a.fase === "plano") { await plano(); a.fase = "passo"; a.p = 0; a.s = 0; salvar(); desenharCaminho(); }
+      else if (a.fase === "passo") await passo();
+      else if (a.fase === "caso") await casoDaParte();
+      else if (a.fase === "fimParte") await fimDaParte();
+      else if (a.fase === "final") await provaFinal();
+      else if (a.fase === "revisao") await revisao();
+      else if (a.fase === "pronto") { await prontoParaOTeste(voltando); voltando = false; }
+      else return;
+    }
+  }
+  async function plano() {
+    await diz(t("Oi! Eu sou o seu professor para esta diretriz."));
+    await diz(`<p>Li as ${D.paginas} páginas e dividi o conteúdo em ${D.partes.length} partes, da base para o mais difícil:</p><ol class="pf-plano">${D.partes.map(p => `<li>${esc(p.nome)}<small>cerca de ${p.minutos} min</small></li>`).join("")}</ol>`);
+    await diz(t("Em cada parte eu explico um pedaço de cada vez e faço uma pergunta para ver se ficou claro. Se não ficar, eu explico de outro jeito, até você entender. No fim, uma prova rápida mostra se você está pronto."));
+    await diz(t("Pode me escrever a qualquer hora, até para dizer \"não entendi\"."));
+    const k = await ofertar([{ k: "ok", txt: "Bora começar" }, { k: "ordem", txt: "Por que nessa ordem?" }]);
+    if (k === "ordem") { await diz(t(D.ordem)); await ofertar([{ k: "ok", txt: "Entendi, bora começar" }]); }
+  }
+
+  async function perguntar(q, intro) {
+    await diz(t(intro));
+    await diz(t(q.texto), { pergunta: true });
+    const k = await ofertar(q.opcoes.map((o, i) => ({ k: i, txt: o })), "opcoes");
+    return k === q.certa;
+  }
+  async function passo() {
+    const a = S(), parte = D.partes[a.p], ps = parte.passos[a.s];
+    sis(`Parte ${a.p + 1} · ${parte.nome} · passo ${a.s + 1} de ${parte.passos.length}`);
+    desenharCaminho();
+    for (let i = 0; i < ps.ensina.length; i++) await diz(t(ps.ensina[i]), { regra: i === ps.ensina.length - 1 ? ps.regra : "" });
+    let viuExemplo = false, viuFacil = false, viuFrase = false;
+    let k = await ofertar([{ k: "ok", txt: "Entendi, pode perguntar" }, { k: "ex", txt: "Me dá um exemplo" }, { k: "nao", txt: "Não entendi" }]);
+    while (k !== "ok") {
+      if (k === "ex") { await diz(t(ps.exemplo)); viuExemplo = true; }
+      else if (!viuFacil) { await diz(t(sorteio(["Sem problema, vou explicar de outro jeito.", "Tranquilo, vamos por outro caminho."]))); await diz(t(ps.facil)); viuFacil = true; }
+      else { await diz(t("Vamos pelo mais simples, então. Guarde só esta frase:")); await diz(`<p><b>${esc(ps.frase)}</b></p>`); viuFrase = true; if (!viuExemplo) { await diz(t(ps.exemplo)); viuExemplo = true; } }
+      const op = [{ k: "ok", txt: viuFacil ? "Agora entendi" : "Entendi, pode perguntar" }];
+      if (!viuExemplo) op.push({ k: "ex", txt: "Me dá um exemplo" });
+      if (!viuFrase) op.push({ k: "nao", txt: viuFacil ? "Ainda não entendi" : "Não entendi" });
+      k = await ofertar(op);
+    }
+    const certo1 = await perguntar(ps.pergunta, sorteio(["Vamos ver se ficou claro:", "Uma pergunta rápida para conferir:", "Agora me diga:"]));
+    if (certo1) await diz(t(`${sorteio(["Isso mesmo!", "Exato!", "Certinho!"])} ${ps.pergunta.explicacao}`));
+    else {
+      await diz(t("Não foi essa, mas tudo bem: é assim que se aprende. Vou explicar de outro jeito."));
+      if (!viuFacil) await diz(t(ps.facil)); else await diz(`<p>Pense assim: <b>${esc(ps.frase)}</b></p>`);
+      const certo2 = await perguntar(ps.pergunta2, "Agora tenta esta:");
+      if (certo2) await diz(t(`Agora foi! ${ps.pergunta2.explicacao}`));
+      else {
+        await diz(t("Ainda não foi. Vamos resolver juntos."));
+        await diz(t(ps.juntos), { regra: ps.regra });
+        await diz(`<p>Guarde esta frase: <b>${esc(ps.frase)}</b></p>`);
+        if (a.dificeis.indexOf(ps.id) < 0) a.dificeis.push(ps.id);
+        await diz(t("Vou voltar nesse ponto no fim. Combinado?"));
+        await ofertar([{ k: "ok", txt: "Combinado" }]);
+      }
+    }
+    a.feitos[ps.id] = true;
+    if (a.s + 1 < parte.passos.length) { a.s++; await diz(t(sorteio(["Ótimo. Vamos para o próximo passo.", "Fechou esse. Próximo passo:", "Boa! Seguindo."]))); }
+    else a.fase = "caso";
+    salvar(); desenharCaminho();
+  }
+
+  function cartaoCaso(c) {
+    colocar(`<div class="pf-caso"><div class="cx"><small>Pedido do usuário</small><div class="txt">${esc(c.pedido)}</div></div>${c.lado
+      ? `<div class="duas"><div class="cx ia"><small>Resposta A</small><div class="txt">${md(c.respostaA)}</div></div><div class="cx ia"><small>Resposta B</small><div class="txt">${md(c.respostaB)}</div></div></div>`
+      : `<div class="cx ia"><small>Resposta da IA</small><div class="txt">${md(c.resposta)}</div></div>`}</div>`);
+  }
+  function pedirNota(c) {
+    if (c.lado) return ofertar(LADO.map(([k, n]) => ({ k, cima: n.split(" ")[0], baixo: n.split(" ").slice(1).join(" "), eco: n })), "lado");
+    return ofertar(NOMES_NOTA.map((n, i) => ({ k: i + 1, cima: String(i + 1), baixo: n, eco: `Nota ${i + 1}: ${n.toLowerCase()}` })), "nota");
+  }
+  const nomeLado = k => LADO.find(x => x[0] === k)[1];
+  function pontuar(c, r) { if (c.lado) return r === c.preferencia ? 1 : r[0] === c.preferencia[0] ? 0.5 : 0; const d = Math.abs(r - c.nota); return d === 0 ? 1 : d === 1 ? 0.5 : 0; }
+  async function casoDaParte() {
+    const a = S(), parte = D.partes[a.p], c = caso(parte.caso);
+    sis(`Parte ${a.p + 1} · ${parte.nome} · caso para aplicar`);
+    desenharCaminho();
+    await diz(t(c.lado ? "Agora vamos aplicar num caso de verdade. Leia o pedido e as duas respostas e me diga qual é melhor." : "Agora vamos aplicar num caso de verdade. Leia o pedido e a resposta da IA e me diga a nota que você dá."));
+    cartaoCaso(c);
+    const r = await pedirNota(c), p = pontuar(c, r);
+    const ref = c.lado ? `"${nomeLado(c.preferencia)}"` : c.nota;
+    if (p === 1) await diz(t(`Perfeito! A referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+    else if (p) await diz(t(`Quase! A referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+    else {
+      await diz(t(`Dessa vez não: a referência é ${ref}. ${c.explicacao}`), { regra: c.regra });
+      const ps = parte.passos.find(x => x.regra === c.regra) || parte.passos[0];
+      await diz(`<p>O ponto principal, de novo: <b>${esc(ps.frase)}</b></p>`);
+      if (a.dificeis.indexOf(ps.id) < 0) a.dificeis.push(ps.id);
+      await ofertar([{ k: "ok", txt: "Entendi" }]);
+    }
+    a.casos[a.p] = p; a.fase = "fimParte"; salvar(); desenharCaminho();
+  }
+  async function fimDaParte() {
+    const a = S(), parte = D.partes[a.p];
+    colocar(`<div class="pf-concluida">✓ Parte ${a.p + 1} concluída: ${esc(parte.nome)}</div>`);
+    const faltando = D.partes.map((x, i) => i).filter(i => !parteFeita(a, i));
+    if (!faltando.length) { await diz(t("Você terminou todas as partes!")); a.fase = "final"; salvar(); desenharCaminho(); return; }
+    const depois = faltando.find(i => i > a.p), prox = depois !== undefined ? depois : faltando[0], nomeProx = `Parte ${prox + 1}: ${D.partes[prox].nome}`;
+    let k;
+    if (depois !== undefined) {
+      await diz(t(`Mandou bem. ${faltando.length === 1 ? "Falta só uma parte" : `Faltam ${faltando.length} partes`} antes da prova final.`));
+      k = await ofertar([{ k: "seguir", txt: `Seguir para a ${nomeProx}` }, { k: "pausa", txt: "Fazer uma pausa" }]);
+    } else {
+      await diz(t(`Mandou bem. Antes da prova, ficaram para trás: ${lista(faltando.map(i => `Parte ${i + 1}`))}. Fazendo agora, a prova fica bem mais fácil.`));
+      k = await ofertar([{ k: "seguir", txt: `Fazer a ${nomeProx}` }, { k: "prova", txt: "Ir direto para a prova final" }, { k: "pausa", txt: "Fazer uma pausa" }]);
+    }
+    if (k === "prova") { a.fase = "final"; salvar(); desenharCaminho(); return; }
+    a.p = prox; a.s = 0; a.fase = "passo"; salvar(); desenharCaminho();
+    if (k === "pausa") { await diz(t(`Combinado! Quando você voltar, eu começo pela ${nomeProx}.`)); await ofertar([{ k: "seguir", txt: "Voltei, vamos continuar" }]); }
+  }
+
+  async function provaFinal() {
+    const a = S();
+    sis("Prova final"); desenharCaminho();
+    await diz(t(`Agora a prova final: ${D.final.length} perguntas misturando tudo, sem explicação no meio, como no teste de verdade. Acertando ${D.finalMinimo}, você está pronto.`));
+    await ofertar([{ k: "ok", txt: "Começar a prova final" }]);
+    const resp = [];
+    for (let i = 0; i < D.final.length; i++) {
+      const item = D.final[i];
+      if (item.caso) {
+        const c = caso(item.caso);
+        await diz(t(`${i + 1} de ${D.final.length}: ${c.lado ? "qual das duas respostas é melhor?" : "que nota esta resposta recebe?"}`), { pergunta: true });
+        cartaoCaso(c);
+        resp.push(pontuar(c, await pedirNota(c)) === 1);
+      } else {
+        const q = pergunta(item.pergunta);
+        await diz(t(`${i + 1} de ${D.final.length}: ${q.texto}`), { pergunta: true });
+        resp.push(await ofertar(q.opcoes.map((o, j) => ({ k: j, txt: o })), "opcoes") === q.certa);
+      }
+      if (i < D.final.length - 1) await diz(t(sorteio(["Anotado. Próxima:", "Certo, próxima:", "Anotado."])));
+    }
+    const acertos = resp.filter(Boolean).length;
+    a.final = { acertos, resp, dia: hoje() };
+    if (acertos >= D.finalMinimo) { a.pronto = true; a.fase = "pronto"; } else a.fase = "revisao";
+    salvar(); desenharCaminho();
+  }
+  const parteDoItem = item => { const top = item.caso ? caso(item.caso).topico : pergunta(item.pergunta).topico; return D.partes.findIndex(p => p.topico === top); };
+  async function revisao() {
+    const a = S(), partes = [...new Set(D.final.filter((x, i) => !a.final.resp[i]).map(parteDoItem))];
+    await diz(t(`Você acertou ${a.final.acertos} de ${D.final.length}. ${a.final.acertos >= 3 ? "Ainda não é a hora, mas falta pouco." : "Ainda não é a hora. Vamos rever com calma o que ficou faltando."}`));
+    await diz(t(`O que pegou: ${lista(partes.map(i => D.partes[i].nome))}. Vamos rever juntos e depois você tenta de novo.`));
+    const k = await ofertar([{ k: "rever", txt: "Vamos rever" }, { k: "direto", txt: "Quero tentar a prova de novo direto" }]);
+    if (k === "rever") {
+      for (const i of partes) {
+        const parte = D.partes[i];
+        sis(`Revisão · ${parte.nome}`);
+        for (const ps of parte.passos) {
+          await diz(t(ps.facil), { regra: ps.regra });
+          if (await perguntar(ps.pergunta2, "Para conferir:")) await diz(t(`Isso! ${ps.pergunta2.explicacao}`));
+          else { await diz(t(ps.juntos)); await diz(`<p>Guarde: <b>${esc(ps.frase)}</b></p>`); }
+        }
+      }
+      await diz(t("Pronto, revisamos o que faltava. Vamos para a prova de novo?"));
+      await ofertar([{ k: "ok", txt: "Vamos" }]);
+    }
+    a.fase = "final"; salvar(); desenharCaminho();
+  }
+  async function prontoParaOTeste(voltando) {
+    const a = S();
+    if (!voltando) {
+      colocar(`<div class="pf-pronto"><div class="grande">Você está pronto para o teste</div><p>Acertou ${a.final.acertos} de ${D.final.length} na prova final.</p></div>`);
+      const dif = a.dificeis.map(id => { for (const p of D.partes) { const x = p.passos.find(s => s.id === id); if (x) return x; } return null; }).filter(Boolean);
+      if (dif.length) await diz(`<p>Antes do teste, vale reler estes pontos, que deram mais trabalho:</p><ul style="margin:8px 0 0 18px">${dif.map(x => `<li>${esc(x.titulo)}: <b>${esc(x.frase)}</b> <span class="pf-leve">(seção ${esc(x.regra)}, página ${regra(x.regra).pag})</span></li>`).join("")}</ul>`);
+      else await diz(t("Você não travou em nenhum ponto. Boa sorte no teste!"));
+      await diz(t("Montei também o seu guia de estudo: o resumo de cada parte e a página da diretriz oficial onde cada assunto está. Guarde para consultar antes e durante o trabalho."));
+    } else await diz(t("Que bom te ver de novo! Você já passou na prova final. Quer revisar alguma coisa?"));
+    let agendou = false;
+    for (;;) {
+      const op = [{ k: "guia", txt: "Baixar o meu guia em PDF" }, { k: "ver", txt: "Ver o guia aqui" }, { k: "prova", txt: "Refazer a prova final" }, { k: "inicio", txt: "Rever a diretriz desde o começo" }];
+      if (!agendou) op.splice(2, 0, { k: "agenda", txt: "Pôr uma revisão na minha agenda" });
+      const k = await ofertar(op);
+      if (k === "guia") { await baixarGuia(); await diz(t("Pronto, o PDF do guia foi baixado. Ele também fica aqui no botão \"Meu guia de estudo\", ao lado.")); continue; }
+      if (k === "ver") { abrirGuia(); await diz(t("Abri o guia. Quando quiser, ele fica no botão \"Meu guia de estudo\", ao lado.")); continue; }
+      if (k === "agenda") { agendou = true; await diz(t("Coloquei uma revisão rápida para daqui a 2 dias na Agenda do Meu Controle. Revisar perto do teste ajuda a não esquecer.")); toast("A revisão entrou na Agenda do Meu Controle."); continue; }
+      if (k === "prova") a.fase = "final"; else { a.fase = "passo"; a.p = 0; a.s = 0; }
+      salvar(); desenharCaminho(); return;
+    }
+  }
+  /* ── guia de estudo: o que foi visto em cada parte e onde está na diretriz oficial ── */
+  const dataBR = () => new Date().toLocaleDateString("pt-BR");
+  function montarGuia() {
+    const a = S();
+    return {
+      titulo: D.titulo, data: dataBR(), paginas: D.paginas,
+      situacao: a.pronto ? `Pronto para o teste: ${a.final.acertos} de ${D.final.length} na prova final` : `${pctDe(a)}% pronto para o teste`,
+      partes: D.partes.map((p, i) => {
+        const top = D.topicos.find(x => x.id === p.topico);
+        return { n: i + 1, nome: p.nome, en: top.en, pags: top.pags, resumo: top.resumo, estudada: p.passos.some(x => a.feitos[x.id]),
+          passos: p.passos.map(x => ({ titulo: x.titulo, frase: x.frase, regra: regra(x.regra), dificil: a.dificeis.indexOf(x.id) >= 0 })),
+          regras: top.regras.map(r => ({ id: r.id, pag: r.pag, pt: D.rotulos[r.id] || r.en })) };
+      }),
+      dificeis: a.dificeis.map(id => { for (const p of D.partes) { const x = p.passos.find(s => s.id === id); if (x) return { titulo: x.titulo, frase: x.frase, regra: regra(x.regra) }; } return null; }).filter(Boolean),
+    };
+  }
+  function abrirGuia() {
+    const g = montarGuia();
+    const veu = document.createElement("div");
+    veu.className = "pf-veu";
+    veu.innerHTML = `<div class="pf-guia" role="dialog" aria-modal="true" aria-label="Meu guia de estudo">
+      <div class="pf-guia-topo"><span class="pf-rot">Meu guia de estudo</span><h2>${esc(g.titulo)}</h2><p>${esc(g.situacao)} · gerado em ${g.data}</p></div>
+      <div class="pf-guia-acoes"><button class="pf-bt forte" data-pdf>Baixar em PDF</button><button class="pf-bt" data-fechar>Fechar</button></div>
+      <div class="pf-guia-corpo">
+        <p style="margin-top:14px">Este guia junta o que você estudou e mostra em que seção e página da diretriz oficial está cada assunto. Na dúvida durante o trabalho, vá direto à página indicada.</p>
+        <h3>Onde encontrar cada assunto na diretriz</h3>
+        <div class="pf-tabela"><table class="pf-indice"><thead><tr><th>Seção</th><th>O que diz</th><th>Página</th></tr></thead><tbody>
+          ${g.partes.map(p => `<tr class="parte"><td colspan="2">Parte ${p.n} · ${esc(p.nome)}</td><td class="num">${esc(p.pags)}</td></tr>${p.regras.map(r => `<tr><td class="num">${esc(r.id)}</td><td>${esc(r.pt)}</td><td class="num">${r.pag}</td></tr>`).join("")}`).join("")}
+        </tbody></table></div>
+        ${g.partes.map(p => `<h3>Parte ${p.n} · ${esc(p.nome)}${p.estudada ? "" : `<span class="naofeita">ainda não estudada</span>`}</h3>
+          <span class="pags">Na diretriz oficial: páginas ${esc(p.pags)} (${esc(p.en)})</span>
+          <p>${esc(p.resumo)}</p>
+          ${p.passos.map(x => `<h4>${esc(x.titulo)}${x.dificil ? `<span class="revise">Revise</span>` : ""}</h4><p class="frase">${esc(x.frase)}</p><p class="onde">Seção ${esc(x.regra.id)}, página ${x.regra.pag}: “${esc(x.regra.en)}”</p>`).join("")}`).join("")}
+        ${g.dificeis.length ? `<h3>Antes do teste, reveja</h3><ul style="margin-left:18px">${g.dificeis.map(x => `<li><b>${esc(x.titulo)}</b>: ${esc(x.frase)} <span class="pf-leve">(seção ${esc(x.regra.id)}, página ${x.regra.pag})</span></li>`).join("")}</ul>` : ""}
+      </div></div>`;
+    document.body.appendChild(veu);
+    document.body.style.overflow = "hidden";
+    const fechar = () => { veu.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", tecla, true); };
+    const tecla = ev => { if (ev.key === "Escape") { ev.stopPropagation(); fechar(); } };
+    document.addEventListener("keydown", tecla, true);
+    veu.addEventListener("click", ev => { if (ev.target === veu || ev.target.closest("[data-fechar]")) fechar(); });
+    const pdf = veu.querySelector("[data-pdf]");
+    pdf.onclick = async () => { pdf.disabled = true; pdf.textContent = "Gerando o PDF…"; await baixarGuia(); pdf.disabled = false; pdf.textContent = "Baixar em PDF"; };
+    pdf.focus();
+  }
+  let jspdf = null;
+  function carregarJsPdf() {
+    if (jspdf) return jspdf;
+    jspdf = new Promise((ok, falha) => {
+      const sc = document.createElement("script");
+      sc.src = "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js";
+      sc.onload = () => ok(window.jspdf.jsPDF);
+      sc.onerror = () => { jspdf = null; falha(new Error("sem jsPDF")); };
+      document.head.appendChild(sc);
+    });
+    return jspdf;
+  }
+  async function baixarGuia() {
+    let JsPDF;
+    try { JsPDF = await carregarJsPdf(); } catch (e) { toast("Não deu para gerar o PDF agora. Confira a internet e tente de novo."); return; }
+    const g = montarGuia(), doc = new JsPDF({ unit: "mm", format: "a4" });
+    const M = 18, W = 174, FIM = 278;
+    const AZUL = [26, 72, 147], TINTA = [16, 32, 58], TEXTO = [84, 96, 111], CLARO = [102, 113, 127], TERRA = [168, 93, 36];
+    let y = 0;
+    const nova = () => { doc.addPage(); y = 20; };
+    const cabe = h => { if (y + h > FIM) nova(); };
+    const escrever = (txt, op) => {
+      op = Object.assign({ tam: 10.5, estilo: "normal", cor: TEXTO, antes: 0, depois: 1.6, recuo: 0, largura: W }, op);
+      y += op.antes;
+      doc.setFont("helvetica", op.estilo); doc.setFontSize(op.tam); doc.setTextColor(...op.cor);
+      const alt = op.tam * 0.3528 * 1.42;
+      doc.splitTextToSize(String(txt), op.largura - op.recuo).forEach(l => { cabe(alt); doc.text(l, M + op.recuo, y + alt * 0.78); y += alt; });
+      y += op.depois;
+    };
+    const titulo = (txt, extra) => { cabe(24); escrever(txt, { tam: 14, estilo: "bold", cor: TINTA, antes: 6, depois: 1 }); if (extra) escrever(extra, { tam: 9.5, estilo: "bold", cor: AZUL, depois: 3 }); };
+    const citacao = (rot, txt) => {
+      doc.setFontSize(9.5); const linhas = doc.splitTextToSize(txt, W - 12), alt = 9.5 * 0.3528 * 1.42, h = linhas.length * alt + 8;
+      cabe(h); doc.setFillColor(247, 244, 239); doc.rect(M, y, W, h, "F"); doc.setFillColor(...AZUL); doc.rect(M, y, 1.2, h, "F");
+      doc.setFont("helvetica", "bold"); doc.setFontSize(7.8); doc.setTextColor(...CLARO); doc.text(rot.toUpperCase(), M + 6, y + 5.2);
+      doc.setFont("helvetica", "italic"); doc.setFontSize(9.5); doc.setTextColor(...TINTA);
+      linhas.forEach((l, i) => doc.text(l, M + 6, y + 9.4 + i * alt));
+      y += h + 3;
+    };
+    // capa
+    doc.setFillColor(...AZUL); doc.rect(0, 0, 210, 46, "F");
+    doc.setTextColor(191, 212, 240); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("MEU GUIA DE ESTUDO", M, 16);
+    doc.setTextColor(255, 255, 255); doc.setFont("times", "normal"); doc.setFontSize(24); doc.text(g.titulo, M, 28);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(214, 227, 245);
+    doc.text(`${g.situacao} · gerado em ${g.data} · diretriz com ${g.paginas} páginas`, M, 37);
+    y = 56;
+    escrever("Este guia junta o que você estudou com o professor e mostra em que seção e página da diretriz oficial está cada assunto. Na dúvida durante o trabalho, vá direto à página indicada.", { tam: 10.5, depois: 2 });
+    // índice: onde está cada assunto
+    titulo("Onde encontrar cada assunto na diretriz");
+    const linhaIndice = (sec, txt, pag, forte) => {
+      doc.setFontSize(9.8); const linhas = doc.splitTextToSize(txt, 128), alt = 9.8 * 0.3528 * 1.38, h = linhas.length * alt + 3.4;
+      cabe(h);
+      if (forte) { doc.setFillColor(251, 249, 245); doc.rect(M, y, W, h, "F"); }
+      doc.setFont("helvetica", forte ? "bold" : "normal"); doc.setTextColor(...(forte ? TINTA : TEXTO));
+      if (sec) doc.text(sec, M + 2, y + 2.4 + alt * 0.78);
+      linhas.forEach((l, i) => doc.text(l, M + (forte ? 2 : 20), y + 2.4 + alt * 0.78 + i * alt));
+      doc.setTextColor(...TINTA); doc.text(String(pag), M + W - 2, y + 2.4 + alt * 0.78, { align: "right" });
+      y += h; doc.setDrawColor(234, 228, 217); doc.setLineWidth(0.2); doc.line(M, y, M + W, y);
+    };
+    doc.setFont("helvetica", "bold"); doc.setFontSize(7.8); doc.setTextColor(...CLARO);
+    cabe(8); doc.text("SEÇÃO", M + 2, y + 4); doc.text("O QUE DIZ", M + 20, y + 4); doc.text("PÁGINA", M + W - 2, y + 4, { align: "right" }); y += 6;
+    g.partes.forEach(p => { linhaIndice("", `Parte ${p.n} · ${p.nome}`, `págs. ${p.pags}`, true); p.regras.forEach(r => linhaIndice(r.id, r.pt, r.pag, false)); });
+    // cada parte
+    g.partes.forEach(p => {
+      titulo(`Parte ${p.n} · ${p.nome}${p.estudada ? "" : " (ainda não estudada)"}`, `NA DIRETRIZ OFICIAL: PÁGINAS ${p.pags} · ${p.en.toUpperCase()}`);
+      escrever(p.resumo, { depois: 2 });
+      p.passos.forEach(x => {
+        cabe(30);
+        escrever(x.titulo + (x.dificil ? "   ·   revise este ponto" : ""), { tam: 11, estilo: "bold", cor: x.dificil ? TERRA : TINTA, antes: 1.5, depois: 0.6 });
+        escrever(x.frase, { cor: TINTA, depois: 1.6 });
+        citacao(`Na diretriz · seção ${x.regra.id} · página ${x.regra.pag}`, `“${x.regra.en}”`);
+      });
+    });
+    if (g.dificeis.length) {
+      titulo("Antes do teste, reveja");
+      g.dificeis.forEach(x => escrever(`• ${x.titulo}: ${x.frase} (seção ${x.regra.id}, página ${x.regra.pag})`, { recuo: 2, depois: 1.4 }));
+    }
+    // rodapé em todas as páginas
+    const total = doc.getNumberOfPages();
+    for (let i = 1; i <= total; i++) {
+      doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(...CLARO);
+      doc.text(`Home Office Hub · Guia de estudo · ${g.titulo}`, M, 290); doc.text(`página ${i} de ${total}`, M + W, 290, { align: "right" });
+    }
+    doc.save(`Guia de estudo - ${g.titulo}.pdf`);
+  }
+
+  function toast(s) { const m = document.createElement("div"); m.className = "pf-toast"; m.setAttribute("role", "status"); m.textContent = s; document.body.appendChild(m); setTimeout(() => m.remove(), 2600); }
+
+  if (E.atual && dirAtual() && S()) abrirAula(); else { E.atual = ""; telaSubir(); }
+})();
+</script>
+</body>
+</html>

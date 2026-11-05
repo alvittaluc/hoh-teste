@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliar currículo · Home Office Hub</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+/* SÓ NA PRÉVIA: a ferramenta de avaliar currículo. A nota e as sugestões são de exemplo. */
+.ac-main { max-width:var(--wrap,1180px); margin:0 auto; padding:40px 20px 90px; }
+.ac-trilha { font-size:13.5px; color:var(--ink-3); margin-bottom:8px; }
+.ac-trilha a { color:var(--ink-3); }
+.ac-main h1 { font-family:var(--display); font-weight:400; font-size:clamp(30px,4vw,44px); line-height:1.1; letter-spacing:-0.015em; color:var(--ink); }
+.ac-sub { font-size:16px; color:var(--ink-2); margin:10px 0 0; max-width:680px; line-height:1.55; }
+.ac-grade { display:grid; grid-template-columns:400px minmax(0,1fr); gap:18px; margin-top:26px; align-items:start; }
+@media (max-width:980px){ .ac-grade { grid-template-columns:minmax(0,1fr); } }
+.ac-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:18px; padding:22px 24px; }
+.ac-passo { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--signal); margin:0 0 10px; }
+.ac-passo + * { margin-bottom:22px; }
+.ac-arq { display:flex; align-items:center; gap:12px; border:1.5px dashed #9DB8DE; background:var(--signal-suave); border-radius:12px; padding:12px 14px; }
+.ac-ic { width:34px; height:42px; border-radius:5px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
+.ac-arq .nm { flex:1; min-width:0; } .ac-arq b { display:block; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ac-arq small { display:block; font-size:12px; color:var(--ink-3); }
+.ac-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer;
+  padding:10px 18px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); white-space:nowrap; text-decoration:none; }
+.ac-bt:hover { border-color:var(--ink-3); }
+.ac-bt.forte { background:var(--signal); border-color:var(--signal); color:#fff; }
+.ac-bt.pq { padding:7px 13px; font-size:13px; }
+.ac-bt[disabled] { opacity:.5; cursor:not-allowed; }
+.ac-campo { width:100%; font:inherit; font-size:14px; padding:11px 13px; border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--ink); }
+.ac-sug { border:1px solid var(--line-soft); border-radius:12px; margin-top:6px; max-height:240px; overflow:auto; background:var(--panel); }
+.ac-sug button { display:block; width:100%; text-align:left; border:0; background:none; font:inherit; padding:9px 12px; cursor:pointer; }
+.ac-sug button:hover { background:var(--bg-soft); }
+.ac-sug b { display:block; font-size:13.5px; font-weight:500; } .ac-sug small { font-size:12px; color:var(--ink-3); }
+.ac-vaga { display:flex; align-items:center; gap:10px; padding:11px 13px; border:1px solid var(--line); border-radius:12px; }
+.ac-vaga div { flex:1; min-width:0; } .ac-vaga b { display:block; font-size:14px; } .ac-vaga small { font-size:12.5px; color:var(--ink-3); }
+.ac-link { border:0; background:none; font:inherit; font-size:13px; color:var(--signal); cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.ac-leve { font-size:12.5px; color:var(--ink-3); line-height:1.5; }
+textarea.ac-campo { min-height:150px; resize:vertical; line-height:1.5; }
+.ac-vazio { text-align:center; padding:60px 30px; color:var(--ink-3); font-size:15px; line-height:1.6; }
+.ac-vazio b { display:block; font-family:var(--display); font-weight:400; font-size:24px; color:var(--ink); margin-bottom:8px; }
+.fc-aviso { background:var(--amber-suave); border:1px solid #F0DCC6; color:#7A4318; border-radius:12px; padding:10px 14px; font-size:13px; margin-bottom:16px; }
+.ac-topo { display:flex; align-items:flex-end; gap:18px; flex-wrap:wrap; }
+.ac-nota { font-size:64px; font-weight:600; letter-spacing:-0.03em; line-height:1; color:var(--ink); }
+.ac-nota small { font-size:24px; color:var(--ink-3); font-weight:500; }
+.ac-crit { display:grid; grid-template-columns:200px 1fr 34px; gap:10px; align-items:center; font-size:13.5px; color:var(--ink-2); margin:8px 0; }
+.ac-crit .tr { height:9px; border-radius:99px; background:var(--bg-soft); overflow:hidden; }
+.ac-crit .tr i { display:block; height:100%; border-radius:99px; background:var(--signal); }
+.ac-crit .q { text-align:right; font-weight:600; color:var(--ink); }
+.ac-h2 { font-size:16px; font-weight:600; color:var(--ink); margin:26px 0 10px; }
+.ac-bom li { font-size:14px; color:var(--ink-2); line-height:1.55; margin:0 0 6px 18px; }
+.ac-mud { border:1px solid var(--line-soft); border-radius:14px; padding:16px 18px; margin-bottom:12px; background:var(--panel-2); }
+.ac-onde { display:inline-block; font-size:12px; font-weight:600; letter-spacing:.04em; color:var(--signal); background:var(--signal-suave); border-radius:99px; padding:3px 10px; margin-bottom:8px; }
+.ac-mud p { font-size:14px; color:var(--ink-2); line-height:1.55; margin:0; }
+.ac-en { margin-top:10px; border-left:3px solid var(--signal); background:var(--panel); border-radius:0 10px 10px 0; padding:10px 14px; }
+.ac-en small { display:block; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+.ac-en .txt { font-size:14.5px; color:var(--ink); line-height:1.55; }
+.ac-en .pt { font-size:13px; color:var(--ink-3); margin-top:6px; line-height:1.5; }
+.ac-en-acoes { display:flex; gap:8px; margin-top:10px; }
+.ac-acoes { display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; padding-top:18px; border-top:1px solid var(--line-soft); }
+.ac-versao { margin-top:18px; border:1px solid var(--line); border-radius:14px; background:#fff; padding:26px 30px; font-size:14px; color:#1d2633; line-height:1.55; }
+.ac-versao h3 { font-family:var(--display); font-weight:400; font-size:24px; color:var(--ink); }
+.ac-versao h4 { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--signal); margin:16px 0 6px; padding-bottom:4px; border-bottom:1px solid var(--line-soft); }
+.ac-versao mark { background:#FFF3C4; padding:0 2px; border-radius:3px; }
+.ac-versao ul { padding-left:18px; }
+.ac-perf { display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+.ac-perf.vazio { border-style:dashed; border-color:#E2C9A8; background:var(--amber-suave); }
+.ac-perf .tx { flex:1; min-width:0; } .ac-perf b { display:block; font-size:14px; color:var(--ink); }
+.ac-perf small { display:block; font-size:12.5px; color:var(--ink-3); line-height:1.45; margin-top:2px; }
+.ac-perf .tr { display:block; height:6px; border-radius:99px; background:var(--bg-soft); overflow:hidden; margin-top:8px; }
+.ac-perf .tr i { display:block; height:100%; background:var(--signal); border-radius:99px; }
+.ac-mud-topo { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+.ac-mud-topo .ac-onde { margin-bottom:0; }
+.ac-tipo { display:inline-block; font-size:12px; font-weight:600; border-radius:99px; padding:3px 10px; }
+.ac-tipo.reescrita { color:var(--signal); background:#DCE7F5; }
+.ac-tipo.perfil { color:#2F6B3F; background:#E1F0E5; }
+.ac-tipo.pergunta { color:#7A4318; background:#F8E6D2; }
+.ac-mud.t-reescrita { border-left:4px solid var(--signal); }
+.ac-mud.t-perfil { border-left:4px solid #3F8A55; }
+.ac-mud.t-pergunta { border-left:4px solid #C07A3A; }
+.ac-onde { background:var(--bg-soft) !important; color:var(--ink-2) !important; font-weight:500 !important; letter-spacing:0 !important; }
+.ac-antes { margin-top:10px; border-left:3px solid var(--line); background:var(--bg-soft); border-radius:0 10px 10px 0; padding:9px 14px; }
+.ac-antes small { display:block; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+.ac-antes .txt { font-size:14px; color:var(--ink-3); line-height:1.5; text-decoration:line-through; text-decoration-color:rgba(102,113,127,.5); }
+.ac-fonte { font-size:12.5px !important; color:var(--ink-3) !important; margin-top:8px !important; }
+.ac-fonte.ok { color:#2F6B3F !important; }
+.ac-perg { font-size:15px !important; color:var(--ink) !important; font-weight:500; margin-bottom:4px !important; }
+.ac-falta { background:#FBE3E3; color:#8E2233; border-radius:4px; padding:0 3px; font-weight:600; }
+.ac-filtros { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.ac-filtro { font:inherit; font-size:13.5px; padding:6px 12px; border-radius:99px; border:1px solid var(--line); background:var(--panel); color:var(--ink-2); cursor:pointer; }
+.ac-filtro span { font-weight:600; margin-left:3px; }
+.ac-filtro[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:#fff; }
+.ac-legenda { display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--ink-3); margin-bottom:14px; }
+.ac-legenda > span { display:inline-flex; gap:6px; align-items:center; }
+.ac-h3 { font-size:15px; font-weight:600; color:var(--ink); margin:22px 0 8px; display:flex; gap:8px; align-items:center; }
+.ac-cont { font-size:12px; font-weight:600; color:#7A4318; background:var(--amber-suave); border-radius:99px; padding:2px 9px; }
+.ac-dica-perfil { background:var(--signal-suave); border:1px solid #CFDEEF; border-radius:12px; padding:11px 14px; font-size:13.5px; color:var(--ink-2); line-height:1.5; margin-bottom:12px; }
+.ac-dica-perfil b { color:var(--ink); }
+.ac-confere { margin-top:16px; background:#EEF6F0; border:1px solid #CFE5D6; color:#24502F; border-radius:12px; padding:11px 14px; font-size:13.5px; line-height:1.55; }
+.ac-marca { border-radius:3px; padding:0 2px; }
+.ac-marca.reescrita { background:#DCE7F5; }
+.ac-marca.perfil { background:#DDF0E2; }
+.ac-marca.pergunta { background:#F8E6D2; }
+@media (max-width:560px){ .ac-crit { grid-template-columns:130px 1fr 30px; } .ac-versao { padding:20px 18px; } .ac-cx { padding:18px 16px; } }
+</style>
+</head>
+<body>
+
+<main class="ac-main">
+  <p class="ac-trilha"><a href="ferramentas.html">Ferramentas</a> › Avaliar currículo</p>
+  <h1>Avaliar currículo para uma vaga</h1>
+  <p class="ac-sub">Suba o seu currículo em PDF e escolha a vaga. Você recebe uma nota, o que já está bom e as sugestões, explicadas em português e já escritas em inglês. Com o seu perfil preenchido, a avaliação também sugere o que você sabe e não pôs no currículo, sem inventar nada.</p>
+
+  <div class="ac-grade">
+    <div class="ac-cx">
+      <p class="ac-passo">1 · Seu currículo</p>
+      <div id="arq"></div>
+      <p class="ac-passo">2 · A vaga</p>
+      <div id="vaga"></div>
+      <p class="ac-passo">3 · Seu perfil profissional</p>
+      <div id="perfilCx"></div>
+      <button class="ac-bt forte" id="avaliar" style="width:100%">Avaliar meu currículo</button>
+      <p class="ac-leve" style="margin-top:10px">Você ainda pode fazer 3 avaliações hoje.</p>
+    </div>
+    <div class="ac-cx" id="resultado">
+      <div class="ac-vazio"><b>A avaliação aparece aqui</b>Suba o PDF e escolha a vaga. A nota leva em conta o que o anúncio pede, e as mudanças vêm com o texto em inglês pronto para colar.</div>
+    </div>
+  </div>
+</main>
+
+<script src="supabase-porta-falso.js"></script>
+<script src="layout.js"></script>
+<script src="leitor.js"></script>
+<script>
+try { montarLayout("ferramentas"); } catch (e) {}
+(async function () {
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  let arquivo = null, vaga = null, texto = "";
+  let vagas = [];
+  try {
+    const [j, je] = await Promise.all([fetch("vagas.json").then(r => r.json()), fetch("empresas.json").then(r => r.json())]);
+    const emp = {}; (je.empresas || []).forEach(e => emp[e.id] = e.nome);
+    vagas = (j.vagas || []).map(v => ({ id: v.id, titulo: v.titulo.replace(/^\*/, ""), empresa: emp[v.empresa] || v.empresa || "" }));
+  } catch (e) {}
+  const q = new URLSearchParams(location.search);
+  if (q.get("vaga")) vaga = vagas.find(v => v.id === q.get("vaga")) || null;
+
+  function desenharArq() {
+    const caixa = document.getElementById("arq");
+    caixa.innerHTML = arquivo
+      ? `<div class="ac-arq"><span class="ac-ic">PDF</span><div class="nm"><b>${esc(arquivo.name)}</b><small>${Math.max(1, Math.round(arquivo.size / 1024))} KB</small></div>
+          <button class="ac-bt pq" id="verArq">Ver</button><label class="ac-bt pq">Trocar<input type="file" accept="application/pdf" hidden id="inArq"></label></div>`
+      : `<div class="ac-arq"><span class="ac-ic">PDF</span><div class="nm"><b>Escolha o PDF do currículo</b><small>em inglês, como você manda para as empresas</small></div>
+          <label class="ac-bt pq">Escolher<input type="file" accept="application/pdf" hidden id="inArq"></label></div>
+         <p class="ac-leve" style="margin-top:8px">Na prévia, se não tiver um à mão: <button class="ac-link" id="usarExemplo">usar um currículo de exemplo</button>.</p>`;
+    caixa.querySelector("#inArq").addEventListener("change", e => { if (e.target.files[0]) { arquivo = e.target.files[0]; desenharArq(); } });
+    const ex = caixa.querySelector("#usarExemplo");
+    if (ex) ex.addEventListener("click", async () => {
+      const b = await fetch("curriculo-exemplo.pdf").then(r => r.blob());
+      arquivo = new File([b], "CV-Ana-Rocha-2026.pdf", { type: "application/pdf" });
+      desenharArq();
+    });
+    const ver = caixa.querySelector("#verArq");
+    if (ver) ver.addEventListener("click", () => Leitor.abrir({ nome: arquivo.name, tipo: "application/pdf", tamanho: arquivo.size, buscar: () => Promise.resolve(arquivo) }));
+  }
+
+  let modoColar = false;
+  function desenharVaga() {
+    const caixa = document.getElementById("vaga");
+    if (modoColar) {
+      caixa.innerHTML = `<textarea class="ac-campo" id="colar" placeholder="Cole aqui o texto do anúncio, em inglês ou em português">${esc(texto)}</textarea>
+        <p class="ac-leve" style="margin-top:6px"><button class="ac-link" id="voltarLista">Escolher uma vaga do Hub</button></p>`;
+      caixa.querySelector("#colar").addEventListener("input", e => texto = e.target.value);
+      caixa.querySelector("#voltarLista").addEventListener("click", () => { modoColar = false; desenharVaga(); });
+      return;
+    }
+    if (vaga) {
+      caixa.innerHTML = `<div class="ac-vaga"><div><b>${esc(vaga.titulo)}</b><small>${esc(vaga.empresa)}</small></div><button class="ac-link" id="trocarVaga">Trocar</button></div>`;
+      caixa.querySelector("#trocarVaga").addEventListener("click", () => { vaga = null; desenharVaga(); });
+      return;
+    }
+    caixa.innerHTML = `<input class="ac-campo" id="buscaVaga" placeholder="Busque uma vaga do Hub: TELUS, transcrição, AI Trainer…" autocomplete="off">
+      <div id="sug"></div>
+      <p class="ac-leve" style="margin-top:6px">Ou <button class="ac-link" id="colarTexto">cole o texto de uma vaga de fora</button>.</p>`;
+    const busca = caixa.querySelector("#buscaVaga");
+    busca.addEventListener("input", () => {
+      const t = norm(busca.value.trim());
+      const achadas = t ? vagas.filter(v => norm(v.titulo + " " + v.empresa).includes(t)).slice(0, 8) : [];
+      caixa.querySelector("#sug").innerHTML = achadas.length ? `<div class="ac-sug">${achadas.map(v =>
+        `<button data-v="${esc(v.id)}"><b>${esc(v.titulo)}</b><small>${esc(v.empresa)}</small></button>`).join("")}</div>` : "";
+      caixa.querySelectorAll("[data-v]").forEach(b => b.addEventListener("click", () => { vaga = vagas.find(v => v.id === b.dataset.v); desenharVaga(); }));
+    });
+    caixa.querySelector("#colarTexto").addEventListener("click", () => { modoColar = true; desenharVaga(); });
+  }
+
+  // ── Perfil profissional (na prévia, fica no navegador; no site, na conta) ──
+  const lerPerfil = () => { try { return JSON.parse(localStorage.getItem("hub-perfil-prof-previa")) || null; } catch (e) { return null; } };
+  function pctPerfil(P) {
+    if (!P) return 0;
+    const s = [P.idiomas && P.idiomas.length, P.formacao && P.formacao.length, P.areas && Object.keys(P.areas).length,
+      P.experiencias && P.experiencias.length, P.ferramentas && P.ferramentas.length, P.mora];
+    return Math.round(s.filter(Boolean).length / s.length * 100);
+  }
+  function desenharPerfil() {
+    const P = lerPerfil(), pct = pctPerfil(P);
+    const caixa = document.getElementById("perfilCx");
+    caixa.innerHTML = P && pct
+      ? `<div class="ac-perf"><div class="tx"><b>Perfil ${pct}% preenchido</b><small>${P.experiencias.length} experiência${P.experiencias.length === 1 ? "" : "s"}, ${P.idiomas.length} idioma${P.idiomas.length === 1 ? "" : "s"}, ${Object.keys(P.areas).length} área${Object.keys(P.areas).length === 1 ? "" : "s"}</small>
+          <span class="tr"><i style="width:${pct}%"></i></span></div><a class="ac-bt pq" href="perfil-profissional.html">Ver e editar</a></div>
+         <p class="ac-leve" style="margin-top:8px">A avaliação usa o perfil para sugerir o que falta no currículo. Ele vai junto só nesta hora.</p>`
+      : `<div class="ac-perf vazio"><div class="tx"><b>Você ainda não preencheu o seu perfil</b><small>Leva uns 5 minutos. Com ele, a avaliação sugere o que você sabe e não pôs no currículo.</small></div>
+          <a class="ac-bt pq forte" href="perfil-profissional.html">Preencher</a></div>
+         <p class="ac-leve" style="margin-top:8px">Dá para avaliar sem o perfil, mas as sugestões ficam só no que o currículo já diz. Na prévia: <a class="ac-link" href="perfil-profissional.html?exemplo">abrir o perfil de exemplo da Ana</a>.</p>`;
+  }
+
+  // ── Resultado de exemplo: currículo da Ana Rocha ──
+  // tipo: reescrita (o que já está no currículo, dito de outro jeito), perfil (está no perfil e não no currículo), pergunta (ninguém sabe ainda)
+  const MUDANCAS = [
+    { id: "m1", tipo: "perfil", secao: "Experience", onde: "uma experiência nova",
+      motivo: "O trabalho de avaliar anúncios na TELUS está no seu perfil, que veio do Meu Controle, mas não aparece no currículo. É a experiência mais parecida com esta vaga, então ela entra primeiro em Experience.",
+      antes: "",
+      depois: "Ads Assessor, TELUS Digital (remote) · Mar 2025 to present\nRated how well online ads matched user searches, following detailed project guidelines, about 15 hours per week.",
+      fonte: "Seu perfil: Avaliadora de anúncios, TELUS Digital, desde 03/2025, cerca de 15 horas por semana (do Meu Controle)" },
+    { id: "m2", tipo: "reescrita", secao: "Summary", onde: "um resumo novo no topo",
+      motivo: "Hoje o currículo começa direto nas experiências. Um resumo de duas linhas diz logo o que você faz, e quem recruta decide em poucos segundos. Tudo o que está nele já está no seu currículo.",
+      antes: "",
+      depois: "Native Brazilian Portuguese speaker who evaluates AI responses against detailed guidelines, with a background in copy editing and fact-checking.",
+      fonte: "Seu currículo: AI Response Evaluator; Copy Editor; Portuguese: native" },
+    { id: "m3", tipo: "reescrita", secao: "Experience", onde: "a experiência de avaliação de IA",
+      motivo: "A frase diz o que você fazia, mas não mostra quanto. O currículo e o perfil não têm esse número, então deixamos um marcador: troque [number] pelo número real ou tire essa parte.",
+      antes: "Evaluated AI chat responses in Brazilian Portuguese.",
+      depois: "Evaluated AI chat responses in Brazilian Portuguese against the project rubric, reviewing [number] tasks per week.",
+      fonte: "Seu currículo: AI Response Evaluator, remote project, 2024 to present" },
+    { id: "m4", tipo: "perfil", secao: "Languages", onde: "os idiomas",
+      motivo: "No currículo está só \"advanced\". No seu perfil tem o nível C1 com certificado, que vale mais, e o espanhol, que o currículo não mostra.",
+      antes: "English: advanced",
+      depois: "English: C1 (Cambridge C1 Advanced, 2023) · Spanish: B1",
+      fonte: "Seu perfil: Inglês C1, certificado Cambridge C1 Advanced, 2023; Espanhol B1" },
+    { id: "m5", tipo: "reescrita", secao: "Skills", onde: "as ferramentas",
+      motivo: "A vaga fala em guidelines e fact-checking, e o currículo não usa essas palavras, embora você faça as duas coisas. Os filtros automáticos procuram exatamente esses termos.",
+      antes: "Google Docs and Sheets, Notion, annotation platforms",
+      depois: "Guideline-based evaluation · Fact-checking · Copy editing · Google Docs and Sheets · Notion · Annotation platforms",
+      fonte: "Seu currículo: rubric, checked facts, Copy Editor, Tools" },
+  ];
+  const PERGUNTAS = [
+    { id: "q1", secao: "Skills", onde: "as ferramentas",
+      pergunta: "A vaga pede alguém que use redes sociais e acompanhe as notícias e a cultura do Brasil. Isso faz parte do seu dia a dia?",
+      porque: "Nem o currículo nem o perfil falam disso, e a vaga pede.",
+      depois: "Up to date with Brazilian current affairs, culture and social media." },
+    { id: "q2", secao: "Experience", onde: "a experiência de revisora",
+      pergunta: "A vaga fala em pesquisar na internet para conferir informações. Quando você era revisora, conferia os fatos pesquisando na internet?",
+      porque: "O currículo diz que você conferia fatos, mas não diz como.",
+      antes: "Edited textbooks and checked facts before printing.",
+      depois: "Edited textbooks and checked facts through online research before printing." },
+  ];
+  const TIPOS = {
+    reescrita: { nome: "Reescrita", diz: "Mesma informação do currículo, dita do jeito que a vaga procura" },
+    perfil: { nome: "Do seu perfil", diz: "Você contou no perfil e não está no currículo" },
+    pergunta: { nome: "Pergunta", diz: "A vaga pede e ainda não sabemos se você tem" },
+  };
+  let respostas = {}, filtro = "todas", comPerfil = false;
+
+  const marcador = t => esc(t).replace(/\[(number|score|[a-z ]+)\]/g, '<span class="ac-falta">[$1]</span>').replace(/\n/g, "<br>");
+  const selo = t => `<span class="ac-tipo ${t}">${TIPOS[t].nome}</span>`;
+
+  function cartaoMud(m) {
+    return `<div class="ac-mud t-${m.tipo}">
+      <div class="ac-mud-topo">${selo(m.tipo)}<span class="ac-onde">${esc(m.secao)} · ${esc(m.onde)}</span></div>
+      <p>${esc(m.motivo)}</p>
+      ${m.antes ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${esc(m.antes)}</div></div>` : ""}
+      <div class="ac-en"><small>${m.antes ? "Como fica" : "O que entra"}, em inglês</small><div class="txt">${marcador(m.depois)}</div></div>
+      <p class="ac-fonte">De onde veio: ${esc(m.fonte)}</p>
+      <div class="ac-en-acoes"><button class="ac-bt pq" data-copiar="${m.id}">Copiar o texto em inglês</button></div>
+    </div>`;
+  }
+  function cartaoPerg(q) {
+    const r = respostas[q.id];
+    return `<div class="ac-mud t-pergunta" data-q="${q.id}">
+      <div class="ac-mud-topo">${selo("pergunta")}<span class="ac-onde">${esc(q.secao)} · ${esc(q.onde)}</span></div>
+      <p class="ac-perg">${esc(q.pergunta)}</p>
+      <p class="ac-leve">${esc(q.porque)} Só responda sim se for verdade: o texto entra no currículo como algo que você faz.</p>
+      ${!r ? `<div class="ac-en-acoes"><button class="ac-bt pq forte" data-resp="${q.id}:sim">Sim, faço isso</button><button class="ac-bt pq" data-resp="${q.id}:nao">Não</button></div>`
+        : r === "sim" ? `${q.antes ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${esc(q.antes)}</div></div>` : ""}
+          <div class="ac-en"><small>${q.antes ? "Como fica" : "O que entra"}, em inglês</small><div class="txt">${esc(q.depois)}</div></div>
+          <p class="ac-fonte ok">Entrou no currículo ajustado, porque você respondeu que sim. <button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></p>
+          <div class="ac-en-acoes"><button class="ac-bt pq" data-copiar="${q.id}">Copiar o texto em inglês</button></div>`
+        : `<p class="ac-fonte">Tudo bem, nada entra no currículo. <button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></p>`}
+    </div>`;
+  }
+
+  function listaSugestoes() {
+    const muds = MUDANCAS.filter(m => comPerfil || m.tipo !== "perfil");
+    const n = { todas: muds.length + PERGUNTAS.length, reescrita: muds.filter(m => m.tipo === "reescrita").length, perfil: muds.filter(m => m.tipo === "perfil").length, pergunta: PERGUNTAS.length };
+    const chips = [["todas", "Todas"], ["reescrita", "Reescritas"], ["perfil", "Do seu perfil"], ["pergunta", "Perguntas"]]
+      .filter(([k]) => k !== "perfil" || comPerfil)
+      .map(([k, t]) => `<button class="ac-filtro" aria-pressed="${filtro === k}" data-filtro="${k}">${t} <span>${n[k]}</span></button>`).join("");
+    const abertas = PERGUNTAS.filter(q => !respostas[q.id]).length;
+    let corpo = "";
+    if (filtro !== "pergunta") corpo += muds.filter(m => filtro === "todas" || m.tipo === filtro).map(cartaoMud).join("");
+    if (filtro === "todas" || filtro === "pergunta") corpo += (filtro === "todas" ? `<h3 class="ac-h3">Perguntas para você${abertas ? ` <span class="ac-cont">${abertas} sem resposta</span>` : ""}</h3>
+      <p class="ac-leve" style="margin:-4px 0 10px">A vaga pede estas coisas, e nem o currículo nem o perfil dizem se você tem. Responder não gasta uma avaliação.</p>` : "") + PERGUNTAS.map(cartaoPerg).join("");
+    return `<div class="ac-filtros">${chips}</div>
+      <div class="ac-legenda">${Object.entries(TIPOS).filter(([k]) => k !== "perfil" || comPerfil).map(([k, t]) => `<span>${selo(k)} ${esc(t.diz)}</span>`).join("")}</div>
+      ${!comPerfil ? `<div class="ac-dica-perfil"><b>Com o perfil preenchido, a avaliação sugere mais.</b> Por exemplo, trabalhos que estão no seu Meu Controle e não estão no currículo, ou o certificado de inglês. <a class="ac-link" href="perfil-profissional.html">Preencher o perfil</a></div>` : ""}
+      ${corpo}`;
+  }
+
+  function conferencia() {
+    const faltam = MUDANCAS.filter(m => (comPerfil || m.tipo !== "perfil") && /\[[a-z ]+\]/.test(m.depois)).length;
+    return `<div class="ac-confere"><b>Conferimos o currículo ajustado.</b> Todo número, empresa, data e certificado dele está no seu currículo ou no seu perfil. ${faltam ? `Falta você completar ${faltam} marcador${faltam > 1 ? "es" : ""} <span class="ac-falta">[number]</span> com o número real, ou tirar a frase.` : ""}</div>`;
+  }
+
+  function desenharSugestoes() {
+    const caixa = document.getElementById("sugCaixa");
+    caixa.innerHTML = listaSugestoes();
+    caixa.querySelectorAll("[data-filtro]").forEach(b => b.addEventListener("click", () => { filtro = b.dataset.filtro; desenharSugestoes(); }));
+    caixa.querySelectorAll("[data-resp]").forEach(b => b.addEventListener("click", () => {
+      const [id, r] = b.dataset.resp.split(":");
+      if (r) respostas[id] = r; else delete respostas[id];
+      desenharSugestoes();
+      if (document.querySelector("#versaoCaixa .ac-versao")) desenharVersao();
+    }));
+    caixa.querySelectorAll("[data-copiar]").forEach(b => b.addEventListener("click", async () => {
+      const it = MUDANCAS.concat(PERGUNTAS).find(x => x.id === b.dataset.copiar);
+      try { await navigator.clipboard.writeText(it.depois); b.textContent = "Copiado"; } catch (e) { b.textContent = "Não deu para copiar"; }
+      setTimeout(() => b.textContent = "Copiar o texto em inglês", 2000);
+    }));
+  }
+
+  function desenharVersao() {
+    const m = id => MUDANCAS.find(x => x.id === id), q = id => PERGUNTAS.find(x => x.id === id);
+    const usa = id => { const x = m(id); return x && (comPerfil || x.tipo !== "perfil"); };
+    const linha = (tipo, texto) => `<span class="ac-marca ${tipo}">${marcador(texto)}</span>`;
+    const ski = [usa("m5") ? linha("reescrita", m("m5").depois) : "Google Docs and Sheets, Notion, annotation platforms"];
+    if (respostas.q1 === "sim") ski.push(linha("pergunta", q("q1").depois));
+    const lang = usa("m4") ? `Portuguese: native · ${linha("perfil", m("m4").depois)}` : "Portuguese: native · English: advanced";
+    const telus = usa("m1") ? m("m1").depois.split("\n") : null;
+    document.getElementById("versaoCaixa").innerHTML = `<div class="ac-versao">
+      <div class="ac-leve" style="margin-bottom:10px">Versão ajustada, em inglês. O que mudou está marcado com a cor do tipo de sugestão; o resto é o seu texto original.</div>
+      <div class="ac-legenda" style="margin-bottom:14px"><span><span class="ac-marca reescrita">Reescrita</span></span>${comPerfil ? `<span><span class="ac-marca perfil">Do seu perfil</span></span>` : ""}<span><span class="ac-marca pergunta">Resposta sua</span></span><span><span class="ac-falta">[number]</span> complete você</span></div>
+      <h3>Ana Beatriz Rocha</h3>
+      <div class="ac-leve">Belo Horizonte, Brazil · [e-mail] · [telefone]</div>
+      <h4>Summary</h4><p>${linha("reescrita", m("m2").depois)}</p>
+      <h4>Experience</h4>
+      ${telus ? `<p>${linha("perfil", telus[0])}</p><ul><li>${linha("perfil", telus[1])}</li></ul>` : ""}
+      <p><b>AI Response Evaluator</b>, remote project · 2024 to present</p>
+      <ul><li>${linha("reescrita", m("m3").depois)}</li><li>Wrote corrected answers and short rationales following the project rubric.</li></ul>
+      <p><b>Copy Editor</b>, regional publisher · 2021 to 2024</p>
+      <ul><li>${respostas.q2 === "sim" ? linha("pergunta", q("q2").depois) : "Edited textbooks and checked facts before printing."}</li></ul>
+      <h4>Education</h4><p>B.A. in Languages and Literature, Federal University of Minas Gerais, 2020</p>
+      <h4>Languages</h4><p>${lang}</p>
+      <h4>Tools</h4><p>${ski.join(" · ")}</p>
+    </div>`;
+  }
+
+  function avaliar() {
+    if (!arquivo) { alert("Escolha o PDF do currículo primeiro."); return; }
+    if (!vaga && !texto.trim()) { alert("Escolha uma vaga do Hub ou cole o texto de uma vaga."); return; }
+    const nomeVaga = vaga ? `${vaga.titulo}, da ${vaga.empresa}` : "a vaga que você colou";
+    comPerfil = pctPerfil(lerPerfil()) > 0;
+    respostas = {}; filtro = "todas";
+    const caixa = document.getElementById("resultado");
+    caixa.innerHTML = `
+      <div class="fc-aviso">Resultado de exemplo, feito para o currículo da Ana: na prévia a IA ainda não está ligada. ${comPerfil ? "Esta avaliação usou o seu perfil." : "Esta avaliação foi feita sem perfil."}</div>
+      <div class="ac-topo">
+        <div class="ac-nota">72<small>/100</small></div>
+        <div style="padding-bottom:8px"><b style="font-size:17px">Bom, dá para melhorar</b><div class="ac-leve" style="font-size:13.5px">para ${esc(nomeVaga)}</div></div>
+      </div>
+      <div style="margin-top:16px">
+        ${[["Experiência que a vaga pede", 70], ["Idiomas", 80], ["Palavras do anúncio", 50], ["Resultados com números", 40], ["Clareza e tamanho", 85]].map(([n, v]) =>
+          `<div class="ac-crit"><span>${n}</span><span class="tr"><i style="width:${v}%;${v < 60 ? "background:#A85D24" : ""}"></i></span><span class="q">${v}</span></div>`).join("")}
+      </div>
+      <p class="ac-leve" style="margin-top:6px">A nota é do currículo como ele está hoje. O perfil não muda a nota: ele só ajuda a sugerir o que acrescentar.</p>
+      <h2 class="ac-h2">O que já está bom</h2>
+      <ul class="ac-bom"><li>A experiência com avaliação de IA aparece logo no começo.</li><li>O currículo tem uma página, um bom tamanho.</li><li>Formação e ferramentas estão claras.</li></ul>
+      <h2 class="ac-h2">Sugestões</h2>
+      <div id="sugCaixa"></div>
+      ${conferencia()}
+      <div class="ac-acoes">
+        <button class="ac-bt forte" id="versao">Ver o currículo com as mudanças</button>
+        <button class="ac-bt">Baixar a avaliação</button>
+        <a class="ac-bt" href="controle.html#aplicacoes">Usar este currículo numa candidatura</a>
+      </div>
+      <div id="versaoCaixa"></div>`;
+    desenharSugestoes();
+    caixa.querySelector("#versao").addEventListener("click", desenharVersao);
+  }
+
+  desenharArq();
+  desenharVaga();
+  desenharPerfil();
+  document.getElementById("avaliar").addEventListener("click", avaliar);
+})();
+</script>
+</body>
+</html>

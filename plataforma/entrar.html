@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script data-separa-memoria>/* SÓ NO SITE DE TESTE: guarda tudo à parte do site de verdade, que fica no mesmo endereço */(function(){var P="hoh-teste:",S=Storage.prototype,g=S.getItem,s=S.setItem,r=S.removeItem,k=S.key,L=Object.getOwnPropertyDescriptor(S,"length");function nossas(st){var a=[],n=L.get.call(st);for(var i=0;i<n;i++){var x=k.call(st,i);if(x&&x.indexOf(P)===0)a.push(x.slice(P.length));}return a;}S.getItem=function(x){return g.call(this,P+x)};S.setItem=function(x,v){return s.call(this,P+x,v)};S.removeItem=function(x){return r.call(this,P+x)};S.key=function(i){var a=nossas(this);return i<a.length?a[i]:null};S.clear=function(){var t=this;nossas(t).forEach(function(x){r.call(t,P+x)})};try{Object.defineProperty(S,"length",{configurable:true,get:function(){return nossas(this).length}})}catch(e){}if(window.indexedDB){var o=indexedDB.open.bind(indexedDB),d=indexedDB.deleteDatabase.bind(indexedDB);indexedDB.open=function(n,v){return v===undefined?o(P+n):o(P+n,v)};indexedDB.deleteDatabase=function(n){return d(P+n)};}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar ou criar conta — Home Office Hub</title>
+<meta name="description" content="Vagas de trabalho remoto com IA, dados e tradução para quem mora no Brasil. Entre na sua conta do Home Office Hub ou crie a sua.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .e-main { min-height:60vh; padding:8px 0 40px; }
+  /* a entrada do Hub: a apresentação ao lado do login */
+  .e-grade { max-width:1040px; margin:0 auto; padding:0 18px; display:grid; grid-template-columns:1.05fr 1fr; gap:40px; align-items:center; }
+  .e-grade .e-main { padding:0; min-height:0; }
+  .e-grade #conta-porta { margin:40px 0 64px; padding:0; max-width:none; }
+  .e-boas { padding:40px 0; }
+  .e-boas .e-olho { font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--signal,#1A4893); }
+  .e-boas h1 { font-family:var(--display,Georgia,serif); font-weight:400; font-size:clamp(32px,4.4vw,46px); line-height:1.08; color:var(--ink,#10203A); margin:12px 0 14px; letter-spacing:-.01em; }
+  .e-boas > p { font-size:16.5px; line-height:1.6; color:var(--ink-2,#54606F); margin:0 0 24px; max-width:480px; }
+  .e-boas ul { list-style:none; margin:0; padding:0; display:grid; gap:14px; max-width:470px; }
+  .e-boas li { display:grid; grid-template-columns:38px 1fr; gap:12px; align-items:start; font-size:14.5px; line-height:1.5; color:var(--ink-2,#54606F); }
+  .e-boas li b { display:block; color:var(--ink,#10203A); font-weight:600; font-size:15px; margin-bottom:1px; }
+  .e-boas .e-ic { width:38px; height:38px; border-radius:11px; background:var(--signal-suave,#EAF1F8); color:var(--signal,#1A4893); display:grid; place-items:center; }
+  .e-boas .e-ic svg { width:19px; height:19px; }
+  @media (max-width:860px) {
+    .e-grade { grid-template-columns:1fr; gap:0; max-width:520px; }
+    .e-boas { padding:28px 0 0; }
+    .e-boas h1 { font-size:31px; }
+    .e-boas > p { font-size:15.5px; margin-bottom:18px; }
+    .e-boas ul { gap:10px; }
+    .e-grade #conta-porta { margin:24px 0 48px; }
+  }
+  .e-espera { text-align:center; padding:80px 20px; color:var(--ink-3,#66717F); font-size:14px; }
+</style>
+</head>
+<body>
+
+<div class="e-grade">
+  <section class="e-boas" id="boas" hidden>
+    <div class="e-olho">Home Office Hub</div>
+    <h1>Trabalho remoto com IA, dados e tradução, para quem mora no Brasil</h1>
+    <p>Entre na sua conta ou crie a sua para ver as vagas, fazer os cursos e organizar as suas candidaturas.</p>
+    <ul>
+      <li><span class="e-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+        <span><b>Vagas revisadas todo dia</b>Só entram as que aceitam quem mora no Brasil, com um resumo em português de cada uma.</span></li>
+      <li><span class="e-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg></span>
+        <span><b>Cursos sobre os projetos</b>Como funcionam as tarefas de IA, as diretrizes e os testes de entrada.</span></li>
+      <li><span class="e-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12l2 2 4-4"/></svg></span>
+        <span><b>Meu Controle</b>Acompanhe cada candidatura, os trabalhos e os pagamentos num lugar só.</span></li>
+    </ul>
+  </section>
+
+<main class="e-main">
+  <div class="e-espera" id="espera">Abrindo…</div>
+</main>
+</div>
+
+<script src="layout.js"></script>
+<script src="supabase-porta-falso.js"></script>
+<script src="controle-conta.js?v=10"></script>
+<script>
+try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e); }
+
+/* Página de entrada do site. As telas (entrar, criar senha) são as mesmas do
+   Meu Controle, que moram no controle-conta.js. Depois de entrar, a pessoa
+   volta para a página de onde veio (?voltar=...). */
+(async function () {
+  // Só aceita voltar para uma página do próprio site. Sem isto, alguém
+  // poderia montar um link que manda a pessoa para outro endereço depois do login.
+  const pedido = new URLSearchParams(location.search).get("voltar") || "";
+  const voltar = /^[a-z0-9-]+\.html(\?[\w=&%.+-]*)?(#[\w\/.-]*)?$/i.test(pedido) && !/^entrar\.html/i.test(pedido)
+    ? pedido : (typeof Acesso !== "undefined" && Acesso.SO_COM_CONTA ? "index.html" : "controle.html");
+
+  const espera = document.getElementById("espera");
+  try {
+    if (typeof Conta === "undefined" || !Conta.disponivel) {
+      espera.textContent = "Não deu para falar com o servidor de contas. Confira a internet e recarregue a página.";
+      return;
+    }
+    espera.hidden = true;
+    const q = new URLSearchParams(location.search);
+    // quem ainda não entrou vê a apresentação do Hub ao lado do login
+    if (typeof Acesso !== "undefined" && Acesso.SO_COM_CONTA && !Acesso.logado()) document.getElementById("boas").hidden = false;
+    // ?areas=1 abre a pergunta das áreas de formação para quem quer mudar a resposta
+    await Conta.entrar({ forcar: true, criar: q.has("criar"), areas: q.has("areas"), voltar });
+    espera.hidden = false;
+    espera.textContent = "Pronto, entrando…";
+    location.replace(voltar);
+  } catch (e) {
+    console.error(e);
+    espera.hidden = false;
+    espera.textContent = e.message || "Não deu para entrar agora. Tente de novo em instantes.";
+  }
+})();
+</script>
+
+</body>
+</html>
