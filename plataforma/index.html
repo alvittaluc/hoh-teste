@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Home Office Hub · Plataforma</title>
+<link rel="icon" href="../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F4EF; --bg-soft:#F1ECE3; --panel:#fff; --panel-2:#FBF9F5;
+  --line:#DED7CA; --line-soft:#EAE4D9;
+  --ink:#10203A; --ink-2:#54606F; --ink-3:#66717F;
+  --signal:#1A4893; --signal-dim:#4E9AC8; --signal-suave:#EAF1F8; --ceu:#8FC1E3;
+  --amber:#A85D24; --amber-suave:#FBF0E4; --verde:#1F7A4D; --verde-suave:#E6F3EC; --verm:#A93B35; --verm-suave:#F8E9E7;
+  --lado:#0F1D33; --lado-2:#16283F; --lado-linha:#24354E; --lado-txt:#C9D4E2; --lado-txt-2:#8496AD;
+  --display:'Hedvig Letters Serif',Georgia,serif;
+  --body:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --raio:18px;
+  --sombra:0 1px 2px rgba(16,32,58,.04),0 8px 24px -12px rgba(16,32,58,.10);
+  --sombra-alta:0 2px 4px rgba(16,32,58,.05),0 24px 48px -20px rgba(16,32,58,.25);
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink-2);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px;border-radius:8px}
+svg.ic{width:18px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ───────── estrutura ───────── */
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100vh}
+.lado{position:sticky;top:0;height:100vh;background:var(--lado);color:var(--lado-txt);display:flex;flex-direction:column;overflow:hidden;z-index:60}
+.lado::before{content:"";position:absolute;inset:0 0 auto 0;height:260px;pointer-events:none;
+  background:radial-gradient(120% 90% at 0% -10%,rgba(52,113,173,.55),transparent 65%),radial-gradient(90% 80% at 100% -20%,rgba(102,166,209,.35),transparent 60%)}
+.lado-topo{position:relative;display:flex;align-items:center;gap:11px;padding:20px 22px 10px}
+.lado-topo img{width:32px;height:32px;border-radius:9px}
+.lado-topo b{font-weight:600;color:#fff;font-size:15.5px;letter-spacing:-.015em;line-height:1.15}
+.lado-topo small{display:block;font-size:11.5px;color:var(--lado-txt-2);font-weight:400;letter-spacing:.01em}
+.lado nav{position:relative;flex:1;overflow-y:auto;padding:4px 12px 16px;scrollbar-width:thin;scrollbar-color:var(--lado-linha) transparent}
+.grupo{margin-top:10px}
+.grupo>span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--lado-txt-2);padding:0 12px 6px}
+.item{display:flex;align-items:center;gap:11px;padding:7px 12px;border-radius:11px;font-size:14px;color:var(--lado-txt);transition:background .15s,color .15s;position:relative}
+.item:hover{background:rgba(255,255,255,.05);color:#fff}
+.item.ativo{background:linear-gradient(90deg,rgba(143,193,227,.18),rgba(143,193,227,.06));color:#fff}
+.item.ativo::before{content:"";position:absolute;left:-12px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--ceu)}
+.item.ativo svg{color:var(--ceu)}
+.item .cont{margin-left:auto;font-size:11.5px;font-weight:600;min-width:22px;height:20px;padding:0 7px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,.09);color:var(--lado-txt)}
+.item .cont.quente{background:#E7F0F9;color:var(--signal)}
+.item .ponto{margin-left:auto;width:8px;height:8px;border-radius:50%;background:#3DD68C;box-shadow:0 0 0 0 rgba(61,214,140,.6);animation:pulsa 2s infinite}
+@keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(61,214,140,.55)}70%{box-shadow:0 0 0 7px rgba(61,214,140,0)}100%{box-shadow:0 0 0 0 rgba(61,214,140,0)}}
+.lado-pe{position:relative;border-top:1px solid var(--lado-linha);padding:12px}
+.eu{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:12px}
+.eu:hover{background:rgba(255,255,255,.05)}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13px;color:#fff;background:linear-gradient(135deg,#2C6BB5,#1A4893);box-shadow:0 0 0 2px var(--lado),0 0 0 3.5px #4E9AC8;flex-shrink:0}
+.eu b{display:block;color:#fff;font-weight:500;font-size:13.5px}
+.eu small{font-size:11.5px;color:var(--ceu);display:flex;align-items:center;gap:4px}
+.eu .sair{margin-left:auto;color:var(--lado-txt-2);padding:6px;border-radius:8px}
+.eu .sair:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+.principal{min-width:0;display:flex;flex-direction:column}
+.topo{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:14px 32px;background:rgba(247,244,239,.86);backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid transparent;transition:border-color .2s}
+.topo.rolou{border-color:var(--line-soft)}
+.abrir-lado{display:none;width:40px;height:40px;border-radius:12px;place-items:center;border:1px solid var(--line);background:var(--panel)}
+.trilha{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.trilha i{width:18px;height:2px;background:var(--signal);display:inline-block;border-radius:2px}
+.busca{margin-left:auto;display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);width:min(320px,34vw);color:var(--ink-3)}
+.busca input{border:0;outline:0;background:none;width:100%;font-size:14px;color:var(--ink)}
+.bt{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:500;border:1px solid var(--line);background:var(--panel);color:var(--ink);white-space:nowrap;transition:transform .12s,box-shadow .15s,background .15s}
+.bt:hover{box-shadow:var(--sombra)}
+.bt:active{transform:translateY(1px)}
+.bt.forte{background:var(--signal);border-color:var(--signal);color:#fff}
+.bt.forte:hover{background:#163e80}
+.bt.peq{height:34px;padding:0 13px;font-size:13px}
+.bt-ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);position:relative;color:var(--ink)}
+.bt-ic .bolinha{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--amber);border:2px solid var(--panel)}
+.tela{padding:10px 32px 56px;max-width:1360px;width:100%}
+.tela.entra{animation:entra .28s ease}
+@keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ───────── títulos ───────── */
+h1.ola{font-family:var(--display);font-weight:400;color:var(--ink);font-size:clamp(34px,4.4vw,52px);letter-spacing:-.02em;line-height:1.05;margin:14px 0 8px}
+h1.tit{font-family:var(--display);font-weight:400;color:var(--ink);font-size:clamp(30px,3.4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:14px 0 6px}
+.sub{font-size:15px;color:var(--ink-2);max-width:720px}
+.sub b{color:var(--ink);font-weight:600}
+.cab{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+
+/* ───────── cartões ───────── */
+.grade{display:grid;gap:18px}
+.g-3{grid-template-columns:1.05fr 1.05fr .9fr}
+.g-2{grid-template-columns:1fr 1fr}
+.g-21{grid-template-columns:1.6fr 1fr}
+.cartao{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--raio);box-shadow:var(--sombra);padding:22px;min-width:0}
+.cartao h2{font-size:15.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.c-cab{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.link{font-size:13px;font-weight:500;color:var(--signal);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.link svg{width:15px;height:15px}
+.link:hover{text-decoration:underline;text-underline-offset:3px}
+.chips{display:inline-flex;gap:3px;padding:3px;border-radius:999px;background:var(--bg-soft)}
+.chips button{font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px;color:var(--ink-2)}
+.chips button.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(16,32,58,.12)}
+.escuro{display:flex;flex-direction:column;background:linear-gradient(160deg,#173462 0%,#10203A 70%);border-color:#1F3A66;color:var(--lado-txt)}
+.escuro h2{color:#fff}
+.escuro .chips{background:rgba(255,255,255,.08)}
+.escuro .chips button{color:var(--lado-txt)}
+.escuro .chips button.on{background:#fff;color:var(--ink)}
+.escuro .link{color:var(--ceu)}
+.claro{background:linear-gradient(170deg,#FFFFFF 0%,#EEF4FA 100%)}
+.num{font-family:var(--display);font-size:44px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.escuro .num{color:#fff}
+.rot{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:7px}
+.escuro .rot{color:var(--lado-txt-2)}
+.var{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--verde-suave);color:var(--verde);margin-top:8px}
+.escuro .var{background:rgba(61,214,140,.14);color:#7FE3B0}
+.linha-num{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap}
+.mini{font-size:26px}
+.barras{display:flex;align-items:flex-end;gap:8px;height:92px;flex:1;min-height:92px;max-height:150px;margin-top:22px}
+#ganhosCorpo{flex:1;display:flex;flex-direction:column}
+.barras div{flex:1;border-radius:6px 6px 3px 3px;background:rgba(143,193,227,.35);position:relative;min-height:6px;transition:height .45s cubic-bezier(.2,.8,.2,1)}
+.barras div.agora{background:#fff}
+.barras div span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10.5px;color:var(--lado-txt-2);text-transform:uppercase;letter-spacing:.06em}
+.escuro .rodape{margin-top:auto;padding-top:34px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:var(--lado-txt-2);flex-wrap:wrap}
+.escuro .rodape b{color:#fff;font-weight:600}
+
+.funil{display:grid;gap:9px;margin-top:18px}
+.funil .f{display:grid;grid-template-columns:118px 1fr 26px;align-items:center;gap:10px;font-size:13px;color:var(--ink-2)}
+.funil .f .tr{height:10px;border-radius:999px;background:var(--bg-soft);overflow:hidden}
+.funil .f .tr i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#2C6BB5,#4E9AC8);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.funil .f.ok .tr i{background:linear-gradient(90deg,#1F7A4D,#3DAA72)}
+.funil .f b{text-align:right;color:var(--ink);font-weight:600}
+
+.ult{display:grid;gap:2px;margin-top:18px;padding-top:12px;border-top:1px solid var(--line-soft)}
+.ult .u{display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:center;padding:7px 4px;border-radius:10px;cursor:pointer}
+.ult .u:hover{background:rgba(255,255,255,.7)}
+.ult .logo{width:32px;height:32px;border-radius:9px}.ult .logo img{width:24px;height:24px}
+.ult b{display:block;font-size:13px;color:var(--ink);font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ult small{display:block;font-size:12px;color:var(--signal)}.ult small.am{color:var(--amber)}
+.hoje-lista{display:grid;gap:8px}
+.hj{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line-soft)}
+.hj .qd{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;background:var(--signal-suave);color:var(--signal)}
+.hj .qd.am{background:var(--amber-suave);color:var(--amber)}
+.hj .qd.vd{background:var(--verde-suave);color:var(--verde)}
+.hj b{display:block;font-size:13.5px;color:var(--ink);font-weight:550;line-height:1.3}
+.hj small{font-size:12px;color:var(--ink-3)}
+
+.cal{margin-top:16px}
+.cal-cab{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-cab b{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--signal);padding:4px 12px;border-radius:999px}
+.cal-cab button{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--ink-3)}
+.cal-cab button:hover{background:var(--bg-soft)}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12.5px;row-gap:2px}
+.cal-g .sem{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--ink-3);padding:4px 0}
+.cal-g .d{position:relative;height:32px;display:grid;place-items:center;border-radius:9px;color:var(--ink)}
+.cal-g .d.fora{color:#B9B2A6}
+.cal-g .d.hoje{background:var(--signal);color:#fff;font-weight:600}
+.cal-g .d.tem::after{content:"";position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--amber)}
+.cal-g .d.hoje.tem::after{background:#fff}
+
+.vlista{display:grid}
+.vl{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 6px;border-top:1px solid var(--line-soft);cursor:pointer;border-radius:10px;transition:background .15s}
+.vl:first-child{border-top:0}
+.vl:hover{background:var(--panel-2)}
+.logo{width:40px;height:40px;border-radius:11px;border:1px solid var(--line-soft);background:#fff;display:grid;place-items:center;overflow:hidden;flex-shrink:0}
+.logo img{width:30px;height:30px;object-fit:contain}
+.vl b{display:block;font-size:14px;font-weight:550;color:var(--ink);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vl small{font-size:12.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.vl .dir{text-align:right;font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+.vl .dir em{display:block;font-style:normal;font-size:11.5px;color:var(--ink-3)}
+.selo-alta{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--verde);background:var(--verde-suave);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.selo-alta::before{content:"";width:7px;height:7px;border-radius:50%;background:#22B36B;animation:pulsa 2s infinite}
+.selo-nova{font-size:11px;font-weight:600;color:var(--amber);background:var(--amber-suave);padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:1px}
+
+.meta{display:grid;gap:14px}
+.mt b{font-size:13.5px;color:var(--ink);font-weight:550}
+.mt .lin{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--ink-3);margin-bottom:6px}
+.mt .tr{height:9px;border-radius:999px;background:var(--bg-soft);overflow:hidden;display:flex}
+.mt .tr i{background:var(--signal);display:block}
+.mt .tr i.ag{background:repeating-linear-gradient(135deg,#9DBBE0 0 5px,#C4D6EC 5px 10px)}
+.legenda{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--ink-3);margin-top:4px}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda span::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--signal)}
+.legenda .lg-a::before{background:var(--amber-suave);box-shadow:inset 0 0 0 1.5px var(--amber)}.legenda .lg-v::before{background:var(--verde-suave);box-shadow:inset 0 0 0 1.5px var(--verde)}.legenda .lg-e::before{background:#EFEBF8;box-shadow:inset 0 0 0 1.5px #5B4B9E}.legenda .lg-t::before{background:var(--signal-suave);box-shadow:inset 0 0 0 1.5px var(--signal)}
+.legenda span.ag::before{background:repeating-linear-gradient(135deg,#9DBBE0 0 3px,#C4D6EC 3px 6px)}
+
+.curso-c{display:flex;gap:14px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--line-soft);background:var(--panel-2)}
+.capa{width:46px;height:58px;border-radius:5px 9px 9px 5px;background:linear-gradient(160deg,#1A4893,#0F1D33);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:18px;flex-shrink:0;box-shadow:inset 4px 0 0 rgba(255,255,255,.14),0 6px 14px -6px rgba(16,32,58,.5)}
+.capa.voz{background:linear-gradient(160deg,#5B4B9E,#2A2152)}
+.curso-c b{display:block;font-size:13.5px;color:var(--ink);font-weight:550;line-height:1.3}
+.curso-c small{font-size:12px;color:var(--ink-3)}
+.prog{height:6px;border-radius:999px;background:var(--line-soft);margin-top:7px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--signal);border-radius:999px}
+
+.dolar{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.anel{--p:80;width:86px;height:86px;border-radius:50%;background:conic-gradient(var(--signal) calc(var(--p)*1%),var(--line-soft) 0);display:grid;place-items:center;flex-shrink:0}
+.anel span{width:66px;height:66px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-weight:600;color:var(--ink);font-size:17px}
+
+/* ───────── listas e quadros das outras telas ───────── */
+.barra-f{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.barra-f .busca{margin-left:0;width:min(360px,100%)}
+.filtros{display:flex;gap:6px;flex-wrap:wrap}
+.filtros button{font-size:13px;font-weight:500;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2)}
+.filtros button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabela{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--raio);box-shadow:var(--sombra);overflow:hidden}
+.tl{display:grid;grid-template-columns:44px minmax(0,2.4fr) minmax(0,1.1fr) minmax(0,.9fr) 92px;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid var(--line-soft);cursor:pointer;transition:background .15s}
+.tl:hover{background:var(--panel-2)}
+.tl.cab-t{cursor:default;background:var(--panel-2);border-top:0;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:10px 18px}
+.tl.alta{background:linear-gradient(90deg,#EEF4FB,#fff 60%)}
+.tl b{display:block;font-size:14px;color:var(--ink);font-weight:550;line-height:1.3}
+.tl small{display:block;font-size:12.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl .c{font-size:13px;color:var(--ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;font-size:11.5px;font-weight:550;padding:3px 9px;border-radius:999px;background:var(--bg-soft);color:var(--ink-2);white-space:nowrap}
+.tag.az{background:var(--signal-suave);color:var(--signal)}
+.mais-linhas{padding:14px;text-align:center;border-top:1px solid var(--line-soft)}
+
+.quadro{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:14px;overflow-x:auto;padding-bottom:6px}
+.col{background:var(--bg-soft);border-radius:16px;padding:12px;min-height:200px}
+.col h3{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between;align-items:center;padding:2px 4px 10px}
+.col h3 span{background:var(--panel);border-radius:999px;padding:1px 8px;color:var(--ink);letter-spacing:0}
+.kc{background:var(--panel);border:1px solid var(--line-soft);border-radius:13px;padding:12px;margin-bottom:10px;box-shadow:0 1px 2px rgba(16,32,58,.05);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.kc:hover{transform:translateY(-2px);box-shadow:var(--sombra)}
+.kc .t{display:flex;gap:9px;align-items:center;margin-bottom:8px}
+.kc .t .logo{width:30px;height:30px;border-radius:8px}
+.kc .t .logo img{width:22px;height:22px}
+.kc .t span{font-size:12px;color:var(--ink-3)}
+.kc b{display:block;font-size:13.5px;color:var(--ink);font-weight:550;line-height:1.3}
+.kc .prox{margin-top:9px;font-size:12px;color:var(--signal);background:var(--signal-suave);border-radius:8px;padding:6px 9px}
+.kc .prox.am{color:var(--amber);background:var(--amber-suave)}
+.kc .dt{font-size:11.5px;color:var(--ink-3);margin-top:6px}
+.passos{display:flex;gap:4px;margin-top:9px}
+.passos i{flex:1;height:4px;border-radius:2px;background:var(--line-soft)}
+.passos i.f{background:var(--signal)}
+.encerradas{margin-top:22px}
+.encerradas .kc{display:inline-block;width:min(320px,100%);margin-right:10px;vertical-align:top}
+
+.trab{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:16px}
+.dia{border-radius:12px;background:var(--panel-2);border:1px solid var(--line-soft);padding:9px 6px;text-align:center;font-size:12px;color:var(--ink-3)}
+.dia b{display:block;font-size:15px;color:var(--ink);margin-top:2px}
+.dia.feito{background:var(--signal-suave);border-color:#CFE0F1}
+.dia.feito b{color:var(--signal)}
+.dia.agend{border-style:dashed;border-color:#9DBBE0}
+.dia.hj{box-shadow:0 0 0 2px var(--signal)}
+
+.mes{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line-soft);border-radius:var(--raio);overflow:hidden;background:var(--panel);box-shadow:var(--sombra)}
+.mes .sem{padding:10px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:var(--panel-2);border-bottom:1px solid var(--line-soft)}
+.mes .q{min-width:0;min-height:104px;padding:8px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);font-size:12.5px;color:var(--ink)}
+.mes .q:nth-child(7n){border-right:0}
+.mes .q.fora{background:#FCFBF8;color:#BDB6AA}
+.mes .q .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:500}
+.mes .q.hoje .n{background:var(--signal);color:#fff}
+.ev{display:block;font-size:11.5px;line-height:1.3;padding:4px 7px;border-radius:6px;margin-top:4px;background:var(--signal-suave);color:var(--signal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev.am{background:var(--amber-suave);color:var(--amber)}
+.ev.vd{background:var(--verde-suave);color:var(--verde)}
+.ev.vi{background:#EFEBF8;color:#5B4B9E}
+
+.graf{display:flex;align-items:flex-end;gap:14px;height:200px;margin:22px 0 28px;padding:0 6px}
+.graf .b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.graf .b i{width:100%;max-width:64px;border-radius:9px 9px 4px 4px;background:linear-gradient(180deg,#4E9AC8,#1A4893);transition:height .5s cubic-bezier(.2,.8,.2,1)}
+.graf .b.parcial i{background:repeating-linear-gradient(135deg,#9DBBE0 0 6px,#C4D6EC 6px 12px)}
+.graf .b em{font-style:normal;font-size:12px;font-weight:600;color:var(--ink)}
+.graf .b span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+
+.secoes{display:grid;gap:14px}
+.ps{display:grid;grid-template-columns:180px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line-soft)}
+.ps:first-child{border-top:0;padding-top:0}
+.ps h3{font-size:13px;font-weight:600;color:var(--ink)}
+.ps p,.ps li{font-size:14px;color:var(--ink-2)}
+.ps ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+
+.ferr{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.ferr .cartao{display:flex;flex-direction:column;gap:10px}
+.ferr .qd{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--signal-suave);color:var(--signal)}
+.ferr .qd svg{width:22px;height:22px}
+.ferr p{font-size:14px}
+.ferr .bt{align-self:flex-start;margin-top:auto}
+
+.emp{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.emp .cartao{display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.emp .cartao:hover{transform:translateY(-2px);box-shadow:var(--sombra-alta)}
+.emp .t{display:flex;gap:12px;align-items:center}
+.emp .t .logo{width:48px;height:48px;border-radius:13px}
+.emp .t .logo img{width:36px;height:36px}
+.emp b{font-size:15px;color:var(--ink);font-weight:600;display:block}
+.emp small{font-size:12.5px;color:var(--ink-3)}
+.emp p{font-size:13.5px;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.emp .pe{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid var(--line-soft);font-size:13px}
+
+/* ───────── gaveta da vaga ───────── */
+.veu{position:fixed;inset:0;background:rgba(15,29,51,.38);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}
+.veu.on{opacity:1;pointer-events:auto}
+.gaveta{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--panel);z-index:100;box-shadow:-30px 0 60px -30px rgba(16,32,58,.45);transform:translateX(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.gaveta.on{transform:none}
+.gv-cab{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line-soft)}
+.gv-cab .fechar{margin-left:auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center}
+.gv-cab .fechar:hover{background:var(--bg-soft)}
+.gv-corpo{padding:22px;overflow-y:auto;flex:1}
+.gv-corpo h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.15;color:var(--ink);letter-spacing:-.015em}
+.gv-corpo .frase{margin-top:8px;font-size:15px}
+.gv-tags{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 4px}
+.gv-corpo h3{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:22px 0 6px}
+.gv-corpo p{font-size:14.5px;line-height:1.6}
+.gv-pe{padding:16px 22px;border-top:1px solid var(--line-soft);display:flex;gap:8px;flex-wrap:wrap}
+
+.aviso{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;font-size:13.5px;padding:11px 18px;border-radius:999px;box-shadow:var(--sombra-alta);transition:all .25s;z-index:120;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.aviso.on{opacity:1;transform:translate(-50%,0)}
+.faixa-teste{font-size:12.5px;color:var(--ink-3);text-align:center;padding:18px 16px 26px}
+.faixa-teste a{color:var(--signal);text-decoration:underline;text-underline-offset:3px}
+
+/* ───────── telas menores ───────── */
+@media (max-width:1180px){
+  .g-3{grid-template-columns:1fr 1fr}
+  .g-3>.cartao:last-child{grid-column:1/-1}
+  .tl{grid-template-columns:44px minmax(0,2fr) minmax(0,1fr) 92px}
+  .tl .so-largo{display:none}
+}
+@media (max-width:960px){
+  .app{grid-template-columns:1fr}
+  .lado{z-index:95;position:fixed;left:0;top:0;bottom:0;width:284px;transform:translateX(-102%);transition:transform .26s cubic-bezier(.2,.8,.2,1);box-shadow:30px 0 60px -30px rgba(0,0,0,.5)}
+  .lado.on{transform:none}
+  .abrir-lado{display:grid}
+  .topo{padding:12px 16px}
+  .tela{padding:6px 16px 48px}
+  .busca{width:auto;flex:1;min-width:0}
+  .topo .bt.forte .txt{display:none}
+  .topo .bt.forte{width:40px;padding:0;justify-content:center}
+  .trilha{display:none}
+  .g-2,.g-21{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .g-3{grid-template-columns:1fr}
+  .tl{grid-template-columns:40px minmax(0,1fr) auto;padding:12px 14px}
+  .tl .so-medio{display:none}
+  .tl.cab-t{display:none}
+  .ps{grid-template-columns:1fr;gap:6px}
+  .quadro{grid-template-columns:repeat(5,80%);align-items:start;scroll-snap-type:x mandatory}
+  .col{min-height:0;scroll-snap-align:start}
+  .mes .q{min-height:64px;padding:4px}
+  .mes .ev{font-size:0;height:5px;padding:0;margin-top:3px}
+  .num{font-size:38px}
+  .bt-ic.sino{display:none}
+  .vl{grid-template-columns:40px minmax(0,1fr)}
+  .vl .dir{display:none}
+  .trab{grid-template-columns:1fr}
+  .dias{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .dia{padding:7px 2px;font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="lado" id="lado" aria-label="Menu da plataforma">
+    <a class="lado-topo" href="#inicio">
+      <img src="../logo.svg" alt="">
+      <span><b>Home Office Hub</b><small>Trabalho remoto com IA</small></span>
+    </a>
+    <nav id="menu"></nav>
+    <div class="lado-pe">
+      <div class="eu">
+        <a class="avatar" href="#conta" title="Minha conta">MS</a>
+        <a href="#conta"><b>Marina Souza</b><small>◆ Plano Pro</small></a>
+        <a class="sair" href="../porta/entrar.html" title="Sair da conta" aria-label="Sair da conta" data-ic="sair"></a>
+      </div>
+    </div>
+  </aside>
+  <div class="veu" id="veuLado"></div>
+
+  <div class="principal">
+    <header class="topo" id="topo">
+      <button class="abrir-lado" id="abrirLado" aria-label="Abrir o menu" data-ic="menu"></button>
+      <div class="trilha" id="trilha"><i></i><span>Geral · Início</span></div>
+      <label class="busca"><span data-ic="busca"></span><input id="buscaTopo" placeholder="Buscar vagas, empresas, cursos" autocomplete="off"></label>
+      <button class="bt-ic sino" title="Avisos" aria-label="Avisos"><span data-ic="sino"></span><span class="bolinha"></span></button>
+      <a class="bt forte" href="#candidaturas" id="btMarcar"><span data-ic="mais"></span><span class="txt">Marcar candidatura</span></a>
+    </header>
+    <main class="tela" id="tela"></main>
+    <p class="faixa-teste">Protótipo da plataforma com dados de exemplo (a Marina não existe). As vagas e empresas são as de hoje no Hub. <a href="../index.html">Voltar para os testes</a></p>
+  </div>
+</div>
+
+<div class="veu" id="veuGaveta"></div>
+<aside class="gaveta" id="gaveta" aria-hidden="true"></aside>
+<div class="aviso" id="aviso"></div>
+
+<script src="dados.js"></script>
+<script>
+(function(){
+"use strict";
+const H = window.HUB;
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ───── ícones (traço simples, desenhados para o Hub) ───── */
+const P = {
+  inicio:'<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>',
+  vagas:'<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V7M3 13h18"/>',
+  alta:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+  empresas:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/>',
+  candidaturas:'<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  trabalhos:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
+  agenda:'<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  ganhos:'<path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm0 0V6a2 2 0 0 1 2-2h10"/><circle cx="16" cy="13.5" r="1.3"/>',
+  imposto:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  cursos:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5M8.5 7.5h7"/>',
+  estudo:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h4"/>',
+  curriculo:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  transcricao:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+  perfil:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  conta:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+  equipe:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
+  busca:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+  sino:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+  mais:'<path d="M12 5v14M5 12h14"/>',
+  seta:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  esq:'<path d="M15 6l-6 6 6 6"/>', dir:'<path d="M9 6l6 6-6 6"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  sair:'<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/>',
+  fechar:'<path d="M6 6l12 12M18 6L6 18"/>',
+  externo:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  ok:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  dolar:'<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.5V18"/>'
+};
+const ic = n => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${P[n] || ""}</svg>`;
+function pintaIcones(raiz){ (raiz || document).querySelectorAll("[data-ic]").forEach(el => { if (!el.firstChild || el.dataset.icFeito !== "1") { el.insertAdjacentHTML("afterbegin", ic(el.dataset.ic)); el.dataset.icFeito = "1"; } }); }
+
+/* ───── dados de exemplo da Marina (o resto vem do Hub de hoje) ───── */
+const HOJE = new Date(); HOJE.setHours(0,0,0,0);
+const dia = n => { const d = new Date(HOJE); d.setDate(d.getDate() + n); return d; };
+const iso = d => d.toISOString().slice(0,10);
+const ddmm = d => String(d.getDate()).padStart(2,"0") + "/" + String(d.getMonth()+1).padStart(2,"0");
+const vagaPorId = id => H.vagas.find(v => v.id === id);
+const emp = id => H.empresas.find(e => e.id === id) || { nome: id, logo: "" };
+const ETAPAS = [["enviado","Currículo enviado"],["teste","Teste de proficiência"],["prova","Prova específica"],["entrevista","Entrevista"],["aprovado","Aprovado"]];
+let CANDS = [
+  { vaga:"6d22784714", etapa:"teste", desde:-12, prox:"Fazer o teste até " + ddmm(dia(2)), am:true },
+  { vaga:"2252f79c1f", etapa:"entrevista", desde:-6, prox:"Entrevista amanhã às 14h" },
+  { vaga:"c86034f6fe", etapa:"prova", desde:-9, prox:"Prova enviada, esperando a correção" },
+  { vaga:"37f8a23a09", etapa:"enviado", desde:-3 },
+  { vaga:"40bde685a9", etapa:"enviado", desde:-1 },
+  { vaga:"b24061003e", etapa:"aprovado", desde:-56, prox:"Virou trabalho: Personalized Internet Assessor" },
+  { vaga:"d1856cbd96", etapa:"aprovado", desde:-38, prox:"Virou trabalho: Local Maps Search Evaluator" },
+  { vaga:"65762fd387", etapa:"semresposta", desde:-24 },
+  { vaga:"a8641549b5", etapa:"recusado", desde:-19, prox:"Recusado no teste · motivo: inglês" },
+];
+const TRABS = [
+  { vaga:"b24061003e", nome:"Personalized Internet Assessor", empresa:"telus", meta:10, feitas:7, agend:2, hora:5, dias:[2,0,1.5,2,1.5,0,0], recebe:"~US$ 98 no dia " + ddmm(dia(5)) },
+  { vaga:"d1856cbd96", nome:"Local Maps Search Evaluator", empresa:"oneforma", meta:6, feitas:3, agend:1, hora:8, dias:[0,1,0,2,0,0,0], recebe:"~US$ 64 no fim do mês" },
+];
+const AGENDA = [
+  { d:0, t:"2 h de TELUS às 20h", c:"", tipo:"trabalho" },
+  { d:1, t:"Entrevista micro1 às 14h", c:"am", tipo:"entrevista" },
+  { d:2, t:"Prazo do teste Handshake", c:"am", tipo:"prazo" },
+  { d:3, t:"1 h de OneForma às 9h", c:"", tipo:"trabalho" },
+  { d:5, t:"TELUS fecha o período", c:"vd", tipo:"pagamento" },
+  { d:7, t:"Estudar: Guidelines, aula 2", c:"vi", tipo:"estudo" },
+  { d:-2, t:"2 h de TELUS", c:"", tipo:"trabalho" },
+  { d:-4, t:"Prova Mercor enviada", c:"am", tipo:"prova" },
+  { d:12, t:"Estudar: Comparação, aula 1", c:"vi", tipo:"estudo" },
+  { d:16, t:"OneForma fecha o mês", c:"vd", tipo:"pagamento" },
+];
+const GANHOS = { // US$ por mês, horas
+  meses:[["jun",182,24],["jul",248,30],["ago",296.5,33],["set",355,36],["out",412.5,38],["nov",96,9]],
+  semanas:[["s1",88],["s2",102],["s3",119],["s4",103.5]]
+};
+let DOLAR = { v:5.39, quando:"exemplo" };
+
+const fmtUS = n => "US$ " + n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtR = n => "R$ " + n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const IDIOMA = { pt:"Português", en:"Inglês", "en+":"Inglês avançado", nenhum:"Sem idioma" };
+const CATS = [["","Todas"],["ai","IA e dados"],["qa","QA e validação"],["transl","Tradução"],["write","Escrita"],["sme","Especialistas"]];
+const ultima = H.vagas.reduce((m,v) => v.vista > m ? v.vista : m, "");
+const diasDesde = s => Math.round((new Date(ultima) - new Date(s)) / 864e5);
+const quando = s => { const n = diasDesde(s); return n <= 0 ? "hoje" : n === 1 ? "ontem" : n < 31 ? "há " + n + " dias" : n < 365 ? "há " + Math.round(n/30) + (Math.round(n/30) === 1 ? " mês" : " meses") : "há mais de 1 ano"; };
+const nova = v => diasDesde(v.vista) <= 7;
+const emAlta = v => H.emAlta.includes(v.id);
+const logoDe = id => { const e = emp(id); return `<span class="logo">${e.logo ? `<img src="../${esc(e.logo)}" alt="" loading="lazy">` : ""}</span>`; };
+
+/* ───── menu da coluna ───── */
+const nAtivas = () => CANDS.filter(c => !["aprovado","recusado","semresposta"].includes(c.etapa)).length;
+const MENU = [
+  ["Geral", [["inicio","Início","inicio"],["vagas","Vagas","vagas",() => H.vagas.length],["alta","Em alta","alta","ponto"],["empresas","Empresas","empresas"]]],
+  ["Meu Controle", [["candidaturas","Candidaturas","candidaturas",() => nAtivas(),"quente"],["trabalhos","Trabalhos e horas","trabalhos"],["agenda","Agenda","agenda",() => AGENDA.filter(a => a.d >= 0 && a.d <= 2).length],["ganhos","Ganhos e imposto","ganhos"]]],
+  ["Aprender", [["cursos","Cursos","cursos"],["estudo","Estudar uma diretriz","estudo"]]],
+  ["Ferramentas", [["curriculo","Avaliar currículo","curriculo"],["transcricao","Transcrição ao vivo","transcricao"]]],
+  ["Você", [["perfil","Perfil profissional","perfil"],["conta","Minha conta","conta"]]],
+  ["Equipe", [["equipe","Painel da equipe","equipe"]]],
+];
+function desenhaMenu(atual){
+  $("#menu").innerHTML = MENU.map(([g, itens]) => `<div class="grupo"><span>${g}</span>${itens.map(([id, nome, icone, cont, cls]) => {
+    let extra = "";
+    if (cont === "ponto") extra = '<span class="ponto" title="Contratando com frequência"></span>';
+    else if (cont) { const n = cont(); if (n) extra = `<span class="cont ${cls || ""}">${n}</span>`; }
+    return `<a class="item${id === atual ? " ativo" : ""}" href="#${id}">${ic(icone)}<span>${nome}</span>${extra}</a>`;
+  }).join("")}</div>`).join("");
+}
+
+/* ───── pedaços reutilizados ───── */
+function linhaVaga(v){
+  return `<div class="vl" data-vaga="${v.id}">${logoDe(v.empresa)}<div style="min-width:0"><b>${esc(v.titulo)}</b><small>${esc(emp(v.empresa).nome)} · ${esc(v.frase || "")}</small></div><div class="dir">${emAlta(v) ? '<span class="selo-alta">Contratando com frequência</span>' : esc(v.pag || IDIOMA[v.idioma] || "")}<em>${v.reab ? "reaberta " : ""}${quando(v.data)}</em></div></div>`;
+}
+function calendario(mesDe){
+  const ini = new Date(mesDe.getFullYear(), mesDe.getMonth(), 1);
+  const inicioGrade = new Date(ini); inicioGrade.setDate(1 - ((ini.getDay() + 6) % 7));
+  const marcados = new Set(AGENDA.map(a => iso(dia(a.d))));
+  let h = ["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(s => `<span class="sem">${s}</span>`).join("");
+  const celulas = Math.ceil((((ini.getDay() + 6) % 7) + new Date(mesDe.getFullYear(), mesDe.getMonth() + 1, 0).getDate()) / 7) * 7;
+  for (let i = 0; i < celulas; i++) {
+    const d = new Date(inicioGrade); d.setDate(inicioGrade.getDate() + i);
+    const cls = ["d", d.getMonth() !== mesDe.getMonth() ? "fora" : "", +d === +HOJE ? "hoje" : "", marcados.has(iso(d)) ? "tem" : ""].join(" ");
+    h += `<span class="${cls}">${d.getDate()}</span>`;
+  }
+  return h;
+}
+const nomeMes = d => d.toLocaleDateString("pt-BR",{month:"long"}) + " " + d.getFullYear();
+
+/* ───── telas ───── */
+const T = {};
+let periodoGanhos = "1m", periodoCand = "30";
+
+T.inicio = () => {
+  const h = new Date().getHours();
+  const ola = h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
+  const novas = [...H.vagas].sort((a,b) => (b.vista||"").localeCompare(a.vista||"")).slice(0,5);
+  const altas = H.emAlta.map(vagaPorId).filter(Boolean).slice(0,3);
+  const hojeItens = AGENDA.filter(a => a.d >= 0 && a.d <= 2).sort((a,b) => a.d - b.d);
+  const nNovas = H.vagas.filter(nova).length;
+  return `
+  <div class="cab"><div>
+    <h1 class="ola">${ola}, Marina.</h1>
+    <p class="sub"><b>${hojeItens.length} compromissos</b> até depois de amanhã, <b>${nAtivas()} candidaturas</b> andando e <b>${nNovas} vagas novas</b> nesta semana.</p>
+  </div></div>
+
+  <div class="grade g-3">
+    <section class="cartao escuro" id="cGanhos">
+      <div class="c-cab"><h2>Ganhos</h2><div class="chips" data-chips="ganhos">${[["1m","1 mês"],["3m","3 meses"],["6m","6 meses"]].map(([k,n]) => `<button data-k="${k}" class="${k===periodoGanhos?"on":""}">${n}</button>`).join("")}</div></div>
+      <div id="ganhosCorpo"></div>
+    </section>
+
+    <section class="cartao claro">
+      <div class="c-cab"><h2>Candidaturas</h2><div class="chips" data-chips="cand">${[["30","30 dias"],["90","3 meses"],["tudo","Tudo"]].map(([k,n]) => `<button data-k="${k}" class="${k===periodoCand?"on":""}">${n}</button>`).join("")}</div></div>
+      <div id="candCorpo"></div>
+      <div class="ult">${CANDS.filter(c => c.prox && !["aprovado","recusado"].includes(c.etapa)).slice(0,3).map(c => { const v = vagaPorId(c.vaga) || {}; return `<div class="u" data-vaga="${c.vaga}">${logoDe(v.empresa)}<div style="min-width:0"><b>${esc(v.titulo)}</b><small class="${c.am?"am":""}">${esc(c.prox)}</small></div></div>`; }).join("")}</div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;align-items:center;gap:10px;flex-wrap:wrap">
+        <a class="link" href="#candidaturas">Abrir candidaturas ${ic("seta")}</a>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <div class="c-cab"><h2>Para os próximos dias</h2><a class="link" href="#agenda">Agenda ${ic("seta")}</a></div>
+      <div class="hoje-lista">${hojeItens.map(a => `<div class="hj"><span class="qd ${a.c==="am"?"am":a.c==="vd"?"vd":""}">${ic(a.tipo==="trabalho"?"trabalhos":a.tipo==="prazo"?"candidaturas":"agenda")}</span><div><b>${esc(a.t)}</b><small>${a.d===0?"Hoje":a.d===1?"Amanhã":"Em " + a.d + " dias"} · ${ddmm(dia(a.d))}</small></div></div>`).join("")}</div>
+      <div class="cal"><div class="cal-cab"><button aria-label="Mês anterior">${ic("esq")}</button><b>${nomeMes(HOJE)}</b><button aria-label="Próximo mês">${ic("dir")}</button></div><div class="cal-g">${calendario(HOJE)}</div></div>
+      <a class="bt forte" href="#agenda" style="width:100%;justify-content:center;margin-top:12px">${ic("mais")} Marcar na agenda</a>
+    </section>
+  </div>
+
+  <div class="grade g-21" style="margin-top:18px">
+    <section class="cartao">
+      <div class="c-cab"><h2>Vagas novas no Hub</h2><a class="link" href="#vagas">Ver as ${H.vagas.length} vagas ${ic("seta")}</a></div>
+      <div class="vlista">${novas.map(linhaVaga).join("")}</div>
+    </section>
+    <section class="cartao">
+      <div class="c-cab"><h2><span class="selo-alta" style="padding:0;background:none"></span>Em alta</h2><a class="link" href="#alta">Ver todas ${ic("seta")}</a></div>
+      <p style="font-size:13px;margin:-8px 0 8px">Vagas que estão chamando gente agora, confirmadas pela equipe.</p>
+      <div class="vlista">${altas.map(v => `<div class="vl" data-vaga="${v.id}">${logoDe(v.empresa)}<div style="min-width:0"><b>${esc(v.titulo)}</b><small>${esc(emp(v.empresa).nome)}${v.pag ? " · " + esc(v.pag) : ""}</small></div><div class="dir"></div></div>`).join("")}</div>
+    </section>
+  </div>
+
+  <div class="grade g-3" style="margin-top:18px">
+    <section class="cartao">
+      <div class="c-cab"><h2>Meta da semana</h2><a class="link" href="#trabalhos">Trabalhos ${ic("seta")}</a></div>
+      <div class="meta">${TRABS.map(t => `<div class="mt"><div class="lin"><b>${esc(t.nome)}</b><span>${t.feitas} de ${t.meta} h</span></div><div class="tr"><i style="width:${t.feitas/t.meta*100}%"></i><i class="ag" style="width:${t.agend/t.meta*100}%"></i></div></div>`).join("")}</div>
+      <div class="legenda" style="margin-top:12px"><span>Feitas</span><span class="ag">Agendadas</span></div>
+      <p style="font-size:12.5px;margin-top:12px">Falta agendar <b style="color:var(--ink)">3 horas</b> até domingo.</p>
+    </section>
+    <section class="cartao">
+      <div class="c-cab"><h2>Continue estudando</h2><a class="link" href="#cursos">Cursos ${ic("seta")}</a></div>
+      <div style="display:grid;gap:10px">
+        <a class="curso-c" href="#cursos"><span class="capa">1</span><div style="flex:1;min-width:0"><b>Fundamentos da Avaliação de IA</b><small>Aula 4 de 4 · falta só o quiz</small><div class="prog"><i style="width:80%"></i></div></div></a>
+        <a class="curso-c" href="#estudo"><span class="capa voz">${ic("estudo")}</span><div style="flex:1;min-width:0"><b>Diretriz do projeto (exemplo)</b><small>Parte 3 de 6 com o professor</small><div class="prog"><i style="width:45%"></i></div></div></a>
+      </div>
+    </section>
+    <section class="cartao">
+      <div class="c-cab"><h2>Dólar hoje</h2><span class="tag" id="dolarFonte">Banco Central</span></div>
+      <div class="dolar"><div><div class="num" id="dolarValor">${fmtR(DOLAR.v)}</div><div class="rot">PTAX de compra</div></div>
+      <div style="text-align:right;font-size:12.5px">Seu mês em reais<br><b style="font-size:18px;color:var(--ink)" id="dolarMes">${fmtR(412.5*DOLAR.v)}</b></div></div>
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);display:flex;align-items:center;gap:14px">
+        <div class="anel" style="--p:85;width:58px;height:58px"><span style="width:44px;height:44px;font-size:13px">85%</span></div>
+        <div style="font-size:13px"><b style="color:var(--ink)">Perfil profissional</b><br>Falta dizer as ferramentas que você usa. <a class="link" href="#perfil">Completar</a></div>
+      </div>
+    </section>
+  </div>`;
+};
+function pintaGanhos(){
+  const el = $("#ganhosCorpo"); if (!el) return;
+  let total, horas, compara, barras, nomes, agora;
+  if (periodoGanhos === "1m") { total = 412.5; horas = 38; compara = "+16% sobre setembro"; barras = GANHOS.semanas.map(s => s[1]); nomes = ["1ª sem","2ª sem","3ª sem","4ª sem"]; agora = 3; }
+  else { const n = periodoGanhos === "3m" ? 3 : 6; const ms = GANHOS.meses.slice(-n-1, -1); total = ms.reduce((s,m) => s+m[1],0); horas = ms.reduce((s,m) => s+m[2],0); compara = periodoGanhos === "3m" ? "+31% sobre os 3 meses antes" : "6 meses seguidos com ganho"; barras = GANHOS.meses.slice(-n-1).map(m => m[1]); nomes = GANHOS.meses.slice(-n-1).map(m => m[0]); agora = barras.length - 1; }
+  const max = Math.max(...barras);
+  el.innerHTML = `<div class="linha-num"><div><div class="num">${fmtUS(total)}</div><div class="rot">ganhos no período</div></div><div><div class="num mini">${horas} h</div><div class="rot">trabalhadas</div></div></div>
+  <span class="var">▲ ${compara}</span>
+  <div class="barras">${barras.map((b,i) => `<div class="${i===agora?"agora":""}" style="height:${Math.max(8,b/max*100)}%" title="${fmtUS(b)}"><span>${nomes[i]}</span></div>`).join("")}</div>
+  <div class="rodape"><span>Por hora na prática: <b>${fmtUS(total/horas)}</b></span><a class="link" href="#ganhos">Ver ganhos ${ic("seta")}</a></div>`;
+}
+function pintaCand(){
+  const el = $("#candCorpo"); if (!el) return;
+  const k = { "30":[8,5,3,1,2], "90":[19,9,5,2,4], "tudo":[27,13,7,3,6] }[periodoCand];
+  const max = k[0];
+  el.innerHTML = `<div class="linha-num"><div><div class="num">${k[0]}</div><div class="rot">enviadas</div></div><div><div class="num mini">${k[1]}</div><div class="rot">avançaram</div></div><div><div class="num mini" style="color:var(--verde)">${k[4]}</div><div class="rot">aprovadas</div></div></div>
+  <div class="funil">${ETAPAS.map(([id,nome],i) => `<div class="f${id==="aprovado"?" ok":""}"><span>${nome.replace(" de proficiência","").replace(" específica","")}</span><div class="tr"><i style="width:${k[i]/max*100}%"></i></div><b>${k[i]}</b></div>`).join("")}</div>`;
+}
+
+T.vagas = (filtroAlta) => `
+  <div class="cab"><div><h1 class="tit">${filtroAlta ? "Em alta" : "Vagas"}</h1>
+  <p class="sub">${filtroAlta ? "Vagas que estão chamando gente agora, confirmadas pela equipe. Clique numa vaga para ver o resumo." : `${H.vagas.length} vagas remotas abertas para quem mora no Brasil, revisadas pela equipe. Atualizadas ${esc(H.atualizado || "hoje")}.`}</p></div></div>
+  ${filtroAlta ? "" : `<div class="barra-f"><label class="busca">${ic("busca")}<input id="buscaVagas" placeholder="Buscar por cargo, empresa ou tarefa"></label>
+  <div class="filtros" id="filtroCat">${CATS.map(([k,n]) => `<button data-k="${k}" class="${k===""?"on":""}">${n}</button>`).join("")}</div></div>`}
+  <div class="tabela" id="tabVagas"></div>`;
+let catAtual = "", buscaAtual = "", limite = 25;
+function pintaTabela(soAlta){
+  const el = $("#tabVagas"); if (!el) return;
+  const q = buscaAtual.toLowerCase();
+  let vs = H.vagas.filter(v => (!soAlta || emAlta(v)) && (!catAtual || v.cat === catAtual) && (!q || (v.titulo + " " + emp(v.empresa).nome + " " + (v.frase||"")).toLowerCase().includes(q)));
+  vs.sort((a,b) => (emAlta(b) - emAlta(a)) || (b.data||"").localeCompare(a.data||""));
+  const total = vs.length; vs = vs.slice(0, limite);
+  el.innerHTML = `<div class="tl cab-t"><span></span><span>Vaga</span><span class="so-medio">Pagamento</span><span class="so-largo">Idioma</span><span>Publicada</span></div>` +
+    (vs.length ? vs.map(v => `<div class="tl${emAlta(v)?" alta":""}" data-vaga="${v.id}">${logoDe(v.empresa)}<div style="min-width:0"><b>${esc(v.titulo)}${nova(v)?'<span class="selo-nova">nova</span>':""}</b><small>${esc(emp(v.empresa).nome)}${v.frase ? " · " + esc(v.frase) : ""}</small></div><span class="c so-medio">${emAlta(v)?'<span class="selo-alta">Contratando com frequência</span>':esc(v.pag || "Não informado")}</span><span class="c so-largo"><span class="tag">${esc(IDIOMA[v.idioma] || v.idioma || "—")}</span></span><span class="c" style="font-size:12.5px;color:var(--ink-3)">${v.reab ? "reaberta " : ""}${quando(v.data)}</span></div>`).join("")
+      : `<div style="padding:30px;text-align:center">Nenhuma vaga com essa busca.</div>`) +
+    (total > limite ? `<div class="mais-linhas"><button class="bt peq" id="maisVagas">Mostrar mais ${Math.min(25,total-limite)} de ${total - limite}</button></div>` : "");
+}
+
+T.empresas = () => `
+  <div class="cab"><div><h1 class="tit">Empresas</h1><p class="sub">As ${H.empresas.length} empresas que o Hub acompanha. Clique para ver as vagas abertas de cada uma.</p></div></div>
+  <div class="emp">${H.empresas.map(e => { const n = H.vagas.filter(v => v.empresa === e.id).length; return `<div class="cartao" data-emp="${e.id}"><div class="t">${logoDe(e.id)}<div><b>${esc(e.nome)}</b><small>${esc(e.tipo || e.desc || "")}</small></div></div><p>${esc(e.resumo || "")}</p><div class="pe"><span>${n ? `<b style="color:var(--ink)">${n}</b> ${n===1?"vaga aberta":"vagas abertas"}` : "Sem vaga aberta hoje"}</span><span class="link">Ver ${ic("seta")}</span></div></div>`; }).join("")}</div>`;
+
+T.candidaturas = () => {
+  const card = c => { const v = vagaPorId(c.vaga) || { titulo:"Vaga", empresa:"" }; const i = ETAPAS.findIndex(e => e[0] === c.etapa);
+    return `<div class="kc" data-vaga="${c.vaga}"><div class="t">${logoDe(v.empresa)}<span>${esc(emp(v.empresa).nome)}</span></div><b>${esc(v.titulo)}</b>
+    <div class="passos">${ETAPAS.map((e,j) => `<i class="${j <= i ? "f" : ""}"></i>`).join("")}</div>
+    ${c.prox ? `<div class="prox${c.am?" am":""}">${esc(c.prox)}</div>` : ""}<div class="dt">Desde ${ddmm(dia(c.desde))}${c.etapa==="semresposta" ? " · sem resposta há " + (-c.desde) + " dias" : ""}</div></div>`; };
+  return `<div class="cab"><div><h1 class="tit">Candidaturas</h1><p class="sub">Cada vaga em que você se candidatou, na etapa em que está. Clique numa para ver o resumo da vaga.</p></div></div>
+  <div class="quadro">${ETAPAS.map(([id,nome]) => { const cs = CANDS.filter(c => c.etapa === id); return `<div class="col"><h3>${nome}<span>${cs.length}</span></h3>${cs.map(card).join("") || '<p style="font-size:12.5px;padding:4px">Nada aqui agora.</p>'}</div>`; }).join("")}</div>
+  <div class="encerradas"><h3 style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px">Sem resposta ou recusadas</h3>${CANDS.filter(c => ["semresposta","recusado"].includes(c.etapa)).map(card).join("")}</div>`;
+};
+
+T.trabalhos = () => `
+  <div class="cab"><div><h1 class="tit">Trabalhos e horas</h1><p class="sub">Os projetos em que você trabalha agora, a meta de horas da semana e o que já foi lançado.</p></div><button class="bt forte" data-aviso="No site de verdade abre o registro do dia, como no Meu Controle de hoje.">${ic("mais")} Lançar horas</button></div>
+  <div class="grade">${TRABS.map(t => { const sem = ["seg","ter","qua","qui","sex","sáb","dom"]; const hj = (HOJE.getDay()+6)%7;
+    return `<section class="cartao"><div class="trab">${logoDe(t.empresa)}<div><h2 style="font-size:18px">${esc(t.nome)}</h2><p style="font-size:13px">${esc(emp(t.empresa).nome)} · ${fmtUS(t.hora)} por hora · recebe ${esc(t.recebe)}</p></div>
+    <div style="text-align:right"><div class="num mini">${t.feitas} de ${t.meta} h</div><div class="rot">meta da semana</div></div></div>
+    <div class="dias">${sem.map((s,i) => { const h = t.dias[i]; const ag = i > hj && i <= hj + 2 && t.agend; return `<div class="dia${h?" feito":""}${i===hj?" hj":""}${ag && !h?" agend":""}">${s}<b>${h ? h + " h" : ag ? "1 h" : "—"}</b></div>`; }).join("")}</div>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="bt peq" data-aviso="Abre o registro do dia já com o trabalho escolhido.">Lançar horas de hoje</button><button class="bt peq" data-aviso="Abre a Agenda para escolher dia e hora.">Agendar horas</button><button class="bt peq" data-aviso="Abre a meta de horas da semana.">Mudar a meta</button></div></section>`; }).join("")}</div>`;
+
+T.agenda = () => {
+  const ini = new Date(HOJE.getFullYear(), HOJE.getMonth(), 1);
+  const g0 = new Date(ini); g0.setDate(1 - ((ini.getDay()+6)%7));
+  let q = ["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"].map(s => `<div class="sem">${s}</div>`).join("");
+  const celulas = Math.ceil((((ini.getDay()+6)%7) + new Date(HOJE.getFullYear(), HOJE.getMonth()+1, 0).getDate()) / 7) * 7;
+  for (let i = 0; i < celulas; i++) { const d = new Date(g0); d.setDate(g0.getDate()+i);
+    const evs = AGENDA.filter(a => iso(dia(a.d)) === iso(d));
+    q += `<div class="q${d.getMonth()!==HOJE.getMonth()?" fora":""}${+d===+HOJE?" hoje":""}"><span class="n">${d.getDate()}</span>${evs.map(e => `<span class="ev ${e.c}" title="${esc(e.t)}">${esc(e.t)}</span>`).join("")}</div>`; }
+  return `<div class="cab"><div><h1 class="tit">Agenda</h1><p class="sub">Horas de trabalho, entrevistas, testes, prazos e estudo, tudo no mesmo calendário.</p></div><button class="bt forte" data-aviso="Abre o Marcar: horas de trabalho, entrevista, teste, prazo ou estudo.">${ic("mais")} Marcar</button></div>
+  <div class="c-cab" style="flex-wrap:wrap"><b style="font-family:var(--display);font-weight:400;font-size:24px;color:var(--ink);text-transform:capitalize">${nomeMes(HOJE)}</b><div class="legenda"><span class="lg-t">Trabalho</span><span class="lg-a">Entrevista, teste e prazo</span><span class="lg-v">Pagamento</span><span class="lg-e">Estudo</span></div></div>
+  <div class="mes">${q}</div>`;
+};
+
+T.ganhos = () => {
+  const max = Math.max(...GANHOS.meses.map(m => m[1]));
+  return `<div class="cab"><div><h1 class="tit">Ganhos e imposto</h1><p class="sub">Quanto você ganhou por mês, em dólar e em reais, e a estimativa do imposto.</p></div><div class="chips"><button class="on">6 meses</button><button>1 ano</button></div></div>
+  <div class="grade g-21">
+    <section class="cartao"><div class="c-cab"><h2>Por mês</h2><span class="tag">novembro ainda está no começo</span></div>
+      <div class="graf">${GANHOS.meses.map((m,i) => `<div class="b${i===GANHOS.meses.length-1?" parcial":""}"><em>${fmtUS(m[1]).replace(",00","")}</em><i style="height:${m[1]/max*78}%"></i><span>${m[0]}</span></div>`).join("")}</div>
+      <div class="linha-num"><div><div class="num">${fmtUS(1590)}</div><div class="rot">em 6 meses</div></div><div><div class="num mini">${fmtR(1590*DOLAR.v)}</div><div class="rot">pelo dólar de hoje</div></div><div><div class="num mini">${fmtUS(1590/170)}</div><div class="rot">por hora na prática</div></div></div>
+    </section>
+    <section class="cartao"><div class="c-cab"><h2>${ic("imposto")} Imposto de outubro</h2></div>
+      <div class="num" style="font-size:36px">Nada a pagar</div><div class="rot">estimativa · pessoa física</div>
+      <p style="font-size:13.5px;margin-top:14px">Em outubro você recebeu cerca de <b style="color:var(--ink)">${fmtR(412.5*DOLAR.v)}</b>, convertidos pelo dólar do dia em que o dinheiro caiu. A estimativa usa a tabela do carnê-leão e as outras rendas que você cadastrou.</p>
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="bt peq" data-aviso="Abre a aba Imposto do Meu Controle, com o cálculo mês a mês.">Ver o cálculo</button><button class="bt peq" data-aviso="Abre o cadastro de outras rendas.">Outras rendas</button></div>
+    </section>
+  </div>`;
+};
+
+const CURSOS = [
+  [1,"Fundamentos da Avaliação de IA","curso-fundamentos",80,"Aula 4 de 4"],[1,"Guidelines, Rubricas e Consistência","curso-guidelines",25,"Aula 1 de 4"],
+  [1,"Comparação de Respostas e LLM como Juiz","curso-comparacao",0,"4 aulas"],[1,"Segurança, Red Teaming e Conteúdo Sensível","curso-seguranca",0,"4 aulas"],
+  [2,"Avaliação de TTS: MOS, CMOS e as Escalas","curso-tts",0,"4 aulas"],[2,"Transcrição e Convenções","curso-transcricao",100,"Concluído"],[2,"Fonética Prática para Quem Avalia Voz","curso-fonetica",0,"4 aulas"]];
+const SITE = "https://alvittaluc.github.io/home-office-hub/";
+T.cursos = () => `
+  <div class="cab"><div><h1 class="tit">Cursos</h1><p class="sub">Aprender o trabalho antes da primeira vaga. Seu progresso fica guardado na conta.</p></div></div>
+  <div class="grade g-2">${[[1,"Avaliação e julgamento"],[2,"Voz e áudio"]].map(([t,n]) => `<section class="cartao"><div class="c-cab"><h2>Trilha ${t} · ${n}</h2></div><div style="display:grid;gap:10px">${CURSOS.filter(c => c[0]===t).map((c,i) => `<a class="curso-c" href="${SITE}${c[2]}.html" target="_blank" rel="noopener"><span class="capa${t===2?" voz":""}">${i+1}</span><div style="flex:1;min-width:0"><b>${c[1]}</b><small>${c[4]}${c[3]===100?" ✓":""}</small><div class="prog"><i style="width:${c[3]}%"></i></div></div></a>`).join("")}</div></section>`).join("")}</div>`;
+
+const ferr = (icone, titulo, texto, botao, href, ext) => `<section class="cartao"><span class="qd">${ic(icone)}</span><h2 style="font-size:18px">${titulo}</h2><p>${texto}</p><a class="bt forte" href="${href}"${ext?' target="_blank" rel="noopener"':""}>${botao} ${ic("seta")}</a></section>`;
+T.estudo = () => `<div class="cab"><div><h1 class="tit">Estudar uma diretriz</h1><p class="sub">Você sobe a diretriz do projeto e a IA vira o seu professor: ensina uma parte de cada vez, pergunta para ver se você entendeu e explica de outro jeito quando precisa.</p></div></div>
+  <div class="ferr">${ferr("estudo","Diretriz do projeto (exemplo)","Parte 3 de 6. Na última vez você parou no caso prático da parte 2.","Continuar de onde parei","../estudo-diretriz.html")}
+  <section class="cartao" style="border-style:dashed;background:var(--panel-2)"><span class="qd">${ic("mais")}</span><h2 style="font-size:18px">Estudar outra diretriz</h2><p>Arraste o PDF da diretriz do seu projeto. Ela fica só na sua conta.</p><a class="bt" href="../estudo-diretriz.html">Subir uma diretriz</a></section></div>`;
+T.curriculo = () => `<div class="cab"><div><h1 class="tit">Avaliar currículo</h1><p class="sub">Escolha uma vaga, mande o seu currículo e veja a nota e o que ajustar, já escrito em inglês. A ferramenta usa o seu perfil profissional e nunca inventa nada.</p></div></div>
+  <div class="ferr">${ferr("curriculo","Avaliar para uma vaga","Última avaliação: Portuguese AI Evaluation Specialist, nota 72. Três sugestões ainda abertas.","Abrir a ferramenta","../ferramenta-curriculo.html")}
+  ${ferr("perfil","Seu perfil profissional","Quanto mais completo o perfil, melhores as sugestões. O seu está 85% preenchido.","Ver o perfil","#perfil")}</div>`;
+T.transcricao = () => `<div class="cab"><div><h1 class="tit">Transcrição ao vivo</h1><p class="sub">Fale ou toque um áudio e veja o texto aparecer na hora, para treinar as convenções de transcrição.</p></div></div>
+  <div class="ferr">${ferr("transcricao","Abrir a transcrição","Funciona no navegador, sem instalar nada. O texto não sai do seu computador.","Abrir",SITE + "transcricao.html",true)}
+  ${ferr("cursos","Curso de transcrição","Verbatim contra limpo, hesitações, ruídos e números. Você já concluiu este curso.","Rever o curso",SITE + "curso-transcricao.html",true)}</div>`;
+
+T.perfil = () => `<div class="cab"><div><h1 class="tit">Perfil profissional</h1><p class="sub">Só você vê o seu perfil. Ele escolhe as vagas de especialista para você e ajuda a ferramenta de currículo.</p></div><a class="bt forte" href="../perfil-profissional.html">Editar o perfil</a></div>
+  <section class="cartao"><div class="secoes">
+    <div class="ps"><h3>Idiomas</h3><ul><li class="tag az">Português · Nativo</li><li class="tag az">Inglês · C1 · TOEFL</li><li class="tag">Espanhol · B1</li></ul></div>
+    <div class="ps"><h3>Onde mora e horas</h3><p>Brasil · 20 horas por semana, de preferência à noite</p></div>
+    <div class="ps"><h3>Formação</h3><p>Licenciatura em Letras, Português e Inglês (concluída)</p></div>
+    <div class="ps"><h3>Áreas</h3><ul><li class="tag">Linguística · 3 anos</li><li class="tag">Educação e Ensino · 5 anos</li></ul></div>
+    <div class="ps"><h3>Experiências</h3><p>Personalized Internet Assessor na TELUS, desde setembro · Local Maps Search Evaluator na OneForma, desde outubro · Professora de inglês, 5 anos</p></div>
+    <div class="ps"><h3>Ferramentas</h3><p style="color:var(--amber)">Ainda não preenchido</p></div>
+  </div></section>`;
+T.conta = () => `<div class="cab"><div><h1 class="tit">Minha conta</h1><p class="sub">Seus dados, os avisos que você recebe e o seu plano.</p></div></div>
+  <div class="grade g-2"><section class="cartao"><div class="secoes">
+    <div class="ps"><h3>Nome</h3><p>Marina Souza</p></div><div class="ps"><h3>E-mail</h3><p>marina@exemplo.com</p></div>
+    <div class="ps"><h3>Plano</h3><p><span class="tag az">◆ Plano Pro</span></p></div><div class="ps"><h3>Meu perfil público</h3><p>Nome, apresentação e foto. <a class="link" href="#conta">Editar</a></p></div>
+  </div></section>
+  <section class="cartao"><div class="secoes">
+    <div class="ps"><h3>Alerta de vagas</h3><p>Por e-mail, todo dia, só das suas áreas</p></div><div class="ps"><h3>Avisos</h3><p>Entrevistas e prazos da Agenda, um dia antes</p></div>
+    <div class="ps"><h3>Seus dados</h3><p><a class="link" href="#conta">Baixar uma cópia</a> · <a class="link" href="#conta" style="color:var(--verm)">Apagar a conta</a></p></div>
+  </div><a class="bt" href="../porta/entrar.html" style="margin-top:16px">${ic("sair")} Sair da conta</a></section></div>`;
+T.equipe = () => `<div class="cab"><div><h1 class="tit">Painel da equipe</h1><p class="sub">Este item só aparece na coluna para quem é da equipe. Os alunos não veem.</p></div></div>
+  <div class="ferr">${ferr("equipe","Abrir o painel","Visão geral, alunos, empresas, vagas e equipe, como no painel de hoje.","Abrir o painel","../painel.html")}</div>`;
+T.alta = () => T.vagas(true);
+
+const NOMES = { inicio:["Geral","Início"], vagas:["Geral","Vagas"], alta:["Geral","Em alta"], empresas:["Geral","Empresas"], candidaturas:["Meu Controle","Candidaturas"], trabalhos:["Meu Controle","Trabalhos e horas"], agenda:["Meu Controle","Agenda"], ganhos:["Meu Controle","Ganhos e imposto"], cursos:["Aprender","Cursos"], estudo:["Aprender","Estudar uma diretriz"], curriculo:["Ferramentas","Avaliar currículo"], transcricao:["Ferramentas","Transcrição ao vivo"], perfil:["Você","Perfil profissional"], conta:["Você","Minha conta"], equipe:["Equipe","Painel da equipe"] };
+
+/* ───── navegação ───── */
+function abrir(){
+  let rota = (location.hash || "#inicio").slice(1).split("?")[0];
+  if (!T[rota]) rota = "inicio";
+  desenhaMenu(rota);
+  $("#trilha span").textContent = NOMES[rota].join(" · ");
+  document.title = NOMES[rota][1] + " · Home Office Hub";
+  const tela = $("#tela");
+  tela.classList.remove("entra"); void tela.offsetWidth; tela.classList.add("entra");
+  catAtual = ""; buscaAtual = rota === "vagas" ? (sessionStorage.getItem("busca") || "") : ""; limite = 25;
+  try { sessionStorage.removeItem("busca"); } catch(e) {}
+  tela.innerHTML = T[rota]();
+  if (rota === "inicio") { pintaGanhos(); pintaCand(); }
+  if (rota === "vagas" || rota === "alta") { pintaTabela(rota === "alta"); const b = $("#buscaVagas"); if (b) b.value = buscaAtual; }
+  fecharLado();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+window.addEventListener("hashchange", abrir);
+
+document.addEventListener("click", ev => {
+  const chip = ev.target.closest("[data-chips] button");
+  if (chip) { const g = chip.parentElement.dataset.chips; chip.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === chip));
+    if (g === "ganhos") { periodoGanhos = chip.dataset.k; pintaGanhos(); } else { periodoCand = chip.dataset.k; pintaCand(); } return; }
+  const cat = ev.target.closest("#filtroCat button");
+  if (cat) { catAtual = cat.dataset.k; limite = 25; cat.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === cat)); pintaTabela(false); return; }
+  if (ev.target.closest("#maisVagas")) { limite += 25; pintaTabela(location.hash === "#alta"); return; }
+  const empC = ev.target.closest("[data-emp]");
+  if (empC) { try { sessionStorage.setItem("busca", emp(empC.dataset.emp).nome); } catch(e) {} location.hash = "#vagas"; return; }
+  const vg = ev.target.closest("[data-vaga]");
+  if (vg) { abrirVaga(vg.dataset.vaga); return; }
+  const av = ev.target.closest("[data-aviso]");
+  if (av) { avisar(av.dataset.aviso); return; }
+  if (ev.target.closest("#novaCand")) { avisar("Abre o formulário de candidatura. Pelo botão da vaga, ela já vem preenchida."); return; }
+  if (ev.target.closest("#veuGaveta") || ev.target.closest(".gv-cab .fechar")) { fecharVaga(); return; }
+  if (ev.target.closest("#abrirLado")) { $("#lado").classList.add("on"); $("#veuLado").classList.add("on"); return; }
+  if (ev.target.closest("#veuLado")) fecharLado();
+});
+document.addEventListener("input", ev => {
+  if (ev.target.id === "buscaVagas") { buscaAtual = ev.target.value; limite = 25; pintaTabela(false); }
+});
+$("#buscaTopo").addEventListener("keydown", ev => {
+  if (ev.key !== "Enter") return;
+  try { sessionStorage.setItem("busca", ev.target.value); } catch(e) {}
+  ev.target.value = "";
+  if (location.hash === "#vagas") abrir(); else location.hash = "#vagas";
+});
+document.addEventListener("keydown", ev => { if (ev.key === "Escape") { fecharVaga(); fecharLado(); } });
+function fecharLado(){ $("#lado").classList.remove("on"); $("#veuLado").classList.remove("on"); }
+window.addEventListener("scroll", () => $("#topo").classList.toggle("rolou", scrollY > 8), { passive:true });
+
+let avisoT;
+function avisar(t){ const a = $("#aviso"); a.textContent = t; a.classList.add("on"); clearTimeout(avisoT); avisoT = setTimeout(() => a.classList.remove("on"), 3200); }
+
+function abrirVaga(id){
+  const v = vagaPorId(id); if (!v) return;
+  const c = CANDS.find(x => x.vaga === id);
+  const tags = [v.pag, v.carga, v.contrato, IDIOMA[v.idioma] || v.idioma].filter(Boolean);
+  $("#gaveta").innerHTML = `<div class="gv-cab">${logoDe(v.empresa)}<div><b style="color:var(--ink);font-size:14px">${esc(emp(v.empresa).nome)}</b><br><small style="font-size:12px;color:var(--ink-3)">${v.reab ? "Reaberta" : "Publicada"} ${quando(v.data)}</small></div><button class="fechar" aria-label="Fechar">${ic("fechar")}</button></div>
+  <div class="gv-corpo">${emAlta(v) ? '<span class="selo-alta" style="margin-bottom:10px">Contratando com frequência</span>' : ""}<h2>${esc(v.titulo)}</h2>${v.frase ? `<p class="frase">${esc(v.frase)}</p>` : ""}
+  <div class="gv-tags">${tags.map(t => `<span class="tag az">${esc(t)}</span>`).join("")}</div>
+  ${c ? `<div class="kc" style="cursor:default;margin-top:14px"><b>Você se candidatou</b><div class="passos">${ETAPAS.map((e,j) => `<i class="${j <= ETAPAS.findIndex(x => x[0]===c.etapa) ? "f" : ""}"></i>`).join("")}</div>${c.prox ? `<div class="prox">${esc(c.prox)}</div>` : ""}</div>` : ""}
+  ${v.o_que_faz ? `<h3>O que você vai fazer</h3><p>${esc(v.o_que_faz)}</p>` : ""}${v.requisitos ? `<h3>Requisitos</h3><p>${esc(v.requisitos)}</p>` : ""}
+  ${!v.o_que_faz && !v.requisitos ? `<p style="margin-top:18px">A equipe ainda não resumiu esta vaga. O anúncio oficial tem todos os detalhes.</p>` : ""}</div>
+  <div class="gv-pe"><a class="bt forte" href="${esc(v.url)}" target="_blank" rel="noopener">Ver o anúncio oficial ${ic("externo")}</a>${c ? "" : `<button class="bt" id="marcarAqui">${ic("ok")} Já me candidatei</button>`}<a class="bt" href="../ferramenta-curriculo.html?vaga=${encodeURIComponent(v.id)}">Avaliar meu currículo</a></div>`;
+  $("#gaveta").classList.add("on"); $("#gaveta").setAttribute("aria-hidden","false"); $("#veuGaveta").classList.add("on");
+  const m = $("#marcarAqui");
+  if (m) m.addEventListener("click", () => { CANDS.unshift({ vaga:id, etapa:"enviado", desde:0, prox:"Acabou de se candidatar" }); desenhaMenu((location.hash||"#inicio").slice(1)); abrirVaga(id); avisar("Guardada em Candidaturas, na etapa Currículo enviado."); });
+}
+function fecharVaga(){ $("#gaveta").classList.remove("on"); $("#gaveta").setAttribute("aria-hidden","true"); $("#veuGaveta").classList.remove("on"); }
+
+/* dólar de verdade do Banco Central, quando responder */
+(async function(){
+  try {
+    const f = d => `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}-${d.getFullYear()}`;
+    const u = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@i,dataFinalCotacao=@f)?@i='" + f(dia(-10)) + "'&@f='" + f(HOJE) + "'&$format=json&$select=cotacaoCompra,dataHoraCotacao";
+    const r = await fetch(u); const j = await r.json(); const ult = j.value && j.value[j.value.length-1];
+    if (!ult) return;
+    DOLAR = { v: ult.cotacaoCompra, quando: ult.dataHoraCotacao };
+    const el = $("#dolarValor"); if (el) { el.textContent = fmtR(DOLAR.v); $("#dolarMes").textContent = fmtR(412.5*DOLAR.v); $("#dolarFonte").textContent = "Banco Central · " + DOLAR.quando.slice(8,10) + "/" + DOLAR.quando.slice(5,7); }
+  } catch(e) {}
+})();
+
+pintaIcones();
+abrir();
+})();
+</script>
+</body>
+</html>
