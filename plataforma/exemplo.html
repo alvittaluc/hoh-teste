@@ -13,18 +13,18 @@
 <p id="msg">Abrindo a conta de exemplo…</p>
 <script src="controle-dados.js?v=6"></script>
 <script>
-/* SÓ NA CÓPIA DE TESTE: cria a conta de mentira da Marina, com perfil feito e
+/* SÓ NA CÓPIA DE TESTE: cria a conta de mentira do Lucas, na fase escolhida, com perfil feito e
    o Meu Controle preenchido, e abre o Início. Nada sai deste navegador.
-   Se a Marina já está aberta neste navegador, vai direto para o Início. */
+   Se a conta já está aberta neste navegador, vai direto para o Início. */
 (async function () {
-  const qual = localStorage.getItem("plat-conta");   // nova (o padrão), procurando ou marina (já trabalhando)
-  const busca = qual === "procurando", vazia = qual !== "marina" && !busca;
-  const uid = busca ? "teste-procurando" : vazia ? "teste-nova" : "teste-marina", email = vazia || busca ? "lucas@exemplo.com" : "marina@exemplo.com";
+  const qual = localStorage.getItem("plat-conta");   // nova (o padrão), procurando ou trabalhando
+  const busca = qual === "procurando", vazia = qual !== "trabalhando" && qual !== "marina" && !busca;
+  const uid = busca ? "teste-procurando" : vazia ? "teste-nova" : "teste-trabalhando", email = "lucas@exemplo.com";
   const volta = (new URLSearchParams(location.search).get("voltar") || "index.html").replace(/^[^a-z0-9]+/i, "");
   const destino = /^[a-z0-9-]+\.html([?#].*)?$/i.test(volta) ? volta : "index.html";
   if (localStorage.getItem("plat-exemplo-pronto") === "3") { location.replace(destino); return; }
-  const user = { id: uid, email, identities: [{}], user_metadata: { nome: vazia || busca ? "Lucas Pereira" : "Marina Souza", perfil_prof: true,
-    areas: vazia ? [] : busca ? ["Linguistica"] : ["Linguistica", "Educacao e Ensino"], subareas: [], areas_respondido: true } };
+  const user = { id: uid, email, identities: [{}], user_metadata: { nome: "Lucas Pereira", perfil_prof: true,
+    areas: vazia ? [] : ["Linguistica"], subareas: [], areas_respondido: true } };
   const ler = (k, p) => { try { return JSON.parse(localStorage.getItem(k)) || p; } catch (e) { return p; } };
   const contas = ler("teste-porta-contas", {}); contas[email] = user; localStorage.setItem("teste-porta-contas", JSON.stringify(contas));
   const perfil = { idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "C1", certificado: "TOEFL" }, { lingua: "Espanhol", nivel: "B1", certificado: "" }],
@@ -34,7 +34,7 @@
     ferramentas: [], mora: "Brasil", cidade: "Belo Horizonte", horas: "20", importados: [], salvoEm: new Date().toISOString() };
   if (vazia) Object.assign(perfil, { idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "B2", certificado: "" }],
     formacao: [], semFormacao: true, areas: {}, experiencias: [], cidade: "Recife", horas: "15" });
-  if (busca) Object.assign(perfil, { idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "B2", certificado: "" }],
+  if (!vazia) Object.assign(perfil, {   // o Lucas procurando vaga e já trabalhando idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }, { lingua: "Inglês", nivel: "B2", certificado: "" }],
     formacao: [{ curso: "Letras, Português", onde: "UFPE", situacao: "Cursando", ano: "2027" }], semFormacao: false, areas: { "Linguistica": "menos de 1 ano" },
     experiencias: [{ oque: "Atendimento ao cliente", onde: "Loja de eletrônicos", inicio: "2023-03", fim: "2025-06", atual: false, fez: "Atendimento por chat e e-mail, com metas de qualidade", numeros: "", origem: "" }],
     ferramentas: [], cidade: "Recife", horas: "15" });
@@ -46,7 +46,7 @@
   localStorage.setItem("hub-controle:dono", uid);   // o Meu Controle não apaga o exemplo ao abrir
 
   await Dados.abrir(); await Dados.apagarTudo();
-  if (!vazia) {   // a Marina (já trabalhando) e o Lucas procurando vaga
+  if (!vazia) {   // o Lucas procurando vaga ou já trabalhando
     const hoje = Dados.hoje();
     const dia = n => { const d = new Date(hoje + "T12:00:00"); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
     const vagas = (await (await fetch("vagas.json?v=" + Date.now())).json()).vagas;

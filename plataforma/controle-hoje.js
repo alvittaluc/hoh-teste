@@ -83,6 +83,30 @@ const Hoje = (function () {
 .h-cb-val { display:block; font-size:28px; font-weight:600; letter-spacing:-0.02em; }
 .h-cb-var { display:block; font-size:12.5px; font-weight:500; }
 .h-cb-var.sobe { color:#1F7A6E; } .h-cb-var.desce { color:#8E2233; }
+.h-cv-troca { display:inline-flex; border:1px solid var(--line-soft,#ECE6DB); border-radius:999px; padding:3px; background:var(--panel-2,#FAF8F4); }
+.h-cv-troca button { font:600 13px var(--body,'Geist',sans-serif); border:0; background:none; color:var(--ink-2,#54606F); padding:6px 16px; border-radius:999px; cursor:pointer; }
+.h-cv-troca button[aria-pressed="true"] { background:var(--panel,#fff); color:var(--ink,#10203A); box-shadow:0 1px 3px rgba(16,32,58,.12); }
+.h-cv-troca button:focus-visible { outline:2px solid var(--signal,#1A4893); outline-offset:1px; }
+.h-cv-cot { margin-top:16px; display:grid; gap:6px; }
+.h-cv-um { font-size:13.5px; color:var(--ink-2,#54606F); }
+.h-cv-linha { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.h-cv-val { font-size:40px; font-weight:600; line-height:1; letter-spacing:-.025em; color:var(--ink,#10203A); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.h-cv-var { display:inline-flex; align-items:center; gap:5px; font-size:13.5px; font-weight:600; border-radius:999px; padding:4px 10px; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.h-cv-var.desce { color:#A3313F; background:#F8E8EA; }
+.h-cv-var.sobe { color:#1F7A4D; background:#E6F3EB; }
+.h-cv-var svg { width:10px; height:10px; fill:currentColor; }
+.h-cv-conta { margin-top:18px; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:10px; align-items:stretch; }
+.h-cv-campo { border:1px solid var(--line-soft,#ECE6DB); border-radius:14px; padding:9px 12px; background:var(--panel,#fff); display:grid; gap:3px; min-width:0; align-content:center; }
+.h-cv-campo input, .h-cv-campo.saida output { line-height:28px; height:28px; }
+.h-cv-campo span { font-size:11.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3,#66717F); }
+.h-cv-campo input { font:600 20px var(--body,'Geist',sans-serif); letter-spacing:-.01em; color:var(--ink,#10203A); border:0; outline:0; padding:0; width:100%; background:none; font-variant-numeric:tabular-nums; }
+.h-cv-campo:focus-within { border-color:var(--signal,#1A4893); box-shadow:0 0 0 3px rgba(26,72,147,.12); }
+.h-cv-campo.saida { background:var(--signal-suave,#EAF1F8); border-color:#D3E2F1; }
+.h-cv-campo.saida output { font-size:20px; font-weight:600; letter-spacing:-.01em; color:var(--signal,#1A4893); font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.h-cv-igual { font-size:18px; color:var(--ink-3,#66717F); align-self:center; }
+.h-cv-mes { margin-top:12px; font:500 13px var(--body,'Geist',sans-serif); color:var(--signal,#1A4893); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px; text-align:left; }
+.h-cv-rod { margin-top:14px; padding-top:11px; border-top:1px solid var(--line-soft,#ECE6DB); }
+@media (max-width:480px) { .h-cv-val { font-size:34px; } .h-cv-conta { grid-template-columns:minmax(0,1fr); } .h-cv-igual { justify-self:center; transform:rotate(90deg); } }
 .h-per { display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-3,#66717F); margin:0 0 12px; }
 .h-per select { font:inherit; font-size:13.5px; font-weight:500; color:var(--ink,#10203A); background:var(--panel,#fff);
   border:1px solid var(--line,#DED7CA); border-radius:10px; padding:6px 10px; cursor:pointer; }
@@ -228,7 +252,38 @@ const Hoje = (function () {
             const r = await UI.resumo({ trabalhos: ctx.trabalhos, registros: ctx.registros, pagamentos: [], de: hoje.slice(0, 8) + "01", ate: hoje });
             const emUsd = r.previstoPorMoeda && r.previstoPorMoeda.USD;
             const hora = usd.atual.quando.slice(11, 16).replace(":", "h");
-            caixa.innerHTML = `<div class="h-cb-linha">${linha("Dólar", usd)}${linha("Euro", eur)}</div>
+            const porM = (r.previstoPorMoeda || {});
+            const M = { usd: { nome: "dólar", rot: "Em dólar", x: usd, mes: porM.USD || 0, sig: "USD" }, eur: { nome: "euro", rot: "Em euro", x: eur, mes: porM.EUR || 0, sig: "EUR" } };
+            let qual = usd ? "usd" : "eur";
+            const mesNome = new Date(hoje + "T12:00:00").toLocaleDateString("pt-BR", { month: "long" });
+            const ler = s => { const n = parseFloat(String(s).replace(/\./g, "").replace(",", ".")); return isFinite(n) ? n : 0; };
+            const brl = v => v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            caixa.innerHTML = `<div class="h-cv-troca" role="group" aria-label="Moeda">${usd ? '<button type="button" data-cv="usd">Dólar</button>' : ""}${eur ? '<button type="button" data-cv="eur">Euro</button>' : ""}</div>
+              <div class="h-cv-cot"><span class="h-cv-um" data-cv-um></span><div class="h-cv-linha"><span class="h-cv-val" data-cv-val></span><span data-cv-var></span></div></div>
+              <div class="h-cv-conta"><label class="h-cv-campo"><span data-cv-rot></span><input data-cv-entra inputmode="decimal" value="100,00" autocomplete="off"></label>
+                <span class="h-cv-igual" aria-hidden="true">=</span><div class="h-cv-campo saida"><span>Em reais</span><output data-cv-sai></output></div></div>
+              <button type="button" class="h-cv-mes" data-cv-mes></button>
+              <div class="h-nota h-cv-rod" data-cv-rod></div>`;
+            const q = s => caixa.querySelector(s), entra = q("[data-cv-entra]");
+            const contar = () => { q("[data-cv-sai]").textContent = "R$ " + brl(ler(entra.value) * M[qual].x.atual.compra); };
+            const desenhar = () => {
+              const c = M[qual], x = c.x, v = x.variacao;
+              q("[data-cv-um]").textContent = "1 " + c.nome + " vale";
+              q("[data-cv-val]").textContent = "R$ " + brl(x.atual.compra);
+              q("[data-cv-var]").innerHTML = v == null ? "" : `<span class="h-cv-var ${v < 0 ? "desce" : "sobe"}" title="${v < 0 ? "Caiu" : "Subiu"} desde o último fechamento"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="${v < 0 ? "M5 8.5 1 2.5h8z" : "M5 1.5 9 7.5H1z"}"/></svg>${pct(v)}%</span>`;
+              q("[data-cv-rot]").textContent = c.rot;
+              const bm = q("[data-cv-mes]"); bm.hidden = !c.mes;
+              bm.textContent = "Usar o que lancei em " + mesNome + " (" + Dados.escreverDinheiro(c.mes, c.sig) + ")";
+              const h = x.atual.quando.slice(11, 16).replace(":", "h");
+              q("[data-cv-rod]").textContent = "Cotação de compra de " + Dados.dataBonita(x.atual.dia) + ", às " + h + (x.atual.tipo.indexOf("Fechamento") === 0 ? ", fechamento do dia" : ", parcial do dia") + ". O valor que cai na sua conta depende da plataforma que você usa para receber.";
+              caixa.querySelectorAll("[data-cv]").forEach(b => b.setAttribute("aria-pressed", b.dataset.cv === qual));
+              contar();
+            };
+            caixa.querySelectorAll("[data-cv]").forEach(b => b.addEventListener("click", () => { qual = b.dataset.cv; desenhar(); }));
+            entra.addEventListener("input", contar);
+            q("[data-cv-mes]").addEventListener("click", () => { entra.value = brl(M[qual].mes); contar(); });
+            desenhar();
+            if (false) caixa.innerHTML = `<div class="h-cb-linha">${linha("Dólar", usd)}${linha("Euro", eur)}</div>
               ${emUsd ? `<div class="h-nota">Com o dólar de hoje, os seus <b>${esc(Dados.escreverDinheiro(emUsd, "USD"))}</b> deste mês valem <b>${esc(Dados.escreverDinheiro(emUsd * usd.atual.compra, "BRL"))}</b>.</div>` : ""}
               <div class="h-nota">Cotação de compra de ${esc(Dados.dataBonita(usd.atual.dia))}, às ${esc(hora)}${usd.atual.tipo.indexOf("Fechamento") === 0 ? ", fechamento do dia" : ", parcial do dia"}. O valor que cai na sua conta depende da plataforma que você usa para receber.</div>`;
           } catch (e) { caixa.innerHTML = `<p class="h-ag-vazio">Não deu para buscar a cotação agora.</p>`; }

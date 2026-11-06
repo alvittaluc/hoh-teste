@@ -803,7 +803,7 @@ const Plataforma = (function () {
     { id: "voce", nome: "Você", ic: "perfil", aluno: true, itens: [["perfil-prof", "Meu perfil", "perfil-profissional.html", "perfil"]] },
     { id: "equipe", nome: "Equipe", ic: "equipe", aluno: true, soEquipe: true, itens: [["equipe", "Painel da equipe", "../painel.html", "equipe"]] },
   ];
-  const MODELOS = { 1: "Ícones e nomes", 2: "Abre com o mouse" };
+  const MODELOS = { 1: "Ícones e nomes" };   // o modelo 2 (abre com o mouse) saiu em 06/11/2026
   // rodada de 05/11: quatro colunas no estilo dos sistemas de gestão, todas a partir do modelo que o dono escolheu
   function modelo() { try { const m = localStorage.getItem("plat-modelo"); return MODELOS[m] ? +m : 1; } catch (e) { return 1; } }
   const daEquipe = () => { try { return !!JSON.parse(localStorage.getItem("hub-equipe") || "null").sim; } catch (e) { return false; } };
@@ -1144,6 +1144,7 @@ const Plataforma = (function () {
   .al-pe .pl-av { width:32px; height:32px; font-size:12px; }
   .al-pe .al-eu { height:50px; }
   .al-pe .al-eu .c-tx { height:44px; flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; }
+  .al-pe .al-eu [data-plano-selo]:empty { display:none; }
   .al-pe .al-eu b { font-size:13.5px; font-weight:550; color:var(--al-forte); line-height:1.2; }
   .al-pe .pl-menu, .fl .pl-menu { left:72px; bottom:54px; }
   .al.fechado .c-tx, .al.fechado .al-grupo span { display:none; }
@@ -1572,7 +1573,7 @@ const Plataforma = (function () {
       b.setAttribute("aria-pressed", b.dataset.cor === cor);
       b.addEventListener("click", () => { try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {} location.reload(); });
     });
-    let conta = "nova"; try { const c = localStorage.getItem("plat-conta"); conta = c === "marina" || c === "procurando" ? c : "nova"; } catch (e) {}
+    let conta = "nova"; try { const c = localStorage.getItem("plat-conta"); conta = c === "trabalhando" || c === "marina" ? "trabalhando" : c === "procurando" ? c : "nova"; } catch (e) {}
     f.querySelectorAll("[data-conta-teste]").forEach(b => {
       b.setAttribute("aria-pressed", b.dataset.contaTeste === conta);
       b.addEventListener("click", () => {
@@ -1679,12 +1680,12 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto [data-nova-renda]", "#imposto"], tit: "Outras rendas", txt: "O imposto não conta só o que vem dos projetos. Se você recebe de outra fonte de renda, clique em <strong>Adicionar outra renda</strong> e ela entra na conta do mês. Vamos abrir." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campos:origem,valor,moeda", "campo:origem", "#ui-painel .u-corpo"], tit: "Outra renda · de onde veio e quanto", txt: "Escreva de onde veio o dinheiro, quanto entrou e em que moeda." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Outra renda · quem pagou", txt: "Isso muda a conta: o que vem do exterior ou de outra pessoa entra no carnê-leão. Salário e pagamento de empresa no Brasil já vêm com o imposto descontado." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda · o mês", txt: "Entrevistas, testes, prazos, estudo e as horas que você vai trabalhar, no calendário do mês." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "agendaExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "agendaExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda · o mês", txt: "Entrevistas, testes, prazos, estudo e as horas que você vai trabalhar, no calendário do mês." },
     { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar · o botão", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Também dá para clicar direto num dia do calendário e marcar por ali. Vamos abrir pelo botão." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Marcar · o que é", txt: "Escolha o tipo: entrevista, teste, prazo, estudo, horas de trabalho ou Outro, para qualquer compromisso. No título você escreve como quiser, por exemplo: reunião com a equipe do projeto." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campos:data,inicio", "campo:data", "#ui-painel .u-corpo"], tit: "Marcar · dia e horário", txt: "O dia e, se quiser, o horário. O que estiver marcado aparece no Início, em Para fazer, no dia certo." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId", "#ui-painel [data-cand]", "#ui-painel .u-corpo"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:nota"], tit: "Marcar · anotação", txt: "O que você precisa ter à mão nesse dia: o link da chamada, o nome de quem vai falar com você, o que levar pronto." },
     { cap: "Aprender", pg: "cursos.html", alvo: "col:cursos", tit: "Cursos", txt: "Os cursos ficam aqui, em Aprender." },
     { cap: "Aprender", pg: "cursos.html", alvo: ["#livro", "main"], tit: "Cursos · as trilhas", txt: "Aprenda o trabalho antes da primeira vaga: sete cursos em duas trilhas. Comece pelo de Fundamentos." },
@@ -1870,7 +1871,8 @@ const TourHub = (function () {
       fecharJanela(); clicar(["#agenda [data-marcar]"]);
       await esperar("#ui-painel");
       preencher({ tipo: "entrevista" }); await pausa(300);
-      preencher({ titulo: "Entrevista com a micro1", data: isoDia(7), inicio: "14:00", nota: "O link da chamada veio no e-mail." });
+      const ex = typeof Dados !== "undefined" ? (await Dados.listar("aplicacoes")).find(x => x.exemploTour) : null;
+      preencher({ titulo: "Entrevista com a micro1", data: isoDia(7), inicio: "14:00", nota: "O link da chamada veio no e-mail.", aplicacaoId: ex ? ex.id : "" });
     },
     async candSalva(aba) {
       const d = janelaAberta();
@@ -1898,7 +1900,21 @@ const TourHub = (function () {
       clicar(["#ui-painel [data-ordem]"]); await pausa(250);
     },
     async candEditar() { await ACOES.candSalva("editar"); },
-    async limparExemplo() {
+    async agendaExemplo() {   // na agenda: sem o trabalho de exemplo, mas com uma candidatura de exemplo para o campo "De qual candidatura"
+      fecharJanela();
+      if (typeof Dados === "undefined") return;
+      await Dados.abrir();
+      const ex = (await Dados.listar("trabalhos")).filter(x => x.exemploTour);
+      for (const t of ex) await Dados.removerTrabalho(t.id);
+      let mudou = ex.length > 0;
+      if (!(await Dados.listar("aplicacoes")).some(x => x.exemploTour)) {
+        await Dados.salvar("aplicacoes", { empresa: "micro1", titulo: "Portuguese Bilingual Expert (exemplo do tour)", data: isoDia(-10), estado: "entrevista",
+          origem: "Home Office Hub", passos: { aplicado: isoDia(-10), entrevista: isoDia(-2) }, exemploTour: true });
+        mudou = true;
+      }
+      if (mudou) { location.reload(); await pausa(5000); }   // a tela do Meu Controle lê tudo de novo
+    },
+    async limparExemplo(semRecarregar) {
       fecharJanela();
       if (typeof Dados === "undefined") return;
       await Dados.abrir();
@@ -1906,7 +1922,7 @@ const TourHub = (function () {
       for (const t of ex) await Dados.removerTrabalho(t.id);
       const ca = (await Dados.listar("aplicacoes")).filter(x => x.exemploTour);
       for (const a of ca) await Dados.remover("aplicacoes", a.id);
-      if (ex.length || ca.length) { location.reload(); await pausa(5000); }   // a tela do Meu Controle lê tudo de novo
+      if ((ex.length || ca.length) && !semRecarregar) { location.reload(); await pausa(5000); }   // a tela do Meu Controle lê tudo de novo
     },
   };
   const guardar = () => { try { estado ? localStorage.setItem("plat-tour", JSON.stringify(estado)) : localStorage.removeItem("plat-tour"); } catch (e) {} };
@@ -2099,7 +2115,7 @@ const TourHub = (function () {
   function terminar(completo) {
     const fechado = estado && estado.fechado;
     estado = null; ocupado = false; guardar(); fecharJanela(); limpar(); colunaAberta(false); document.body.classList.remove("tour-ativo");
-    ACOES.limparExemplo().catch(() => {});
+    ACOES.limparExemplo(completo).catch(() => {});   // no fim do tour, sem recarregar: a tela de encerramento fica
     if (fechado && coluna()) coluna().classList.add("fechado");
     try { localStorage.setItem("plat-tour-feito", "1"); } catch (e) {}
     if (completo) final();
