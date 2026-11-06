@@ -875,7 +875,7 @@ const Plataforma = (function () {
   .m-col .pl-menu { left:12px; right:12px; bottom:calc(100% - 4px); }
 
   /* ── 2: trilho de ícones + menu da seção ── */
-  body.m2 { padding-left:296px; }
+  body.m2 { padding-left:292px; }
   .m-trilho { position:fixed; left:0; top:0; bottom:0; width:72px; z-index:310; background:#fff; border-right:1px solid #EAE4D9; display:flex; flex-direction:column; align-items:center; padding:16px 0 12px; gap:4px; }
   .m-trilho .r-logo { margin-bottom:14px; }
   .r-bt { width:58px; padding:8px 0 6px; border-radius:12px; border:0; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; color:#66717F; font:500 10.5px/1.2 var(--body,'Geist',sans-serif); text-decoration:none; }
@@ -1083,9 +1083,9 @@ const Plataforma = (function () {
   const CORES_AL = { vidro: "Vidro", papel: "Papel", azul: "Azul", noite: "Noite" };
   function corDaColuna() { try { const c = localStorage.getItem("plat-cor"); return CORES_AL[c] ? c : "vidro"; } catch (e) { return "vidro"; } }
   const CSS_AL = `
-  body.m1, body.m3 { padding-left:268px; transition:padding-left .22s; }
+  body.m1, body.m3 { padding-left:296px; transition:padding-left .22s; }
   body.m2 { padding-left:64px; }
-  body.m2.al-fixa { padding-left:268px; }
+  body.m2.al-fixa { padding-left:296px; }
   body.m1.al-fechado, body.m3.al-fechado { padding-left:64px; }
   body.m4 { padding-left:76px; padding-top:0; }
   body.m3 { padding-top:0; }
@@ -1102,7 +1102,7 @@ const Plataforma = (function () {
     --al-linha:rgba(255,255,255,.08); --al-txt:#C4CEDB; --al-forte:#FFFFFF; --al-rot:#8D9BB0; --al-ic:#9FB1C8; --al-hover:rgba(255,255,255,.07);
     --al-pill:rgba(187,211,242,.95); --al-pill-txt:#0F1D33; --al-marca:#BBD3F2; --al-sombra:none; --al-vidro:blur(20px) saturate(1.3); }
 
-  .al { position:fixed; left:0; top:0; bottom:0; width:268px; z-index:300; display:flex; flex-direction:column; overflow:hidden;
+  .al { position:fixed; left:0; top:0; bottom:0; width:296px; z-index:300; display:flex; flex-direction:column; overflow:hidden;
     background:linear-gradient(to right, var(--al-trilho) 0 64px, var(--al-vao) 64px 72px, var(--al-painel) 72px);
     -webkit-backdrop-filter:var(--al-vidro); backdrop-filter:var(--al-vidro); border-right:1px solid var(--al-borda);
     box-shadow:1px 0 0 var(--al-linha); transition:width .22s, box-shadow .22s; font-family:var(--body,'Geist',system-ui,sans-serif); }
@@ -1121,6 +1121,12 @@ const Plataforma = (function () {
   .al-linha[aria-current="page"] .c-ic::after { content:""; position:absolute; right:0; top:9px; bottom:9px; width:3px; border-radius:3px 0 0 3px; background:var(--al-marca); }
   .al-linha .pl-n { margin-left:auto; font-size:11.5px; font-weight:500; color:var(--al-rot); }
   .al-linha .pl-n:empty { display:none; }
+  .al-linha .c-tx > span:not([class]) { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .al-linha .c-tx > .pl-n, .al-linha .c-tx > .al-aviso, .al-linha .c-tx > .al-fixo { margin-left:0; }
+  .al-linha .c-tx > .al-aviso + .pl-n { margin-left:-4px; }
+  .al-linha .c-tx { position:relative; }
+  .al-linha .c-tx > .al-fixo { position:absolute; right:8px; top:50%; margin-top:-12px; }
+  .al-linha:hover .al-fixo ~ .al-aviso, .al-linha:hover .al-fixo ~ .pl-n, .al-fixo.on ~ .al-aviso, .al-fixo.on ~ .pl-n { visibility:hidden; }
   .al .pl-item, .al .pl-eu { padding:0; gap:0; border-radius:0; background:none !important; font-weight:inherit; }
   .al .pl-eu { display:grid; }
   .al-grupo { display:grid; grid-template-columns:64px 8px minmax(0,1fr); align-items:end; height:30px; flex-shrink:0; padding-bottom:3px;
@@ -1147,7 +1153,7 @@ const Plataforma = (function () {
 
   /* 2: fica só nos ícones e abre por cima ao passar o mouse */
   .al.m-hover:not(.fixa) { width:64px; }
-  .al.m-hover.aberta:not(.fixa) { width:268px; box-shadow:24px 0 48px -24px rgba(16,32,58,.35); }
+  .al.m-hover.aberta:not(.fixa) { width:296px; box-shadow:24px 0 48px -24px rgba(16,32,58,.35); }
   .al.m-hover:not(.fixa):not(.aberta) .c-tx, .al.m-hover:not(.fixa):not(.aberta) .al-grupo span { display:none; }
   /* aberta por cima da página, a coluna fica menos transparente para o texto de trás não atrapalhar */
   [data-cor="vidro"].al.m-hover.aberta:not(.fixa) { --al-trilho:rgba(255,255,255,.78); --al-painel:rgba(255,255,255,.93); }
@@ -1670,7 +1676,7 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ip-pago", "#imposto"], tit: "O valor que caiu na conta", txt: "Para cada período de trabalho, dá para informar quanto a empresa pagou de verdade. Vamos abrir com um valor de exemplo." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campos:valor,moeda", "campo:valor", "#ui-painel .u-corpo", "#imposto .ip-pago"], tit: "Valor que a empresa pagou", txt: "O valor que chegou de verdade, já com as taxas, e a moeda. Pode ser em reais, como caiu na sua conta." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campo:data", "#ui-painel .u-corpo", "#imposto .ip-pago"], tit: "Dia em que o dinheiro caiu", txt: "O imposto usa este valor no mês em que o dinheiro entrou, e não a conta das horas. Na observação, anote por onde veio, como Payoneer ou Wise." },
-    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto [data-nova-renda]", "#imposto"], tit: "Outras rendas", txt: "O imposto não conta só o que vem dos projetos. Deu aula particular, fez um freelance, recebeu de outra pessoa? Clique em <strong>Adicionar outra renda</strong> e ela entra na conta do mês. Vamos abrir." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto [data-nova-renda]", "#imposto"], tit: "Outras rendas", txt: "O imposto não conta só o que vem dos projetos. Se você recebe de outra fonte de renda, clique em <strong>Adicionar outra renda</strong> e ela entra na conta do mês. Vamos abrir." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campos:origem,valor,moeda", "campo:origem", "#ui-painel .u-corpo"], tit: "Outra renda · de onde veio e quanto", txt: "Escreva de onde veio o dinheiro, quanto entrou e em que moeda." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Outra renda · quem pagou", txt: "Isso muda a conta: o que vem do exterior ou de outra pessoa entra no carnê-leão. Salário e pagamento de empresa no Brasil já vêm com o imposto descontado." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },

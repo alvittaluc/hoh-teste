@@ -305,7 +305,7 @@ montarLayout("inicio");
       <div style="min-width:0"><b>${esc(v.titulo.replace(/^\*/, ""))}</b>
         <small>${esc(e.nome)}${alta ? '<span class="selo-chamando"><span class="ch-pulso" aria-hidden="true"></span>Contratando com frequência</span>' : ""}</small></div>
       <div class="dir">${esc(r.remuneracao || "")}<em>${textoData(v)}</em></div></a>`; };
-  $("#emAlta").innerHTML = altas.slice(0, 3).map(v => linha(v, true)).join("") || '<p class="fz-vazio">A equipe ainda não marcou vagas em alta.</p>';
+  $("#emAlta").innerHTML = altas.slice(0, 5).map(v => linha(v, true)).join("") || '<p class="fz-vazio">A equipe ainda não marcou vagas em alta.</p>';
   const ids = new Set(altas.map(v => v.id));
   const novas = vagas.filter(v => !ids.has(v.id) && dias(v.data_vista) <= 7).sort((a, b) => (b.data_vista || "").localeCompare(a.data_vista || ""));
   $("#novas").innerHTML = novas.slice(0, 4).map(v => linha(v, false)).join("") || '<p class="fz-vazio">Nenhuma vaga nova nesta semana ainda.</p>';

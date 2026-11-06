@@ -141,7 +141,7 @@ try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e)
 (async function () {
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const vazio = () => ({ idiomas: [{ lingua: "Português", nivel: "Nativo", certificado: "" }], formacao: [], semFormacao: false, areas: {},
-    experiencias: [], ferramentas: [], mora: "Brasil", cidade: "", horas: "", importados: [] });
+    experiencias: [], ferramentas: [], mora: "Brasil", cidade: "", horas: "", importados: [], nome: "", telefone: "" });
 
   const q = new URLSearchParams(location.search);
   // Só volta para uma página do próprio site (a mesma regra da entrar.html).
@@ -171,6 +171,8 @@ try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e)
     espera.textContent = "Não deu para abrir o seu perfil agora. Confira a internet e recarregue a página.";
     return;
   }
+  if (!P.nome) P.nome = meta.nome || "";
+  if (!P.telefone) P.telefone = meta.telefone || "";
   // as áreas valem o que está na conta (a pergunta das áreas da aba Vagas também muda elas)
   const AREAS = Acesso.AREAS, SUBAREAS = Acesso.SUBAREAS;
   const naConta = Array.isArray(meta.areas) ? meta.areas : [];
@@ -248,7 +250,16 @@ try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e)
     const { s } = pontos();
     const faltamMc = DO_CONTROLE.filter(t => !P.importados.includes(t.id));
     document.getElementById("secoes").innerHTML = `
-      <section class="pp-cx" id="sec-idiomas">
+      <section class="pp-cx" id="sec-dados">
+            <h2>Seus dados</h2>
+            <p class="por">Para a equipe do Hub saber com quem está falando.</p>
+            <div class="pp-linha">
+              <div><label class="pp-rot" for="nome">Nome completo</label><input class="pp-campo" id="nome" autocomplete="name" value="${esc(P.nome)}"></div>
+              <div><label class="pp-rot" for="telefone">Telefone com DDD</label><input class="pp-campo" id="telefone" type="tel" autocomplete="tel" inputmode="tel" value="${esc(P.telefone)}" placeholder="(11) 91234-5678"></div>
+            </div>
+          </section>
+
+          <section class="pp-cx" id="sec-idiomas">
         <h2>Idiomas ${marca(s[0], true)}</h2>
         <p class="por">O nível de cada idioma. Se tiver certificado, diga qual.</p>
         <details class="pp-entenda"><summary>O que querem dizer A1, A2, B1, B2, C1 e C2?</summary>
@@ -355,7 +366,8 @@ try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e)
       const v = nf.value.trim().slice(0, 60);
       if (v && !P.ferramentas.includes(v) && P.ferramentas.length < 40) { P.ferramentas.push(v); marcarMudanca(); desenhar(); document.getElementById("novaFerr").focus(); }
     });
-    ["mora", "cidade", "horas"].forEach(id => raiz.querySelector("#" + id).addEventListener("input", e => {
+    ["nome", "telefone"].forEach(id => raiz.querySelector("#" + id).addEventListener("input", e => { P[id] = e.target.value.slice(0, 80); marcarMudanca(); }));
+        ["mora", "cidade", "horas"].forEach(id => raiz.querySelector("#" + id).addEventListener("input", e => {
       P[id] = e.target.value.slice(0, 60); marcarMudanca(); medidor();
       const ok = precisa().mora, h2 = raiz.querySelector("#sec-mora h2 span");
       if (h2) h2.outerHTML = marca(ok, true);
@@ -446,7 +458,7 @@ try { montarLayout(""); } catch (e) { console.warn("layout.js não carregou", e)
       const r = await db.from("perfil_profissional").upsert({ user_id: usuario.id, dados, atualizado_em: dados.salvoEm }, { onConflict: "user_id" });
       if (r.error) throw r.error;
       const areas = Object.keys(P.areas);
-      const u = await db.auth.updateUser({ data: { perfil_prof: true, areas, subareas: subs.filter(s => areas.includes(s.split("/")[0])), areas_respondido: true } });
+      const u = await db.auth.updateUser({ data: { perfil_prof: true, ...(String(P.nome || "").trim() ? { nome: P.nome.trim() } : {}), telefone: String(P.telefone || "").trim(), areas, subareas: subs.filter(s => areas.includes(s.split("/")[0])), areas_respondido: true } });
       if (u.error) throw u.error;
       mudou = false;
       if (primeira) { dizer("Perfil salvo. Entrando no Hub…", "ok"); location.replace(voltar); return; }
