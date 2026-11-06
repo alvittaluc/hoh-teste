@@ -1670,6 +1670,9 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ip-pago", "#imposto"], tit: "O valor que caiu na conta", txt: "Para cada período de trabalho, dá para informar quanto a empresa pagou de verdade. Vamos abrir com um valor de exemplo." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campos:valor,moeda", "campo:valor", "#ui-painel .u-corpo", "#imposto .ip-pago"], tit: "Valor que a empresa pagou", txt: "O valor que chegou de verdade, já com as taxas, e a moeda. Pode ser em reais, como caiu na sua conta." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campo:data", "#ui-painel .u-corpo", "#imposto .ip-pago"], tit: "Dia em que o dinheiro caiu", txt: "O imposto usa este valor no mês em que o dinheiro entrou, e não a conta das horas. Na observação, anote por onde veio, como Payoneer ou Wise." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto [data-nova-renda]", "#imposto"], tit: "Outras rendas", txt: "O imposto não conta só o que vem dos projetos. Deu aula particular, fez um freelance, recebeu de outra pessoa? Clique em <strong>Adicionar outra renda</strong> e ela entra na conta do mês. Vamos abrir." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campos:origem,valor,moeda", "campo:origem", "#ui-painel .u-corpo"], tit: "Outra renda · de onde veio e quanto", txt: "Escreva de onde veio o dinheiro, quanto entrou e em que moeda." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Outra renda · quem pagou", txt: "Isso muda a conta: o que vem do exterior ou de outra pessoa entra no carnê-leão. Salário e pagamento de empresa no Brasil já vêm com o imposto descontado." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda · o mês", txt: "Entrevistas, testes, prazos, estudo e as horas que você vai trabalhar, no calendário do mês." },
     { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar · o botão", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Vamos abrir." },
@@ -1681,7 +1684,7 @@ const TourHub = (function () {
     { cap: "Aprender", pg: "cursos.html", alvo: ["#livro", "main"], tit: "Cursos · as trilhas", txt: "Aprenda o trabalho antes da primeira vaga: sete cursos em duas trilhas. Comece pelo de Fundamentos." },
     { cap: "Aprender", pg: "como-funciona.html", alvo: "col:guia", tit: "Como funciona", txt: "O guia do trabalho fica aqui, também em Aprender." },
     { cap: "Aprender", pg: "como-funciona.html", alvo: ["#areas", ".bloco", "main"], tit: "Como funciona · o que tem aqui", txt: "Um guia do trabalho, por partes: os tipos de projeto que você vai encontrar, como é a entrada etapa por etapa, o currículo que passa, como o dinheiro chega ao Brasil, imposto e perguntas frequentes." },
-    { cap: "Aprender", pg: "como-funciona.html", alvo: ["#golpe", "main"], tit: "Como reconhecer golpe", txt: "Leia esta parte antes da primeira vaga: o que uma empresa séria nunca pede, e os sinais de que é golpe." },
+    { cap: "Aprender", pg: "como-funciona.html", alvo: ["#golpe", "main"], tit: "Como reconhecer golpe", txt: "As vagas do Hub são de empresas conferidas. Se você achar uma vaga fora daqui, num grupo, numa rede social ou por mensagem, fique atento a estes sinais: pedir dinheiro para começar, contratar só pelo WhatsApp, prometer muito por pouco trabalho." },
     { pg: "ferramenta-curriculo.html?vaga={vaga}", cap: "Ferramentas", alvo: "col:curriculo", tit: "Avaliar currículo", txt: "As ferramentas ficam aqui na coluna. A primeira avalia o seu currículo para uma vaga e mostra o que ajustar, já em inglês." },
     { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#vaga"], tit: "Avaliar currículo · a vaga", txt: "Quando você chega pelo atalho da vaga, ela já vem escolhida. Dá para trocar por outra ou colar o anúncio de uma vaga de fora do Hub." },
     { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#arq"], tit: "Avaliar currículo · o seu currículo", txt: "Mande o PDF do currículo. Ele é lido só para esta avaliação. Para conhecer, dá para usar o currículo de exemplo." },
@@ -1796,7 +1799,7 @@ const TourHub = (function () {
   }
   function soltar() { [bloq, foco, cx].forEach(x => x && document.body.appendChild(x)); }
   function fecharJanela() { soltar(); const d = janelaAberta(); if (d) { try { d.close(); } catch (e) {} d.remove(); } }
-  const NA_JANELA = ["candidatura", "trabalho", "dia", "marcar", "candSalva", "candAjustar", "candEditar", "pagoImposto"];
+  const NA_JANELA = ["candidatura", "trabalho", "dia", "marcar", "candSalva", "candAjustar", "candEditar", "pagoImposto", "outraRenda"];
   const ACOES = {
     async candidatura() {
       const jn = janelaAberta();   // a janela de Nova candidatura, não a de uma candidatura salva (que tem as abas)
@@ -1840,6 +1843,14 @@ const TourHub = (function () {
       clicar(["#imposto .ip-pago"]);
       await esperar('#ui-painel [name="valor"]');
       preencher({ valor: "1180", moeda: "BRL", data: isoDia(-1), nota: "Caiu pela Payoneer, já com a taxa." });
+    },
+    async outraRenda() {
+      if (janelaAberta() && janelaAberta().querySelector('[name="origem"]')) return;
+      fecharJanela();
+      await ACOES.garantirExemplo();
+      clicar(["#imposto [data-nova-renda]"]);
+      await esperar('#ui-painel [name="origem"]');
+      preencher({ origem: "Aulas particulares de inglês", valor: "600", moeda: "BRL", tipo: "pf" });
     },
     async dia() {
       if (janelaAberta() && janelaAberta().querySelector('[name="horas"]')) return;
