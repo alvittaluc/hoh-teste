@@ -1572,7 +1572,7 @@ const Plataforma = (function () {
       b.setAttribute("aria-pressed", b.dataset.cor === cor);
       b.addEventListener("click", () => { try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {} location.reload(); });
     });
-    let conta = "nova"; try { conta = localStorage.getItem("plat-conta") === "marina" ? "marina" : "nova"; } catch (e) {}
+    let conta = "nova"; try { const c = localStorage.getItem("plat-conta"); conta = c === "marina" || c === "procurando" ? c : "nova"; } catch (e) {}
     f.querySelectorAll("[data-conta-teste]").forEach(b => {
       b.setAttribute("aria-pressed", b.dataset.contaTeste === conta);
       b.addEventListener("click", () => {
@@ -1681,7 +1681,7 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Outra renda · quem pagou", txt: "Isso muda a conta: o que vem do exterior ou de outra pessoa entra no carnê-leão. Salário e pagamento de empresa no Brasil já vêm com o imposto descontado." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda · o mês", txt: "Entrevistas, testes, prazos, estudo e as horas que você vai trabalhar, no calendário do mês." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar · o botão", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Vamos abrir." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar · o botão", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Também dá para clicar direto num dia do calendário e marcar por ali. Vamos abrir pelo botão." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Marcar · o que é", txt: "Escolha o tipo: entrevista, teste, prazo, estudo, horas de trabalho ou Outro, para qualquer compromisso. No título você escreve como quiser, por exemplo: reunião com a equipe do projeto." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campos:data,inicio", "campo:data", "#ui-painel .u-corpo"], tit: "Marcar · dia e horário", txt: "O dia e, se quiser, o horário. O que estiver marcado aparece no Início, em Para fazer, no dia certo." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },

@@ -13,23 +13,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilo.css">
 <style>
-/* Início da plataforma: só o que ajuda a pessoa hoje. Três perguntas, nesta ordem:
-   o que eu preciso fazer, que vaga vale olhar agora, e como está o meu mês. */
+/* Início da plataforma (ideia 1): em cima, a única coisa a fazer agora. Embaixo, uma grade de 12 colunas
+   em que os cartões da mesma linha começam e terminam na mesma altura. O que aparece muda com a fase da conta:
+   conta nova, procurando vaga e já trabalhando. Cartão vazio não aparece. */
 .in-main { max-width:1440px; margin:0; padding:30px 32px 80px; }
 .in-ola { font-family:var(--display); font-weight:400; color:var(--ink); font-size:clamp(32px,4vw,46px); letter-spacing:-.02em; line-height:1.08; }
 .in-sub { margin-top:8px; font-size:15.5px; color:var(--ink-2); }
-.in-grade { display:grid; grid-template-columns:minmax(0,1.9fr) minmax(300px,1fr); gap:22px; margin-top:28px; align-items:start; }
-.in-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--raio); box-shadow:var(--sombra); padding:22px 22px 14px; }
-.in-cx + .in-cx { margin-top:22px; }
+.in-corpo { display:grid; gap:20px; margin-top:26px; }
+.in-linha { display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); gap:20px; align-items:stretch; }
+.in-linha > * { min-width:0; display:flex; flex-direction:column; gap:20px; }
+.in-linha > * > .in-cx:last-child { flex:1; }
+.in-cx { background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--raio); box-shadow:var(--sombra); padding:22px; min-width:0; display:flex; flex-direction:column; }
 .in-cab { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:12px; }
 .in-cab h2 { font-size:17px; font-weight:600; color:var(--ink); letter-spacing:-.01em; display:flex; align-items:center; gap:9px; }
 .in-cab a { font-size:13.5px; font-weight:500; color:var(--signal); white-space:nowrap; }
 .in-cab a:hover { text-decoration:underline; text-underline-offset:3px; }
 .in-nota { font-size:13.5px; color:var(--ink-3); margin:-6px 0 10px; }
 
-/* o que fazer */
+/* agora: o próximo passo */
+.in-agora { display:flex; align-items:center; gap:18px; padding:20px 22px; border-radius:var(--raio); background:var(--signal-suave); border:1px solid #D3E2F1; box-shadow:var(--sombra); }
+.in-agora .ic { width:48px; height:48px; border-radius:14px; background:var(--panel); color:var(--signal); display:grid; place-items:center; flex-shrink:0; }
+.in-agora .ic svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.in-agora .tx { flex:1; min-width:0; }
+.in-agora small { display:block; font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--signal); }
+.in-agora b { display:block; font-size:18px; font-weight:600; color:var(--ink); line-height:1.3; margin-top:2px; }
+.in-agora span.d { display:block; font-size:14px; color:var(--ink-2); margin-top:2px; }
+.in-agora a.bt { font-size:14px; font-weight:600; padding:11px 20px; border-radius:999px; background:#1A4893; color:#fff; white-space:nowrap; }
+.in-agora a.bt:hover { background:#143A78; }
+
+/* para fazer */
 .fz { display:grid; grid-template-columns:40px minmax(0,1fr) auto; gap:14px; align-items:center; padding:13px 0; border-top:1px solid var(--line-soft); }
-.fz:first-of-type { border-top:0; }
+.fz:first-of-type { border-top:0; padding-top:2px; }
 .fz-ic { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--signal-suave); color:var(--signal); }
 .fz-ic.am { background:var(--amber-suave); color:var(--amber); }
 .fz-ic.vi { background:#F1EEF7; color:#5B4B9E; }
@@ -39,10 +53,31 @@
 .fz small.urgente { color:var(--amber); font-weight:500; }
 .fz-bt { font-size:13.5px; font-weight:500; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--ink); white-space:nowrap; transition:box-shadow .15s, border-color .15s; }
 .fz-bt:hover { border-color:#C9C0B0; box-shadow:var(--sombra); }
-.fz-vazio { padding:10px 0 14px; font-size:14.5px; color:var(--ink-2); }
+
+/* números do mês */
+.nums { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
+.num { display:flex; flex-direction:column; justify-content:space-between; gap:4px; }
+.num small { font-size:13.5px; color:var(--ink-2); }
+.num b { font-family:var(--display); font-weight:400; font-size:32px; color:var(--ink); line-height:1.1; margin-top:6px; font-variant-numeric:tabular-nums; }
+.num em { font-style:normal; font-size:13px; color:var(--ink-3); }
+.num.verde { background:linear-gradient(170deg,#F4FAF6 0%,#E9F5EE 100%); border-color:#D3EBDD; }
+.num.verde b { color:#16603C; }
+a.num:hover { border-color:#CFE0F1; }
+
+/* candidaturas por etapa */
+.etapas { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+.etapa { border-radius:12px; background:var(--panel-2, #FAF8F4); border:1px solid var(--line-soft); padding:11px 12px 10px; display:grid; gap:2px; }
+.etapa b { font-size:22px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
+.etapa span { font-size:12.5px; color:var(--ink-2); line-height:1.25; }
+.etapa.vivo { background:var(--signal-suave); border-color:#D3E2F1; }
+.etapa.vivo b { color:var(--signal); }
+.cand-prox { margin-top:auto; padding-top:14px; font-size:13.5px; color:var(--ink-2); }
+.cand-prox b { color:var(--ink); font-weight:550; }
+.in-estreito .etapas { grid-template-columns:repeat(2, minmax(0,1fr)); }
 
 /* vagas: a mesma linha das vagas do site, com o azul e o selo verde do Em alta */
-.lv { display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:14px; align-items:center; padding:12px 14px; margin:0 -8px 8px; border-radius:14px; border:1px solid var(--line-soft); background:var(--panel); transition:border-color .15s, box-shadow .15s; }
+.lv { display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:14px; align-items:center; padding:12px 14px; margin:0 0 8px; border-radius:14px; border:1px solid var(--line-soft); background:var(--panel); transition:border-color .15s, box-shadow .15s; }
+.lv:last-child { margin-bottom:0; }
 .lv:hover { border-color:#D6CDBD; box-shadow:var(--sombra); }
 .lv.chamando { border-color:#CCDCEE; background:radial-gradient(90% 160% at 0% 50%, #E2ECF8 0%, rgba(234,241,248,.55) 38%, rgba(255,255,255,0) 70%), var(--panel); }
 .lv.chamando:hover { border-color:#AFC7E4; }
@@ -51,15 +86,16 @@
 .lv small { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--ink-3); margin-top:2px; }
 .lv .dir { text-align:right; font-size:13px; color:var(--ink-2); white-space:nowrap; }
 .lv .dir em { display:block; font-style:normal; font-size:12px; color:var(--ink-3); }
+.in-meio .lv { grid-template-columns:44px minmax(0,1fr); }
+.in-meio .lv .dir { display:none; }
 .selo-chamando { display:inline-flex; align-items:center; gap:7px; font-size:11.5px; font-weight:600; white-space:nowrap;
   color:#156B45; background:#E3F5EC; border:1px solid #BFE6D2; border-radius:20px; padding:1px 10px 1px 8px; }
 .ch-pulso { position:relative; display:inline-block; width:7px; height:7px; border-radius:50%; background:#2BB673; flex-shrink:0; }
 .ch-pulso::after { content:""; position:absolute; inset:0; border-radius:50%; background:#2BB673; animation:ch-pulsa 1.8s ease-out infinite; }
 @keyframes ch-pulsa { 0% { transform:scale(1); opacity:.7; } 80%, 100% { transform:scale(3.2); opacity:0; } }
 @media (prefers-reduced-motion:reduce){ .ch-pulso::after { animation:none; opacity:0; } }
-.selo-nova { font-size:11px; font-weight:600; color:var(--amber); background:var(--amber-suave); padding:1px 8px; border-radius:999px; }
 
-/* guia de primeiros passos: só para quem acabou de entrar */
+/* primeiros passos */
 .in-guia { background:linear-gradient(170deg,#FFFFFF 0%,#F1F6FC 100%); border-color:#D7E3F1; }
 .gu-esconde { font:500 13px var(--body); color:var(--ink-3); background:none; border:0; cursor:pointer; }
 .gu-esconde:hover { color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
@@ -74,39 +110,38 @@
 .gu.feito b { color:var(--ink-3); font-weight:500; text-decoration:line-through; text-decoration-color:#B9C4D2; }
 .gu small { display:block; font-size:13px; color:var(--ink-3); margin-top:1px; }
 .gu.feito small { display:none; }
-.gu.agora { background:#fff; margin:4px -12px; padding:13px 12px; border-radius:14px; border:1px solid #CFE0F1; box-shadow:0 1px 2px rgba(16,32,58,.05), 0 10px 24px -14px rgba(26,72,147,.35); }
-.gu.agora + .gu { border-top:0; }
-.gu.agora .gu-n { border-color:#1A4893; color:#1A4893; }
-.gu .fz-bt.forte { background:#1A4893; border-color:#1A4893; color:#fff; }
 .gu-tour { margin-top:10px; font:500 13.5px var(--body); color:var(--signal); background:none; border:0; cursor:pointer; padding:4px 0; }
 .gu-tour:hover { text-decoration:underline; text-underline-offset:3px; }
-.gu-pronto { display:flex; gap:12px; align-items:center; padding:6px 0 10px; }
-.gu-pronto b { font-size:15px; color:var(--ink); }
 @media (max-width:640px) { .gu { grid-template-columns:30px minmax(0,1fr); } .gu .fz-bt { grid-column:2; justify-self:start; } }
-/* cartão do perfil */
+
+/* perfil e atalhos */
 .pf { display:flex; align-items:center; gap:16px; }
 .pf-anel { --p:0; width:64px; height:64px; border-radius:50%; flex-shrink:0; display:grid; place-items:center; background:conic-gradient(var(--signal) calc(var(--p) * 1%), #E4ECF6 0); }
 .pf-anel span { width:50px; height:50px; border-radius:50%; background:var(--panel); display:grid; place-items:center; font-weight:600; font-size:14px; color:var(--ink); }
 .pf p { font-size:13.5px; line-height:1.5; margin:0; color:var(--ink-2); }
 .pf p a { color:var(--signal); font-weight:500; }
-/* coluna da direita */
-.in-cx.verde { background:linear-gradient(170deg,#F4FAF6 0%,#E9F5EE 100%); border-color:#D3EBDD; }
-.in-cx.verde .in-cab a { color:#1F7A4D; }
-.in-cx.verde .nm a { border-top-color:#D3EBDD; }
-.in-cx.verde .nm a b { color:#16603C; }
-.nm { display:grid; gap:2px; }
-.nm a { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:11px 0; border-top:1px solid var(--line-soft); font-size:14px; color:var(--ink-2); }
-.nm a:first-child { border-top:0; padding-top:2px; }
-.nm a b { font-family:var(--display); font-weight:400; font-size:24px; color:var(--ink); letter-spacing:-.01em; }
-.nm a:hover span { color:var(--signal); }
 .at { display:grid; gap:8px; }
 .at a { display:flex; align-items:center; gap:11px; padding:11px 13px; border-radius:12px; border:1px solid var(--line-soft); background:var(--panel-2); font-size:14px; font-weight:500; color:var(--ink); transition:border-color .15s, background .15s; }
 .at a:hover { border-color:#CFE0F1; background:var(--signal-suave); }
 .at svg { width:18px; height:18px; fill:none; stroke:var(--signal); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
-.in-teste { margin-top:26px; font-size:12.5px; color:var(--ink-3); text-align:center; }
-.in-teste button { font:inherit; color:var(--signal); background:none; border:0; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.pf-lista { display:grid; gap:0; margin-top:14px; }
+.pf-lista span { display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line-soft); font-size:14px; color:var(--ink); }
+.pf-lista span:first-child { border-top:0; }
+.pf-lista i { width:20px; height:20px; border-radius:50%; border:1.5px solid #C9D9EC; flex-shrink:0; display:grid; place-items:center; }
+.pf-lista .ok { color:var(--ink-3); }
+.pf-lista .ok i { background:#1F7A4D; border-color:#1F7A4D; }
+.pf-lista .ok i::after { content:""; width:8px; height:4px; border:2px solid #fff; border-top:0; border-right:0; transform:translateY(-1px) rotate(-45deg); }
+.pf-bt { margin-top:auto; padding-top:16px; }
+.pf-bt a { display:inline-flex; font-size:13.5px; font-weight:500; padding:8px 14px; border-radius:999px; border:1px solid var(--line); color:var(--ink); }
+.pf-bt a:hover { border-color:#C9C0B0; box-shadow:var(--sombra); }
+.fz-vazio { padding:6px 0 4px; font-size:14px; color:var(--ink-2); }
 
-@media (max-width:1100px) { .in-grade { grid-template-columns:1fr; } }
+@media (max-width:1100px) {
+  .in-linha { grid-template-columns:minmax(0,1fr); }
+  .in-linha > * { grid-column:auto !important; }
+  .in-linha > * > .in-cx:last-child { flex:none; }
+}
+@media (max-width:760px) { .nums { grid-template-columns:minmax(0,1fr); } .in-agora { flex-direction:column; align-items:flex-start; } }
 @media (max-width:640px) {
   .in-main { padding:22px 16px 90px; }
   .fz { grid-template-columns:36px minmax(0,1fr); }
@@ -115,6 +150,7 @@
   .lv { grid-template-columns:40px minmax(0,1fr); }
   .lv .dir { display:none; }
   .lv b { white-space:normal; }
+  .etapas { grid-template-columns:repeat(2, minmax(0,1fr)); }
 }
 </style>
 </head>
@@ -122,54 +158,7 @@
 <main class="in-main">
   <h1 class="in-ola" id="ola">Olá.</h1>
   <p class="in-sub" id="olaSub">Abrindo o seu dia…</p>
-
-  <div class="in-grade">
-    <div>
-      <section class="in-cx in-guia" id="guia" hidden>
-        <div class="in-cab"><h2>Primeiros passos</h2><button class="gu-esconde" id="guiaEsconde">Esconder o guia</button></div>
-        <div class="gu-barra"><i id="guiaBarra"></i></div>
-        <p class="in-nota" id="guiaConta"></p>
-        <div id="guiaPassos"></div>
-        <button class="gu-tour" id="guiaTour">Fazer o tour pelo Hub (3 minutos)</button>
-      </section>
-
-      <section class="in-cx" id="secFazer">
-        <div class="in-cab"><h2>Para fazer</h2><a href="controle.html#hoje">Abrir o Hoje</a></div>
-        <div id="fazer"></div>
-      </section>
-
-      <section class="in-cx">
-        <div class="in-cab"><h2><span class="ch-pulso" aria-hidden="true"></span>Em alta</h2><a href="vagas.html">Ver todas as vagas</a></div>
-        <p class="in-nota">Vagas que estão chamando gente agora, confirmadas pela equipe.</p>
-        <div id="emAlta"></div>
-      </section>
-
-      <section class="in-cx">
-        <div class="in-cab"><h2>Novas nesta semana</h2><a href="vagas.html">Ver todas as vagas</a></div>
-        <div id="novas"></div>
-      </section>
-    </div>
-
-    <div>
-      <section class="in-cx">
-        <div class="in-cab"><h2>Atalhos</h2></div>
-        <div class="at">
-          <a href="controle.html#aplicacoes"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Marcar uma candidatura</a>
-          <a id="atHoras" href="controle.html#hoje"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>Lançar as horas de hoje</a>
-          <a href="ferramenta-curriculo.html"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Avaliar o meu currículo</a>
-        </div>
-      </section>
-      <section class="in-cx" id="secPerfil" hidden>
-        <div class="in-cab"><h2>Seu perfil</h2><a href="perfil-profissional.html">Abrir o perfil</a></div>
-        <div class="pf"><div class="pf-anel" id="pfAnel"><span id="pfPc"></span></div><p id="pfTxt"></p></div>
-      </section>
-      <section class="in-cx verde" id="secMes">
-        <div class="in-cab"><h2>Ganhos e horas</h2><a href="controle.html#painel">Ver os ganhos</a></div>
-        <div class="nm" id="mes"></div>
-      </section>
-    </div>
-  </div>
-  <p class="in-teste" id="inTeste"></p>
+  <div class="in-corpo" id="corpo"></div>
 </main>
 
 <script src="supabase-porta-falso.js"></script>
@@ -185,15 +174,17 @@ montarLayout("inicio");
     agenda: '<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>',
     horas: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
     perfil: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    vagas: '<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+    guia: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/>',
   };
-  const svg = n => `<svg viewBox="0 0 24 24">${SVG[n]}</svg>`;
+  const svg = n => `<svg viewBox="0 0 24 24" aria-hidden="true">${SVG[n]}</svg>`;
 
   // cumprimento
   let meta = {};
   try { meta = JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token")).user.user_metadata || {}; } catch (e) {}
   const nome = String(meta.nome || "").trim().split(/\s+/)[0];
   const h = new Date().getHours();
-  $("#ola").textContent = (h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite") + (nome ? ", " + nome + "." : ".");
+  const bomDia = (h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite") + (nome ? ", " + nome + "." : ".");
 
   // dados do Meu Controle, deste navegador
   await Dados.abrir();
@@ -203,113 +194,159 @@ montarLayout("inicio");
   const quando = iso => { const n = Math.round((new Date(iso + "T12:00:00") - new Date(hoje + "T12:00:00")) / 864e5);
     const dd = iso.slice(8, 10) + "/" + iso.slice(5, 7);
     return n < 0 ? "Atrasado, era " + dd : n === 0 ? "Hoje" : n === 1 ? "Amanhã" : ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][new Date(iso + "T12:00:00").getDay()] + ", " + dd; };
+  const hora = s => s ? " às " + s.replace(":00", "h") : "";
+
+  /* A FASE DA CONTA: já trabalhando (um trabalho ativo), procurando vaga (alguma candidatura) ou conta nova */
+  const trabAtivos = trabs.filter(t => t.estado !== "encerrado" && !t.exemploTour);
+  const apsReais = aps.filter(a => !a.exemploTour);
+  const fase = trabAtivos.length ? "trabalhando" : apsReais.length ? "procurando" : "nova";
 
   /* PARA FAZER: só o que tem data até daqui a 7 dias, o mais perto primeiro */
   const itens = [];
   const ativos = ["aplicado", "teste", "prova", "entrevista", "banco"];
-  aps.filter(a => a.proximo && a.proximoEm && a.proximoEm <= somar(hoje, 7) && ativos.includes(a.estado)).forEach(a => {
+  apsReais.filter(a => a.proximo && a.proximoEm && a.proximoEm <= somar(hoje, 7) && ativos.includes(a.estado)).forEach(a => {
     const tipo = a.estado === "entrevista" ? "entrevista" : "teste";
     const ag = agenda.find(i => i.aplicacaoId === a.id && i.data === a.proximoEm && i.inicio);
-    itens.push({ data: a.proximoEm, ic: tipo, cor: a.proximoEm <= somar(hoje, 1) ? "am" : "", titulo: a.proximo + " · " + a.empresa, quando: quando(a.proximoEm) + (ag ? " às " + ag.inicio.replace(":00", "h") : ""), bt: "Ver a candidatura", href: "controle.html#aplicacoes" });
+    itens.push({ data: a.proximoEm, hora: ag ? ag.inicio : "99", ic: tipo, cor: a.proximoEm <= somar(hoje, 1) ? "am" : "", titulo: a.proximo + " · " + a.empresa,
+      quando: quando(a.proximoEm) + hora(ag && ag.inicio), bt: "Ver a candidatura", href: "controle.html#aplicacoes", d: "Os detalhes e o material estão na candidatura." });
   });
   const nomeTrab = id => { const t = trabs.find(x => x.id === id); return t ? (t.projeto || t.empresa) : "trabalho"; };
   agenda.filter(i => i.data >= hoje && i.data <= somar(hoje, 2)).forEach(i => {
-    if (i.tipo === "trabalho") itens.push({ data: i.data, ic: "horas", cor: "", titulo: (i.horas === 1 ? "1 hora" : i.horas + " horas") + " de " + nomeTrab(i.trabalhoId) + (i.inicio ? " às " + i.inicio.replace(":00", "h") : ""), quando: quando(i.data), bt: i.data === hoje ? "Lançar as horas" : "Ver na agenda", href: i.data === hoje ? "controle.html#hoje" : "controle.html#agenda" });
-    else if (!i.aplicacaoId) itens.push({ data: i.data, ic: i.tipo === "estudo" ? "agenda" : "entrevista", cor: i.tipo === "estudo" ? "vi" : "", titulo: i.titulo, quando: quando(i.data) + (i.inicio ? " às " + i.inicio.replace(":00", "h") : ""), bt: "Ver na agenda", href: "controle.html#agenda" });
+    if (i.tipo === "trabalho") itens.push({ data: i.data, hora: i.inicio || "99", ic: "horas", cor: "", titulo: (i.horas === 1 ? "1 hora" : String(i.horas).replace(".", ",") + " horas") + " de " + nomeTrab(i.trabalhoId) + hora(i.inicio),
+      quando: quando(i.data), bt: i.data === hoje ? "Lançar as horas" : "Ver na agenda", href: i.data === hoje ? "controle.html#hoje" : "controle.html#agenda",
+      agora: i.data === hoje ? "Lançar " + (i.horas === 1 ? "1 hora" : String(i.horas).replace(".", ",") + " horas") + " de " + nomeTrab(i.trabalhoId) : "", d: i.data === hoje ? "Hoje" + hora(i.inicio) + ", como está na agenda." : "" });
+    else if (!i.aplicacaoId) itens.push({ data: i.data, hora: i.inicio || "99", ic: i.tipo === "estudo" ? "agenda" : "entrevista", cor: i.tipo === "estudo" ? "vi" : "", titulo: i.titulo,
+      quando: quando(i.data) + hora(i.inicio), bt: "Ver na agenda", href: "controle.html#agenda", d: "Está marcado na sua agenda." });
   });
-  itens.sort((a, b) => a.data.localeCompare(b.data));
-  $("#fazer").innerHTML = itens.length ? itens.slice(0, 5).map(i => `<div class="fz"><span class="fz-ic ${i.cor}">${svg(i.ic)}</span>
-      <div><b>${esc(i.titulo)}</b><small class="${i.cor === "am" ? "urgente" : ""}">${esc(i.quando)}</small></div>
-      <a class="fz-bt" href="${i.href}">${i.bt}</a></div>`).join("")
-    : aps.length || trabs.length
-      ? `<p class="fz-vazio">Nada marcado para os próximos dias. Quando você guardar um teste, uma entrevista ou horas de trabalho no Meu Controle, eles aparecem aqui.</p>`
-      : /* conta nova: os primeiros passos no lugar da lista */
-        [["vagas", "Veja as vagas abertas a todos", "Não pedem diploma: anotação, avaliação de IA, tradução e QA.", "Ver as vagas", "vagas.html?ver=todas"],
-         ["agenda", "Comece pelo curso de Fundamentos", "Uma hora para entender como o trabalho funciona antes do primeiro teste.", "Começar", "curso-fundamentos.html"],
-         ["teste", "Guarde a sua primeira candidatura", "No Meu Controle, para saber em que etapa está cada uma.", "Abrir", "controle.html#aplicacoes"]]
-        .map(([i, t, d, b, h]) => `<div class="fz"><span class="fz-ic">${svg(i === "vagas" ? "perfil" : i)}</span><div><b>${t}</b><small>${d}</small></div><a class="fz-bt" href="${h}">${b}</a></div>`).join("");
+  itens.sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora));
 
-  /* PRIMEIROS PASSOS: para quem acabou de entrar. Cada passo se marca sozinho quando a pessoa faz. */
-  const novato = !trabs.length && !regs.length;
+  /* PRIMEIROS PASSOS: cada passo se marca sozinho quando a pessoa faz */
   let visitas = []; try { visitas = JSON.parse(localStorage.getItem("plat-visitas")) || []; } catch (e) {}
   let cursoFeito = false; try { cursoFeito = !!localStorage.getItem("hoh_curso_fundamentos"); } catch (e) {}
   const pcPerfil = PerfilHub.quanto(), faltaPerfil = PerfilHub.falta();
   const PASSOS = [
-    ["Complete o seu perfil", pcPerfil === null ? "Idiomas, formação, áreas e experiências. É ele que escolhe as vagas para você." : "Está " + pcPerfil + "% preenchido. Falta: " + faltaPerfil.join(", ") + ".", "Completar", "perfil-profissional.html", pcPerfil === 100],
-    ["Entenda como o trabalho funciona", "Tipos de projeto, o teste de entrada, como receber e como evitar golpes.", "Ler o guia", "como-funciona.html", visitas.includes("como-funciona.html")],
-    ["Faça o curso de Fundamentos", "Uma hora para chegar ao primeiro teste sabendo o que a empresa espera.", "Começar o curso", "curso-fundamentos.html", cursoFeito || visitas.includes("curso-fundamentos.html")],
-    ["Escolha uma vaga aberta a todos", "Elas não pedem diploma: anotação, avaliação de IA, tradução e QA.", "Ver as vagas", "vagas.html?ver=todas", visitas.includes("vaga.html")],
-    ["Avalie o seu currículo para essa vaga", "A ferramenta mostra o que ajustar, já escrito em inglês.", "Avaliar", "ferramenta-curriculo.html", visitas.includes("ferramenta-curriculo.html")],
-    ["Guarde a candidatura no Meu Controle", "Assim você acompanha cada etapa e não esquece onde já se candidatou.", "Abrir as candidaturas", "controle.html#aplicacoes", aps.length > 0],
+    ["Complete o seu perfil", pcPerfil === null ? "Idiomas, formação, áreas e experiências. É ele que escolhe as vagas para você." : "Está " + pcPerfil + "% preenchido. Falta: " + faltaPerfil.join(", ") + ".", "Completar", "perfil-profissional.html", pcPerfil === 100, "perfil"],
+    ["Entenda como o trabalho funciona", "Tipos de projeto, o teste de entrada, como receber e como evitar golpes.", "Ler o guia", "como-funciona.html", visitas.includes("como-funciona.html"), "guia"],
+    ["Faça o curso de Fundamentos", "Uma hora para chegar ao primeiro teste sabendo o que a empresa espera.", "Começar o curso", "curso-fundamentos.html", cursoFeito || visitas.includes("curso-fundamentos.html"), "agenda"],
+    ["Escolha uma vaga aberta a todos", "Elas não pedem diploma: anotação, avaliação de IA, tradução e QA.", "Ver as vagas", "vagas.html?ver=todas", visitas.includes("vaga.html"), "vagas"],
+    ["Avalie o seu currículo para essa vaga", "A ferramenta mostra o que ajustar, já escrito em inglês.", "Avaliar", "ferramenta-curriculo.html", visitas.includes("ferramenta-curriculo.html"), "teste"],
+    ["Guarde a candidatura no Meu Controle", "Assim você acompanha cada etapa e não esquece onde já se candidatou.", "Abrir as candidaturas", "controle.html#aplicacoes", apsReais.length > 0, "teste"],
   ];
   const feitos = PASSOS.filter(p => p[4]).length;
   let oculto = false; try { oculto = localStorage.getItem("plat-guia-oculto") === "1"; } catch (e) {}
-  if (novato && !oculto) {
-    const g = $("#guia"); g.hidden = false;
-    const proximo = PASSOS.findIndex(p => !p[4]);
-    $("#guiaBarra").style.width = Math.round(feitos / PASSOS.length * 100) + "%";
-    $("#guiaConta").textContent = feitos === PASSOS.length ? "Tudo pronto." : feitos + " de " + PASSOS.length + " feitos. Leva poucos minutos, e cada passo se marca sozinho.";
-    $("#guiaPassos").innerHTML = feitos === PASSOS.length
-      ? `<div class="gu-pronto"><b>Você já sabe usar o Hub.</b> Agora é acompanhar as vagas em alta e guardar cada candidatura.</div>`
-      : PASSOS.map((p, i) => `<div class="gu${p[4] ? " feito" : ""}${i === proximo ? " agora" : ""}">
-          <span class="gu-n">${p[4] ? '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : i + 1}</span>
-          <div><b>${p[0]}</b><small>${p[1]}</small></div>
-          ${p[4] ? "" : `<a class="fz-bt${i === proximo ? " forte" : ""}" href="${p[3]}">${p[2]}</a>`}</div>`).join("");
-    $("#guiaEsconde").addEventListener("click", () => { try { localStorage.setItem("plat-guia-oculto", "1"); } catch (e) {} g.hidden = true; });
-    $("#guiaTour").addEventListener("click", () => window.PlatTour && window.PlatTour());
-    // na primeira vez, o tour começa sozinho
-    let viuTour = false; try { viuTour = localStorage.getItem("plat-tour-feito") === "1"; } catch (e) {}
-    if (!viuTour && feitos <= 1 && window.PlatTour) setTimeout(() => window.PlatTour(), 700);
-  }
-  // o perfil, para todo mundo: quanto está preenchido e o que falta
-  if (pcPerfil !== null) {
-    $("#secPerfil").hidden = false;
-    $("#pfAnel").style.setProperty("--p", pcPerfil); $("#pfPc").textContent = pcPerfil + "%";
-    $("#pfTxt").innerHTML = pcPerfil === 100 ? "Tudo preenchido. Quando fizer um curso novo ou um trabalho novo, acrescente lá."
-      : "Falta: " + esc(faltaPerfil.join(", ")) + ". Quanto mais completo, melhores as vagas e as sugestões para o currículo. <a href=\"perfil-profissional.html\">Completar</a>";
-  }
-  // sem nada marcado, a lista "Para fazer" e o quadro de ganhos não aparecem
-  if (novato && !itens.length) $("#secFazer").hidden = true;
-  if (novato) $("#secMes").hidden = true;
-  if (novato) $("#atHoras").remove();   // quem ainda não trabalha não tem horas para lançar
+  const mostraGuia = fase === "nova" && !oculto && feitos < PASSOS.length;
 
-  const ativas = aps.filter(a => ["aplicado", "teste", "prova", "entrevista"].includes(a.estado)).length;
-  $("#olaSub").textContent = itens.length
-    ? (itens.length === 1 ? "Uma coisa" : itens.length + " coisas") + " para os próximos dias" + (ativas ? " e " + ativas + (ativas === 1 ? " candidatura andando." : " candidaturas andando.") : ".")
-    : !trabs.length && !regs.length ? "Que bom ter você aqui. Comece pelos primeiros passos: em poucos minutos você sabe usar o Hub."
-    : "Nada marcado para os próximos dias. Veja as vagas que estão chamando gente agora.";
+  /* AGORA: a única coisa em destaque */
+  let agora;
+  const prox = itens.find(i => i.agora) || itens.find(i => i.href === "controle.html#aplicacoes") || itens[0];
+  if (fase === "nova") {
+    const p = PASSOS.find(x => !x[4]) || PASSOS[3];
+    agora = { ic: p[5], t: p[0], d: p[1], bt: p[2], href: p[3] };
+  } else if (prox) {
+    agora = { ic: prox.ic, t: prox.agora || prox.titulo, d: prox.d && prox.agora ? prox.d : prox.quando + ". " + (prox.d || ""), bt: prox.bt, href: prox.href, item: prox };
+  } else if (pcPerfil !== null && pcPerfil < 100) {
+    agora = { ic: "perfil", t: "Complete o seu perfil", d: "Falta: " + faltaPerfil.join(", ") + ". Quanto mais completo, melhores as vagas para você.", bt: "Completar", href: "perfil-profissional.html" };
+  } else {
+    agora = { ic: "vagas", t: "Veja as vagas em alta", d: "Nada marcado para os próximos dias. Estas vagas estão chamando gente agora.", bt: "Ver as vagas", href: "vagas.html" };
+  }
+  const fazer = itens.filter(i => i !== agora.item);
 
-  /* SEU MÊS */
+  /* NÚMEROS */
   const mes = hoje.slice(0, 7);
   const seg = (() => { const d = new Date(hoje + "T12:00:00"); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.toISOString().slice(0, 10); })();
   const horasSemana = regs.filter(r => r.data >= seg && r.data <= hoje).reduce((s, r) => s + (+r.horas || 0), 0);
   let ganho = 0, moeda = "US$";
   regs.filter(r => r.data.slice(0, 7) === mes).forEach(r => { const t = trabs.find(x => x.id === r.trabalhoId); if (t && t.pagamento === "hora") { ganho += (+r.horas || 0) * (+t.valor || 0); if (t.moeda === "BRL") moeda = "R$"; } });
-  const n = v => (Math.round(v * 10) / 10).toLocaleString("pt-BR");
-  $("#mes").innerHTML = `
-    <a href="controle.html#trabalhos"><span>Horas nesta semana</span><b>${n(horasSemana)} h</b></a>
-    <a href="controle.html#painel"><span>Ganhos em ${new Date().toLocaleDateString("pt-BR", { month: "long" })}</span><b>${moeda} ${ganho.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b></a>`;
+  const n1 = v => (Math.round(v * 10) / 10).toLocaleString("pt-BR");
+  let podeHoras = ""; try { podeHoras = (JSON.parse(localStorage.getItem("hub-perfil-prof-previa")) || {}).horas || ""; } catch (e) {}
+  const andando = apsReais.filter(a => ["aplicado", "teste", "prova", "entrevista", "banco"].includes(a.estado));
+  const entrevistas = andando.filter(a => a.estado === "entrevista" && a.proximoEm && a.proximoEm >= hoje).length;
+
+  /* CANDIDATURAS POR ETAPA */
+  const ETAPAS = [["Currículo enviado", ["aplicado", "banco"]], ["Teste ou prova", ["teste", "prova"]], ["Entrevista", ["entrevista"]], ["Aprovado", ["aprovado"]]];
+  const proxCand = apsReais.filter(a => a.proximoEm && a.proximoEm >= hoje && ativos.includes(a.estado)).sort((a, b) => a.proximoEm.localeCompare(b.proximoEm))[0];
 
   /* VAGAS */
-  const [dv, de, pulso] = await Promise.all([lerVagas(), lerEmpresas(), fetch("pulso.json?v=" + Date.now()).then(r => r.json()).catch(() => ({}))]);
+  const [dv, de, dEsp, pulso] = await Promise.all([lerVagas(), lerEmpresas(), lerEspecificas().catch(() => ({})), fetch("pulso.json?v=" + Date.now()).then(r => r.json()).catch(() => ({}))]);
   const empresas = de.empresas || [];
   const emp = id => empresas.find(e => e.id === id) || { nome: id, sigla: String(id || "?").slice(0, 2).toUpperCase() };
   const vagas = dv.vagas || [];
   const altas = (pulso.destaques || []).map(d => vagas.find(v => v.id === d.id)).filter(Boolean);
+  const ids = new Set(altas.map(v => v.id));
   const ultima = vagas.reduce((m, v) => (v.data_vista || "") > m ? v.data_vista : m, "");
   const dias = s => Math.round((new Date(ultima) - new Date(s)) / 864e5);
   const textoData = v => { const s = v.data_reaberta || v.data_ref || v.data_vista; const d = dias(s); const t = d <= 0 ? "hoje" : d === 1 ? "ontem" : "há " + d + " dias"; return (v.data_reaberta ? "reaberta " : "") + t; };
-  const linha = (v, alta) => { const e = emp(v.empresa), r = v.resumo || {};
+  const novas = vagas.filter(v => !ids.has(v.id) && dias(v.data_vista) <= 7).sort((a, b) => (b.data_vista || "").localeCompare(a.data_vista || ""));
+  const minhas = (Acesso.areas && Acesso.areas()) || [], subs = (Acesso.subareas && Acesso.subareas()) || [];
+  const daArea = (dEsp.vagas || []).filter(v => Acesso.vagaDasMinhasAreas(v, minhas, subs)).sort((a, b) => (b.data_vista || "").localeCompare(a.data_vista || ""));
+  const paraVoce = daArea.concat(novas).filter((v, i, l) => l.indexOf(v) === i);
+
+  // ---- os cartões
+  const cx = (tit, link, href, corpo, cls = "") => `<section class="in-cx ${cls}"><div class="in-cab"><h2>${tit}</h2>${link ? `<a href="${href}">${link}</a>` : ""}</div>${corpo}</section>`;
+  const linhaVaga = (v, alta) => { const e = emp(v.empresa), r = v.resumo || {};
     return `<a class="lv${alta ? " chamando" : ""}" href="vaga.html?id=${encodeURIComponent(v.id)}">
       <span class="lv-marca" style="background:${esc(e.bg ? "#fff" : "#F1ECE3")}">${logoHtml(e, 44)}</span>
       <div style="min-width:0"><b>${esc(v.titulo.replace(/^\*/, ""))}</b>
         <small>${esc(e.nome)}${alta ? '<span class="selo-chamando"><span class="ch-pulso" aria-hidden="true"></span>Contratando com frequência</span>' : ""}</small></div>
       <div class="dir">${esc(r.remuneracao || "")}<em>${textoData(v)}</em></div></a>`; };
-  $("#emAlta").innerHTML = altas.slice(0, 5).map(v => linha(v, true)).join("") || '<p class="fz-vazio">A equipe ainda não marcou vagas em alta.</p>';
-  const ids = new Set(altas.map(v => v.id));
-  const novas = vagas.filter(v => !ids.has(v.id) && dias(v.data_vista) <= 7).sort((a, b) => (b.data_vista || "").localeCompare(a.data_vista || ""));
-  $("#novas").innerHTML = novas.slice(0, 4).map(v => linha(v, false)).join("") || '<p class="fz-vazio">Nenhuma vaga nova nesta semana ainda.</p>';
-  if (novas.length > 4) $("#novas").insertAdjacentHTML("beforeend", `<p class="in-nota" style="margin:4px 0 6px">e mais ${novas.length - 4} na aba Vagas.</p>`);
+  const C = {
+    agora: () => `<section class="in-agora" id="agora"><span class="ic">${svg(agora.ic)}</span><div class="tx"><small>Agora</small><b>${esc(agora.t)}</b><span class="d">${esc(agora.d)}</span></div><a class="bt" href="${agora.href}">${esc(agora.bt)}</a></section>`,
+    guia: () => cx("Primeiros passos", "", "", `<div class="gu-barra"><i style="width:${Math.round(feitos / PASSOS.length * 100)}%"></i></div>
+        <p class="in-nota">${feitos} de ${PASSOS.length} feitos. Cada passo se marca sozinho.</p>
+        <div>${PASSOS.map((p, i) => `<div class="gu${p[4] ? " feito" : ""}"><span class="gu-n">${p[4] ? '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : i + 1}</span>
+          <div><b>${p[0]}</b><small>${esc(p[1])}</small></div>${p[4] ? "" : `<a class="fz-bt" href="${p[3]}">${p[2]}</a>`}</div>`).join("")}</div>
+        <button class="gu-tour" id="guiaTour">Fazer o tour pelo Hub (3 minutos)</button> · <button class="gu-esconde" id="guiaEsconde">Esconder o guia</button>`, "in-guia").replace('id="', 'id="'),
+    fazer: () => cx("Para fazer", "Abrir o Hoje", "controle.html#hoje", fazer.slice(0, 4).map(i => `<div class="fz"><span class="fz-ic ${i.cor}">${svg(i.ic)}</span>
+      <div><b>${esc(i.titulo)}</b><small class="${i.cor === "am" ? "urgente" : ""}">${esc(i.quando)}</small></div><a class="fz-bt" href="${i.href}">${i.bt}</a></div>`).join("")),
+    cands: estreito => cx("Candidaturas", "Ver todas", "controle.html#aplicacoes", `<div class="etapas">${ETAPAS.map(([t, est]) => {
+        const nE = apsReais.filter(a => est.includes(a.estado)).length; const vivo = proxCand && est.includes(proxCand.estado);
+        return `<div class="etapa${vivo ? " vivo" : ""}"><b>${nE}</b><span>${t}</span></div>`; }).join("")}</div>
+      <p class="cand-prox">${proxCand ? `Próxima data: <b>${esc(proxCand.proximo + " · " + proxCand.empresa)}</b>, ${esc(quando(proxCand.proximoEm).toLowerCase())}.` : "Nenhuma data marcada nas candidaturas."}</p>`, estreito ? "in-estreito" : ""),
+    perfilLista: () => { const x = PerfilHub.partes() || {};
+      return cx("Seu perfil", "", "", `<div class="pf"><div class="pf-anel" style="--p:${pcPerfil || 0}"><span>${pcPerfil || 0}%</span></div><p>É ele que escolhe as vagas para você e ajuda nas sugestões para o currículo.</p></div>
+        <div class="pf-lista">${PerfilHub.PARTES.map(([k, t]) => `<span class="${x[k] ? "ok" : ""}"><i></i>${t.charAt(0).toUpperCase() + t.slice(1)}</span>`).join("")}</div>
+        <div class="pf-bt"><a href="perfil-profissional.html">${pcPerfil === 100 ? "Abrir o perfil" : "Completar o perfil"}</a></div>`); },
+    perfil: () => pcPerfil === null ? "" : cx("Seu perfil", "Abrir o perfil", "perfil-profissional.html", `<div class="pf"><div class="pf-anel" style="--p:${pcPerfil}"><span>${pcPerfil}%</span></div><p>${pcPerfil === 100
+        ? "Tudo preenchido. Quando fizer um curso ou um trabalho novo, acrescente lá."
+        : "Falta: " + esc(faltaPerfil.join(", ")) + ". Quanto mais completo, melhores as vagas e as sugestões para o currículo."}</p></div>`),
+    atalhos: () => cx("Atalhos", "", "", `<div class="at">
+        <a href="controle.html#aplicacoes"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Marcar uma candidatura</a>
+        ${fase === "trabalhando" ? '<a href="controle.html#hoje"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>Lançar as horas de hoje</a>' : ""}
+        <a href="ferramenta-curriculo.html"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Avaliar o meu currículo</a></div>`),
+    nums: () => `<div class="nums">
+        <a class="in-cx num" href="controle.html#trabalhos"><small>Horas nesta semana</small><b>${n1(horasSemana)} h</b><em>${podeHoras ? "de " + esc(podeHoras) + " h que você pode trabalhar" : "lançadas no Meu Controle"}</em></a>
+        <a class="in-cx num verde" href="controle.html#painel"><small>Ganhos em ${new Date().toLocaleDateString("pt-BR", { month: "long" })}</small><b>${moeda} ${ganho.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b><em>${trabAtivos.length === 1 ? "de 1 trabalho" : "de " + trabAtivos.length + " trabalhos"}</em></a>
+        <a class="in-cx num" href="controle.html#aplicacoes"><small>Candidaturas andando</small><b>${andando.length}</b><em>${entrevistas ? (entrevistas === 1 ? "1 entrevista marcada" : entrevistas + " entrevistas marcadas") : "nenhuma entrevista marcada"}</em></a></div>`,
+    alta: meio => cx('<span class="ch-pulso" aria-hidden="true"></span>Em alta', "Ver todas as vagas", "vagas.html", `<p class="in-nota">Vagas que estão chamando gente agora, confirmadas pela equipe.</p>
+      ${altas.slice(0, 5).map(v => linhaVaga(v, true)).join("") || '<p class="fz-vazio">A equipe ainda não marcou vagas em alta.</p>'}`, meio ? "in-meio" : ""),
+    paraVoce: meio => cx("Vagas para você", "Ver a sua lista", "vagas.html?ver=voce", `<p class="in-nota">${minhas.length ? "As mais novas da sua área e as abertas a todos." : "As mais novas abertas a todos. Marque a sua área no perfil e as dela entram aqui."}</p>
+      ${paraVoce.slice(0, 5).map(v => linhaVaga(v, false)).join("") || '<p class="fz-vazio">Nenhuma vaga nova nesta semana ainda.</p>'}`, meio ? "in-meio" : ""),
+    novas: meio => novas.length ? cx("Novas nesta semana", "Ver todas as vagas", "vagas.html", novas.slice(0, 5).map(v => linhaVaga(v, false)).join(""), meio ? "in-meio" : "") : "",
+  };
+  const L = (...cols) => `<div class="in-linha">${cols.filter(c => c[0]).map(([html, n]) => `<div style="grid-column:span ${n}">${html}</div>`).join("")}</div>`;
+
+  let corpo = C.agora();
+  if (fase === "nova") {
+    corpo += mostraGuia ? L([C.guia(), 8], [C.perfilLista(), 4]) + L([C.alta(), 12])
+                        : L([C.alta(), 8], [C.perfil() + C.atalhos(), 4]);
+  } else if (fase === "procurando") {
+    corpo += (fazer.length ? L([C.fazer(), 8], [C.perfil(), 4]) + L([C.cands(), 8], [C.atalhos(), 4]) : L([C.cands(), 8], [C.perfil() + C.atalhos(), 4]))
+      + L([C.paraVoce(true), 6], [C.alta(true), 6]);
+  } else {
+    corpo += C.nums() + (fazer.length ? L([C.fazer(), 8], [C.cands(true), 4]) : L([C.cands(), 8], [C.atalhos(), 4]))
+      + (novas.length ? L([C.alta(true), 6], [C.novas(true), 6]) : L([C.alta(), 12]));
+  }
+  $("#corpo").innerHTML = corpo;
+  $("#ola").textContent = fase === "nova" && !apsReais.length ? "Que bom ter você aqui" + (nome ? ", " + nome + "." : ".") : bomDia;
+  $("#olaSub").textContent = fase === "nova" ? "Comece pelo perfil: é ele que escolhe as vagas para você."
+    : itens.length ? (itens.length === 1 ? "Uma coisa" : itens.length + " coisas") + " para os próximos dias" + (andando.length ? " e " + andando.length + (andando.length === 1 ? " candidatura andando." : " candidaturas andando.") : ".")
+    : "Nada marcado para os próximos dias. Veja as vagas que estão chamando gente agora.";
+
+  const gt = $("#guiaTour"); if (gt) gt.addEventListener("click", () => window.PlatTour && window.PlatTour());
+  const ge = $("#guiaEsconde"); if (ge) ge.addEventListener("click", () => { try { localStorage.setItem("plat-guia-oculto", "1"); } catch (e) {} location.reload(); });
+  // na primeira vez, o tour começa sozinho
+  let viuTour = false; try { viuTour = localStorage.getItem("plat-tour-feito") === "1"; } catch (e) {}
+  if (fase === "nova" && !viuTour && feitos <= 1 && window.PlatTour) setTimeout(() => window.PlatTour(), 700);
 })();
 </script>
 </body>
