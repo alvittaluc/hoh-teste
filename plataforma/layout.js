@@ -276,6 +276,7 @@ const Acesso = (function () {
   function porta() {
     if (localStorage.getItem("plat-exemplo-pronto") !== "2") { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
     if (!SO_COM_CONTA || chegandoPorLink()) return;
+    if (paginaAtual() === "index.html" && localStorage.getItem("plat-modelo") !== "5" && logado() && perfilFeito()) { document.documentElement.style.visibility = "hidden"; location.replace("inicio.html"); return; }
     const pg = paginaAtual();
     let ir = "";
     if (!logado()) { if (!ABERTAS.test(pg)) ir = pg === "index.html" && !location.search ? "entrar.html" : linkEntrar(); }
@@ -724,13 +725,35 @@ const TOKEN_MEDICAO = "";
 })();
 
 /* ══════════════════════════════════════════════════════════════
-   PLATAFORMA: coluna fixa à esquerda no lugar do menu do topo
-   (só na cópia de teste; é colado no fim do layout.js da cópia)
+   PLATAFORMA: modelos de tela para comparar (só na cópia de teste;
+   é colado no fim do layout.js da cópia)
 
-   Quem está na conta e já fez o perfil vê a coluna. Quem está fora,
-   na entrada ou no primeiro perfil, continua com o topo de hoje.
-   As páginas não mudam: só a moldura em volta delas.
+   As páginas não mudam: só a moldura em volta delas. Cada modelo
+   organiza a mesma lista de seções de um jeito:
+     1 Coluna completa    coluna clara com tudo aberto
+     2 Ícones e menu      trilho de ícones + menu da seção ao lado
+     3 Abas no topo       seções em abas no alto e as partes logo abaixo
+     4 Coluna compacta    trilho com ícone e nome; no celular vira barra embaixo
+     5 Site e Área do aluno  o site com o menu de hoje; a coluna só na área
+   O modelo escolhido fica em localStorage "plat-modelo".
    ══════════════════════════════════════════════════════════════ */
+/* Quanto do perfil profissional está preenchido, pelas mesmas seis partes da página do perfil.
+   Na cópia de teste o perfil fica em localStorage; no site, viria da conta. */
+const PerfilHub = {
+  PARTES: [["idiomas", "idiomas"], ["formacao", "formação"], ["areas", "áreas"], ["experiencias", "experiências"], ["ferramentas", "ferramentas"], ["mora", "onde mora e horas"]],
+  ler() {
+    try { const s = JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token")); const r = (JSON.parse(localStorage.getItem("teste-porta-perfis")) || {})[s.user.id]; if (r && r.dados) return r.dados; } catch (e) {}
+    try { return JSON.parse(localStorage.getItem("hub-perfil-prof-previa")); } catch (e) { return null; }
+  },
+  partes(P) {
+    P = P || this.ler(); if (!P) return null;
+    return { idiomas: (P.idiomas || []).length > 0, formacao: (P.formacao || []).length > 0 || !!P.semFormacao, areas: Object.keys(P.areas || {}).length > 0,
+      experiencias: (P.experiencias || []).length > 0, ferramentas: (P.ferramentas || []).length > 0, mora: !!String(P.mora || "").trim() && !!String(P.horas || "").trim() };
+  },
+  quanto() { const x = this.partes(); if (!x) return null; return Math.round(Object.values(x).filter(Boolean).length / 6 * 100); },
+  falta() { const x = this.partes(); if (!x) return []; return this.PARTES.filter(([k]) => !x[k]).map(p => p[1]); },
+};
+
 const Plataforma = (function () {
   const IC = {
     inicio: '<path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19z"/>',
@@ -743,9 +766,11 @@ const Plataforma = (function () {
     imposto: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
     candidaturas: '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
     trabalhos: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
+    controle: '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>',
     curriculo: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
     estudo: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h4"/>',
     transcricao: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+    ferramentas: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.7 1.7 0 0 0 2.4 2.4l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.2-.4-.4-2.2z"/>',
     guia: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .8-1 1.5v.4M12 16.8v.2"/>',
     perfil: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
     dados: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
@@ -753,214 +778,1262 @@ const Plataforma = (function () {
     sair: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     acima: '<path d="M7 14l5-5 5 5"/>',
+    abaixo: '<path d="M7 10l5 5 5-5"/>',
     volta: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+    busca: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+    relogio: '<path d="M3.5 12a8.5 8.5 0 1 0 2.5-6M3.5 4v4.5H8"/><path d="M12 8v4l3 2"/>',
+    alfinete: '<path d="M9 3.5h6l-1 6.5 3.5 3.5h-11L10 10z"/><path d="M12 13.5V21"/>',
+    estrela: '<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
+    formacao: '<path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.5c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3V11M21.5 9v5"/>',
+    recolher: '<path d="M11 7l-5 5 5 5M18 7l-5 5 5 5"/>',
   };
   const ic = n => `<svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || ""}</svg>`;
 
-  /* Os itens da coluna. Os do Meu Controle têm os mesmos nomes e a mesma
-     ordem da coluna que ele já tem hoje. */
-  const GRUPOS = [
-    ["", [["inicio", "Início", "inicio.html"]]],
-    ["Meu Controle", [["mc-hoje", "Hoje", "controle.html#hoje", "hoje"], ["mc-agenda", "Agenda", "controle.html#agenda", "agenda"],
+  /* As seções do Hub. Os itens do Meu Controle têm os nomes e a ordem que ele já tem. */
+  const SECOES = [
+    { id: "inicio", nome: "Início", ic: "inicio", aluno: true, itens: [["inicio", "Seu dia", "inicio.html", "inicio"]] },
+    { id: "vagas", nome: "Vagas", ic: "vagas", itens: [["v-voce", "Para você", "vagas.html?ver=voce", "vagas"], ["v-todas", "Abertas a todos", "vagas.html?ver=todas", "vagas"],
+      ["v-form", "Pedem formação", "vagas.html?areas=1", "vagas"], ["empresas", "Empresas", "empresas.html", "empresas"]] },
+    { id: "controle", nome: "Meu Controle", curto: "Controle", ic: "controle", aluno: true, itens: [["mc-hoje", "Hoje", "controle.html#hoje", "hoje"], ["mc-agenda", "Agenda", "controle.html#agenda", "agenda"],
       ["mc-painel", "Ganhos", "controle.html#painel", "painel"], ["mc-imposto", "Imposto", "controle.html#imposto", "imposto"],
-      ["mc-aplicacoes", "Candidaturas", "controle.html#aplicacoes", "candidaturas"], ["mc-trabalhos", "Trabalhos", "controle.html#trabalhos", "trabalhos"]]],
-    ["Aprender", [["cursos", "Cursos", "cursos.html"]]],
-    ["Ferramentas", [["curriculo", "Avaliar currículo", "ferramenta-curriculo.html"], ["estudo", "Estudar uma diretriz", "estudo-diretriz.html"], ["transcricao", "Transcrição ao vivo", "transcricao.html"]]],
+      ["mc-aplicacoes", "Candidaturas", "controle.html#aplicacoes", "candidaturas"], ["mc-trabalhos", "Trabalhos", "controle.html#trabalhos", "trabalhos"]] },
+    { id: "aprender", nome: "Aprender", ic: "cursos", aluno: true, itens: [["cursos", "Cursos", "cursos.html", "cursos"], ["guia", "Como funciona", "como-funciona.html", "guia"]] },
+    { id: "ferramentas", nome: "Ferramentas", ic: "ferramentas", aluno: true, itens: [["curriculo", "Avaliar currículo", "ferramenta-curriculo.html", "curriculo"],
+      ["estudo", "Estudar uma diretriz", "estudo-diretriz.html", "estudo"], ["transcricao", "Transcrição ao vivo", "transcricao.html", "transcricao"]] },
+    { id: "voce", nome: "Você", ic: "perfil", aluno: true, itens: [["perfil-prof", "Meu perfil", "perfil-profissional.html", "perfil"]] },
+    { id: "equipe", nome: "Equipe", ic: "equipe", aluno: true, soEquipe: true, itens: [["equipe", "Painel da equipe", "../painel.html", "equipe"]] },
   ];
+  const MODELOS = { 1: "Ícones e nomes", 2: "Abre com o mouse" };
+  // rodada de 05/11: quatro colunas no estilo dos sistemas de gestão, todas a partir do modelo que o dono escolheu
+  function modelo() { try { const m = localStorage.getItem("plat-modelo"); return MODELOS[m] ? +m : 1; } catch (e) { return 1; } }
+  const daEquipe = () => { try { return !!JSON.parse(localStorage.getItem("hub-equipe") || "null").sim; } catch (e) { return false; } };
+  const secoes = () => SECOES.filter(s => !s.soEquipe || daEquipe());
 
   function atual() {
     const pg = location.pathname.split("/").pop() || "index.html";
     if (/^curso-/.test(pg)) return "cursos";
-    if (pg === "vagas.html") { const q = location.search; return /areas=1|area=/.test(q) ? "v-form" : /ver=todas/.test(q) ? "v-todas" : /ver=voce/.test(q) || !q ? "v-voce" : "vagas"; }
+    if (pg === "vagas.html") { const q = location.search; return /areas=1|area=/.test(q) ? "v-form" : /ver=todas/.test(q) ? "v-todas" : "v-voce"; }
     if (pg === "controle.html") {
       const t = (location.hash.slice(1).split("/")[0]) || "hoje";
-      if (t === "trabalho") return "mc-trabalhos";
-      if (t === "dados") return "conta";
-      return "mc-" + t;
+      return t === "trabalho" ? "mc-trabalhos" : t === "dados" ? "conta" : "mc-" + t;
     }
-    return { "inicio.html": "inicio", "index.html": "inicio", "vagas.html": "vagas", "vaga.html": "vagas", "empresas.html": "empresas",
-      "cursos.html": "cursos", "ferramenta-curriculo.html": "curriculo", "estudo-diretriz.html": "estudo", "transcricao.html": "transcricao",
-      "perfil-profissional.html": "perfil", "perfil.html": "perfil", "como-funciona.html": "guia" }[pg] || "";
+    return { "inicio.html": "inicio", "index.html": "inicio", "vaga.html": "v-voce", "empresas.html": "empresas", "cursos.html": "cursos",
+      "ferramenta-curriculo.html": "curriculo", "estudo-diretriz.html": "estudo", "transcricao.html": "transcricao",
+      "perfil-profissional.html": "perfil-prof", "perfil.html": "conta", "como-funciona.html": "guia" }[pg] || "";
   }
-
-  const CORES = [["clara", "Clara"], ["azul", "Azul claro"], ["escura", "Escura"]];
-  function corGuardada() { try { const c = localStorage.getItem("plat-cor"); return CORES.some(x => x[0] === c) ? c : "clara"; } catch (e) { return "clara"; } }
+  const secaoDe = id => SECOES.find(s => s.itens.some(i => i[0] === id)) || null;
+  const item = ([id, n, href, icone], semIcone) =>
+    `<a class="pl-item" data-id="${id}" href="${href}">${semIcone ? "" : ic(icone)}<span>${n}</span><b class="pl-n" data-conta="${id}"></b></a>`;
 
   const CSS = `
-  body.plat { padding-left:252px; }
   body.plat header.site, body.plat footer.site { display:none !important; }
-  .pl-lado { --l-bg:#FFFFFF; --l-borda:#EAE4D9; --l-txt:#4A5666; --l-forte:#10203A; --l-rot:#8A929C; --l-hover:#F6F3EE;
-    --l-ativo:#EAF1F8; --l-ativo-txt:#1A4893; --l-ativo-ic:#1A4893; --l-sombra-ativo:none;
-    position:fixed; left:0; top:0; bottom:0; width:252px; z-index:300; display:flex; flex-direction:column;
-    background:var(--l-bg); border-right:1px solid var(--l-borda); font-family:var(--body,'Geist',system-ui,sans-serif); }
-  .pl-lado[data-cor="azul"] { --l-bg:#EEF3F9; --l-borda:#DCE6F1; --l-txt:#44546A; --l-rot:#7D8DA2; --l-hover:#E4ECF6;
-    --l-ativo:#FFFFFF; --l-sombra-ativo:0 1px 2px rgba(16,32,58,.08), 0 4px 12px -6px rgba(26,72,147,.25); }
-  .pl-lado[data-cor="escura"] { --l-bg:#26334A; --l-borda:#26334A; --l-txt:#C3CDD9; --l-forte:#FFFFFF; --l-rot:#8C9BAE; --l-hover:rgba(255,255,255,.06);
-    --l-ativo:rgba(255,255,255,.11); --l-ativo-txt:#FFFFFF; --l-ativo-ic:#A9CBEA; }
-  .pl-topo { display:flex; align-items:center; gap:10px; padding:20px 20px 12px; color:var(--l-forte); }
-  .pl-topo img { width:30px; height:30px; display:block; }
-  .pl-topo b { display:block; font-weight:600; font-size:15px; letter-spacing:-.015em; line-height:1.2; }
-  .pl-area { display:block; font-size:11.5px; font-weight:500; color:var(--l-rot); }
-  .pl-volta { display:flex; align-items:center; gap:8px; margin:0 12px 4px; padding:7px 10px; border-radius:10px; font-size:13px; color:var(--l-rot); text-decoration:none; }
-  .pl-volta:hover { background:var(--l-hover); color:var(--l-forte); }
-  .pl-volta .pl-ic { width:16px; height:16px; }
-  .pl-nav { flex:1; overflow-y:auto; padding:4px 12px 12px; scrollbar-width:thin; }
-  .pl-grupo { margin-top:16px; }
-  .pl-grupo:first-child { margin-top:4px; }
-  .pl-grupo > span { display:block; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--l-rot); padding:0 10px 6px; }
-  .pl-item { display:flex; align-items:center; gap:11px; padding:8px 10px; border-radius:10px; font-size:14px; color:var(--l-txt);
-    text-decoration:none; transition:background .15s, color .15s; }
-  .pl-item:hover { background:var(--l-hover); color:var(--l-forte); }
-  .pl-item[aria-current="page"] { background:var(--l-ativo); color:var(--l-ativo-txt); font-weight:550; box-shadow:var(--l-sombra-ativo); }
-  .pl-item[aria-current="page"] .pl-ic { color:var(--l-ativo-ic); }
-  .pl-sub { padding:6px 10px 6px 39px; font-size:13.5px; position:relative; }
-  .pl-sub::before { content:""; position:absolute; left:19px; top:0; bottom:0; width:1.5px; background:var(--l-borda); }
-  .pl-lado[data-cor="escura"] .pl-sub::before { background:rgba(255,255,255,.12); }
-  .pl-sub .pl-n { margin-left:auto; font-size:11.5px; font-weight:500; color:var(--l-rot); }
-  .pl-sub[aria-current="page"] .pl-n { color:var(--l-ativo-txt); }
   .pl-ic { width:18px; height:18px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-  .pl-pe { border-top:1px solid var(--l-borda); padding:10px 12px 12px; position:relative; }
-  .pl-lado[data-cor="escura"] .pl-pe { border-top-color:rgba(255,255,255,.08); }
-  .pl-eu { width:100%; display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:12px; text-align:left; background:none; border:0; cursor:pointer; color:var(--l-txt); font:inherit; }
-  .pl-eu:hover, .pl-eu[aria-expanded="true"] { background:var(--l-hover); }
-  .pl-av { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:600; font-size:12.5px; color:#fff;
-    background:linear-gradient(135deg,#4E9AC8,#1A4893); flex-shrink:0; }
-  .pl-eu b { display:block; font-size:13.5px; font-weight:550; color:var(--l-forte); line-height:1.25; }
-  .pl-eu small { display:block; font-size:11.5px; color:var(--l-rot); }
-  .pl-eu .pl-ic { margin-left:auto; width:16px; height:16px; }
+  .pl-item { display:flex; align-items:center; gap:11px; padding:8px 10px; border-radius:10px; font-size:14px; color:#4A5666; text-decoration:none; transition:background .15s, color .15s; }
+  .pl-item:hover { background:#F4F0EA; color:#10203A; }
+  .pl-item[aria-current="page"] { background:#EAF1F8; color:#1A4893; font-weight:550; }
+  .pl-item .pl-n { margin-left:auto; font-size:11.5px; font-weight:500; color:#8A929C; }
+  .pl-item .pl-n:empty { display:none; }
+  .pl-item[aria-current="page"] .pl-n { color:#1A4893; }
+  .pl-rot { display:block; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#8A929C; padding:0 10px 6px; }
+  .pl-av { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:600; font-size:12.5px; color:#fff; background:linear-gradient(135deg,#4E9AC8,#1A4893); flex-shrink:0; }
+  .pl-eu { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:12px; text-align:left; background:none; border:0; cursor:pointer; color:#4A5666; font:inherit; }
+  .pl-eu:hover, .pl-eu[aria-expanded="true"] { background:#F4F0EA; }
+  .pl-eu b { display:block; font-size:13.5px; font-weight:550; color:#10203A; line-height:1.25; }
   .pl-eu .hub-selo { margin-top:2px; }
-  .pl-menu { position:absolute; left:12px; right:12px; bottom:calc(100% - 4px); background:#fff; border:1px solid #EAE4D9; border-radius:14px;
-    box-shadow:0 2px 4px rgba(16,32,58,.05), 0 24px 48px -20px rgba(16,32,58,.3); padding:6px; display:none; }
+  .pl-menu { position:absolute; background:#fff; border:1px solid #EAE4D9; border-radius:14px; min-width:230px;
+    box-shadow:0 2px 4px rgba(16,32,58,.05), 0 24px 48px -20px rgba(16,32,58,.3); padding:6px; display:none; z-index:400; }
   .pl-menu.on { display:block; }
   .pl-menu a { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:9px; font-size:13.5px; color:#10203A; text-decoration:none; }
   .pl-menu a:hover { background:#F6F3EE; }
   .pl-menu a .pl-ic { color:#66717F; width:17px; height:17px; }
   .pl-menu hr { border:0; border-top:1px solid #EAE4D9; margin:5px 4px; }
-  .pl-cor { display:flex; align-items:center; gap:6px; padding:8px 10px 0; font-size:11px; color:var(--l-rot); }
-  .pl-cor button { width:18px; height:18px; border-radius:50%; border:1.5px solid rgba(16,32,58,.18); cursor:pointer; padding:0; }
-  .pl-cor button[aria-pressed="true"] { outline:2px solid #1A4893; outline-offset:2px; }
-  .pl-cor .c-clara { background:#fff; } .pl-cor .c-azul { background:#DCE6F1; } .pl-cor .c-escura { background:#26334A; }
-  .pl-barra { display:none; }
-  .pl-veu { display:none; }
+  .pl-barra, .pl-veu { display:none; }
   body.plat #abas { gap:10px; border-bottom:0; margin:4px 0 18px; padding:2px; }
   body.plat #abas .aba { padding:13px 20px; border:1px solid var(--line,#DED7CA); border-radius:14px; background:#fff; font-size:15px; font-weight:550; color:var(--ink,#10203A); margin:0; box-shadow:0 1px 2px rgba(16,32,58,.04); }
   body.plat #abas .aba .n { font-size:12.5px; font-weight:600; background:var(--bg-soft,#F1ECE3); color:var(--ink-2,#54606F); padding:2px 8px; border-radius:999px; }
-  body.plat #abas .aba:hover { border-color:#C9C0B0; }
   body.plat #abas .aba.on { background:var(--signal-suave,#EAF1F8); border-color:#9DBBE0; color:var(--signal,#1A4893); }
   body.plat #abas .aba.on .n { background:#fff; color:var(--signal,#1A4893); }
   body.plat #abas .aba.form.on { background:#F1EEF7; border-color:#C9BEE6; color:var(--violet,#5B4B9E); }
   body.plat #abas .aba.form.on .n { background:#fff; color:var(--violet,#5B4B9E); }
-  /* o Meu Controle perde a coluna dele: os itens agora estão na coluna da plataforma */
+  /* o Meu Controle perde a coluna dele: os itens dele agora estão na moldura */
   body.plat .ct-lado { display:none !important; }
   body.plat .ct-app { grid-template-columns:minmax(0,1fr) !important; }
+
+  /* ── 1 e 5: coluna ── */
+  .m-col { position:fixed; left:0; top:0; bottom:0; width:252px; z-index:300; display:flex; flex-direction:column; background:#fff; border-right:1px solid #EAE4D9; }
+  body.m1, body.m5 { padding-left:252px; }
+  .m-col .pl-topo { display:flex; align-items:center; gap:10px; padding:20px 20px 12px; color:#10203A; text-decoration:none; }
+  .pl-topo b { display:block; font-weight:600; font-size:15px; letter-spacing:-.015em; line-height:1.2; }
+  .pl-topo small { display:block; font-size:11.5px; font-weight:500; color:#8A929C; }
+  .pl-volta { display:flex; align-items:center; gap:8px; margin:0 12px 4px; padding:7px 10px; border-radius:10px; font-size:13px; color:#8A929C; text-decoration:none; }
+  .pl-volta:hover { background:#F4F0EA; color:#10203A; }
+  .m-col nav { flex:1; overflow-y:auto; padding:4px 12px 12px; scrollbar-width:thin; }
+  .m-col .pl-grupo { margin-top:16px; } .m-col .pl-grupo:first-child { margin-top:4px; }
+  .m-col .pl-pe { border-top:1px solid #EAE4D9; padding:10px 12px 12px; position:relative; }
+  .m-col .pl-eu { width:100%; }
+  .m-col .pl-eu > .pl-ic { margin-left:auto; width:16px; height:16px; }
+  .m-col .pl-menu { left:12px; right:12px; bottom:calc(100% - 4px); }
+
+  /* ── 2: trilho de ícones + menu da seção ── */
+  body.m2 { padding-left:296px; }
+  .m-trilho { position:fixed; left:0; top:0; bottom:0; width:72px; z-index:310; background:#fff; border-right:1px solid #EAE4D9; display:flex; flex-direction:column; align-items:center; padding:16px 0 12px; gap:4px; }
+  .m-trilho .r-logo { margin-bottom:14px; }
+  .r-bt { width:58px; padding:8px 0 6px; border-radius:12px; border:0; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; color:#66717F; font:500 10.5px/1.2 var(--body,'Geist',sans-serif); text-decoration:none; }
+  .r-bt .pl-ic { width:21px; height:21px; }
+  .r-bt:hover { background:#F4F0EA; color:#10203A; }
+  .r-bt[aria-pressed="true"] { background:#EAF1F8; color:#1A4893; }
+  .m-trilho .r-pe { margin-top:auto; position:relative; }
+  .m-trilho .pl-eu { padding:4px; } .m-trilho .pl-menu { left:8px; bottom:2px; transform:translateX(56px); }
+  .m-painel { position:fixed; left:72px; top:0; bottom:0; width:224px; z-index:300; background:#FBF9F5; border-right:1px solid #EAE4D9; padding:22px 12px; overflow-y:auto; }
+  .m-painel h2 { font:600 17px/1.2 var(--body,'Geist',sans-serif); color:#10203A; letter-spacing:-.01em; padding:0 10px 14px; }
+  .m-painel .pl-item[aria-current="page"] { background:#fff; box-shadow:0 1px 2px rgba(16,32,58,.08), 0 4px 12px -6px rgba(26,72,147,.25); }
+
+  /* ── 3: abas no topo ── */
+  body.m3 { padding-top:112px; }
+  .m-topo { position:fixed; top:0; left:0; right:0; z-index:300; background:#fff; border-bottom:1px solid #EAE4D9; }
+  .m-topo .t-1 { height:60px; display:flex; align-items:center; gap:18px; padding:0 22px; }
+  .m-topo .t-logo { display:flex; align-items:center; gap:10px; font-weight:600; font-size:15px; color:#10203A; text-decoration:none; flex-shrink:0; }
+  .t-abas { display:flex; gap:2px; height:100%; overflow-x:auto; scrollbar-width:none; }
+  .t-abas a { display:flex; align-items:center; gap:8px; padding:0 14px; font-size:14px; font-weight:500; color:#54606F; text-decoration:none; border-bottom:2.5px solid transparent; white-space:nowrap; }
+  .t-abas a .pl-ic { width:17px; height:17px; }
+  .t-abas a:hover { color:#10203A; }
+  .t-abas a[aria-current="page"] { color:#1A4893; border-bottom-color:#1A4893; }
+  .m-topo .t-conta { margin-left:auto; position:relative; flex-shrink:0; }
+  .m-topo .pl-menu { right:0; top:calc(100% + 6px); }
+  .t-sub { display:flex; align-items:center; gap:6px; height:52px; padding:0 22px; background:#FBF9F5; border-top:1px solid #EFEAE1; overflow-x:auto; scrollbar-width:none; }
+  .t-sub .pl-item { padding:7px 13px; border-radius:999px; font-size:13.5px; white-space:nowrap; flex-shrink:0; }
+  .t-sub .pl-item .pl-ic { width:16px; height:16px; }
+  .t-sub .pl-item[aria-current="page"] { background:#fff; border:1px solid #CFE0F1; padding:6px 12px; }
+  .t-sub .t-tit { font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#8A929C; margin-right:8px; white-space:nowrap; }
+
+  /* ── 4: coluna compacta + partes no alto ── */
+  body.m4 { padding-left:88px; padding-top:52px; }
+  .m-compacta { position:fixed; left:0; top:0; bottom:0; width:88px; z-index:310; background:#fff; border-right:1px solid #EAE4D9; display:flex; flex-direction:column; align-items:center; padding:16px 0 12px; gap:6px; }
+  .m-compacta .r-bt { width:74px; font-size:11.5px; padding:9px 0 7px; }
+  .m-compacta .r-bt .pl-ic { width:22px; height:22px; }
+  .m-compacta .r-logo { margin-bottom:12px; }
+  .m-compacta .r-pe { margin-top:auto; position:relative; }
+  .m-compacta .pl-eu { padding:4px; } .m-compacta .pl-menu { left:8px; bottom:2px; transform:translateX(70px); }
+  .m4-sub { position:fixed; top:0; left:88px; right:0; z-index:290; border-top:0; border-bottom:1px solid #EAE4D9; background:rgba(251,249,245,.94); backdrop-filter:blur(12px); }
+
   @media (max-width:960px) {
-    body.plat { padding-left:0; padding-top:60px; }
-    .pl-lado { transform:translateX(-102%); transition:transform .25s cubic-bezier(.2,.8,.2,1); width:280px; box-shadow:30px 0 60px -30px rgba(16,32,58,.45); }
-    .pl-lado.on { transform:none; }
-    .pl-barra { display:flex; position:fixed; top:0; left:0; right:0; height:60px; z-index:250; align-items:center; gap:12px; padding:0 14px;
-      background:rgba(255,255,255,.9); backdrop-filter:blur(14px); border-bottom:1px solid #EAE4D9; }
+    body.m1, body.m5, body.m2 { padding-left:0; padding-top:60px; }
+    .m-col, .m-trilho, .m-painel { transform:translateX(-340px); transition:transform .25s cubic-bezier(.2,.8,.2,1); box-shadow:30px 0 60px -30px rgba(16,32,58,.45); }
+    .m-col.on, .m-trilho.on, .m-painel.on { transform:none; }
+    .m-col { width:280px; }
+    .pl-barra { display:flex; position:fixed; top:0; left:0; right:0; height:60px; z-index:250; align-items:center; gap:12px; padding:0 14px; background:rgba(255,255,255,.92); backdrop-filter:blur(14px); border-bottom:1px solid #EAE4D9; }
     .pl-barra button { width:40px; height:40px; border-radius:12px; border:1px solid #DED7CA; background:#fff; display:grid; place-items:center; color:#10203A; cursor:pointer; }
     .pl-barra a { display:flex; align-items:center; gap:9px; font-weight:600; font-size:15px; color:#10203A; text-decoration:none; }
-    .pl-barra img { width:28px; height:28px; }
     .pl-veu { display:block; position:fixed; inset:0; background:rgba(15,29,51,.35); z-index:290; opacity:0; pointer-events:none; transition:opacity .2s; }
     .pl-veu.on { opacity:1; pointer-events:auto; }
+    .m-topo .t-1 { padding:0 14px; gap:10px; } .m-topo .t-logo span { display:none; }
+    .t-sub { padding:0 14px; }
+    .t-abas a { padding:0 10px; }
+    .t-abas a .pl-ic { display:none; }
+    /* 4 no celular: as seções numa barra embaixo, como num aplicativo */
+    body.m4 { padding-left:0; padding-bottom:76px; }
+    .m-compacta { top:auto; right:0; width:auto; height:66px; flex-direction:row; justify-content:space-around; padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px)); border-right:0; border-top:1px solid #EAE4D9; gap:0; }
+    .m-compacta .r-logo, .m-compacta .r-pe { display:none; }
+    .m-compacta .r-bt { width:auto; flex:1; font-size:10.5px; padding:6px 0; }
+    .m4-sub { left:0; }
+    body.m4 #faixaTeste { bottom:80px !important; }
   }`;
 
   function iniciais(nome) {
     const p = String(nome || "").trim().split(/\s+/).filter(Boolean);
     return ((p[0] || "?")[0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
   }
-
-  function montar() {
-    const s = document.createElement("style"); s.textContent = CSS; document.head.appendChild(s);
-    document.body.classList.add("plat");
+  function nome() {
     let meta = {};
     try { meta = JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token")).user.user_metadata || {}; } catch (e) {}
-    const nome = meta.nome || Acesso.email().split("@")[0];
-
-    const lado = document.createElement("aside");
-    lado.className = "pl-lado"; lado.id = "plLado"; lado.dataset.cor = corGuardada();
-    lado.setAttribute("aria-label", "Menu do Hub");
-    lado.innerHTML = `
-      <a class="pl-topo" href="inicio.html" style="text-decoration:none">${marca(30)}<span><b>Home Office Hub</b><small class="pl-area">Área do aluno</small></span></a>
-      <a class="pl-volta" href="index.html">${ic("volta")}Voltar para o site</a>
-      <nav class="pl-nav">${GRUPOS.map(([g, itens]) => `<div class="pl-grupo">${g ? `<span>${g}</span>` : ""}${itens.map(([id, n, href, icone, sub]) =>
-        sub ? `<a class="pl-item pl-sub" data-id="${id}" href="${href}"><span>${n}</span><b class="pl-n" data-conta="${id}"></b></a>`
-            : `<a class="pl-item" data-id="${id}" href="${href}">${ic(icone || id)}<span>${n}</span></a>`).join("")}</div>`).join("")}
-        <div class="pl-grupo" id="plEquipe" hidden><span>Equipe</span><a class="pl-item" data-id="equipe" href="../painel.html">${ic("equipe")}<span>Painel da equipe</span></a></div>
-      </nav>
-      <div class="pl-pe">
-        <div class="pl-menu" id="plMenu" role="menu">
-          <a href="perfil-profissional.html">${ic("perfil")}Perfil profissional</a>
-          <a href="perfil.html">${ic("perfil")}Meu perfil público</a>
-          <a href="como-funciona.html">${ic("guia")}Como funciona o trabalho</a>
-          <a href="controle.html#dados">${ic("dados")}Seus dados</a>
-          <hr><a href="#" id="plSair">${ic("sair")}Sair da conta</a>
-        </div>
-        <button class="pl-eu" id="plEu" aria-expanded="false" aria-controls="plMenu">
-          <span class="pl-av">${esc(iniciais(nome))}</span>
-          <span style="min-width:0"><b>${esc(nome)}</b><span data-plano-selo="mini">${Acesso.seloPlano(true)}</span></span>
-          ${ic("acima")}
-        </button>
-        <div class="pl-cor" title="Só no teste: para escolher a cor da coluna">Cor (teste):${CORES.map(([k, n]) => `<button class="c-${k}" data-cor="${k}" aria-label="${n}" title="${n}" aria-pressed="${k === lado.dataset.cor}"></button>`).join("")}</div>
-      </div>`;
-    document.body.prepend(lado);
-    const barra = document.createElement("div");
-    barra.className = "pl-barra";
-    barra.innerHTML = `<button id="plAbrir" aria-label="Abrir o menu">${ic("menu")}</button><a href="inicio.html">${marca(28)}Home Office Hub</a>`;
-    document.body.prepend(barra);
-    const veu = document.createElement("div"); veu.className = "pl-veu"; document.body.appendChild(veu);
-
-    const marcarAtual = () => { const a = atual(); lado.querySelectorAll(".pl-item").forEach(el => { el.removeAttribute("aria-current"); if (el.dataset.id === a) el.setAttribute("aria-current", "page"); }); };
-    marcarAtual();
-    window.addEventListener("hashchange", marcarAtual);
-
-    const fechar = () => { lado.classList.remove("on"); veu.classList.remove("on"); };
-    barra.querySelector("#plAbrir").addEventListener("click", () => { lado.classList.add("on"); veu.classList.add("on"); });
-    veu.addEventListener("click", fechar);
-    lado.querySelectorAll(".pl-item").forEach(a => a.addEventListener("click", fechar));
-
-    const eu = lado.querySelector("#plEu"), menu = lado.querySelector("#plMenu");
-    eu.addEventListener("click", ev => { ev.stopPropagation(); const on = menu.classList.toggle("on"); eu.setAttribute("aria-expanded", on); });
-    document.addEventListener("click", ev => { if (!menu.contains(ev.target)) { menu.classList.remove("on"); eu.setAttribute("aria-expanded", "false"); } });
-    document.addEventListener("keydown", ev => { if (ev.key === "Escape") { menu.classList.remove("on"); fechar(); } });
-    lado.querySelector("#plSair").addEventListener("click", ev => {
+    return meta.nome || Acesso.email().split("@")[0];
+  }
+  /* avatar com o menu da conta; "comNome" mostra nome e plano ao lado */
+  function conta(comNome, extra) {
+    return `<div class="pl-menu" role="menu">
+        ${extra || ""}<a href="perfil.html">${ic("perfil")}Meu perfil público</a>
+        <a href="#" data-rever-tour>${ic("guia")}Fazer o tour de novo</a>
+        <a href="controle.html#dados">${ic("dados")}Seus dados</a>
+        <hr><a href="#" data-sair>${ic("sair")}Sair da conta</a>
+      </div>
+      <button class="pl-eu" aria-expanded="false" title="Minha conta">
+        <span class="pl-av">${esc(iniciais(nome()))}</span>
+        ${comNome ? `<span style="min-width:0"><b>${esc(nome())}</b><span data-plano-selo="mini">${Acesso.seloPlano(true)}</span></span>${ic("acima")}` : ""}
+      </button>`;
+  }
+  function ligarConta(raiz) {
+    raiz.querySelectorAll(".pl-eu").forEach(eu => {
+      const menu = eu.parentElement.querySelector(".pl-menu");
+      eu.addEventListener("click", ev => { ev.stopPropagation(); const on = menu.classList.toggle("on"); eu.setAttribute("aria-expanded", on); });
+      document.addEventListener("click", ev => { if (!menu.contains(ev.target)) { menu.classList.remove("on"); eu.setAttribute("aria-expanded", "false"); } });
+    });
+    raiz.querySelectorAll("[data-rever-tour]").forEach(a => a.addEventListener("click", ev => { ev.preventDefault(); if (window.PlatTour) window.PlatTour(); }));
+    raiz.querySelectorAll("[data-sair]").forEach(a => a.addEventListener("click", ev => {
       ev.preventDefault();
       try { localStorage.removeItem("sb-zrqucjktympnwilbvisw-auth-token"); } catch (e) {}
       location.href = "entrar.html";
-    });
-    lado.querySelectorAll("[data-cor]").forEach(b => b.addEventListener("click", () => {
-      lado.dataset.cor = b.dataset.cor;
-      try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {}
-      lado.querySelectorAll(".pl-cor button").forEach(x => x.setAttribute("aria-pressed", x === b));
     }));
-    // quantas vagas em cada lista, como a página de vagas conta
+  }
+  function gaveta(...paineis) {   // no celular, os modelos de coluna abrem por um botão
+    const barra = document.createElement("div"); barra.className = "pl-barra";
+    barra.innerHTML = `<button aria-label="Abrir o menu">${ic("menu")}</button><a href="inicio.html">${marca(28)}Home Office Hub</a>`;
+    document.body.prepend(barra);
+    const veu = document.createElement("div"); veu.className = "pl-veu"; document.body.appendChild(veu);
+    const abrir = on => { paineis.forEach(p => p.classList.toggle("on", on)); veu.classList.toggle("on", on); };
+    barra.querySelector("button").addEventListener("click", () => abrir(true));
+    veu.addEventListener("click", () => abrir(false));
+    document.addEventListener("keydown", ev => { if (ev.key === "Escape") abrir(false); });
+  }
+  function marcarAtual() {
+    const a = atual(), s = secaoDe(a);
+    document.querySelectorAll(".pl-item").forEach(el => { el.removeAttribute("aria-current"); if (el.dataset.id === a) el.setAttribute("aria-current", "page"); });
+    document.querySelectorAll("[data-sec-link]").forEach(el => { el.removeAttribute("aria-current"); if (s && el.dataset.secLink === s.id) el.setAttribute("aria-current", "page"); });
+  }
+  function contarVagas() {
     Promise.all([lerVagas(), lerEspecificas()]).then(([g, e]) => {
       const minhas = Acesso.areas() || [], subs = Acesso.subareas();
       const nG = (g.vagas || []).length, nE = (e.vagas || []).length;
       const nV = nG + (e.vagas || []).filter(v => Acesso.vagaDasMinhasAreas(v, minhas, subs)).length;
-      const pinta = (id, n) => { const el = lado.querySelector(`[data-conta="${id}"]`); if (el) el.textContent = n; };
+      const pinta = (id, n) => document.querySelectorAll(`[data-conta="${id}"]`).forEach(el => { el.textContent = n; });
       pinta("v-voce", nV); pinta("v-todas", nG); pinta("v-form", nE);
     }).catch(() => {});
-    try { if (JSON.parse(localStorage.getItem("hub-equipe") || "null").sim) lado.querySelector("#plEquipe").hidden = false; } catch (e) {}
   }
 
-  return { montar };
+  /* 1 (e 5, só com as seções do aluno): coluna clara com tudo aberto */
+  function coluna(soAluno) {
+    const el = document.createElement("aside"); el.className = "m-col"; el.setAttribute("aria-label", "Menu do Hub");
+    const lista = secoes().filter(s => !soAluno || s.aluno).map(s => soAluno && s.id === "aprender" ? Object.assign({}, s, { itens: s.itens.filter(i => i[0] === "cursos") }) : s);
+    el.innerHTML = `<a class="pl-topo" href="inicio.html">${marca(30)}<span><b>Home Office Hub</b>${soAluno ? "<small>Área do aluno</small>" : ""}</span></a>
+      ${soAluno ? `<a class="pl-volta" href="index.html">${ic("volta")}Voltar para o site</a>` : ""}
+      <nav>${lista.map(s => s.id === "inicio" ? `<div class="pl-grupo">${s.itens.map(i => item(i[0] === "inicio" ? ["inicio", "Início", i[2], "inicio"] : i)).join("")}</div>`
+        : `<div class="pl-grupo"><span class="pl-rot">${s.nome}</span>${s.itens.map(i => item(i)).join("")}</div>`).join("")}</nav>
+      <div class="pl-pe">${conta(true)}</div>`;
+    document.body.prepend(el); gaveta(el); ligarConta(el);
+  }
+
+  /* 2: trilho de ícones; o menu ao lado mostra as partes da seção escolhida */
+  function trilho() {
+    const lista = secoes(), daqui = secaoDe(atual()) || lista[0];
+    const t = document.createElement("aside"); t.className = "m-trilho"; t.setAttribute("aria-label", "Seções do Hub");
+    t.innerHTML = `<a class="r-logo" href="inicio.html" title="Home Office Hub">${marca(32)}</a>
+      ${lista.map(s => `<button class="r-bt" data-sec="${s.id}" aria-pressed="${s.id === daqui.id}">${ic(s.ic)}<span>${s.curto || s.nome}</span></button>`).join("")}
+      <div class="r-pe">${conta(false)}</div>`;
+    const p = document.createElement("aside"); p.className = "m-painel"; p.setAttribute("aria-label", "Partes da seção");
+    const pinta = s => { p.innerHTML = `<h2>${s.nome}</h2>${s.itens.map(i => item(i)).join("")}`; marcarAtual(); contarVagas(); };
+    pinta(daqui);
+    t.querySelectorAll("[data-sec]").forEach(b => b.addEventListener("click", () => {
+      const s = lista.find(x => x.id === b.dataset.sec);
+      t.querySelectorAll("[data-sec]").forEach(x => x.setAttribute("aria-pressed", x === b));
+      if (s.itens.length === 1) { location.href = s.itens[0][2]; return; }
+      pinta(s);
+    }));
+    document.body.prepend(p); document.body.prepend(t); gaveta(t, p); ligarConta(t);
+  }
+
+  /* barra com as partes da seção de agora (modelos 3 e 4) */
+  function partes(extraClasse) {
+    const s = secaoDe(atual());
+    const sub = document.createElement("nav"); sub.className = "t-sub " + (extraClasse || ""); sub.setAttribute("aria-label", "Partes da seção");
+    sub.innerHTML = s ? `<span class="t-tit">${s.nome}</span>${s.itens.map(i => item(i)).join("")}` : `<span class="t-tit">Sua conta</span>`;
+    return sub;
+  }
+
+  /* 3: seções em abas no alto, partes logo abaixo */
+  function abasNoTopo() {
+    const lista = secoes();
+    const topo = document.createElement("header"); topo.className = "m-topo";
+    topo.innerHTML = `<div class="t-1"><a class="t-logo" href="inicio.html">${marca(28)}<span>Home Office Hub</span></a>
+        <nav class="t-abas" aria-label="Seções do Hub">${lista.map(s => `<a href="${s.itens[0][2]}" data-sec-link="${s.id}">${ic(s.ic)}${s.nome}</a>`).join("")}</nav>
+        <div class="t-conta">${conta(false)}</div></div>`;
+    topo.appendChild(partes());
+    document.body.prepend(topo); ligarConta(topo);
+  }
+
+  /* 4: coluna estreita com ícone e nome; partes no alto da página */
+  function compacta() {
+    const lista = secoes();
+    const c = document.createElement("aside"); c.className = "m-compacta"; c.setAttribute("aria-label", "Seções do Hub");
+    c.innerHTML = `<a class="r-logo" href="inicio.html" title="Home Office Hub">${marca(34)}</a>
+      ${lista.map(s => `<a class="r-bt" href="${s.itens[0][2]}" data-sec-link="${s.id}">${ic(s.ic)}<span>${s.curto || s.nome}</span></a>`).join("")}
+      <div class="r-pe">${conta(false)}</div>`;
+    const css = document.createElement("style");
+    css.textContent = '.m-compacta .r-bt[aria-current="page"]{background:#EAF1F8;color:#1A4893}';
+    document.head.appendChild(css);
+    document.body.prepend(partes("m4-sub")); document.body.prepend(c); ligarConta(c);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     COLUNAS NO ESTILO DOS SISTEMAS DE GESTÃO (05/11)
+     Todas partem da coluna que o dono escolheu: ícones de um lado,
+     nomes do outro, cada um na mesma linha. Cada linha é um link só,
+     com as duas metades, então as colunas nunca desalinham.
+       1 Ícones e nomes     sempre aberta; dá para recolher
+       2 Abre com o mouse   fica só nos ícones e abre por cima ao passar
+                            o mouse; um botão a mantém aberta (HubSpot)
+       3 Seções e atalhos   cada seção abre e fecha; a pessoa fixa no alto
+                            os lugares que mais usa (favoritos do Attio)
+       4 Menu flutuante     faixa de ícones com o nome embaixo; a seção
+                            abre um menu ao lado do ícone (Pipedrive)
+     Em todos: "Buscar no Hub" (Ctrl+K) leva a qualquer página, vaga
+     ou empresa digitando um pedaço do nome.
+     Cores: vidro (transparente, como o menu do topo do site), papel,
+     azul e noite. Ficam em localStorage plat-cor.
+     ══════════════════════════════════════════════════════════ */
+  const ICONE_AL = { "v-voce": "estrela", "v-todas": "vagas", "v-form": "formacao", empresas: "empresas" };
+  const CORES_AL = { vidro: "Vidro", papel: "Papel", azul: "Azul", noite: "Noite" };
+  function corDaColuna() { try { const c = localStorage.getItem("plat-cor"); return CORES_AL[c] ? c : "vidro"; } catch (e) { return "vidro"; } }
+  const CSS_AL = `
+  body.m1, body.m3 { padding-left:268px; transition:padding-left .22s; }
+  body.m2 { padding-left:64px; }
+  body.m2.al-fixa { padding-left:268px; }
+  body.m1.al-fechado, body.m3.al-fechado { padding-left:64px; }
+  body.m4 { padding-left:76px; padding-top:0; }
+  body.m3 { padding-top:0; }
+  /* tons: as duas colunas (ícones e nomes) e o vão entre elas */
+  .al, .fl, .fl-menu { --al-trilho:rgba(255,255,255,.46); --al-vao:rgba(255,255,255,0); --al-painel:rgba(255,255,255,.70); --al-borda:rgba(255,255,255,.75);
+    --al-linha:rgba(16,32,58,.08); --al-txt:#3F4C5D; --al-forte:#10203A; --al-rot:#7A8594; --al-ic:#5A6676; --al-hover:rgba(16,32,58,.05);
+    --al-pill:#FFFFFF; --al-pill-txt:#1A4893; --al-marca:#1A4893; --al-sombra:0 1px 2px rgba(16,32,58,.06), 0 6px 16px -8px rgba(26,72,147,.28);
+    --al-vidro:blur(20px) saturate(1.45); }
+  [data-cor="papel"] { --al-trilho:#ECE6DC; --al-vao:#F4F0E9; --al-painel:#F6F2EC; --al-borda:#E2DACD; --al-linha:#E2DACD;
+    --al-hover:rgba(16,32,58,.045); --al-vidro:none; }
+  [data-cor="azul"] { --al-trilho:#DDE7F3; --al-vao:#EAF0F7; --al-painel:#EEF3F9; --al-borda:#D6E1EE; --al-linha:#D6E1EE;
+    --al-ic:#4F6178; --al-hover:rgba(26,72,147,.06); --al-vidro:none; }
+  [data-cor="noite"] { --al-trilho:rgba(13,26,46,.84); --al-vao:rgba(13,26,46,.0); --al-painel:rgba(20,38,62,.80); --al-borda:rgba(255,255,255,.08);
+    --al-linha:rgba(255,255,255,.08); --al-txt:#C4CEDB; --al-forte:#FFFFFF; --al-rot:#8D9BB0; --al-ic:#9FB1C8; --al-hover:rgba(255,255,255,.07);
+    --al-pill:rgba(187,211,242,.95); --al-pill-txt:#0F1D33; --al-marca:#BBD3F2; --al-sombra:none; --al-vidro:blur(20px) saturate(1.3); }
+
+  .al { position:fixed; left:0; top:0; bottom:0; width:268px; z-index:300; display:flex; flex-direction:column; overflow:hidden;
+    background:linear-gradient(to right, var(--al-trilho) 0 64px, var(--al-vao) 64px 72px, var(--al-painel) 72px);
+    -webkit-backdrop-filter:var(--al-vidro); backdrop-filter:var(--al-vidro); border-right:1px solid var(--al-borda);
+    box-shadow:1px 0 0 var(--al-linha); transition:width .22s, box-shadow .22s; font-family:var(--body,'Geist',system-ui,sans-serif); }
+  .al.fechado { width:64px; }
+  .al-linha { display:grid; grid-template-columns:64px 8px minmax(0,1fr); align-items:center; height:39px; flex-shrink:0; position:relative;
+    text-decoration:none; color:var(--al-txt); background:none; border:0; padding:0; width:100%; font:inherit; text-align:left; cursor:pointer; }
+  .al-linha .c-ic { position:relative; height:100%; display:grid; place-items:center; color:var(--al-ic); }
+  .al-linha .c-ic .pl-ic { width:20px; height:20px; }
+  .al-linha .c-tx { grid-column:3; margin-right:10px; height:33px; padding:0 10px 0 12px; border-radius:10px; display:flex; align-items:center; gap:10px;
+    font-size:14px; white-space:nowrap; overflow:hidden; transition:background .15s, color .15s; }
+  .al-linha .c-tx .pl-ic { width:17px; height:17px; }
+  .al-linha:hover .c-tx { background:var(--al-hover); color:var(--al-forte); }
+  .al-linha:hover .c-ic { color:var(--al-forte); }
+  .al-linha[aria-current="page"] .c-tx { background:var(--al-pill); color:var(--al-pill-txt); font-weight:600; box-shadow:var(--al-sombra); }
+  .al-linha[aria-current="page"] .c-ic { color:var(--al-marca); }
+  .al-linha[aria-current="page"] .c-ic::after { content:""; position:absolute; right:0; top:9px; bottom:9px; width:3px; border-radius:3px 0 0 3px; background:var(--al-marca); }
+  .al-linha .pl-n { margin-left:auto; font-size:11.5px; font-weight:500; color:var(--al-rot); }
+  .al-linha .pl-n:empty { display:none; }
+  .al .pl-item, .al .pl-eu { padding:0; gap:0; border-radius:0; background:none !important; font-weight:inherit; }
+  .al .pl-eu { display:grid; }
+  .al-grupo { display:grid; grid-template-columns:64px 8px minmax(0,1fr); align-items:end; height:30px; flex-shrink:0; padding-bottom:3px;
+    width:100%; border:0; background:none; font:inherit; text-align:left; color:inherit; }
+  .al-grupo i { justify-self:center; width:22px; height:1.5px; background:var(--al-linha); margin-bottom:7px; }
+  .al-grupo span { grid-column:3; display:flex; align-items:center; gap:6px; padding:0 12px; font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--al-rot); white-space:nowrap; }
+  .al-topo { height:66px; }
+  .al-topo .c-tx { font-weight:600; font-size:15px; color:var(--al-forte); letter-spacing:-.015em; }
+  .al-topo:hover .c-tx { background:none; }
+  .al-busca .c-tx { color:var(--al-rot); border:1px solid var(--al-linha); background:var(--al-painel); }
+  .al-busca kbd { margin-left:auto; font:600 10.5px var(--body,'Geist',sans-serif); color:var(--al-rot); border:1px solid var(--al-linha); border-radius:6px; padding:1px 6px; }
+  .al-nav { flex:1; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:8px; }
+  .al-nav::-webkit-scrollbar { display:none; }
+  .al-pe { flex-shrink:0; padding:6px 0 10px; border-top:1px solid var(--al-linha); position:relative; }
+  .al-pe .pl-av { width:32px; height:32px; font-size:12px; }
+  .al-pe .al-eu { height:50px; }
+  .al-pe .al-eu .c-tx { height:44px; flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; }
+  .al-pe .al-eu b { font-size:13.5px; font-weight:550; color:var(--al-forte); line-height:1.2; }
+  .al-pe .pl-menu, .fl .pl-menu { left:72px; bottom:54px; }
+  .al.fechado .c-tx, .al.fechado .al-grupo span { display:none; }
+  .al.fechado .al-pe .pl-menu { left:58px; }
+  .al .al-recolhe .pl-ic { transition:transform .22s; }
+  .al.fechado .al-recolhe .c-ic .pl-ic { transform:rotate(180deg); }
+
+  /* 2: fica só nos ícones e abre por cima ao passar o mouse */
+  .al.m-hover:not(.fixa) { width:64px; }
+  .al.m-hover.aberta:not(.fixa) { width:268px; box-shadow:24px 0 48px -24px rgba(16,32,58,.35); }
+  .al.m-hover:not(.fixa):not(.aberta) .c-tx, .al.m-hover:not(.fixa):not(.aberta) .al-grupo span { display:none; }
+  /* aberta por cima da página, a coluna fica menos transparente para o texto de trás não atrapalhar */
+  [data-cor="vidro"].al.m-hover.aberta:not(.fixa) { --al-trilho:rgba(255,255,255,.78); --al-painel:rgba(255,255,255,.93); }
+  [data-cor="noite"].al.m-hover.aberta:not(.fixa) { --al-trilho:rgba(13,26,46,.95); --al-painel:rgba(20,38,62,.95); }
+  /* avisos: o número de hoje em laranja, o resto discreto; com a coluna fechada fica só a bolinha no ícone */
+  .al-aviso { margin-left:auto; font-style:normal; font-size:11px; font-weight:600; min-width:20px; height:19px; padding:0 6px; border-radius:999px;
+    display:inline-grid; place-items:center; background:var(--al-hover); color:var(--al-txt); flex-shrink:0; }
+  .al-aviso:empty { display:none; }
+  .al-aviso.quente { background:#F6E1CC; color:#94491A; }
+  .al-aviso.novas { background:#FBEBDA; color:#A85D24; }
+  .al-aviso + .pl-n { margin-left:6px; }
+  .al-linha[aria-current="page"] .al-aviso:not(.quente):not(.novas) { background:rgba(26,72,147,.1); color:inherit; }
+  .al-ponto { position:absolute; top:8px; right:16px; width:8px; height:8px; border-radius:50%; background:#D0782F; box-shadow:0 0 0 2px rgba(255,255,255,.85); display:none; }
+  [data-cor="noite"] .al-ponto { box-shadow:0 0 0 2px rgba(13,26,46,.9); }
+  .al.fechado .al-ponto.on, .al.m-hover:not(.fixa):not(.aberta) .al-ponto.on { display:block; }
+  .al-kbd { margin-left:auto; font:600 10.5px var(--body,'Geist',sans-serif); color:var(--al-rot); border:1px solid var(--al-linha); border-radius:6px; padding:1px 6px; }
+  .al-dica { position:fixed; z-index:420; transform:translateY(-50%); background:#10203A; color:#fff; font:500 12.5px/1 var(--body,'Geist',sans-serif);
+    padding:7px 10px; border-radius:8px; pointer-events:none; opacity:0; transition:opacity .12s; white-space:nowrap; box-shadow:0 8px 20px -8px rgba(16,32,58,.5); }
+  .al-dica.on { opacity:1; }
+  /* tour pela coluna */
+  .tr-veu { position:fixed; inset:0; z-index:295; background:rgba(15,29,51,.42); }
+  .al.em-tour { z-index:300; }
+  .al-linha.tr-alvo .c-tx { background:#fff !important; color:#1A4893 !important; box-shadow:0 0 0 2px #1A4893, 0 10px 24px -10px rgba(26,72,147,.5); }
+  .al-linha.tr-alvo .c-ic { color:#1A4893; }
+  .tr-cx { position:fixed; z-index:430; width:min(320px, calc(100vw - 24px)); background:#fff; border-radius:16px; padding:16px 18px 14px; border:1px solid #E6DFD3;
+    box-shadow:0 30px 60px -20px rgba(16,32,58,.45); font-family:var(--body,'Geist',sans-serif); color:#54606F; }
+  .tr-cx small { font-size:11.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#8A929C; }
+  .tr-cx b { display:block; font-size:17px; color:#10203A; margin:4px 0 6px; }
+  .tr-cx p { font-size:14px; line-height:1.5; margin:0 0 14px; }
+  .tr-bts { display:flex; align-items:center; gap:8px; }
+  .tr-bts span { flex:1; }
+  .tr-bts button { font:500 13.5px var(--body,'Geist',sans-serif); padding:8px 14px; border-radius:999px; border:1px solid #DED7CA; background:#fff; color:#10203A; cursor:pointer; }
+  .tr-bts button[data-tr="pular"] { border:0; padding:8px 4px; color:#66717F; }
+  .tr-bts button.forte { background:#1A4893; border-color:#1A4893; color:#fff; }
+  .al.m-hover .al-fixar .c-tx .pl-ic { transform:rotate(45deg); }
+  .al.m-hover.fixa .al-fixar .c-tx .pl-ic { transform:none; color:var(--al-marca); }
+
+  /* 3: seções que abrem e fecham, e atalhos fixados no alto */
+  .al-grupo.abre { cursor:pointer; }
+  .al-grupo.abre span .pl-ic { width:13px; height:13px; transition:transform .18s; }
+  .al-grupo.abre[aria-expanded="false"] span .pl-ic { transform:rotate(-90deg); }
+  .al-grupo.abre:hover span { color:var(--al-forte); }
+  .al-sec[hidden] { display:none; }
+  .al-fixo { width:24px; height:24px; margin-left:auto; border-radius:7px; display:grid; place-items:center; color:var(--al-rot); opacity:0; flex-shrink:0; }
+  .al-linha:hover .al-fixo, .al-fixo.on { opacity:1; }
+  .al-fixo:hover { background:var(--al-hover); color:var(--al-forte); }
+  .al-fixo.on { color:#C98A1B; }
+  .al-fixo .pl-ic { width:15px !important; height:15px !important; }
+  .al-fixo.on .pl-ic { fill:currentColor; }
+  .al-linha .al-fixo + .pl-n { margin-left:6px; }
+  .al-vazio { grid-column:3; font-size:12.5px; color:var(--al-rot); padding:2px 12px 8px; line-height:1.4; white-space:normal; }
+
+  /* 4: faixa de ícones com o nome embaixo; menu flutuante ao lado */
+  .fl { position:fixed; left:0; top:0; bottom:0; width:76px; z-index:310; display:flex; flex-direction:column; align-items:center; gap:4px; padding:14px 0 10px;
+    background:var(--al-trilho); -webkit-backdrop-filter:var(--al-vidro); backdrop-filter:var(--al-vidro); border-right:1px solid var(--al-borda); box-shadow:1px 0 0 var(--al-linha);
+    font-family:var(--body,'Geist',system-ui,sans-serif); }
+  .fl .r-logo { margin-bottom:10px; }
+  .fl-bt { width:64px; padding:8px 0 6px; border-radius:12px; border:0; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:var(--al-ic); font:500 10.5px/1.2 var(--body,'Geist',sans-serif); text-decoration:none; position:relative; }
+  .fl-bt .pl-ic { width:21px; height:21px; }
+  .fl-bt:hover, .fl-bt[aria-expanded="true"] { background:var(--al-hover); color:var(--al-forte); }
+  .fl-bt[aria-current="page"] { color:var(--al-marca); }
+  .fl-bt[aria-current="page"]::after { content:""; position:absolute; right:-6px; top:12px; bottom:12px; width:3px; border-radius:3px 0 0 3px; background:var(--al-marca); }
+  .fl .r-pe { margin-top:auto; position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .fl .pl-eu { padding:4px; }
+  .fl-menu { position:fixed; left:84px; z-index:320; min-width:236px; padding:8px; border-radius:16px; display:none;
+    background:var(--al-painel); -webkit-backdrop-filter:var(--al-vidro); backdrop-filter:var(--al-vidro); border:1px solid var(--al-borda);
+    box-shadow:0 2px 4px rgba(16,32,58,.06), 0 24px 48px -18px rgba(16,32,58,.35); }
+  [data-cor="vidro"].fl-menu { background:rgba(255,255,255,.88); }
+  .fl-menu.on { display:block; }
+  .fl-menu h3 { font:600 11px/1 var(--body,'Geist',sans-serif); letter-spacing:.12em; text-transform:uppercase; color:var(--al-rot); padding:8px 10px 10px; margin:0; }
+  .fl-menu .pl-item { color:var(--al-txt); }
+  .fl-menu .pl-item:hover { background:var(--al-hover); color:var(--al-forte); }
+  .fl-menu .pl-item[aria-current="page"] { background:var(--al-pill); color:var(--al-pill-txt); box-shadow:var(--al-sombra); }
+
+  /* busca rápida (Ctrl+K) */
+  .pal-veu { position:fixed; inset:0; z-index:500; background:rgba(15,29,51,.32); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); display:none; padding:12vh 16px 16px; }
+  .pal-veu.on { display:block; }
+  .pal { max-width:620px; margin:0 auto; background:#fff; border-radius:18px; border:1px solid #E6DFD3; box-shadow:0 30px 70px -20px rgba(16,32,58,.45); overflow:hidden; font-family:var(--body,'Geist',sans-serif); }
+  .pal-cab { display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid #EFEAE1; color:#66717F; }
+  .pal-cab input { flex:1; border:0; outline:0; font:400 16px var(--body,'Geist',sans-serif); color:#10203A; background:none; }
+  .pal-cab kbd { font:600 11px var(--body,'Geist',sans-serif); border:1px solid #E6DFD3; border-radius:6px; padding:2px 7px; color:#8A929C; }
+  .pal-lista { max-height:min(56vh,460px); overflow-y:auto; padding:6px; }
+  .pal-lista h4 { font:600 10.5px var(--body,'Geist',sans-serif); letter-spacing:.12em; text-transform:uppercase; color:#8A929C; padding:10px 10px 6px; margin:0; }
+  .pal-lista a { display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:10px; text-decoration:none; color:#10203A; font-size:14px; }
+  .pal-lista a small { margin-left:auto; color:#8A929C; font-size:12px; white-space:nowrap; }
+  .pal-lista a .pl-ic { color:#66717F; }
+  .pal-lista a.on { background:#EAF1F8; color:#1A4893; }
+  .pal-lista a.on .pl-ic { color:#1A4893; }
+  .pal-nada { padding:18px 12px; color:#66717F; font-size:14px; }
+  .pal-pe { display:flex; gap:14px; padding:9px 16px; border-top:1px solid #EFEAE1; font-size:12px; color:#8A929C; }
+
+  @media (max-width:960px) {
+    body.m1, body.m2, body.m3, body.m4, body.al-fechado, body.al-fixa { padding-left:0; padding-top:60px; }
+    .al, .al.fechado, .al.m-hover:not(.fixa) { width:280px; transform:translateX(-300px); transition:transform .25s cubic-bezier(.2,.8,.2,1); box-shadow:30px 0 60px -30px rgba(16,32,58,.45); }
+    .al.on { transform:none; }
+    .al .c-tx, .al .al-grupo span { display:flex !important; }
+    .al-recolhe, .al-fixar { display:none !important; }
+    [data-cor="vidro"].al { --al-trilho:rgba(255,255,255,.80); --al-painel:rgba(255,255,255,.94); }
+    .fl { top:auto; right:0; width:auto; height:66px; flex-direction:row; justify-content:space-around; padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px)); border-right:0; border-top:1px solid var(--al-borda); gap:0; }
+    body.m4 { padding-top:0; padding-bottom:76px; }
+    .fl .r-logo, .fl .r-pe { display:none; }
+    .fl-bt { flex:1; width:auto; }
+    .fl-bt[aria-current="page"]::after { right:auto; left:30%; width:40%; top:auto; bottom:-2px; height:3px; border-radius:3px 3px 0 0; }
+    .fl-menu { left:12px !important; right:12px; bottom:80px; top:auto !important; }
+    body.m4 #faixaTeste { bottom:80px !important; }
+  }`;
+
+  /* Lugares para a busca rápida: as páginas da coluna, as vagas e as empresas. */
+  function buscaRapida() {
+    const veu = document.createElement("div"); veu.className = "pal-veu";
+    veu.innerHTML = `<div class="pal" role="dialog" aria-label="Buscar no Hub">
+      <div class="pal-cab">${ic("busca")}<input id="palBusca" placeholder="Buscar página, vaga ou empresa" autocomplete="off"><kbd>Esc</kbd></div>
+      <div class="pal-lista" id="palLista"></div>
+      <div class="pal-pe"><span>↑ ↓ para escolher</span><span>Enter para abrir</span></div></div>`;
+    document.body.appendChild(veu);
+    const inp = veu.querySelector("#palBusca"), lista = veu.querySelector("#palLista");
+    const norm = t => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    let paginas = [], vagas = [], empresas = [], achados = [], sel = 0;
+    secoes().forEach(s => s.itens.forEach(([id, n, href, icone]) => paginas.push({ t: n, sub: s.nome, href, ic: ICONE_AL[id] || icone })));
+    paginas.push({ t: "Perfil profissional", sub: "Sua conta", href: "perfil-profissional.html", ic: "perfil" }, { t: "Seus dados", sub: "Sua conta", href: "controle.html#dados", ic: "dados" });
+    Promise.all([lerVagas(), lerEspecificas(), lerEmpresas()]).then(([g, e, em]) => {
+      const nomes = {}; (em.empresas || []).forEach(x => { nomes[x.id] = x.nome; });
+      vagas = (g.vagas || []).concat(e.vagas || []).map(v => ({ t: String(v.titulo || "").replace(/^\*/, ""), sub: nomes[v.empresa] || v.empresa, href: "vaga.html?id=" + encodeURIComponent(v.id), ic: "vagas" }));
+      empresas = (em.empresas || []).map(x => ({ t: x.nome, sub: "Empresa", href: "vagas.html?empresa=" + encodeURIComponent(x.id), ic: "empresas" }));
+      if (veu.classList.contains("on")) pintar();
+    }).catch(() => {});
+    function pintar() {
+      const q = norm(inp.value).trim();
+      const casa = x => !q || norm(x.t + " " + x.sub).includes(q);
+      const grupos = [["Abertas há pouco", q ? [] : recentes()], ["Páginas", paginas.filter(casa).slice(0, q ? 6 : 8)], ["Empresas", q ? empresas.filter(casa).slice(0, 4) : []], ["Vagas", q ? vagas.filter(casa).slice(0, 6) : []]].filter(g => g[1].length);
+      achados = grupos.flatMap(g => g[1]); sel = Math.min(sel, Math.max(0, achados.length - 1));
+      let i = 0;
+      lista.innerHTML = grupos.length ? grupos.map(([n, xs]) => `<h4>${n}</h4>` + xs.map(x => `<a href="${x.href}" data-i="${i}" class="${i++ === sel ? "on" : ""}">${ic(x.ic)}<span>${esc(x.t)}</span><small>${esc(x.sub || "")}</small></a>`).join("")).join("")
+        : `<p class="pal-nada">Nada com "${esc(inp.value)}". Tente outra palavra, como o nome da empresa.</p>`;
+    }
+    const abrir = () => { veu.classList.add("on"); inp.value = ""; sel = 0; pintar(); setTimeout(() => inp.focus(), 0); };
+    const fechar = () => veu.classList.remove("on");
+    inp.addEventListener("input", () => { sel = 0; pintar(); });
+    inp.addEventListener("keydown", ev => {
+      if (ev.key === "ArrowDown" || ev.key === "ArrowUp") { ev.preventDefault(); sel = (sel + (ev.key === "ArrowDown" ? 1 : -1) + achados.length) % Math.max(1, achados.length); pintar(); lista.querySelector("a.on")?.scrollIntoView({ block: "nearest" }); }
+      if (ev.key === "Enter" && achados[sel]) location.href = achados[sel].href;
+    });
+    veu.addEventListener("click", ev => { if (ev.target === veu) fechar(); });
+    document.addEventListener("keydown", ev => {
+      if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === "k") { ev.preventDefault(); veu.classList.contains("on") ? fechar() : abrir(); }
+      if (ev.key === "Escape") fechar();
+    });
+    document.querySelectorAll("[data-buscar]").forEach(b => b.addEventListener("click", ev => { ev.preventDefault(); abrir(); }));
+  }
+
+  const FIXOS_PADRAO = ["mc-aplicacoes", "v-voce"];
+  function fixos() { try { const f = JSON.parse(localStorage.getItem("plat-fixos")); return Array.isArray(f) ? f : FIXOS_PADRAO; } catch (e) { return FIXOS_PADRAO; } }
+  function itemPorId(id) { for (const s of SECOES) { const i = s.itens.find(x => x[0] === id); if (i) return i; } return null; }
+
+  /* Melhorias dos modelos 1 e 2 (05/11): avisos na coluna, nome ao lado do
+     ícone com a coluna fechada, abrir e fechar com uma pequena espera no 2,
+     tecla [ para recolher ou fixar, as páginas abertas há pouco na busca e
+     o tour pela coluna para quem acabou de entrar. */
+  const diaDeHoje = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  function avisos(el) {
+    const pinta = a => {
+      const n = (id, v, quente) => {
+        const b = el.querySelector(`[data-aviso="${id}"]`), p = el.querySelector(`[data-ponto="${id}"]`);
+        if (b) { b.textContent = v || ""; b.classList.toggle("quente", !!quente); }
+        if (p) p.classList.toggle("on", !!v && !!quente);
+      };
+      n("mc-hoje", a.hoje, true); n("mc-agenda", a.agenda, false); n("mc-aplicacoes", a.andando, false);
+    };
+    const pc = PerfilHub.quanto();
+    if (pc !== null) { const b = el.querySelector('[data-aviso="perfil-prof"]'); if (b && pc < 100) { b.textContent = pc + "%"; b.classList.add("novas"); b.title = "O seu perfil está " + pc + "% preenchido"; }
+      const p = el.querySelector('[data-ponto="perfil-prof"]'); if (p && pc < 100) p.classList.add("on"); }
+    let guardado = {};
+    try { guardado = JSON.parse(localStorage.getItem("plat-avisos")) || {}; } catch (e) {}
+    if (guardado.dia === diaDeHoje()) pinta(guardado);
+    if (typeof Dados !== "undefined" && Dados.abrir) {
+      Dados.abrir().then(() => Promise.all([Dados.listar("aplicacoes"), Dados.listar("agenda")])).then(([aps, ag]) => {
+        const h = Dados.hoje(), at = ["aplicado", "teste", "prova", "entrevista", "banco"];
+        const d7 = new Date(h + "T12:00:00"); d7.setDate(d7.getDate() + 7); const semana = d7.toISOString().slice(0, 10);
+        const a = { dia: h,
+          hoje: ag.filter(i => i.data === h).length + aps.filter(x => x.proximoEm && x.proximoEm <= h && at.includes(x.estado)).length,
+          agenda: ag.filter(i => i.data >= h && i.data <= semana).length,
+          andando: aps.filter(x => ["aplicado", "teste", "prova", "entrevista"].includes(x.estado)).length };
+        try { localStorage.setItem("plat-avisos", JSON.stringify(a)); } catch (e) {}
+        pinta(a);
+      }).catch(() => {});
+    }
+    lerVagas().then(g => {
+      const vs = g.vagas || [], ult = vs.reduce((m, v) => (v.data_vista || "") > m ? v.data_vista : m, "");
+      const novas = vs.filter(v => (new Date(ult) - new Date(v.data_vista)) / 864e5 <= 7).length;
+      if (!novas) return;
+      const b = el.querySelector('[data-aviso="v-todas"]'); if (b) { b.textContent = "+" + novas; b.classList.add("novas"); b.title = novas + " vagas novas nesta semana"; }
+      const p = el.querySelector('[data-ponto="v-todas"]'); if (p) p.classList.add("on");
+    }).catch(() => {});
+  }
+
+  /* guarda as páginas visitadas (para o guia saber o que a pessoa já fez)
+     e as últimas abertas (para a busca) */
+  function lembrarPagina() {
+    const pg = location.pathname.split("/").pop() || "index.html";
+    try { const v = JSON.parse(localStorage.getItem("plat-visitas")) || []; if (!v.includes(pg)) localStorage.setItem("plat-visitas", JSON.stringify(v.concat(pg))); } catch (e) {}
+    window.addEventListener("pagehide", () => {
+      const t = String(document.title || "").split(/\s+[·|–—-]\s+/)[0].trim();
+      const href = pg + location.search + location.hash;
+      if (!t || /^(index|exemplo|entrar)\.html/.test(href)) return;
+      let r = []; try { r = JSON.parse(localStorage.getItem("plat-recentes")) || []; } catch (e) {}
+      r = [{ t, href }].concat(r.filter(x => x.href !== href)).slice(0, 6);
+      try { localStorage.setItem("plat-recentes", JSON.stringify(r)); } catch (e) {}
+    });
+  }
+  function recentes() {
+    const aqui = (location.pathname.split("/").pop() || "index.html") + location.search + location.hash;
+    try { return (JSON.parse(localStorage.getItem("plat-recentes")) || []).filter(x => x.href !== aqui).slice(0, 4).map(x => ({ t: x.t, sub: "Aberta há pouco", href: x.href, ic: "relogio" })); } catch (e) { return []; }
+  }
+
+  /* Tour pela coluna: mostra, um de cada vez, os lugares que mais ajudam quem acabou de chegar. */
+  const PASSOS_TOUR = [
+    ["v-todas", "Vagas", "As vagas abertas a todos não pedem diploma. As que pedem formação são para quem é da área. Em Para você ficam as duas, de acordo com o seu perfil."],
+    ["mc-aplicacoes", "Candidaturas", "Toda vaga em que você se candidatar fica guardada aqui, com a etapa em que está: teste, prova, entrevista."],
+    ["mc-hoje", "Hoje", "O seu dia num lugar só: o que está marcado, as horas para lançar e quanto você ganhou."],
+    ["cursos", "Cursos", "Aprenda como o trabalho funciona antes do primeiro teste. Comece pelo de Fundamentos."],
+    ["curriculo", "Avaliar currículo", "Escolha uma vaga e veja o que ajustar no seu currículo para ela, já escrito em inglês."],
+    ["busca", "Buscar no Hub", "Digite um pedaço do nome e vá direto para uma página, uma empresa ou uma vaga. Atalho: Ctrl e K."],
+  ];
+  function tour(el) {
+    let i = 0, alvo = null;
+    const estado = { fechado: el.classList.contains("fechado") };
+    const veu = document.createElement("div"); veu.className = "tr-veu";
+    const cx = document.createElement("div"); cx.className = "tr-cx"; cx.setAttribute("role", "dialog"); cx.setAttribute("aria-live", "polite");
+    document.body.append(veu, cx);
+    el.classList.remove("fechado"); el.classList.add("aberta", "em-tour"); el.classList.add("on");
+    const pega = id => id === "busca" ? el.querySelector(".al-busca") : el.querySelector(`.al-nav .al-linha[data-id="${id}"]`);
+    function mostra() {
+      if (alvo) alvo.classList.remove("tr-alvo");
+      const [id, tit, txt] = PASSOS_TOUR[i];
+      alvo = pega(id);
+      if (!alvo) { proximo(); return; }
+      alvo.scrollIntoView({ block: "nearest" });
+      alvo.classList.add("tr-alvo");
+      cx.innerHTML = `<small>Passo ${i + 1} de ${PASSOS_TOUR.length}</small><b>${tit}</b><p>${txt}</p>
+        <div class="tr-bts"><button data-tr="pular">Pular o tour</button><span></span>${i ? '<button data-tr="voltar">Voltar</button>' : ""}
+        <button class="forte" data-tr="seguir">${i === PASSOS_TOUR.length - 1 ? "Terminar" : "Próximo"}</button></div>`;
+      requestAnimationFrame(() => {
+        const r = alvo.getBoundingClientRect();
+        if (innerWidth <= 960) { cx.style.left = "12px"; cx.style.right = "12px"; cx.style.top = "auto"; cx.style.bottom = "16px"; }
+        else { cx.style.left = (r.right + 14) + "px"; cx.style.top = Math.min(innerHeight - cx.offsetHeight - 12, Math.max(12, r.top + r.height / 2 - 40)) + "px"; }
+        cx.querySelector(".forte").focus();
+      });
+    }
+    function proximo() { if (i < PASSOS_TOUR.length - 1) { i++; mostra(); } else fim(); }
+    function fim() {
+      if (alvo) alvo.classList.remove("tr-alvo");
+      veu.remove(); cx.remove(); el.classList.remove("em-tour", "aberta");
+      if (innerWidth <= 960) el.classList.remove("on");
+      if (estado.fechado) el.classList.add("fechado");
+      try { localStorage.setItem("plat-tour-feito", "1"); } catch (e) {}
+      document.dispatchEvent(new CustomEvent("plat:tour-fim"));
+    }
+    cx.addEventListener("click", ev => { const b = ev.target.closest("[data-tr]"); if (!b) return;
+      if (b.dataset.tr === "seguir") proximo(); else if (b.dataset.tr === "voltar") { i--; mostra(); } else fim(); });
+    document.addEventListener("keydown", function k(ev) { if (!document.body.contains(cx)) return document.removeEventListener("keydown", k);
+      if (ev.key === "Escape") fim(); if (ev.key === "ArrowRight") proximo(); if (ev.key === "ArrowLeft" && i) { i--; mostra(); } });
+    veu.addEventListener("click", fim);
+    mostra();
+  }
+
+  function melhorias(el, ehHover) {
+    // o nome de cada item vira dica (e nome para leitor de tela), em vez do title do navegador
+    el.querySelectorAll(".al-linha[title]").forEach(a => { a.dataset.tip = a.title; a.setAttribute("aria-label", a.title); a.removeAttribute("title"); });
+    if (ehHover) {   // 2: só abre se o mouse ficar um instante, e espera um pouco antes de fechar
+      let t;
+      const abre = () => { clearTimeout(t); t = setTimeout(() => el.classList.add("aberta"), 140); };
+      const fecha = () => { clearTimeout(t); t = setTimeout(() => { if (!el.classList.contains("em-tour") && !el.querySelector(".pl-menu.on") && !el.contains(document.activeElement)) el.classList.remove("aberta"); }, 320); };
+      el.addEventListener("mouseenter", abre); el.addEventListener("mouseleave", fecha);
+      el.addEventListener("focusin", () => { clearTimeout(t); el.classList.add("aberta"); });
+      el.addEventListener("focusout", fecha);
+    } else {        // 1 recolhido: o nome aparece ao lado do ícone
+      const dica = document.createElement("div"); dica.className = "al-dica"; document.body.appendChild(dica);
+      el.addEventListener("mouseover", ev => {
+        const a = ev.target.closest(".al-linha");
+        if (!a || !el.classList.contains("fechado") || innerWidth <= 960 || !a.dataset.tip) { dica.classList.remove("on"); return; }
+        const r = a.getBoundingClientRect();
+        dica.textContent = a.dataset.tip; dica.style.top = (r.top + r.height / 2) + "px"; dica.style.left = (r.left + 66) + "px"; dica.classList.add("on");
+      });
+      el.addEventListener("mouseleave", () => dica.classList.remove("on"));
+    }
+    document.addEventListener("keydown", ev => {
+      if (ev.key !== "[" || ev.ctrlKey || ev.metaKey || ev.altKey || /^(input|textarea|select)$/i.test(ev.target.tagName) || ev.target.isContentEditable) return;
+      const b = el.querySelector(".al-recolhe") || el.querySelector(".al-fixar"); if (b) b.click();
+    });
+    avisos(el);
+  }
+
+  function alinhado(m) {
+    const css = document.createElement("style"); css.textContent = CSS_AL; document.head.appendChild(css);
+    const ehHover = m === 2, comSecoes = m === 3;
+    let fechado = false, fixa = false;
+    try { fechado = !ehHover && localStorage.getItem("plat-recolhido") === "1" && innerWidth > 960; fixa = ehHover && localStorage.getItem("plat-fixa") === "1"; } catch (e) {}
+    const el = document.createElement("aside");
+    el.className = "al" + (fechado ? " fechado" : "") + (ehHover ? " m-hover" : "") + (fixa ? " fixa" : "");
+    el.dataset.cor = corDaColuna(); el.setAttribute("aria-label", "Menu do Hub");
+    document.body.classList.toggle("al-fechado", fechado);
+    document.body.classList.toggle("al-fixa", fixa);
+    const pins = fixos();
+    const linha = ([id, n, href, icone], comEstrela) => { const i = ICONE_AL[id] || icone;
+      const estrela = comEstrela ? `<span class="al-fixo${pins.includes(id) ? " on" : ""}" data-fixar="${id}" role="button" title="${pins.includes(id) ? "Tirar dos atalhos" : "Fixar nos atalhos"}">${ic("estrela")}</span>` : "";
+      return `<a class="pl-item al-linha" data-id="${id}" href="${href}" title="${n}"><span class="c-ic">${ic(i)}<i class="al-ponto" data-ponto="${id}"></i></span><span class="c-tx">${ic(i)}<span>${n}</span>${estrela}<em class="al-aviso" data-aviso="${id}"></em><b class="pl-n" data-conta="${id}"></b></span></a>`; };
+    const daqui = (secaoDe(atual()) || {}).id;
+    let abertas = {};
+    try { abertas = JSON.parse(localStorage.getItem("plat-secoes") || "{}") || {}; } catch (e) {}
+    const lista = secoes();
+    const corpo = lista.map(s => {
+      if (s.id === "inicio") return linha(["inicio", "Início", "inicio.html", "inicio"]);
+      if (!comSecoes) return `<div class="al-grupo"><i></i><span>${s.nome}</span></div>${s.itens.map(x => linha(x)).join("")}`;
+      const aberta = s.id === daqui || abertas[s.id] === true;
+      return `<button class="al-grupo abre" data-sec="${s.id}" aria-expanded="${aberta}"><i></i><span>${ic("abaixo")}${s.nome}</span></button>
+        <div class="al-sec" data-sec-corpo="${s.id}"${aberta ? "" : " hidden"}>${s.itens.map(x => linha(x, true)).join("")}</div>`;
+    }).join("");
+    const atalhos = comSecoes ? `<div class="al-grupo"><i></i><span>${ic("estrela")}Seus atalhos</span></div><div id="alFixos"></div>` : "";
+    el.innerHTML = `
+      <a class="al-linha al-topo" href="inicio.html" title="Home Office Hub"><span class="c-ic">${marca(32)}</span><span class="c-tx">Home Office Hub</span></a>
+      <a class="al-linha al-busca" href="#" data-buscar title="Buscar no Hub (Ctrl+K)"><span class="c-ic">${ic("busca")}</span><span class="c-tx">${ic("busca")}<span>Buscar no Hub</span><kbd>Ctrl K</kbd></span></a>
+      <nav class="al-nav">${atalhos}${corpo}</nav>
+      <div class="al-pe">
+        ${conta(false).replace('<button class="pl-eu" aria-expanded="false" title="Minha conta">', '<button class="pl-eu al-linha al-eu" aria-expanded="false" title="Minha conta"><span class="c-ic">').replace("</span>\n        \n      </button>", `</span></span><span class="c-tx"><b>${esc(nome())}</b><span data-plano-selo="mini">${Acesso.seloPlano(true)}</span></span></button>`)}
+        ${ehHover ? `<button class="al-linha al-fixar" title="Manter o menu aberto"><span class="c-ic">${ic("alfinete")}</span><span class="c-tx">${ic("alfinete")}<span>${fixa ? "Deixar o menu fechar" : "Manter o menu aberto"}</span><kbd class="al-kbd">[</kbd></span></button>`
+          : `<button class="al-linha al-recolhe" title="Recolher o menu"><span class="c-ic">${ic("recolher")}</span><span class="c-tx">${ic("recolher")}<span>Recolher o menu</span><kbd class="al-kbd">[</kbd></span></button>`}
+      </div>`;
+    document.body.prepend(el); gaveta(el); ligarConta(el);
+    const recolhe = el.querySelector(".al-recolhe");
+    if (recolhe) recolhe.addEventListener("click", () => {
+      const f = el.classList.toggle("fechado"); document.body.classList.toggle("al-fechado", f);
+      try { localStorage.setItem("plat-recolhido", f ? "1" : "0"); } catch (e) {}
+    });
+    const fixar = el.querySelector(".al-fixar");
+    if (fixar) fixar.addEventListener("click", () => {
+      const f = el.classList.toggle("fixa"); document.body.classList.toggle("al-fixa", f);
+      fixar.querySelector(".c-tx span").textContent = f ? "Deixar o menu fechar" : "Manter o menu aberto";
+      try { localStorage.setItem("plat-fixa", f ? "1" : "0"); } catch (e) {}
+    });
+    if (comSecoes) {
+      const pintaFixos = () => {
+        const ps = fixos().map(itemPorId).filter(Boolean);
+        el.querySelector("#alFixos").innerHTML = ps.length ? ps.map(x => linha(x)).join("")
+          : `<div class="al-linha" style="height:auto;cursor:default"><span></span><span></span><span class="al-vazio">Toque na estrela ao lado de um item para ele ficar aqui.</span></div>`;
+        marcarAtual(); contarVagas();
+      };
+      pintaFixos();
+      el.querySelectorAll("[data-sec]").forEach(b => b.addEventListener("click", () => {
+        const aberta = b.getAttribute("aria-expanded") !== "true";
+        b.setAttribute("aria-expanded", aberta);
+        el.querySelector(`[data-sec-corpo="${b.dataset.sec}"]`).hidden = !aberta;
+        abertas[b.dataset.sec] = aberta;
+        try { localStorage.setItem("plat-secoes", JSON.stringify(abertas)); } catch (e) {}
+      }));
+      el.addEventListener("click", ev => {
+        const st = ev.target.closest("[data-fixar]"); if (!st) return;
+        ev.preventDefault(); ev.stopPropagation();
+        let f = fixos(); const id = st.dataset.fixar;
+        f = f.includes(id) ? f.filter(x => x !== id) : f.concat(id);
+        try { localStorage.setItem("plat-fixos", JSON.stringify(f)); } catch (e) {}
+        el.querySelectorAll(`[data-fixar="${id}"]`).forEach(x => { x.classList.toggle("on", f.includes(id)); x.title = f.includes(id) ? "Tirar dos atalhos" : "Fixar nos atalhos"; });
+        pintaFixos();
+      });
+    }
+    melhorias(el, ehHover);
+    buscaRapida();
+  }
+
+  /* 4: faixa de ícones com o nome embaixo; cada seção abre um menu ao lado do ícone */
+  function flutuante() {
+    const css = document.createElement("style"); css.textContent = CSS_AL; document.head.appendChild(css);
+    const cor = corDaColuna(), lista = secoes();
+    const fl = document.createElement("aside"); fl.className = "fl"; fl.dataset.cor = cor; fl.setAttribute("aria-label", "Seções do Hub");
+    fl.innerHTML = `<a class="r-logo" href="inicio.html" title="Home Office Hub">${marca(34)}</a>
+      <button class="fl-bt" data-buscar title="Buscar no Hub (Ctrl+K)">${ic("busca")}<span>Buscar</span></button>
+      ${lista.map(s => s.itens.length === 1
+        ? `<a class="fl-bt" href="${s.itens[0][2]}" data-sec-link="${s.id}">${ic(s.ic)}<span>${s.curto || s.nome}</span></a>`
+        : `<button class="fl-bt" data-sec-link="${s.id}" data-abre="${s.id}" aria-expanded="false">${ic(s.ic)}<span>${s.curto || s.nome}</span></button>`).join("")}
+      <div class="r-pe">${conta(false)}</div>`;
+    const menu = document.createElement("div"); menu.className = "fl-menu"; menu.dataset.cor = cor;
+    document.body.prepend(menu); document.body.prepend(fl); ligarConta(fl);
+    let aberto = null;
+    const fechar = () => { menu.classList.remove("on"); fl.querySelectorAll("[data-abre]").forEach(b => b.setAttribute("aria-expanded", "false")); aberto = null; };
+    fl.querySelectorAll("[data-abre]").forEach(b => b.addEventListener("click", ev => {
+      ev.stopPropagation();
+      if (aberto === b.dataset.abre) return fechar();
+      const s = lista.find(x => x.id === b.dataset.abre);
+      menu.innerHTML = `<h3>${s.nome}</h3>` + s.itens.map(x => item([x[0], x[1], x[2], ICONE_AL[x[0]] || x[3]])).join("");
+      const r = b.getBoundingClientRect();
+      menu.style.top = Math.max(8, Math.min(r.top - 8, innerHeight - 60 - s.itens.length * 40)) + "px";
+      menu.classList.add("on"); aberto = s.id;
+      fl.querySelectorAll("[data-abre]").forEach(x => x.setAttribute("aria-expanded", x === b));
+      marcarAtual(); contarVagas();
+    }));
+    document.addEventListener("click", ev => { if (!menu.contains(ev.target)) fechar(); });
+    document.addEventListener("keydown", ev => { if (ev.key === "Escape") fechar(); });
+    buscaRapida();
+  }
+
+  function montar(m) {
+    const s = document.createElement("style"); s.textContent = CSS; document.head.appendChild(s);
+    document.body.classList.add("plat", "m" + m);
+    alinhado(m); lembrarPagina();
+    if (typeof TourHub !== "undefined") TourHub.retomar();
+    marcarAtual(); contarVagas();
+    window.addEventListener("hashchange", marcarAtual);
+  }
+
+  /* o seletor de modelo, na faixa de teste do pé da página */
+  function seletor() {
+    const f = document.getElementById("faixaTeste");
+    if (!f) return;
+    const cor = corDaColuna();
+    f.querySelectorAll("[data-cor]").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.cor === cor);
+      b.addEventListener("click", () => { try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {} location.reload(); });
+    });
+    let conta = "marina"; try { conta = localStorage.getItem("plat-conta") === "nova" ? "nova" : "marina"; } catch (e) {}
+    f.querySelectorAll("[data-conta-teste]").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.contaTeste === conta);
+      b.addEventListener("click", () => {
+        try { ["plat-exemplo-pronto", "plat-visitas", "plat-recentes", "plat-avisos", "plat-guia-oculto", "plat-tour-feito"].forEach(k => localStorage.removeItem(k));
+          localStorage.setItem("plat-conta", b.dataset.contaTeste); } catch (e) {}
+        location.href = "index.html";
+      });
+    });
+    const m = modelo();
+    f.querySelectorAll("[data-modelo]").forEach(b => {
+      b.setAttribute("aria-pressed", +b.dataset.modelo === m);
+      b.title = MODELOS[b.dataset.modelo];
+      b.addEventListener("click", () => { try { localStorage.setItem("plat-modelo", b.dataset.modelo); } catch (e) {} location.reload(); });
+    });
+    const n = f.querySelector("[data-modelo-nome]"); if (n) n.textContent = MODELOS[m];
+  }
+  if (document.readyState === "complete") setTimeout(seletor, 0); else window.addEventListener("load", seletor);
+
+  return { montar, modelo };
 })();
 
-/* O site continua com o menu do topo (Início, Vagas, Empresas, Como funciona).
-   A coluna aparece só nas páginas da Área do aluno, para quem está na conta. */
+/* Modelos 1 a 4: o site inteiro é a plataforma. Modelo 5: o site fica com o menu
+   do topo e a coluna aparece só nas páginas da Área do aluno. */
 const PAGINAS_DO_ALUNO = /^(inicio|controle|cursos|curso-[a-z]+|ferramenta-curriculo|estudo-diretriz|transcricao|perfil-profissional|perfil)\.html$/;
 function montarLayout(ativa) {
   const pg = location.pathname.split("/").pop() || "index.html";
-  const naArea = PAGINAS_DO_ALUNO.test(pg) && !(pg === "perfil-profissional.html" && /primeira=1/.test(location.search));
-  if (!Acesso.logado() || !Acesso.perfilFeito() || !naArea) {
-    montarLayoutTopo(ativa === "ferramentas" || ativa === "cursos" ? "aluno" : ativa);
-    // a aba da Área do aluno se destaca um pouco das outras
+  const m = Plataforma.modelo();
+  const dentro = Acesso.logado() && Acesso.perfilFeito() && !(pg === "perfil-profissional.html" && /primeira=1/.test(location.search))
+    && !/^(entrar|privacidade|404)\.html$/.test(pg);
+  if (dentro && (m !== 5 || PAGINAS_DO_ALUNO.test(pg))) return Plataforma.montar(m);
+  montarLayoutTopo(ativa === "ferramentas" || ativa === "cursos" ? "aluno" : ativa);
+  if (m === 5) {   // a aba da Área do aluno se destaca um pouco das outras
     const s = document.createElement("style");
     s.textContent = 'nav.tabs a[href="inicio.html"]{color:var(--signal);background:var(--signal-suave);font-weight:550}nav.tabs a[href="inicio.html"]:hover{background:#DDE9F5}';
     document.head.appendChild(s);
-    return;
   }
-  Plataforma.montar(ativa);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   TOUR DE BOAS-VINDAS (só na cópia de teste; colado depois da plataforma)
+   Começa com uma janela de boas-vindas e passa por cada parte do Hub,
+   abrindo as páginas: vagas, empresas, as telas do Meu Controle,
+   cursos, ferramentas, o perfil e a busca. A parte da tela de que se
+   está falando fica acesa e o resto escurece. Dá para voltar, pular e
+   continuar depois: o passo fica guardado em localStorage plat-tour.
+   ══════════════════════════════════════════════════════════════ */
+const TourHub = (function () {
+  /* um formulário de exemplo, já preenchido, com a explicação de cada campo
+     (o formulário de verdade abre numa janela por cima de tudo, então o tour desenha um igual) */
+  const form = (titulo, linhas, dica) => `<div class="tr-form"><div class="tr-form-cab">${titulo}<span>exemplo preenchido</span></div>
+    ${linhas.map(([rot, val, exp]) => `<div class="tr-campo"><label>${rot}</label><div class="tr-val">${val}</div><small>${exp}</small></div>`).join("")}</div>${dica ? `<p class="tr-pos">${dica}</p>` : ""}`;
+  const P = [
+    { cap: "Vagas", alvo: "col:v-voce", tit: "Para você", txt: "Aqui ficam juntas as vagas abertas a todos e as da sua área de formação. Quando você coloca a sua área no perfil, as dela aparecem aqui também." },
+    { cap: "Vagas", alvo: "col:v-todas", tit: "Abertas a todos", txt: "Não pedem diploma: anotação de dados, avaliação de IA, tradução e QA. É por aqui que a maioria das pessoas começa. O número em laranja mostra as vagas novas da semana." },
+    { cap: "Vagas", alvo: "col:v-form", tit: "Pedem formação", txt: "O mesmo tipo de trabalho, para quem é formado numa área, como Direito, Saúde ou Programação. Costumam pagar mais." },
+    { cap: "Vagas", pg: "vagas.html?ver=todas", alvo: "#abas", tit: "A página de vagas", txt: "As três listas também ficam aqui no alto. Ao lado, os filtros separam por área, idioma e empresa." },
+    { cap: "Vagas", pg: "vagas.html?ver=todas", alvo: [".grupo-titulo:has(.ch-pulso)", "#resultado"], tit: "Em alta", txt: "Vagas que estão chamando gente agora, confirmadas pela equipe do Hub. Vale começar por elas." },
+    { cap: "Vagas", pg: "vagas.html?ver=todas", alvo: ["#resultado .vaga", "#resultado"], tit: "Cada vaga", txt: "Clique numa vaga para abrir a página dela. Vamos abrir uma para você ver por dentro." },
+    { cap: "Vagas", pg: "vaga.html?id={vaga}", alvo: [".cabeca", "#conteudo"], tit: "A página da vaga", txt: "Tudo em português: o que é a vaga, a empresa, quanto paga, as horas e o idioma. Logo abaixo vêm o que você vai fazer e os requisitos." },
+    { cap: "Vagas", pg: "vaga.html?id={vaga}", alvo: [".aplic:has(a[href*='ferramenta-curriculo'])"], tit: "Avaliar o currículo para esta vaga", txt: "Antes de se candidatar, vale conferir o currículo. Este atalho abre a ferramenta já com esta vaga escolhida." },
+    { cap: "Vagas", pg: "vaga.html?id={vaga}", alvo: [".barra", ".candidatar"], tit: "Candidatar-se", txt: "Este botão abre a página oficial da vaga, onde você se candidata. Quando voltar para o Hub, aparece esta pergunta:",
+      extra: `<div class="tr-mock"><b>Conseguiu se candidatar?</b><span>Guarde a candidatura no Meu Controle.</span><i class="forte">Sim, guardar no Meu Controle</i><i>Agora não</i></div><p class="tr-pos">Um clique e ela fica guardada, na etapa Currículo enviado.</p>` },
+    { cap: "Vagas", pg: "vaga.html?id={vaga}", alvo: ["#jaApliquei:not([hidden])", "#jaApliquei"], tit: "Guardar aqui mesmo", txt: "Se preferir, guarde a candidatura direto na vaga, em Marcar como candidatura enviada. Depois você acompanha cada etapa em Meu Controle › Candidaturas." },
+    { cap: "Empresas", pg: "empresas.html", alvo: ["#fichas", "main"], tit: "Empresas", txt: "Todas as empresas com que o Hub trabalha: o que cada uma faz, como paga e que tipo de vaga abre. Clique numa para ver o perfil e as vagas abertas dela." },
+    { cap: "Meu Controle", pg: "controle.html#hoje", alvo: ["#hoje .ct-cab-tela", "#hoje"], tit: "Meu Controle · Hoje", txt: "O Meu Controle é onde você organiza o seu trabalho. O Hoje mostra o seu dia: o que está marcado, as horas para lançar e o câmbio do dia." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: ["#aplicacoes .ct-cab-tela", "#aplicacoes"], tit: "Candidaturas", txt: "Toda vaga em que você se candidatou, com a etapa em que está: currículo enviado, teste, prova, entrevista, aprovado. Vamos abrir a janela de <strong>Nova candidatura</strong> para ver como preencher." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel .u-cab"], tit: "Nova candidatura", txt: "Esta é a janela de verdade. Preenchemos com um exemplo para você ver cada campo; nada vai ser salvo." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:titulo"], tit: "Empresa e título da vaga", txt: "Escreva a empresa e copie o nome da vaga exatamente como está no anúncio. Se você chegou pelo botão da vaga no Hub, isso já vem preenchido." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:url"], tit: "Link do anúncio", txt: "Cole o endereço da vaga. Quando a empresa responder, semanas depois, você volta ao anúncio com um clique." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:estado"], tit: "Em que etapa está", txt: "Começa em Currículo enviado. Quando a empresa chamar para teste, prova ou entrevista, você muda aqui." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:email"], tit: "E-mail que você usou", txt: "A empresa vai pedir para entrar com ele. Se você usa mais de um e-mail, este campo salva muita dor de cabeça." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel #pcPdf", "campo:curriculo"], tit: "O currículo que você mandou", txt: "Dê um nome curto ao currículo e anexe o PDF que foi para a empresa. Assim você sabe qual versão mandou para cada vaga." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:proximo"], tit: "Próximo passo e quando", txt: "Escreva o que você precisa fazer agora nesta vaga e até quando. Por exemplo: fazer o teste de qualificação, até 12/11." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:observacoes"], tit: "Observações", txt: "O que for importante: o nome de quem falou com você, o que pediram, o que você respondeu." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel [data-ok]"], tit: "Registrar", txt: "Depois é só clicar em Registrar. Agora vamos ver como fica uma candidatura salva: abrimos uma de exemplo, só para o tour." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-abas"], tit: "Uma candidatura salva", txt: "Toda candidatura que você salva abre assim, com duas abas: A vaga, para acompanhar, e Editar, com os campos que você preencheu." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-trilho", "#ui-painel .u-corpo"], tit: "A caminhada da vaga", txt: "Cada etapa da vaga, da candidatura até a aprovação. Quando a empresa chamar para a próxima, clique nela: a data fica guardada embaixo. Se a vaga não tiver alguma etapa, é só pular." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candAjustar", alvo: ["#ui-painel .cv-trilho", "#ui-painel .u-corpo"], tit: "Ajustar etapas", txt: "Cada vaga tem o seu caminho. Em Ajustar etapas você arrasta o teste, a prova e a entrevista para a ordem certa, ou tira no × a etapa que esta vaga não tem. Depois é só clicar em Pronto." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-desfechos"], tit: "Quando não der certo", txt: "Embaixo da caminhada ficam os outros finais: Recusado, Sem resposta, Desisti e Banco de talentos. Um clique e a candidatura sai das que estão andando. Em Recusado, você conta em que etapa foi e o motivo, para aprender com cada uma." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candEditar", alvo: ["#ui-painel .u-corpo"], tit: "A aba Editar", txt: "Aqui ficam os mesmos campos da candidatura, para corrigir ou completar quando quiser: o link, o e-mail, o currículo, as observações." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", alvo: ["#trabalhos .ct-cab-tela", "#trabalhos"], antes: "limparExemplo", tit: "Trabalhos", txt: "Quando passar num projeto, cadastre o trabalho aqui. Vamos abrir a janela de <strong>Novo trabalho</strong>." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:projeto"], tit: "Novo trabalho · empresa e projeto", txt: "A empresa que paga você e o nome do projeto lá dentro. O exemplo está preenchido; nada vai ser salvo." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:pagamento"], tit: "Como paga", txt: "Escolha na lista: por hora ou por tarefa. Isso muda o que você lança a cada dia." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:valor"], tit: "Valor e moeda", txt: "O valor do contrato e a moeda em que a empresa paga. O Hub converte para reais pelo dólar do dia." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:ciclo"], tit: "Quando paga", txt: "Toda semana, a cada duas semanas ou todo mês. Com isso o Hub sabe quando o período fecha e quanto você vai receber." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: [".t-cab-bts", "[data-dia]"], tit: "Dentro do trabalho", txt: "Cada trabalho cadastrado tem a sua página. Este é um trabalho de exemplo, só para o tour. O botão Registrar o dia abre o lançamento do dia." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:horas"], tit: "Registrar o dia · as horas", txt: "Quantas horas você trabalhou. Se o trabalho paga por tarefa, aqui entra o número de tarefas." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:observacoes"], tit: "Registrar o dia · o que você fez", txt: "Uma anotação do dia: o que fez, uma dúvida, um aviso da equipe. Fica guardada naquele dia, para você achar depois." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["#tFixos"], tit: "O resumo do trabalho", txt: "Sempre à vista: o dia de hoje, o período atual, quanto já ganhou e quando recebe." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["#tFixos .pp-cel", "#tFixos"], tit: "Pago pela empresa", txt: "Quando o dinheiro cair, informe quanto a empresa pagou de verdade. Vamos ver isso no Imposto, com um valor de exemplo." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["[data-modo]", "#grade"], tit: "A sua página do trabalho", txt: "Em Editar página você acrescenta blocos: anotações, links importantes, os e-mails da equipe do projeto, o que precisar guardar deste trabalho." },
+    { cap: "Meu Controle", pg: "controle.html#painel", antes: "garantirExemplo", alvo: ["#painel .ct-cab-tela", "#painel"], tit: "Ganhos", txt: "Soma o que você lança nos trabalhos e mostra quanto ganhou por mês, em dólar e em reais. Aqui aparecem as horas do trabalho de exemplo." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ct-cab-tela", "#imposto"], tit: "Imposto", txt: "Uma estimativa de quanto pagar por mês, como pessoa física (carnê-leão) ou como MEI, a partir do que você recebeu." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ip-pago", "#imposto"], tit: "O valor que caiu na conta", txt: "Para cada período de trabalho, dá para informar quanto a empresa pagou de verdade. Vamos abrir com um valor de exemplo." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campos:valor,moeda", "campo:valor", "#ui-painel .u-corpo"], tit: "Valor que a empresa pagou", txt: "O valor que chegou de verdade, já com as taxas, e a moeda. Pode ser em reais, como caiu na sua conta." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campo:data", "#ui-painel .u-corpo"], tit: "Dia em que o dinheiro caiu", txt: "O imposto usa este valor no mês em que o dinheiro entrou, e não a conta das horas. Na observação, anote por onde veio, como Payoneer ou Wise." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ct-cab-tela", "#agenda"], tit: "Agenda", txt: "O calendário do seu trabalho: entrevistas, testes, prazos, estudo e as horas que você vai trabalhar. Vamos abrir o botão <strong>Marcar</strong>." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Marcar · o que é", txt: "Escolha o tipo: entrevista, teste, prazo, estudo, horas de trabalho ou Outro, para qualquer compromisso. No título você escreve como quiser, por exemplo: reunião com a equipe do projeto." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campos:data,inicio", "campo:data", "#ui-painel .u-corpo"], tit: "Marcar · dia e horário", txt: "O dia e, se quiser, o horário. O que estiver marcado aparece no Início, em Para fazer, no dia certo." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId", "campo:nota", "#ui-painel .u-corpo"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },
+    { cap: "Aprender", pg: "cursos.html", alvo: ["#livro", "main"], tit: "Cursos", txt: "Aprenda o trabalho antes da primeira vaga: sete cursos em duas trilhas. Comece pelo de Fundamentos." },
+    { cap: "Aprender", pg: "como-funciona.html", alvo: ["#areas", ".bloco", "main"], tit: "Como funciona", txt: "Um guia do trabalho, por partes: os tipos de projeto que você vai encontrar, como é a entrada etapa por etapa, o currículo que passa, como o dinheiro chega ao Brasil, imposto e perguntas frequentes." },
+    { cap: "Aprender", pg: "como-funciona.html", alvo: ["#golpe", "main"], tit: "Como reconhecer golpe", txt: "Leia esta parte antes da primeira vaga: o que uma empresa séria nunca pede, e os sinais de que é golpe." },
+    { cap: "Ferramentas", alvo: "col:curriculo", tit: "As ferramentas", txt: "São três, e todas ficam aqui na coluna. Vamos abrir cada uma por dentro, começando pela de avaliar o currículo." },
+    { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#vaga"], tit: "Avaliar currículo · a vaga", txt: "Quando você chega pelo atalho da vaga, ela já vem escolhida. Dá para trocar por outra ou colar o anúncio de uma vaga de fora do Hub." },
+    { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#arq"], tit: "Avaliar currículo · o seu currículo", txt: "Mande o PDF do currículo. Ele é lido só para esta avaliação. Para conhecer, dá para usar o currículo de exemplo." },
+    { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#perfilCx"], tit: "Avaliar currículo · o seu perfil", txt: "A ferramenta usa também o seu perfil profissional, para lembrar o que você já fez e não está no currículo. Ela nunca inventa nada sobre você." },
+    { cap: "Ferramentas", pg: "ferramenta-curriculo.html?vaga={vaga}", alvo: ["#avaliar"], tit: "Avaliar currículo · o resultado", txt: "Aqui sai a nota do currículo para a vaga, o que ajustar em cada parte e o texto pronto em inglês, para copiar." },
+    { cap: "Ferramentas", pg: "estudo-diretriz.html", alvo: ["#subir", "#solta", "#app"], tit: "Estudar uma diretriz", txt: "Quando passar para um projeto, arraste aqui o PDF da diretriz dele. A ferramenta divide em partes e vira o seu professor: ensina uma de cada vez, pergunta para ver se você entendeu e explica de outro jeito quando precisa." },
+    { cap: "Ferramentas", pg: "estudo-diretriz.html", alvo: ["#exemplo", "#app"], tit: "Estudar uma diretriz · o exemplo", txt: "Para conhecer antes de ter um projeto, abra a diretriz de exemplo. No fim, a ferramenta monta um guia em PDF com o que você estudou." },
+    { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#fonte", "#acionar"], tit: "Transcrição ao vivo", txt: "Para acompanhar por escrito qualquer áudio enquanto ele toca, no computador ou no microfone: uma reunião, uma aula, um vídeo, o que você precisar entender." },
+    { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#saida", "#idioma"], tit: "Transcrição ao vivo · o idioma", txt: "Diga o idioma do áudio. Em Mostrar, o texto pode aparecer no idioma original ou já traduzido para o português." },
+    { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#acionar"], tit: "Transcrição ao vivo · começar", txt: "Clique e o texto vai aparecendo enquanto a pessoa fala." },
+    { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#bFlutuar"], tit: "Transcrição ao vivo · janela flutuante", txt: "Deixa a transcrição numa janelinha por cima do que estiver aberto, como uma legenda." },
+    { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#bBaixar"], tit: "Transcrição ao vivo · baixar o texto", txt: "Guarda a transcrição inteira num arquivo .txt. Depois você cola o texto numa IA de conversa e pede um resumo, os pontos principais ou o que ficou para você fazer." },
+    { cap: "Você", alvo: "col:perfil-prof", tit: "Meu perfil", txt: "O seu perfil profissional fica aqui, com quanto ele está preenchido. Vamos abrir." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-idiomas", "main"], tit: "Meu perfil · idiomas", txt: "Os idiomas que você fala e o nível de cada um. No inglês, se tiver um certificado, coloque: ele pesa nas vagas." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-areas", "main"], tit: "Meu perfil · áreas", txt: "As áreas em que você tem formação ou experiência. São elas que trazem para você as vagas que pedem formação." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-exp", "main"], tit: "Meu perfil · experiências", txt: "Os trabalhos que você já fez, inclusive os do Meu Controle, que dá para trazer com um clique. A ferramenta de currículo usa isso para lembrar o que falta no seu currículo." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-ferr", "main"], tit: "Vá completando com o tempo", txt: "Um curso novo, um idioma, um trabalho: volte aqui e acrescente. Quanto mais completo o perfil, melhores as vagas para você e as sugestões para o currículo." },
+    { cap: "Você", alvo: "busca", tit: "Buscar no Hub", txt: "Digite um pedaço do nome e vá direto para uma página, uma empresa ou uma vaga. Atalho: Ctrl e K." },
+  ];
+  const CAPS = ["Vagas", "Empresas", "Meu Controle", "Aprender", "Ferramentas", "Você"];
+  const ROTEIRO = {
+    "Vagas": ["as três listas, uma vaga por dentro e como guardar a candidatura", '<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V7M3 13h18"/>'],
+    "Empresas": ["quem contrata, o que faz e como paga", '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/>'],
+    "Meu Controle": ["candidaturas, trabalhos, ganhos, agenda e imposto", '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>'],
+    "Aprender": ["os cursos e como o trabalho funciona", '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5M8.5 7.5h7"/>'],
+    "Ferramentas": ["currículo, diretriz e transcrição, por dentro", '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.7 1.7 0 0 0 2.4 2.4l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.2-.4-.4-2.2z"/>'],
+    "Você": ["o seu perfil e a busca", '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'],
+  };
+  const CSS = `
+  body.tour-ativo #faixaTeste { display:none !important; }
+  .tr-bloq { position:fixed; inset:0; z-index:415; }
+  .tr-foco { position:fixed; z-index:420; border-radius:14px; pointer-events:none; box-shadow:0 0 0 2px #1A4893, 0 0 0 9999px rgba(15,29,51,.5);
+    transition:top .3s cubic-bezier(.2,.8,.2,1), left .3s cubic-bezier(.2,.8,.2,1), width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1); }
+  .tr-cx, .tr-boas { position:fixed; z-index:430; background:#fff; border-radius:18px; border:1px solid #E6DFD3; font-family:var(--body,'Geist',sans-serif); color:#54606F;
+    box-shadow:0 30px 60px -20px rgba(16,32,58,.5); }
+  .tr-cx { width:min(340px, calc(100vw - 24px)); padding:16px 18px 14px; transition:top .3s, left .3s; }
+  .tr-caps { display:flex; gap:4px; margin-bottom:12px; }
+  .tr-caps i { flex:1; height:4px; border-radius:2px; background:#E4ECF6; }
+  .tr-caps i.feito { background:#9DBBE0; } .tr-caps i.agora { background:#1A4893; }
+  .tr-cx small { font-size:11.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#8A929C; }
+  .tr-cx b { display:block; font-size:18px; color:#10203A; margin:4px 0 6px; letter-spacing:-.01em; }
+  .tr-cx p { font-size:14.5px; line-height:1.55; margin:0 0 14px; }
+  .tr-cx p strong { color:#10203A; font-weight:600; }
+  .tr-bts { display:flex; align-items:center; gap:8px; }
+  .tr-bts span { flex:1; }
+  .tr-bts button { font:500 13.5px var(--body,'Geist',sans-serif); padding:8px 14px; border-radius:999px; border:1px solid #DED7CA; background:#fff; color:#10203A; cursor:pointer; }
+  .tr-bts button[data-tr="pular"] { border:0; padding:8px 2px; color:#66717F; }
+  .tr-bts button.forte { background:#1A4893; border-color:#1A4893; color:#fff; }
+  .tr-veu { position:fixed; inset:0; z-index:425; background:rgba(15,29,51,.5); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); }
+  .tr-boas { left:50%; top:50%; transform:translate(-50%,-50%); width:min(500px, calc(100vw - 32px)); padding:30px 30px 24px; text-align:left; }
+  .tr-boas .tr-logo { width:46px; height:46px; margin-bottom:16px; }
+  .tr-boas h2 { font-family:var(--display,'Hedvig Letters Serif',Georgia,serif); font-weight:400; font-size:30px; line-height:1.12; color:#10203A; letter-spacing:-.02em; margin:0 0 10px; text-wrap:balance; }
+  .tr-boas p { font-size:15px; line-height:1.6; margin:0 0 16px; }
+  .tr-boas { width:min(580px, calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow-y:auto; }
+  .tr-olho { display:block; font-size:11.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#1A4893; margin-bottom:6px; }
+  .tr-rot { border:1px solid #E4ECF6; border-radius:14px; background:#F7FAFD; margin:0 0 14px; overflow:hidden; }
+  .tr-rot-cab { display:flex; justify-content:space-between; padding:10px 14px; font-size:11.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#7A8594; border-bottom:1px solid #E4ECF6; }
+  .tr-rot ol { list-style:none; margin:0; padding:4px 0; }
+  .tr-rot li { display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:12px; align-items:center; padding:8px 14px; }
+  .tr-rot li + li { border-top:1px solid #EDF2F8; }
+  .tr-ic { width:34px; height:34px; border-radius:10px; background:#fff; border:1px solid #DCE6F1; display:grid; place-items:center; color:#1A4893; }
+  .tr-ic svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .tr-rot b { display:block; font-size:14px; font-weight:600; color:#10203A; }
+  .tr-rot small { display:block; font-size:12.5px; color:#66717F; line-height:1.4; }
+  .tr-rot em { font-style:normal; font-size:12px; color:#7A8594; white-space:nowrap; }
+  .tr-nota { font-size:13px !important; color:#7A8594; margin:0 0 18px !important; }
+  /* a pergunta que aparece depois de se candidatar, desenhada dentro da caixa do tour */
+  .tr-mock { border:1px solid #E6DFD3; border-radius:12px; padding:12px; margin:-4px 0 10px; background:#FBF9F5; display:grid; gap:6px; }
+  .tr-mock b { font-family:var(--display,'Hedvig Letters Serif',Georgia,serif); font-weight:400; font-size:16px; color:#10203A; margin:0; }
+  .tr-mock span { font-size:12.5px; color:#66717F; }
+  .tr-mock i { font-style:normal; text-align:center; font-size:12.5px; font-weight:600; padding:7px; border-radius:999px; border:1px solid #DED7CA; background:#fff; color:#10203A; }
+  .tr-mock i.forte { background:#1A4893; border-color:#1A4893; color:#fff; }
+  .tr-pos { font-size:13.5px !important; margin:0 0 14px !important; }
+  .tr-cx.largo { width:min(470px, calc(100vw - 24px)); }
+  .tr-form { border:1px solid #E6DFD3; border-radius:12px; background:#FBF9F5; margin:-4px 0 12px; overflow:hidden; }
+  .tr-form-cab { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; font-size:13px; font-weight:600; color:#10203A; border-bottom:1px solid #EAE4D9; background:#fff; }
+  .tr-form-cab span { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#A85D24; }
+  .tr-campo { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:2px 12px; padding:7px 12px; border-top:1px solid #F0EBE2; align-items:baseline; }
+  .tr-campo:first-of-type { border-top:0; }
+  .tr-campo label { font-size:11.5px; font-weight:600; color:#54606F; }
+  .tr-val { font-size:12.5px; color:#10203A; background:#fff; border:1px solid #E6DFD3; border-radius:7px; padding:3px 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tr-campo small { grid-column:1 / -1; font-size:11.5px !important; font-weight:400 !important; letter-spacing:0 !important; text-transform:none !important; color:#7A8594 !important; }
+  @media (max-width:960px) { .tr-cx { max-height:calc(100vh - 32px); overflow-y:auto; } }
+  @media (max-width:560px) { .tr-rot em { display:none; } .tr-rot li { grid-template-columns:34px minmax(0,1fr); } .tr-boas { padding:22px 20px 18px; } .tr-boas h2 { font-size:25px; } }
+  .tr-boas .tr-bts button { padding:11px 20px; font-size:14.5px; }
+  @media (max-width:960px) { .tr-cx { left:12px !important; right:12px; top:auto !important; bottom:16px; width:auto; } }`;
+  let estado = null, foco, cx, bloq;
+  const isoDia = n => { const d = new Date(); d.setDate(d.getDate() + (n || 0)); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  const pausa = ms => new Promise(r => setTimeout(r, ms));
+  const janelaAberta = () => document.getElementById("ui-painel");
+  async function esperar(sel, ms) { const t0 = Date.now(); while (Date.now() - t0 < (ms || 3000)) { if (document.querySelector(sel)) return true; await pausa(100); } return false; }
+  function clicar(sels) { for (const q of sels) { const b = document.querySelector(q); if (b) { b.click(); return true; } } return false; }
+  function preencher(vals) {
+    const d = janelaAberta(); if (!d) return;
+    for (const [n, v] of Object.entries(vals)) {
+      const el = d.querySelector(`[name="${n}"]`); if (!el) continue;
+      if (el.tagName === "SELECT") { if (![...el.options].some(o => o.value === v)) continue; }
+      el.value = v;
+      el.dispatchEvent(new Event("input", { bubbles: true })); el.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+  function soltar() { [bloq, foco, cx].forEach(x => x && document.body.appendChild(x)); }
+  function fecharJanela() { soltar(); const d = janelaAberta(); if (d) { try { d.close(); } catch (e) {} d.remove(); } }
+  const NA_JANELA = ["candidatura", "trabalho", "dia", "marcar", "candSalva", "candAjustar", "candEditar", "pagoImposto"];
+  const ACOES = {
+    async candidatura() {
+      const jn = janelaAberta();   // a janela de Nova candidatura, não a de uma candidatura salva (que tem as abas)
+      if (jn && jn.querySelector('[name="titulo"]') && jn.querySelector('[name="proximoEm"]') && !jn.querySelector('.cv-abas')) return;
+      fecharJanela(); clicar(["#aplicacoes [data-nova-ap]", "#aplicacoes .ct-b.forte", "#aplicacoes button"]);
+      await esperar('#ui-painel [name="titulo"]');
+      preencher({ empresa: "TELUS Digital", titulo: "Personalized Internet Assessor - Portuguese (BR)", url: "https://www.telusdigital.com/careers", data: isoDia(0),
+        estado: "aplicado", origem: "Home Office Hub", email: "lucas@exemplo.com", remuneracao: "Cerca de US$ 5 por hora", curriculo: "Currículo avaliação 2026",
+        proximo: "Fazer o teste de qualificação", proximoEm: isoDia(7), observacoes: "Recrutadora: Carla. Pediram para fazer o teste em até 7 dias." });
+    },
+    async trabalho() {
+      if (janelaAberta() && janelaAberta().querySelector('[name="projeto"]')) return;
+      fecharJanela(); clicar(["#trabalhos [data-novo-tr]", "#lado [data-novo-tr]"]);
+      await esperar('#ui-painel [name="projeto"]');
+      preencher({ empresa: "TELUS Digital", projeto: "Personalized Internet Assessor", plataforma: "TELUS AI Community", inicio: isoDia(0), pagamento: "hora", valor: "5", moeda: "USD", ciclo: "mensal" });
+    },
+    async criarExemplo() {
+      await Dados.abrir();
+      let t = (await Dados.listar("trabalhos")).find(x => x.exemploTour);
+      if (t) return { t, novo: false };
+      t = await Dados.salvar("trabalhos", { empresa: "TELUS Digital", projeto: "Exemplo do tour", plataforma: "TELUS AI Community", pagamento: "hora", valor: 5, moeda: "USD",
+        ciclo: "mensal", inicio: isoDia(-20), estado: "ativo", cor: "#1A4893", diaPeriodo: 1, exemploTour: true });
+      for (let d = 1; d <= 12; d++) if (d % 3) await Dados.salvar("registros", { trabalhoId: t.id, data: isoDia(-d), horas: 2, observacoes: "" });
+      return { t, novo: true };
+    },
+    async garantirExemplo() {   // para o Ganhos e o Imposto terem números: o exemplo existe, sem sair da página
+      if (typeof Dados === "undefined") return;
+      const { novo } = await ACOES.criarExemplo();
+      if (novo) { location.reload(); await pausa(5000); }
+    },
+    async trabalhoExemplo() {
+      fecharJanela();
+      if (typeof Dados === "undefined") return;
+      const { t } = await ACOES.criarExemplo();
+      if (location.hash.slice(1) !== "trabalho/" + t.id) { location.hash = "trabalho/" + t.id; location.reload(); await pausa(5000); }
+    },
+    async pagoImposto() {
+      if (janelaAberta() && janelaAberta().querySelector('[name="valor"]') && janelaAberta().querySelector('[name="data"]')) return;
+      fecharJanela();
+      await ACOES.garantirExemplo();
+      clicar(["#imposto .ip-pago"]);
+      await esperar('#ui-painel [name="valor"]');
+      preencher({ valor: "1180", moeda: "BRL", data: isoDia(-1), nota: "Caiu pela Payoneer, já com a taxa." });
+    },
+    async dia() {
+      if (janelaAberta() && janelaAberta().querySelector('[name="horas"]')) return;
+      fecharJanela();
+      await ACOES.trabalhoExemplo(); clicar([".t-cab-bts [data-dia]", "[data-dia]"]);
+      await esperar('#ui-painel [name="horas"]');
+      preencher({ horas: "2.5", observacoes: "Fiz 40 avaliações. Mandei ao suporte a dúvida sobre a regra 3.2." });
+    },
+    async marcar() {
+      if (janelaAberta() && janelaAberta().querySelector('[name="tipo"]')) return;
+      fecharJanela(); clicar(["#agenda [data-marcar]"]);
+      await esperar("#ui-painel");
+      preencher({ tipo: "entrevista" }); await pausa(300);
+      preencher({ titulo: "Entrevista com a micro1", data: isoDia(7), inicio: "14:00", nota: "O link da chamada veio no e-mail." });
+    },
+    async candSalva(aba) {
+      const d = janelaAberta();
+      const certo = d && d.querySelector(".cv-abas") && !d.querySelector(".cv-trilho.ordenando") &&
+        (d.querySelector(`.cv-aba[data-aba="${aba || "vaga"}"][aria-selected="true"]`));
+      if (certo) return;
+      fecharJanela();
+      if (typeof Dados === "undefined") return;
+      await Dados.abrir();
+      let a = (await Dados.listar("aplicacoes")).find(x => x.exemploTour);
+      if (!a) {
+        a = await Dados.salvar("aplicacoes", { empresa: "TELUS Digital", titulo: "Personalized Internet Assessor (exemplo do tour)", url: "https://www.telusdigital.com/careers",
+          data: isoDia(-6), estado: "teste", origem: "Home Office Hub", email: "lucas@exemplo.com", remuneracao: "Cerca de US$ 5 por hora", curriculo: "Currículo avaliação 2026",
+          proximo: "Fazer o teste de qualificação", proximoEm: isoDia(3), observacoes: "Recrutadora: Carla.", passos: { aplicado: isoDia(-6), teste: isoDia(-2) }, exemploTour: true });
+        location.reload(); await pausa(5000); return;   // a lista de candidaturas é lida de novo
+      }
+      if (!clicar([`.ct-linha[data-ap="${a.id}"]`])) { location.reload(); await pausa(5000); return; }
+      await esperar("#ui-painel .cv-abas");
+      if (aba === "editar") { clicar(['#ui-painel .cv-aba[data-aba="editar"]']); await pausa(250); }
+    },
+    async candAjustar() {
+      const d = janelaAberta();
+      if (d && d.querySelector(".cv-trilho.ordenando")) return;
+      await ACOES.candSalva();
+      clicar(["#ui-painel [data-ordem]"]); await pausa(250);
+    },
+    async candEditar() { await ACOES.candSalva("editar"); },
+    async limparExemplo() {
+      fecharJanela();
+      if (typeof Dados === "undefined") return;
+      await Dados.abrir();
+      const ex = (await Dados.listar("trabalhos")).filter(x => x.exemploTour);
+      for (const t of ex) await Dados.removerTrabalho(t.id);
+      const ca = (await Dados.listar("aplicacoes")).filter(x => x.exemploTour);
+      for (const a of ca) await Dados.remover("aplicacoes", a.id);
+      if (ex.length || ca.length) { location.reload(); await pausa(5000); }   // a tela do Meu Controle lê tudo de novo
+    },
+  };
+  const guardar = () => { try { estado ? localStorage.setItem("plat-tour", JSON.stringify(estado)) : localStorage.removeItem("plat-tour"); } catch (e) {} };
+  const coluna = () => document.querySelector(".al");
+  const nomePessoa = () => { try { return String(JSON.parse(localStorage.getItem("sb-zrqucjktympnwilbvisw-auth-token")).user.user_metadata.nome || "").split(/\s+/)[0]; } catch (e) { return ""; } };
+  function css() { if (document.getElementById("trCss")) return; const s = document.createElement("style"); s.id = "trCss"; s.textContent = CSS; document.head.appendChild(s); }
+  function limpar() { [foco, cx, bloq].forEach(x => x && x.remove()); foco = cx = bloq = null; document.querySelectorAll(".tr-veu, .tr-boas").forEach(x => x.remove()); }
+  function colunaAberta(sim) {
+    const c = coluna(); if (!c) return;
+    c.classList.toggle("em-tour", sim);
+    if (sim) { c.classList.remove("fechado"); c.classList.add("aberta"); if (innerWidth <= 960) c.classList.add("on"); }
+    else { c.classList.remove("aberta"); if (innerWidth <= 960) c.classList.remove("on"); }
+  }
+  function janela(html, botoes) {
+    limpar(); css(); document.body.classList.add("tour-ativo");
+    const v = document.createElement("div"); v.className = "tr-veu";
+    const j = document.createElement("div"); j.className = "tr-boas"; j.setAttribute("role", "dialog"); j.setAttribute("aria-modal", "true");
+    j.innerHTML = html + `<div class="tr-bts">${botoes}</div>`;
+    document.body.append(v, j);
+    setTimeout(() => { const f = j.querySelector(".forte"); if (f) f.focus(); }, 30);
+    return j;
+  }
+  function boasVindas() {
+    const n = nomePessoa();
+    const j = janela(`<img class="tr-logo" src="logo.svg" alt="">
+      <small class="tr-olho">Primeiro acesso</small>
+      <h2>Boas-vindas ao Hub${n ? ", " + esc(n) : ""}!</h2>
+      <p>Agora eu vou te mostrar como navegar pela plataforma. Vamos passar por cada parte, abrindo as próprias páginas, para você ver onde fica cada coisa e para que serve.</p>
+      <div class="tr-rot"><div class="tr-rot-cab"><span>O roteiro</span><span>uns 5 minutos</span></div>
+        <ol>${CAPS.map((c, k) => { const q = P.filter(x => x.cap === c).length;
+          return `<li><span class="tr-ic"><svg viewBox="0 0 24 24">${ROTEIRO[c][1]}</svg></span><div><b>${k + 1}. ${c}</b><small>${ROTEIRO[c][0]}</small></div><em>${q} ${q === 1 ? "parada" : "paradas"}</em></li>`; }).join("")}</ol></div>
+      <p class="tr-nota">Dá para parar quando quiser e continuar depois. O tour fica no menu da sua conta, para ver de novo.</p>`,
+      `<button data-tr="agoranao">Agora não</button><span></span><button class="forte" data-tr="comecar">Começar o tour</button>`);
+    j.addEventListener("click", ev => { const b = ev.target.closest("[data-tr]"); if (!b) return;
+      if (b.dataset.tr === "comecar") { comecar(); }
+      else terminar(false); });
+  }
+  async function comecar() {
+    let vaga = "";
+    try {
+      const [g, pu] = await Promise.all([lerVagas(), fetch("pulso.json?v=" + Date.now()).then(r => r.json()).catch(() => ({}))]);
+      const ids = (g.vagas || []).map(v => v.id);
+      vaga = ((pu.destaques || []).map(d => d.id).find(id => ids.includes(id))) || ids[0] || "";
+    } catch (e) {}
+    estado = { passo: 0, vaga, fechado: !!(coluna() && coluna().classList.contains("fechado")) }; guardar(); passo();
+  }
+  function final() {
+    const n = nomePessoa();
+    const j = janela(`<img class="tr-logo" src="logo.svg" alt="">
+      <h2>Pronto${n ? ", " + esc(n) : ""}!</h2>
+      <p>Agora você sabe onde fica cada coisa. No Início, os primeiros passos mostram por onde começar, e cada um se marca sozinho quando você faz.</p>`,
+      `<button data-tr="rever">Ver o tour de novo</button><span></span><button class="forte" data-tr="inicio">Ir para o Início</button>`);
+    j.addEventListener("click", ev => { const b = ev.target.closest("[data-tr]"); if (!b) return;
+      if (b.dataset.tr === "rever") comecar(); else { limpar(); location.href = "inicio.html"; } });
+  }
+  function noLugar(pg) {
+    if (!pg) return true;
+    const [arq, h] = pg.split("#"), aqui = location.pathname.split("/").pop() || "index.html";
+    return aqui === arq.split("?")[0] && (!h || location.hash.slice(1).split("/")[0] === h);
+  }
+  function achar(alvo, tempo) {
+    const lista = Array.isArray(alvo) ? alvo : [alvo];
+    return new Promise(res => {
+      const t0 = Date.now();
+      (function olhar() {
+        for (const a of lista) {
+          let el = null;
+          if (a === "busca") el = document.querySelector(".al .al-busca");
+          else if (a.startsWith("col:")) el = document.querySelector(`.al .al-nav .al-linha[data-id="${a.slice(4)}"]`);
+          else if (a.startsWith("campo:")) { const c = document.querySelector(`#ui-painel [name="${a.slice(6)}"]`); el = c && (c.closest(".d-linha") || c); }
+          else if (a.startsWith("campos:")) {
+            const cs = a.slice(7).split(",").map(n => document.querySelector(`#ui-painel [name="${n}"]`)).filter(Boolean).map(c => c.closest(".d-linha") || c);
+            if (cs.length > 1) { el = cs[0]; el._junto = cs.slice(1); }
+          }
+          else { try { el = document.querySelector(a); } catch (e) { el = null; } }
+          if (el && el.getBoundingClientRect().height > 0) return res(el);
+        }
+        if (Date.now() - t0 > tempo) return res(null);
+        setTimeout(olhar, 120);
+      })();
+    });
+  }
+  async function passo() {
+    if (!estado) return;
+    const i = estado.passo, s = P[i];
+    document.querySelectorAll(".tr-veu, .tr-boas").forEach(x => x.remove());   // sai a janela de boas-vindas
+    document.body.classList.add("tour-ativo");
+    if (!s) { terminar(true); return; }
+    const pg = s.pg && s.pg.replace("{vaga}", encodeURIComponent(estado.vaga || ""));
+    if (!noLugar(pg)) {
+      guardar(); limpar();
+      const [arq, h] = pg.split("#");
+      if ((location.pathname.split("/").pop() || "index.html") === arq.split("?")[0] && h) { location.hash = h; setTimeout(passo, 400); }
+      else location.href = pg;
+      return;
+    }
+    if (!NA_JANELA.includes(s.antes)) fecharJanela();
+    if (s.antes && ACOES[s.antes]) { try { await ACOES[s.antes](); } catch (e) { console.warn("tour", e); } }
+    if (!estado || estado.passo !== i) return;
+    const naColuna = typeof s.alvo === "string" && (s.alvo.startsWith("col:") || s.alvo === "busca");
+    colunaAberta(naColuna || innerWidth > 960);
+    if (!naColuna && innerWidth <= 960) { const c = coluna(); if (c) c.classList.remove("on"); }
+    const el = await achar(s.alvo, 5000);
+    if (!estado || estado.passo !== i) return;
+    if (!el) { estado.passo = Math.max(0, estado.passo + (estado.dir || 1)); guardar(); passo(); return; }
+    css();
+    if (!bloq) { bloq = document.createElement("div"); bloq.className = "tr-bloq"; document.body.appendChild(bloq); }
+    if (!foco) { foco = document.createElement("div"); foco.className = "tr-foco"; document.body.appendChild(foco); }
+    if (!cx) {
+      cx = document.createElement("div"); cx.className = "tr-cx"; cx.setAttribute("role", "dialog"); cx.setAttribute("aria-live", "polite"); document.body.appendChild(cx);
+      cx.addEventListener("click", ev => { const b = ev.target.closest("[data-tr]"); if (!b || !estado) return;
+        if (b.dataset.tr === "seguir") { estado.dir = 1; estado.passo++; guardar(); passo(); }
+        else if (b.dataset.tr === "voltar") { estado.dir = -1; estado.passo = Math.max(0, estado.passo - 1); guardar(); passo(); }
+        else terminar(false); });
+    }
+    const casa = janelaAberta() && janelaAberta().contains(el) ? janelaAberta() : document.body;   // a janela fica por cima de tudo: o tour entra nela
+    [bloq, foco, cx].forEach(x => { if (x.parentNode !== casa) casa.appendChild(x); });
+    if (!naColuna && el.getBoundingClientRect().height > innerHeight * 0.6) { el.scrollIntoView({ block: "start", behavior: "instant" }); window.scrollBy({ top: -90, behavior: "instant" }); }
+    else if (!naColuna) el.scrollIntoView({ block: "center", behavior: "instant" });
+    else el.scrollIntoView({ block: "nearest", behavior: "instant" });
+    const capAgora = CAPS.indexOf(s.cap);
+    const doCap = P.filter(x => x.cap === s.cap), n = doCap.indexOf(s) + 1;
+    cx.classList.toggle("largo", !!s.largo);
+    cx.innerHTML = `<div class="tr-caps">${CAPS.map((c, k) => `<i class="${k < capAgora ? "feito" : k === capAgora ? "agora" : ""}" title="${c}"></i>`).join("")}</div>
+      <small>${s.cap} · ${n} de ${doCap.length}</small><b>${s.tit}</b><p>${s.txt}</p>${s.extra || ""}
+      <div class="tr-bts"><button data-tr="pular">Sair do tour</button><span></span>${i ? '<button data-tr="voltar">Voltar</button>' : ""}
+      <button class="forte" data-tr="seguir">${i === P.length - 1 ? "Terminar" : "Próximo"}</button></div>`;
+    await new Promise(r => setTimeout(r, naColuna ? 260 : 120));
+    let r = el.getBoundingClientRect(); const m = 6;
+    if (el._junto) {   // a caixa acesa cobre todos os campos juntos
+      const rs = [r].concat(el._junto.map(x => x.getBoundingClientRect()));
+      const l = Math.min(...rs.map(x => x.left)), t = Math.min(...rs.map(x => x.top)), rt = Math.max(...rs.map(x => x.right)), b = Math.max(...rs.map(x => x.bottom));
+      r = { left: l, top: t, right: rt, bottom: b, width: rt - l, height: b - t };
+    }
+    const top = Math.max(4, r.top - m), alt = Math.min(r.height + m * 2, innerHeight - top - 4);
+    Object.assign(foco.style, { top: top + "px", left: Math.max(4, r.left - m) + "px", width: Math.min(r.width + m * 2, innerWidth - 8) + "px", height: alt + "px" });
+    if (innerWidth > 960) {
+      const w = cx.offsetWidth, h = cx.offsetHeight;
+      let x, y;
+      if (naColuna || r.right + w + 24 < innerWidth && r.width < innerWidth / 2) { x = r.right + 18; y = r.top + r.height / 2 - 50; }
+      else if (r.bottom + h + 20 < innerHeight) { x = r.left; y = r.bottom + 16; }
+      else { x = r.left; y = r.top - h - 16; }
+      cx.style.left = Math.min(innerWidth - w - 12, Math.max(12, x)) + "px";
+      cx.style.top = Math.min(innerHeight - h - 12, Math.max(12, y)) + "px";
+    }
+    const f = cx.querySelector(".forte"); if (f) f.focus({ preventScroll: true });
+  }
+  function terminar(completo) {
+    const fechado = estado && estado.fechado;
+    estado = null; guardar(); fecharJanela(); limpar(); colunaAberta(false); document.body.classList.remove("tour-ativo");
+    ACOES.limparExemplo().catch(() => {});
+    if (fechado && coluna()) coluna().classList.add("fechado");
+    try { localStorage.setItem("plat-tour-feito", "1"); } catch (e) {}
+    if (completo) final();
+  }
+  document.addEventListener("keydown", ev => {
+    if (!estado || !cx) return;
+    if (ev.key === "Escape") terminar(false);
+    if (ev.key === "ArrowRight") { estado.dir = 1; estado.passo++; guardar(); passo(); }
+    if (ev.key === "ArrowLeft" && estado.passo) { estado.dir = -1; estado.passo--; guardar(); passo(); }
+  });
+  addEventListener("resize", () => { if (estado && cx) passo(); });
+  // continua o tour depois que uma página nova abre
+  function retomar() {
+    try { estado = JSON.parse(localStorage.getItem("plat-tour")); } catch (e) { estado = null; }
+    if (estado && typeof estado.passo === "number") setTimeout(passo, 500);
+  }
+  window.PlatTour = boasVindas;
+  return { boasVindas, retomar };
+})();

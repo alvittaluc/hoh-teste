@@ -24,7 +24,8 @@
 .ac-passo { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--signal); margin:0 0 10px; }
 .ac-passo + * { margin-bottom:22px; }
 .ac-arq { display:flex; align-items:center; gap:12px; border:1.5px dashed #9DB8DE; background:var(--signal-suave); border-radius:12px; padding:12px 14px; }
-.ac-ic { width:34px; height:42px; border-radius:5px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center; font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
+.ac-ic { width:50px; height:50px; border-radius:14px; background:#fff; border:1px solid #EBCFD3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; color:#B3261E; flex-shrink:0; box-shadow:0 1px 2px rgba(16,32,58,.06); }
+.ac-ic em { font-style:normal; font-size:9px; font-weight:700; letter-spacing:.06em; line-height:1; }
 .ac-arq .nm { flex:1; min-width:0; } .ac-arq b { display:block; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .ac-arq small { display:block; font-size:12px; color:var(--ink-3); }
 .ac-bt { display:inline-flex; align-items:center; justify-content:center; gap:8px; font:inherit; font-size:14px; font-weight:500; cursor:pointer;
@@ -155,9 +156,9 @@ try { montarLayout("ferramentas"); } catch (e) {}
   function desenharArq() {
     const caixa = document.getElementById("arq");
     caixa.innerHTML = arquivo
-      ? `<div class="ac-arq"><span class="ac-ic">PDF</span><div class="nm"><b>${esc(arquivo.name)}</b><small>${Math.max(1, Math.round(arquivo.size / 1024))} KB</small></div>
+      ? `<div class="ac-arq"><span class="ac-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><div class="nm"><b>${esc(arquivo.name)}</b><small>${Math.max(1, Math.round(arquivo.size / 1024))} KB</small></div>
           <button class="ac-bt pq" id="verArq">Ver</button><label class="ac-bt pq">Trocar<input type="file" accept="application/pdf" hidden id="inArq"></label></div>`
-      : `<div class="ac-arq"><span class="ac-ic">PDF</span><div class="nm"><b>Escolha o PDF do currículo</b><small>em inglês, como você manda para as empresas</small></div>
+      : `<div class="ac-arq"><span class="ac-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><div class="nm"><b>Escolha o PDF do currículo</b><small>em inglês, como você manda para as empresas</small></div>
           <label class="ac-bt pq">Escolher<input type="file" accept="application/pdf" hidden id="inArq"></label></div>
          <p class="ac-leve" style="margin-top:8px">Na prévia, se não tiver um à mão: <button class="ac-link" id="usarExemplo">usar um currículo de exemplo</button>.</p>`;
     caixa.querySelector("#inArq").addEventListener("change", e => { if (e.target.files[0]) { arquivo = e.target.files[0]; desenharArq(); } });
@@ -209,7 +210,7 @@ try { montarLayout("ferramentas"); } catch (e) {}
     return Math.round(s.filter(Boolean).length / s.length * 100);
   }
   function desenharPerfil() {
-    const P = lerPerfil(), pct = pctPerfil(P);
+    const P = lerPerfil(), pct = (typeof PerfilHub !== "undefined" && PerfilHub.quanto() !== null) ? PerfilHub.quanto() : pctPerfil(P);
     const caixa = document.getElementById("perfilCx");
     caixa.innerHTML = P && pct
       ? `<div class="ac-perf"><div class="tx"><b>Perfil ${pct}% preenchido</b><small>${P.experiencias.length} experiência${P.experiencias.length === 1 ? "" : "s"}, ${P.idiomas.length} idioma${P.idiomas.length === 1 ? "" : "s"}, ${Object.keys(P.areas).length} área${Object.keys(P.areas).length === 1 ? "" : "s"}</small>

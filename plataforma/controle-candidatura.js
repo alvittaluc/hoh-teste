@@ -67,9 +67,9 @@ const Candidatura = (function () {
     const semConta = typeof Conta === "undefined" || !Conta.usuario;
     const botao = semConta ? "" : `<label class="ct-b pequeno pc-trocar">${atual ? "Trocar" : "Anexar PDF"}<input type="file" accept="application/pdf,.pdf" data-pc-arq hidden></label>`;
     caixa.innerHTML = atual
-      ? `<span class="pc-ic">PDF</span><span class="pc-nm"><b>${esc(atual.nome)}</b><small>${esc(kb(atual.tamanho) || "anexado")}${pendente ? " · é guardado quando você salvar" : ""}</small></span>
+      ? `<span class="pc-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><span class="pc-nm"><b>${esc(atual.nome)}</b><small>${esc(kb(atual.tamanho) || "anexado")}${pendente ? " · é guardado quando você salvar" : ""}</small></span>
          <button type="button" class="ct-b pequeno" data-pc-ver>Ver</button>${botao}`
-      : `<span class="pc-ic vazio">PDF</span><span class="pc-nm"><b>Anexe o PDF que você mandou</b><small>${semConta ? "entre na sua conta para anexar" : "até 2 MB. Fica guardado e serve para as próximas candidaturas"}</small></span>${botao}`;
+      : `<span class="pc-ic pc-vazio"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><span class="pc-nm"><b>Anexe o PDF que você mandou</b><small>${semConta ? "entre na sua conta para anexar" : "até 2 MB. Fica guardado e serve para as próximas candidaturas"}</small></span>${botao}`;
     const arq = caixa.querySelector("[data-pc-arq]");
     if (arq) arq.addEventListener("change", () => {
       const f = arq.files[0];
@@ -324,11 +324,12 @@ const Candidatura = (function () {
 
   const st = document.createElement("style");
   st.textContent = `
-    .pc-pdf { display:flex; align-items:center; gap:12px; margin:-4px 0 16px; padding:11px 14px; border-radius:12px;
+    .pc-pdf { display:flex; align-items:center; gap:14px; margin:-4px 0 16px; padding:12px 14px; border-radius:16px;
       border:1.5px dashed #9DB8DE; background:var(--signal-suave,#EAF1F8); }
-    .pc-ic { width:34px; height:42px; border-radius:5px; background:#fff; border:1px solid #D3E2F1; display:grid; place-items:center;
-      font-size:10px; font-weight:700; color:#8E2233; flex-shrink:0; }
-    .pc-ic.vazio { color:var(--ink-3,#66717F); }
+    .pc-ic { width:50px; height:50px; border-radius:14px; background:#fff; border:1px solid #EBCFD3; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:1px; color:#B3261E; flex-shrink:0; box-shadow:0 1px 2px rgba(16,32,58,.06); }
+    .pc-ic em { font-style:normal; font-size:9px; font-weight:700; letter-spacing:.06em; line-height:1; }
+    .pc-ic.pc-vazio { color:#8C96A3; border-color:#D3E2F1; }
     .pc-nm { flex:1; min-width:0; } .pc-nm b { display:block; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .pc-nm small { display:block; font-size:12px; color:var(--ink-3,#66717F); }
     .pc-trocar { cursor:pointer; }

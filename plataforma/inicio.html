@@ -59,6 +59,36 @@
 @media (prefers-reduced-motion:reduce){ .ch-pulso::after { animation:none; opacity:0; } }
 .selo-nova { font-size:11px; font-weight:600; color:var(--amber); background:var(--amber-suave); padding:1px 8px; border-radius:999px; }
 
+/* guia de primeiros passos: só para quem acabou de entrar */
+.in-guia { background:linear-gradient(170deg,#FFFFFF 0%,#F1F6FC 100%); border-color:#D7E3F1; }
+.gu-esconde { font:500 13px var(--body); color:var(--ink-3); background:none; border:0; cursor:pointer; }
+.gu-esconde:hover { color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
+.gu-barra { height:8px; border-radius:999px; background:#E4ECF6; overflow:hidden; margin:2px 0 10px; }
+.gu-barra i { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,#2C6BB5,#4E9AC8); transition:width .5s cubic-bezier(.2,.8,.2,1); }
+.gu { display:grid; grid-template-columns:30px minmax(0,1fr) auto; gap:12px; align-items:center; padding:11px 0; border-top:1px solid #E4ECF6; }
+.gu:first-child { border-top:0; }
+.gu-n { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-size:13px; font-weight:600; border:1.5px solid #C9D9EC; color:#4E6A8C; background:#fff; }
+.gu.feito .gu-n { background:#1F7A4D; border-color:#1F7A4D; color:#fff; }
+.gu.feito .gu-n svg { width:15px; height:15px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.gu b { display:block; font-size:14.5px; font-weight:550; color:var(--ink); line-height:1.35; }
+.gu.feito b { color:var(--ink-3); font-weight:500; text-decoration:line-through; text-decoration-color:#B9C4D2; }
+.gu small { display:block; font-size:13px; color:var(--ink-3); margin-top:1px; }
+.gu.feito small { display:none; }
+.gu.agora { background:#fff; margin:4px -12px; padding:13px 12px; border-radius:14px; border:1px solid #CFE0F1; box-shadow:0 1px 2px rgba(16,32,58,.05), 0 10px 24px -14px rgba(26,72,147,.35); }
+.gu.agora + .gu { border-top:0; }
+.gu.agora .gu-n { border-color:#1A4893; color:#1A4893; }
+.gu .fz-bt.forte { background:#1A4893; border-color:#1A4893; color:#fff; }
+.gu-tour { margin-top:10px; font:500 13.5px var(--body); color:var(--signal); background:none; border:0; cursor:pointer; padding:4px 0; }
+.gu-tour:hover { text-decoration:underline; text-underline-offset:3px; }
+.gu-pronto { display:flex; gap:12px; align-items:center; padding:6px 0 10px; }
+.gu-pronto b { font-size:15px; color:var(--ink); }
+@media (max-width:640px) { .gu { grid-template-columns:30px minmax(0,1fr); } .gu .fz-bt { grid-column:2; justify-self:start; } }
+/* cartão do perfil */
+.pf { display:flex; align-items:center; gap:16px; }
+.pf-anel { --p:0; width:64px; height:64px; border-radius:50%; flex-shrink:0; display:grid; place-items:center; background:conic-gradient(var(--signal) calc(var(--p) * 1%), #E4ECF6 0); }
+.pf-anel span { width:50px; height:50px; border-radius:50%; background:var(--panel); display:grid; place-items:center; font-weight:600; font-size:14px; color:var(--ink); }
+.pf p { font-size:13.5px; line-height:1.5; margin:0; color:var(--ink-2); }
+.pf p a { color:var(--signal); font-weight:500; }
 /* coluna da direita */
 .in-cx.verde { background:linear-gradient(170deg,#F4FAF6 0%,#E9F5EE 100%); border-color:#D3EBDD; }
 .in-cx.verde .in-cab a { color:#1F7A4D; }
@@ -95,7 +125,15 @@
 
   <div class="in-grade">
     <div>
-      <section class="in-cx">
+      <section class="in-cx in-guia" id="guia" hidden>
+        <div class="in-cab"><h2>Primeiros passos</h2><button class="gu-esconde" id="guiaEsconde">Esconder o guia</button></div>
+        <div class="gu-barra"><i id="guiaBarra"></i></div>
+        <p class="in-nota" id="guiaConta"></p>
+        <div id="guiaPassos"></div>
+        <button class="gu-tour" id="guiaTour">Fazer o tour pelo Hub (3 minutos)</button>
+      </section>
+
+      <section class="in-cx" id="secFazer">
         <div class="in-cab"><h2>Para fazer</h2><a href="controle.html#hoje">Abrir o Hoje</a></div>
         <div id="fazer"></div>
       </section>
@@ -117,11 +155,15 @@
         <div class="in-cab"><h2>Atalhos</h2></div>
         <div class="at">
           <a href="controle.html#aplicacoes"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Marcar uma candidatura</a>
-          <a href="controle.html#hoje"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>Lançar as horas de hoje</a>
+          <a id="atHoras" href="controle.html#hoje"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>Lançar as horas de hoje</a>
           <a href="ferramenta-curriculo.html"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Avaliar o meu currículo</a>
         </div>
       </section>
-      <section class="in-cx verde">
+      <section class="in-cx" id="secPerfil" hidden>
+        <div class="in-cab"><h2>Seu perfil</h2><a href="perfil-profissional.html">Abrir o perfil</a></div>
+        <div class="pf"><div class="pf-anel" id="pfAnel"><span id="pfPc"></span></div><p id="pfTxt"></p></div>
+      </section>
+      <section class="in-cx verde" id="secMes">
         <div class="in-cab"><h2>Ganhos e horas</h2><a href="controle.html#painel">Ver os ganhos</a></div>
         <div class="nm" id="mes"></div>
       </section>
@@ -186,12 +228,56 @@ montarLayout("inicio");
          ["agenda", "Comece pelo curso de Fundamentos", "Uma hora para entender como o trabalho funciona antes do primeiro teste.", "Começar", "curso-fundamentos.html"],
          ["teste", "Guarde a sua primeira candidatura", "No Meu Controle, para saber em que etapa está cada uma.", "Abrir", "controle.html#aplicacoes"]]
         .map(([i, t, d, b, h]) => `<div class="fz"><span class="fz-ic">${svg(i === "vagas" ? "perfil" : i)}</span><div><b>${t}</b><small>${d}</small></div><a class="fz-bt" href="${h}">${b}</a></div>`).join("");
-  if (!itens.length && !aps.length && !trabs.length) document.querySelector("#fazer").previousElementSibling.querySelector("h2").textContent = "Para começar";
+
+  /* PRIMEIROS PASSOS: para quem acabou de entrar. Cada passo se marca sozinho quando a pessoa faz. */
+  const novato = !trabs.length && !regs.length;
+  let visitas = []; try { visitas = JSON.parse(localStorage.getItem("plat-visitas")) || []; } catch (e) {}
+  let cursoFeito = false; try { cursoFeito = !!localStorage.getItem("hoh_curso_fundamentos"); } catch (e) {}
+  const pcPerfil = PerfilHub.quanto(), faltaPerfil = PerfilHub.falta();
+  const PASSOS = [
+    ["Complete o seu perfil", pcPerfil === null ? "Idiomas, formação, áreas e experiências. É ele que escolhe as vagas para você." : "Está " + pcPerfil + "% preenchido. Falta: " + faltaPerfil.join(", ") + ".", "Completar", "perfil-profissional.html", pcPerfil === 100],
+    ["Entenda como o trabalho funciona", "Tipos de projeto, o teste de entrada, como receber e como evitar golpes.", "Ler o guia", "como-funciona.html", visitas.includes("como-funciona.html")],
+    ["Faça o curso de Fundamentos", "Uma hora para chegar ao primeiro teste sabendo o que a empresa espera.", "Começar o curso", "curso-fundamentos.html", cursoFeito || visitas.includes("curso-fundamentos.html")],
+    ["Escolha uma vaga aberta a todos", "Elas não pedem diploma: anotação, avaliação de IA, tradução e QA.", "Ver as vagas", "vagas.html?ver=todas", visitas.includes("vaga.html")],
+    ["Avalie o seu currículo para essa vaga", "A ferramenta mostra o que ajustar, já escrito em inglês.", "Avaliar", "ferramenta-curriculo.html", visitas.includes("ferramenta-curriculo.html")],
+    ["Guarde a candidatura no Meu Controle", "Assim você acompanha cada etapa e não esquece onde já se candidatou.", "Abrir as candidaturas", "controle.html#aplicacoes", aps.length > 0],
+  ];
+  const feitos = PASSOS.filter(p => p[4]).length;
+  let oculto = false; try { oculto = localStorage.getItem("plat-guia-oculto") === "1"; } catch (e) {}
+  if (novato && !oculto) {
+    const g = $("#guia"); g.hidden = false;
+    const proximo = PASSOS.findIndex(p => !p[4]);
+    $("#guiaBarra").style.width = Math.round(feitos / PASSOS.length * 100) + "%";
+    $("#guiaConta").textContent = feitos === PASSOS.length ? "Tudo pronto." : feitos + " de " + PASSOS.length + " feitos. Leva poucos minutos, e cada passo se marca sozinho.";
+    $("#guiaPassos").innerHTML = feitos === PASSOS.length
+      ? `<div class="gu-pronto"><b>Você já sabe usar o Hub.</b> Agora é acompanhar as vagas em alta e guardar cada candidatura.</div>`
+      : PASSOS.map((p, i) => `<div class="gu${p[4] ? " feito" : ""}${i === proximo ? " agora" : ""}">
+          <span class="gu-n">${p[4] ? '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : i + 1}</span>
+          <div><b>${p[0]}</b><small>${p[1]}</small></div>
+          ${p[4] ? "" : `<a class="fz-bt${i === proximo ? " forte" : ""}" href="${p[3]}">${p[2]}</a>`}</div>`).join("");
+    $("#guiaEsconde").addEventListener("click", () => { try { localStorage.setItem("plat-guia-oculto", "1"); } catch (e) {} g.hidden = true; });
+    $("#guiaTour").addEventListener("click", () => window.PlatTour && window.PlatTour());
+    // na primeira vez, o tour começa sozinho
+    let viuTour = false; try { viuTour = localStorage.getItem("plat-tour-feito") === "1"; } catch (e) {}
+    if (!viuTour && feitos <= 1 && window.PlatTour) setTimeout(() => window.PlatTour(), 700);
+  }
+  // o perfil, para todo mundo: quanto está preenchido e o que falta
+  if (pcPerfil !== null) {
+    $("#secPerfil").hidden = false;
+    $("#pfAnel").style.setProperty("--p", pcPerfil); $("#pfPc").textContent = pcPerfil + "%";
+    $("#pfTxt").innerHTML = pcPerfil === 100 ? "Tudo preenchido. Quando fizer um curso novo ou um trabalho novo, acrescente lá."
+      : "Falta: " + esc(faltaPerfil.join(", ")) + ". Quanto mais completo, melhores as vagas e as sugestões para o currículo. <a href=\"perfil-profissional.html\">Completar</a>";
+  }
+  // sem nada marcado, a lista "Para fazer" e o quadro de ganhos não aparecem
+  if (novato && !itens.length) $("#secFazer").hidden = true;
+  if (novato) $("#secMes").hidden = true;
+  if (novato) $("#atHoras").remove();   // quem ainda não trabalha não tem horas para lançar
 
   const ativas = aps.filter(a => ["aplicado", "teste", "prova", "entrevista"].includes(a.estado)).length;
   $("#olaSub").textContent = itens.length
     ? (itens.length === 1 ? "Uma coisa" : itens.length + " coisas") + " para os próximos dias" + (ativas ? " e " + ativas + (ativas === 1 ? " candidatura andando." : " candidaturas andando.") : ".")
-    : "Veja as vagas que estão chamando gente agora.";
+    : !trabs.length && !regs.length ? "Que bom ter você aqui. Comece pelos primeiros passos: em poucos minutos você sabe usar o Hub."
+    : "Nada marcado para os próximos dias. Veja as vagas que estão chamando gente agora.";
 
   /* SEU MÊS */
   const mes = hoje.slice(0, 7);
