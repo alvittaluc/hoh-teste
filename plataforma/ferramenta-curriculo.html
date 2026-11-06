@@ -108,6 +108,34 @@ textarea.ac-campo { min-height:150px; resize:vertical; line-height:1.5; }
 .ac-marca.reescrita { background:#DCE7F5; }
 .ac-marca.perfil { background:#DDF0E2; }
 .ac-marca.pergunta { background:#F8E6D2; }
+.ac-num { display:inline-grid; place-items:center; min-width:22px; height:22px; border-radius:99px; font-size:12px; font-weight:700; color:#fff; background:var(--signal); padding:0 6px; }
+.ac-num.perfil { background:#3F8A55; } .ac-num.pergunta { background:#C07A3A; }
+.ac-grade.ac-so-resultado { grid-template-columns:minmax(0,1fr); }
+.ac-grade.ac-so-resultado > .ac-cx:first-child { display:none; }
+.ac-escolhas { display:flex; align-items:center; gap:10px 16px; flex-wrap:wrap; font-size:13.5px; color:var(--ink-2); background:var(--panel-2); border:1px solid var(--line-soft); border-radius:12px; padding:10px 14px; margin-bottom:16px; }
+.ac-escolhas b { color:var(--ink); font-weight:600; }
+.ac-escolhas .ac-bt { margin-left:auto; }
+#sugCaixa { container-type:inline-size; }
+.ac-par { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; }
+@container (min-width:860px){ .ac-par { grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); align-items:start; } .ac-par-cv { position:sticky; top:84px; max-height:calc(100vh - 100px); overflow:auto; border-radius:14px; } }
+.ac-par .ac-versao { margin-top:0; padding:20px 22px; font-size:13.5px; }
+.ac-par .ac-versao p { margin:0 0 6px; }
+.ac-cv-cab { font-size:12.5px; color:var(--ink-3); margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--line-soft); }
+mark.ac-marca { cursor:pointer; padding:1px 3px; color:inherit; }
+mark.ac-marca i, .ac-entra i { font-style:normal; display:inline-grid; place-items:center; min-width:17px; height:17px; border-radius:99px; font-size:10.5px; font-weight:700; color:#fff; background:var(--signal); margin-left:5px; vertical-align:1px; }
+mark.ac-marca.perfil i, .ac-entra.perfil i { background:#3F8A55; } mark.ac-marca.pergunta i, .ac-entra.pergunta i { background:#C07A3A; }
+.ac-entra { cursor:pointer; margin:6px 0 8px; border:1.5px dashed #9DB8DE; border-radius:8px; padding:6px 10px; font-size:12.5px; color:var(--ink-2); background:var(--signal-suave); }
+.ac-entra.perfil { border-color:#9CCBAA; background:#EEF6F0; } .ac-entra.pergunta { border-color:#E2C09B; background:var(--amber-suave); }
+.ac-entra i { margin:0 6px 0 0; }
+@keyframes acPisca { 0%,100% { box-shadow:0 0 0 0 rgba(26,72,147,0); } 30% { box-shadow:0 0 0 4px rgba(26,72,147,.35); } }
+.ac-pisca { animation:acPisca 1.2s ease 2; }
+.ac-crit-mt { font-size:12.5px; color:var(--ink-3); margin:-4px 0 10px; line-height:1.45; }
+.ac-alerta { background:#FBE3E3; border:1px solid #F1C7CB; color:#6E1C27; border-radius:12px; padding:11px 14px; font-size:14px; margin-bottom:14px; line-height:1.5; }
+.ac-pronto { background:#EEF6F0; border:1px solid #CFE5D6; color:#24502F; border-radius:12px; padding:12px 14px; font-size:14px; margin-bottom:12px; }
+.ac-dobra { margin-top:14px; border:1px solid var(--line-soft); border-radius:12px; padding:12px 16px; background:var(--panel-2); font-size:14px; color:var(--ink-2); }
+.ac-dobra summary { cursor:pointer; font-weight:600; color:var(--ink); }
+.ac-dobra ol, .ac-dobra ul { margin:10px 0 2px 18px; padding:0; line-height:1.6; }
+.ac-en-acoes { align-items:center; flex-wrap:wrap; }
 @media (max-width:560px){ .ac-crit { grid-template-columns:130px 1fr 30px; } .ac-versao { padding:20px 18px; } .ac-cx { padding:18px 16px; } }
 </style>
 </head>
@@ -116,7 +144,7 @@ textarea.ac-campo { min-height:150px; resize:vertical; line-height:1.5; }
 <main class="ac-main">
   <p class="ac-trilha"><a href="ferramentas.html">Ferramentas</a> › Avaliar currículo</p>
   <h1>Avaliar currículo para uma vaga</h1>
-  <p class="ac-sub">Suba o seu currículo em PDF e escolha a vaga. Você recebe uma nota, o que já está bom e as sugestões, explicadas em português e já escritas em inglês. Com o seu perfil preenchido, a avaliação também sugere o que você sabe e não pôs no currículo, sem inventar nada.</p>
+  <p class="ac-sub">Suba o seu currículo em PDF ou Word e escolha a vaga. Você recebe uma nota, o que já está bom e as sugestões, explicadas em português e já escritas em inglês, com o lugar de cada uma no seu currículo. Com o seu perfil preenchido, a avaliação também sugere o que você sabe e não pôs no currículo, sem inventar nada.</p>
 
   <div class="ac-grade">
     <div class="ac-cx">
@@ -127,10 +155,10 @@ textarea.ac-campo { min-height:150px; resize:vertical; line-height:1.5; }
       <p class="ac-passo">3 · Seu perfil profissional</p>
       <div id="perfilCx"></div>
       <button class="ac-bt forte" id="avaliar" style="width:100%">Avaliar meu currículo</button>
-      <p class="ac-leve" style="margin-top:10px">Você ainda pode fazer 3 avaliações hoje.</p>
+      <p class="ac-leve" style="margin-top:10px">Você ainda pode fazer 2 avaliações hoje.</p>
     </div>
     <div class="ac-cx" id="resultado">
-      <div class="ac-vazio"><b>A avaliação aparece aqui</b>Suba o PDF e escolha a vaga. A nota leva em conta o que o anúncio pede, e as mudanças vêm com o texto em inglês pronto para colar.</div>
+      <div class="ac-vazio"><b>A avaliação aparece aqui</b>Suba o currículo e escolha a vaga. A nota leva em conta o que a vaga pede, e cada sugestão mostra onde fica no seu currículo, com o texto em inglês pronto para colar.</div>
     </div>
   </div>
 </main>
@@ -157,9 +185,9 @@ try { montarLayout("ferramentas"); } catch (e) {}
     const caixa = document.getElementById("arq");
     caixa.innerHTML = arquivo
       ? `<div class="ac-arq"><span class="ac-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><div class="nm"><b>${esc(arquivo.name)}</b><small>${Math.max(1, Math.round(arquivo.size / 1024))} KB</small></div>
-          <button class="ac-bt pq" id="verArq">Ver</button><label class="ac-bt pq">Trocar<input type="file" accept="application/pdf" hidden id="inArq"></label></div>`
-      : `<div class="ac-arq"><span class="ac-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><div class="nm"><b>Escolha o PDF do currículo</b><small>em inglês, como você manda para as empresas</small></div>
-          <label class="ac-bt pq">Escolher<input type="file" accept="application/pdf" hidden id="inArq"></label></div>
+          <button class="ac-bt pq" id="verArq">Ver</button><label class="ac-bt pq">Trocar<input type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden id="inArq"></label></div>`
+      : `<div class="ac-arq"><span class="ac-ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><em>PDF</em></span><div class="nm"><b>Escolha o seu currículo</b><small>PDF ou Word, em português ou em inglês</small></div>
+          <label class="ac-bt pq">Escolher<input type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden id="inArq"></label></div>
          <p class="ac-leve" style="margin-top:8px">Na prévia, se não tiver um à mão: <button class="ac-link" id="usarExemplo">usar um currículo de exemplo</button>.</p>`;
     caixa.querySelector("#inArq").addEventListener("change", e => { if (e.target.files[0]) { arquivo = e.target.files[0]; desenharArq(); } });
     const ex = caixa.querySelector("#usarExemplo");
@@ -221,177 +249,191 @@ try { montarLayout("ferramentas"); } catch (e) {}
          <p class="ac-leve" style="margin-top:8px">Dá para avaliar sem o perfil, mas as sugestões ficam só no que o currículo já diz. Na prévia: <a class="ac-link" href="perfil-profissional.html?exemplo">abrir o perfil de exemplo da Ana</a>.</p>`;
   }
 
-  // ── Resultado de exemplo: currículo da Ana Rocha ──
-  // tipo: reescrita (o que já está no currículo, dito de outro jeito), perfil (está no perfil e não no currículo), pergunta (ninguém sabe ainda)
-  const MUDANCAS = [
-    { id: "m1", tipo: "perfil", secao: "Experience", onde: "uma experiência nova",
-      motivo: "O trabalho de avaliar anúncios na TELUS está no seu perfil, que veio do Meu Controle, mas não aparece no currículo. É a experiência mais parecida com esta vaga, então ela entra primeiro em Experience.",
-      antes: "",
-      depois: "Ads Assessor, TELUS Digital (remote) · Mar 2025 to present\nRated how well online ads matched user searches, following detailed project guidelines, about 15 hours per week.",
-      fonte: "Seu perfil: Avaliadora de anúncios, TELUS Digital, desde 03/2025, cerca de 15 horas por semana (do Meu Controle)" },
-    { id: "m2", tipo: "reescrita", secao: "Summary", onde: "um resumo novo no topo",
-      motivo: "Hoje o currículo começa direto nas experiências. Um resumo de duas linhas diz logo o que você faz, e quem recruta decide em poucos segundos. Tudo o que está nele já está no seu currículo.",
-      antes: "",
-      depois: "Native Brazilian Portuguese speaker who evaluates AI responses against detailed guidelines, with a background in copy editing and fact-checking.",
-      fonte: "Seu currículo: AI Response Evaluator; Copy Editor; Portuguese: native" },
-    { id: "m3", tipo: "reescrita", secao: "Experience", onde: "a experiência de avaliação de IA",
-      motivo: "A frase diz o que você fazia, mas não mostra quanto. O currículo e o perfil não têm esse número, então deixamos um marcador: troque [number] pelo número real ou tire essa parte.",
-      antes: "Evaluated AI chat responses in Brazilian Portuguese.",
-      depois: "Evaluated AI chat responses in Brazilian Portuguese against the project rubric, reviewing [number] tasks per week.",
-      fonte: "Seu currículo: AI Response Evaluator, remote project, 2024 to present" },
-    { id: "m4", tipo: "perfil", secao: "Languages", onde: "os idiomas",
-      motivo: "No currículo está só \"advanced\". No seu perfil tem o nível C1 com certificado, que vale mais, e o espanhol, que o currículo não mostra.",
-      antes: "English: advanced",
-      depois: "English: C1 (Cambridge C1 Advanced, 2023) · Spanish: B1",
-      fonte: "Seu perfil: Inglês C1, certificado Cambridge C1 Advanced, 2023; Espanhol B1" },
-    { id: "m5", tipo: "reescrita", secao: "Skills", onde: "as ferramentas",
-      motivo: "A vaga fala em guidelines e fact-checking, e o currículo não usa essas palavras, embora você faça as duas coisas. Os filtros automáticos procuram exatamente esses termos.",
-      antes: "Google Docs and Sheets, Notion, annotation platforms",
-      depois: "Guideline-based evaluation · Fact-checking · Copy editing · Google Docs and Sheets · Notion · Annotation platforms",
-      fonte: "Seu currículo: rubric, checked facts, Copy Editor, Tools" },
-  ];
-  const PERGUNTAS = [
-    { id: "q1", secao: "Skills", onde: "as ferramentas",
-      pergunta: "A vaga pede alguém que use redes sociais e acompanhe as notícias e a cultura do Brasil. Isso faz parte do seu dia a dia?",
-      porque: "Nem o currículo nem o perfil falam disso, e a vaga pede.",
-      depois: "Up to date with Brazilian current affairs, culture and social media." },
-    { id: "q2", secao: "Experience", onde: "a experiência de revisora",
-      pergunta: "A vaga fala em pesquisar na internet para conferir informações. Quando você era revisora, conferia os fatos pesquisando na internet?",
-      porque: "O currículo diz que você conferia fatos, mas não diz como.",
-      antes: "Edited textbooks and checked facts before printing.",
-      depois: "Edited textbooks and checked facts through online research before printing." },
-  ];
+  // ── Resultado de exemplo: currículo da Ana Rocha, no formato que a IA devolve ──
+  // O texto do currículo é o que o site tira do PDF, já sem e-mail e telefone.
+  const CV = ["Ana Beatriz Rocha", "Belo Horizonte, Brazil · [e-mail] · [telefone]", "EXPERIENCE",
+    "AI Response Evaluator, remote project · 2024 to present", "Evaluated AI chat responses in Brazilian Portuguese.",
+    "Wrote corrected answers and short rationales following the project rubric.", "Copy Editor, regional publisher · 2021 to 2024",
+    "Edited textbooks and checked facts before printing.", "EDUCATION", "B.A. in Languages and Literature, Federal University of Minas Gerais, 2020",
+    "LANGUAGES", "Portuguese: native · English: advanced", "TOOLS", "Google Docs and Sheets, Notion, annotation platforms"];
+  const TITULOS = ["EXPERIENCE", "EDUCATION", "LANGUAGES", "TOOLS"];
+  const RESULTADO = {
+    alertas: [],
+    criterios: [
+      { id: "experiencia", nota: 75, motivo: "Você avalia respostas de IA, que é do mesmo campo, mas o currículo não mostra avaliação de resultados de busca, que é o trabalho desta vaga." },
+      { id: "idiomas", nota: 100, motivo: "Português nativo e inglês avançado cobrem os dois idiomas que a vaga pede." },
+      { id: "termos", nota: 70, motivo: "Aparecem os idiomas, a checagem de fatos e o trabalho com regras de projeto, mas a pesquisa na internet e o conhecimento da cultura do Brasil não aparecem." },
+      { id: "descricao", nota: 75, motivo: "As experiências dizem o que você fazia, mas a de avaliação de IA não diz que regras você seguia em cada resposta." },
+      { id: "clareza", nota: 100, motivo: "Uma página, partes de costume, datas em todas as experiências e inglês sem erros." }],
+    pontos_fortes: ["A avaliação de respostas de IA em português aparece logo no começo da experiência.",
+      "A revisão de livros com checagem de fatos combina com a checagem que a vaga pede.",
+      "Formação em Letras e português nativo, que a vaga valoriza."],
+    mudancas: [
+      { id: "m1", tipo: "reescrita", secao: "Summary", onde: "Summary · parte nova, no topo, antes de Experience",
+        motivo: "O currículo não tem resumo, e quem recruta decide em poucos segundos. Este resumo usa só o que já está no seu currículo.",
+        substitui: "", texto_en: "Brazilian Portuguese language professional with experience in AI response evaluation and copy editing. Evaluates AI chat responses in Brazilian Portuguese and writes corrected answers and rationales following project rubrics. Background in editing textbooks and checking facts before printing, with a B.A. in Languages and Literature.",
+        fonte: "Seu currículo: AI Response Evaluator, Copy Editor e Education" },
+      { id: "m2", tipo: "reescrita", secao: "Experience", onde: "Experience · AI Response Evaluator · 1ª linha",
+        motivo: "A vaga pede alguém que siga diretrizes detalhadas. Você segue a rubrica do projeto, mas isso só aparece na segunda linha. Aqui a primeira linha já diz isso.",
+        substitui: "Evaluated AI chat responses in Brazilian Portuguese.", texto_en: "Evaluated AI chat responses in Brazilian Portuguese against the project rubric.",
+        fonte: "Seu currículo: AI Response Evaluator, 2024 até hoje" },
+      { id: "m3", tipo: "perfil", secao: "Experience", onde: "Experience · experiência nova, antes de AI Response Evaluator",
+        motivo: "O trabalho de avaliar anúncios na TELUS está no seu perfil, que veio do Meu Controle, mas não está no currículo. É a experiência mais parecida com esta vaga, então ela entra primeiro.",
+        substitui: "", texto_en: "Ads Assessor, TELUS Digital (remote) · Mar 2025 to Present\nRated how well online ads matched user searches, following detailed project guidelines.",
+        fonte: "Seu perfil: Avaliadora de anúncios, TELUS Digital, desde 03/2025 (do Meu Controle)" },
+      { id: "m4", tipo: "perfil", secao: "Languages", onde: "Languages · a linha dos idiomas",
+        motivo: "No currículo está só \"advanced\". No seu perfil tem o nível C1 com certificado, que vale mais, e o espanhol, que o currículo não mostra.",
+        substitui: "Portuguese: native · English: advanced", texto_en: "Portuguese: Native · English: Advanced (C1), Cambridge C1 Advanced, 2023 · Spanish: Intermediate (B1)",
+        fonte: "Seu perfil: Inglês C1, certificado Cambridge C1 Advanced, 2023; Espanhol B1" }],
+    perguntas: [
+      { id: "q1", secao: "Experience", onde: "Experience · Copy Editor · 1ª linha",
+        pergunta: "Quando você era revisora, conferia os fatos pesquisando na internet?",
+        porque: "A vaga pede checagem de fatos com pesquisa online, e o currículo diz que você conferia fatos, mas não diz como.",
+        substitui: "Edited textbooks and checked facts before printing.", texto_en: "Edited textbooks and checked facts through online research before printing." },
+      { id: "q2", secao: "Summary", onde: "Summary · a última frase do resumo novo",
+        pergunta: "Você acompanha as notícias e a cultura do Brasil no dia a dia?",
+        porque: "A vaga pede conhecimento das notícias, dos acontecimentos e da cultura do país, e o currículo não fala disso.",
+        substitui: "", texto_en: "Follows Brazilian news, current events and culture closely." }]
+  };
+  const PESOS = { experiencia: [.30, "Experiência que a vaga pede"], idiomas: [.20, "Idiomas"], termos: [.20, "Requisitos da vaga"], descricao: [.15, "O que você fazia está claro"], clareza: [.15, "Clareza e tamanho"] };
   const TIPOS = {
     reescrita: { nome: "Reescrita", diz: "Mesma informação do currículo, dita do jeito que a vaga procura" },
     perfil: { nome: "Do seu perfil", diz: "Você contou no perfil e não está no currículo" },
     pergunta: { nome: "Pergunta", diz: "A vaga pede e ainda não sabemos se você tem" },
   };
-  let respostas = {}, filtro = "todas", comPerfil = false;
-
-  const marcador = t => esc(t).replace(/\[(number|score|[a-z ]+)\]/g, '<span class="ac-falta">[$1]</span>').replace(/\n/g, "<br>");
+  let respostas = {}, comPerfil = false;
   const selo = t => `<span class="ac-tipo ${t}">${TIPOS[t].nome}</span>`;
+  const quebra = t => esc(t).replace(/\n/g, "<br>");
+  const faixa = n => n >= 85 ? "Pronto para enviar" : n >= 70 ? "Bom, dá para melhorar" : n >= 50 ? "Precisa de ajustes" : "Ainda longe do que a vaga pede";
+  const mudancas = () => RESULTADO.mudancas.filter(m => comPerfil || m.tipo !== "perfil");
+  // o número de cada sugestão, na ordem da tela: mudanças primeiro, depois as perguntas respondidas com sim
+  function numerados() {
+    const lista = mudancas().map(m => ({ ...m, cor: m.tipo }));
+    RESULTADO.perguntas.forEach(q => { if (respostas[q.id] === "sim") lista.push({ ...q, cor: "pergunta" }); });
+    return lista.map((x, i) => ({ ...x, n: i + 1 }));
+  }
 
   function cartaoMud(m) {
-    return `<div class="ac-mud t-${m.tipo}">
-      <div class="ac-mud-topo">${selo(m.tipo)}<span class="ac-onde">${esc(m.secao)} · ${esc(m.onde)}</span></div>
+    const tira = !m.texto_en;
+    return `<div class="ac-mud t-${m.tipo}" id="card-${m.id}">
+      <div class="ac-mud-topo"><span class="ac-num ${m.tipo}">${m.n}</span>${selo(m.tipo)}<span class="ac-onde">${esc(m.onde)}</span></div>
       <p>${esc(m.motivo)}</p>
-      ${m.antes ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${esc(m.antes)}</div></div>` : ""}
-      <div class="ac-en"><small>${m.antes ? "Como fica" : "O que entra"}, em inglês</small><div class="txt">${marcador(m.depois)}</div></div>
+      ${m.substitui ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${quebra(m.substitui)}</div></div>` : ""}
+      ${tira ? `<div class="ac-en"><small>O que fazer</small><div class="txt">Tire este trecho do currículo.</div></div>`
+        : `<div class="ac-en"><small>${m.substitui ? "Troque por" : "Acrescente"}</small><div class="txt">${quebra(m.texto_en)}</div></div>`}
       <p class="ac-fonte">De onde veio: ${esc(m.fonte)}</p>
-      <div class="ac-en-acoes"><button class="ac-bt pq" data-copiar="${m.id}">Copiar o texto em inglês</button></div>
+      <div class="ac-en-acoes">${tira ? "" : `<button class="ac-bt pq" data-copiar="${m.id}">Copiar o texto em inglês</button>`}<button class="ac-link" data-ir="${m.id}">Ver no seu currículo</button></div>
     </div>`;
   }
-  function cartaoPerg(q) {
+  function cartaoPerg(q, n) {
     const r = respostas[q.id];
-    return `<div class="ac-mud t-pergunta" data-q="${q.id}">
-      <div class="ac-mud-topo">${selo("pergunta")}<span class="ac-onde">${esc(q.secao)} · ${esc(q.onde)}</span></div>
+    return `<div class="ac-mud t-pergunta" id="card-${q.id}">
+      <div class="ac-mud-topo">${n ? `<span class="ac-num pergunta">${n}</span>` : ""}${selo("pergunta")}<span class="ac-onde">${esc(q.onde)}</span></div>
       <p class="ac-perg">${esc(q.pergunta)}</p>
-      <p class="ac-leve">${esc(q.porque)} Só responda sim se for verdade: o texto entra no currículo como algo que você faz.</p>
-      ${!r ? `<div class="ac-en-acoes"><button class="ac-bt pq forte" data-resp="${q.id}:sim">Sim, faço isso</button><button class="ac-bt pq" data-resp="${q.id}:nao">Não</button></div>`
-        : r === "sim" ? `${q.antes ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${esc(q.antes)}</div></div>` : ""}
-          <div class="ac-en"><small>${q.antes ? "Como fica" : "O que entra"}, em inglês</small><div class="txt">${esc(q.depois)}</div></div>
-          <p class="ac-fonte ok">Entrou no currículo ajustado, porque você respondeu que sim. <button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></p>
-          <div class="ac-en-acoes"><button class="ac-bt pq" data-copiar="${q.id}">Copiar o texto em inglês</button></div>`
-        : `<p class="ac-fonte">Tudo bem, nada entra no currículo. <button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></p>`}
+      <p class="ac-leve">${esc(q.porque)} Só responda sim se for verdade: o texto vai para o currículo como algo que você faz.</p>
+      ${!r ? `<div class="ac-en-acoes"><button class="ac-bt pq forte" data-resp="${q.id}:sim">Sim</button><button class="ac-bt pq" data-resp="${q.id}:nao">Não</button></div>`
+        : r === "sim" ? `${q.substitui ? `<div class="ac-antes"><small>Hoje está assim</small><div class="txt">${quebra(q.substitui)}</div></div>` : ""}
+          <div class="ac-en"><small>${q.substitui ? "Troque por" : "Acrescente"}</small><div class="txt">${quebra(q.texto_en)}</div></div>
+          <div class="ac-en-acoes"><button class="ac-bt pq" data-copiar="${q.id}">Copiar o texto em inglês</button><button class="ac-link" data-ir="${q.id}">Ver no seu currículo</button><button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></div>`
+        : `<p class="ac-fonte">Tudo bem, nada muda no currículo. <button class="ac-link" data-resp="${q.id}:">Mudar a resposta</button></p>`}
     </div>`;
   }
 
-  function listaSugestoes() {
-    const muds = MUDANCAS.filter(m => comPerfil || m.tipo !== "perfil");
-    const n = { todas: muds.length + PERGUNTAS.length, reescrita: muds.filter(m => m.tipo === "reescrita").length, perfil: muds.filter(m => m.tipo === "perfil").length, pergunta: PERGUNTAS.length };
-    const chips = [["todas", "Todas"], ["reescrita", "Reescritas"], ["perfil", "Do seu perfil"], ["pergunta", "Perguntas"]]
-      .filter(([k]) => k !== "perfil" || comPerfil)
-      .map(([k, t]) => `<button class="ac-filtro" aria-pressed="${filtro === k}" data-filtro="${k}">${t} <span>${n[k]}</span></button>`).join("");
-    const abertas = PERGUNTAS.filter(q => !respostas[q.id]).length;
-    let corpo = "";
-    if (filtro !== "pergunta") corpo += muds.filter(m => filtro === "todas" || m.tipo === filtro).map(cartaoMud).join("");
-    if (filtro === "todas" || filtro === "pergunta") corpo += (filtro === "todas" ? `<h3 class="ac-h3">Perguntas para você${abertas ? ` <span class="ac-cont">${abertas} sem resposta</span>` : ""}</h3>
-      <p class="ac-leve" style="margin:-4px 0 10px">A vaga pede estas coisas, e nem o currículo nem o perfil dizem se você tem. Responder não gasta uma avaliação.</p>` : "") + PERGUNTAS.map(cartaoPerg).join("");
-    return `<div class="ac-filtros">${chips}</div>
-      <div class="ac-legenda">${Object.entries(TIPOS).filter(([k]) => k !== "perfil" || comPerfil).map(([k, t]) => `<span>${selo(k)} ${esc(t.diz)}</span>`).join("")}</div>
-      ${!comPerfil ? `<div class="ac-dica-perfil"><b>Com o perfil preenchido, a avaliação sugere mais.</b> Por exemplo, trabalhos que estão no seu Meu Controle e não estão no currículo, ou o certificado de inglês. <a class="ac-link" href="perfil-profissional.html">Preencher o perfil</a></div>` : ""}
-      ${corpo}`;
-  }
-
-  function conferencia() {
-    const faltam = MUDANCAS.filter(m => (comPerfil || m.tipo !== "perfil") && /\[[a-z ]+\]/.test(m.depois)).length;
-    return `<div class="ac-confere"><b>Conferimos o currículo ajustado.</b> Todo número, empresa, data e certificado dele está no seu currículo ou no seu perfil. ${faltam ? `Falta você completar ${faltam} marcador${faltam > 1 ? "es" : ""} <span class="ac-falta">[number]</span> com o número real, ou tirar a frase.` : ""}</div>`;
+  // o currículo do aluno, do jeito que ele mandou, com o trecho de cada sugestão marcado
+  function curriculoMarcado() {
+    const itens = numerados();
+    const marca = (x, conteudo) => `<mark class="ac-marca ${x.cor}" id="no-cv-${x.id}" data-volta="${x.id}">${conteudo}<i>${x.n}</i></mark>`;
+    const entra = x => `<div class="ac-entra ${x.cor}" id="no-cv-${x.id}" data-volta="${x.id}"><i>${x.n}</i> Entra aqui: ${esc(x.secao === "Summary" ? "o resumo" : x.onde.split("·").pop().trim())}</div>`;
+    let html = "";
+    CV.forEach((linha, i) => {
+      if (i === 2) itens.filter(x => !x.substitui && x.secao === "Summary").forEach(x => html += entra(x));
+      if (linha === "AI Response Evaluator, remote project · 2024 to present") itens.filter(x => !x.substitui && x.secao === "Experience").forEach(x => html += entra(x));
+      const achou = itens.find(x => x.substitui && x.substitui === linha);
+      let conteudo = achou ? marca(achou, esc(linha)) : esc(linha);
+      if (i === 0) html += `<h3>${conteudo}</h3>`;
+      else if (i === 1) html += `<div class="ac-leve" style="margin-bottom:6px">${conteudo}</div>`;
+      else if (TITULOS.includes(linha)) html += `<h4>${conteudo}</h4>`;
+      else html += `<p>${conteudo}</p>`;
+    });
+    return `<div class="ac-versao" id="cvMarcado">
+      <div class="ac-cv-cab">O seu currículo, do jeito que você mandou. Os números mostram onde entra cada sugestão.</div>${html}</div>`;
   }
 
   function desenharSugestoes() {
     const caixa = document.getElementById("sugCaixa");
-    caixa.innerHTML = listaSugestoes();
-    caixa.querySelectorAll("[data-filtro]").forEach(b => b.addEventListener("click", () => { filtro = b.dataset.filtro; desenharSugestoes(); }));
+    const itens = numerados(), num = id => (itens.find(x => x.id === id) || {}).n;
+    const muds = itens.filter(x => x.cor !== "pergunta");
+    const abertas = RESULTADO.perguntas.filter(q => !respostas[q.id]).length;
+    caixa.innerHTML = `<div class="ac-par"><div class="ac-par-sug">
+        <div class="ac-legenda">${Object.entries(TIPOS).filter(([k]) => k !== "perfil" || comPerfil).map(([k, t]) => `<span>${selo(k)} ${esc(t.diz)}</span>`).join("")}</div>
+        ${!comPerfil ? `<div class="ac-dica-perfil"><b>Com o perfil preenchido, a avaliação sugere mais.</b> Por exemplo, trabalhos que estão no seu Meu Controle e não estão no currículo, ou o certificado de inglês. <a class="ac-link" href="perfil-profissional.html">Preencher o perfil</a></div>` : ""}
+        ${muds.length ? muds.map(cartaoMud).join("") : `<div class="ac-pronto"><b>Para esta vaga, o seu currículo já está pronto.</b> Nada precisa mudar.</div>`}
+        ${RESULTADO.perguntas.length ? `<h3 class="ac-h3">Perguntas para você${abertas ? ` <span class="ac-cont">${abertas} sem resposta</span>` : ""}</h3>
+          <p class="ac-leve" style="margin:-4px 0 10px">A vaga pede estas coisas, e nem o currículo nem o perfil dizem se você tem. Responder não gasta uma avaliação.</p>
+          ${RESULTADO.perguntas.map(q => cartaoPerg(q, num(q.id))).join("")}` : ""}
+      </div><div class="ac-par-cv">${curriculoMarcado()}</div></div>`;
     caixa.querySelectorAll("[data-resp]").forEach(b => b.addEventListener("click", () => {
       const [id, r] = b.dataset.resp.split(":");
       if (r) respostas[id] = r; else delete respostas[id];
       desenharSugestoes();
-      if (document.querySelector("#versaoCaixa .ac-versao")) desenharVersao();
     }));
     caixa.querySelectorAll("[data-copiar]").forEach(b => b.addEventListener("click", async () => {
-      const it = MUDANCAS.concat(PERGUNTAS).find(x => x.id === b.dataset.copiar);
-      try { await navigator.clipboard.writeText(it.depois); b.textContent = "Copiado"; } catch (e) { b.textContent = "Não deu para copiar"; }
+      const it = RESULTADO.mudancas.concat(RESULTADO.perguntas).find(x => x.id === b.dataset.copiar);
+      try { await navigator.clipboard.writeText(it.texto_en); b.textContent = "Copiado"; } catch (e) { b.textContent = "Não deu para copiar"; }
       setTimeout(() => b.textContent = "Copiar o texto em inglês", 2000);
     }));
-  }
-
-  function desenharVersao() {
-    const m = id => MUDANCAS.find(x => x.id === id), q = id => PERGUNTAS.find(x => x.id === id);
-    const usa = id => { const x = m(id); return x && (comPerfil || x.tipo !== "perfil"); };
-    const linha = (tipo, texto) => `<span class="ac-marca ${tipo}">${marcador(texto)}</span>`;
-    const ski = [usa("m5") ? linha("reescrita", m("m5").depois) : "Google Docs and Sheets, Notion, annotation platforms"];
-    if (respostas.q1 === "sim") ski.push(linha("pergunta", q("q1").depois));
-    const lang = usa("m4") ? `Portuguese: native · ${linha("perfil", m("m4").depois)}` : "Portuguese: native · English: advanced";
-    const telus = usa("m1") ? m("m1").depois.split("\n") : null;
-    document.getElementById("versaoCaixa").innerHTML = `<div class="ac-versao">
-      <div class="ac-leve" style="margin-bottom:10px">Versão ajustada, em inglês. O que mudou está marcado com a cor do tipo de sugestão; o resto é o seu texto original.</div>
-      <div class="ac-legenda" style="margin-bottom:14px"><span><span class="ac-marca reescrita">Reescrita</span></span>${comPerfil ? `<span><span class="ac-marca perfil">Do seu perfil</span></span>` : ""}<span><span class="ac-marca pergunta">Resposta sua</span></span><span><span class="ac-falta">[number]</span> complete você</span></div>
-      <h3>Ana Beatriz Rocha</h3>
-      <div class="ac-leve">Belo Horizonte, Brazil · [e-mail] · [telefone]</div>
-      <h4>Summary</h4><p>${linha("reescrita", m("m2").depois)}</p>
-      <h4>Experience</h4>
-      ${telus ? `<p>${linha("perfil", telus[0])}</p><ul><li>${linha("perfil", telus[1])}</li></ul>` : ""}
-      <p><b>AI Response Evaluator</b>, remote project · 2024 to present</p>
-      <ul><li>${linha("reescrita", m("m3").depois)}</li><li>Wrote corrected answers and short rationales following the project rubric.</li></ul>
-      <p><b>Copy Editor</b>, regional publisher · 2021 to 2024</p>
-      <ul><li>${respostas.q2 === "sim" ? linha("pergunta", q("q2").depois) : "Edited textbooks and checked facts before printing."}</li></ul>
-      <h4>Education</h4><p>B.A. in Languages and Literature, Federal University of Minas Gerais, 2020</p>
-      <h4>Languages</h4><p>${lang}</p>
-      <h4>Tools</h4><p>${ski.join(" · ")}</p>
-    </div>`;
+    const piscar = el => { if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "center" }); el.classList.remove("ac-pisca"); void el.offsetWidth; el.classList.add("ac-pisca"); };
+    caixa.querySelectorAll("[data-ir]").forEach(b => b.addEventListener("click", () => piscar(document.getElementById("no-cv-" + b.dataset.ir))));
+    caixa.querySelectorAll("[data-volta]").forEach(b => b.addEventListener("click", () => piscar(document.getElementById("card-" + b.dataset.volta))));
   }
 
   function avaliar() {
-    if (!arquivo) { alert("Escolha o PDF do currículo primeiro."); return; }
+    if (!arquivo) { alert("Escolha o currículo primeiro, em PDF ou Word."); return; }
     if (!vaga && !texto.trim()) { alert("Escolha uma vaga do Hub ou cole o texto de uma vaga."); return; }
     const nomeVaga = vaga ? `${vaga.titulo}, da ${vaga.empresa}` : "a vaga que você colou";
     comPerfil = pctPerfil(lerPerfil()) > 0;
-    respostas = {}; filtro = "todas";
+    respostas = {};
+    let total = 0;
+    const barras = Object.entries(PESOS).map(([id, [peso, nome]]) => {
+      const c = RESULTADO.criterios.find(x => x.id === id); total += c.nota * peso;
+      return `<div class="ac-crit"><span>${nome}</span><span class="tr"><i style="width:${c.nota}%;${c.nota < 60 ? "background:#A85D24" : ""}"></i></span><span class="q">${c.nota}</span></div><p class="ac-crit-mt">${esc(c.motivo)}</p>`;
+    }).join("");
+    const geral = Math.round(total);
     const caixa = document.getElementById("resultado");
+    document.querySelector(".ac-grade").classList.add("ac-so-resultado");
     caixa.innerHTML = `
+      <div class="ac-escolhas"><span>Currículo: <b>${esc(arquivo.name)}</b></span><span>Vaga: <b>${esc(nomeVaga)}</b></span><button class="ac-bt pq" id="trocarEscolhas">Trocar o currículo ou a vaga</button></div>
       <div class="fc-aviso">Resultado de exemplo, feito para o currículo da Ana: na prévia a IA ainda não está ligada. ${comPerfil ? "Esta avaliação usou o seu perfil." : "Esta avaliação foi feita sem perfil."}</div>
+      ${RESULTADO.alertas.map(a => `<div class="ac-alerta"><b>Atenção:</b> ${esc(a)}</div>`).join("")}
       <div class="ac-topo">
-        <div class="ac-nota">72<small>/100</small></div>
-        <div style="padding-bottom:8px"><b style="font-size:17px">Bom, dá para melhorar</b><div class="ac-leve" style="font-size:13.5px">para ${esc(nomeVaga)}</div></div>
+        <div class="ac-nota">${geral}<small>/100</small></div>
+        <div style="padding-bottom:8px"><b style="font-size:17px">${faixa(geral)}</b><div class="ac-leve" style="font-size:13.5px">para ${esc(nomeVaga)}</div></div>
       </div>
-      <div style="margin-top:16px">
-        ${[["Experiência que a vaga pede", 70], ["Idiomas", 80], ["Palavras do anúncio", 50], ["Resultados com números", 40], ["Clareza e tamanho", 85]].map(([n, v]) =>
-          `<div class="ac-crit"><span>${n}</span><span class="tr"><i style="width:${v}%;${v < 60 ? "background:#A85D24" : ""}"></i></span><span class="q">${v}</span></div>`).join("")}
-      </div>
+      <div style="margin-top:16px">${barras}</div>
       <p class="ac-leve" style="margin-top:6px">A nota é do currículo como ele está hoje. O perfil não muda a nota: ele só ajuda a sugerir o que acrescentar.</p>
       <h2 class="ac-h2">O que já está bom</h2>
-      <ul class="ac-bom"><li>A experiência com avaliação de IA aparece logo no começo.</li><li>O currículo tem uma página, um bom tamanho.</li><li>Formação e ferramentas estão claras.</li></ul>
+      <ul class="ac-bom">${RESULTADO.pontos_fortes.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
       <h2 class="ac-h2">Sugestões</h2>
+      <p class="ac-leve" style="margin:-4px 0 12px">Cada sugestão diz onde fica o trecho no seu currículo. Abra o seu documento, ache o trecho e troque pelo texto novo.</p>
       <div id="sugCaixa"></div>
-      ${conferencia()}
+      <div class="ac-confere"><b>Conferimos as sugestões.</b> Todo número, empresa, data e certificado do texto novo está no seu currículo ou no seu perfil.</div>
+      <details class="ac-dobra"><summary>Como montar o documento, se você não tem um</summary>
+        <ol><li>Abra um documento em branco no Google Docs ou no Word.</li><li>Escreva o seu nome no alto e, embaixo, a cidade, o e-mail e o LinkedIn.</li>
+        <li>Cole cada parte na ordem, com o título dela em negrito, numa coluna só.</li><li>Use uma fonte comum, como Arial ou Calibri, no tamanho 10 a 12.</li>
+        <li>Baixe em PDF: Arquivo › Fazer download › PDF.</li></ol></details>
+      <details class="ac-dobra"><summary>O que fazer depois de mandar</summary>
+        <ul><li>Conferir no cadastro da empresa se o currículo foi lido direito: cargos, datas e formação.</li><li>Preencher o fuso horário e as horas por semana, e mudar quando mudar.</li>
+        <li>Fazer o teste ou a entrevista que a empresa pedir.</li><li>Ligar os avisos por e-mail, para não perder o prazo de um convite.</li></ul></details>
       <div class="ac-acoes">
-        <button class="ac-bt forte" id="versao">Ver o currículo com as mudanças</button>
-        <button class="ac-bt">Baixar a avaliação</button>
-        <a class="ac-bt" href="controle.html#aplicacoes">Usar este currículo numa candidatura</a>
-      </div>
-      <div id="versaoCaixa"></div>`;
+        <a class="ac-bt forte" href="controle.html#aplicacoes">Usar este currículo numa candidatura</a>
+      </div>`;
     desenharSugestoes();
-    caixa.querySelector("#versao").addEventListener("click", desenharVersao);
+    caixa.querySelector("#trocarEscolhas").addEventListener("click", () => {
+      document.querySelector(".ac-grade").classList.remove("ac-so-resultado");
+      caixa.innerHTML = `<div class="ac-vazio"><b>A avaliação aparece aqui</b>Escolha de novo o currículo ou a vaga e clique em Avaliar meu currículo.</div>`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    window.scrollTo({ top: caixa.getBoundingClientRect().top + scrollY - 90, behavior: "smooth" });
   }
 
   desenharArq();
