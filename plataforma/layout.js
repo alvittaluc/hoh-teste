@@ -953,6 +953,7 @@ const Plataforma = (function () {
     return `<div class="pl-menu" role="menu">
         ${extra || ""}<a href="perfil.html">${ic("perfil")}Meu perfil público</a>
         <a href="#" data-rever-tour>${ic("guia")}Fazer o tour de novo</a>
+        ${(() => { try { return localStorage.getItem("plat-guia-oculto") === "1"; } catch (e) { return false; } })() ? `<a href="inicio.html" data-mostra-guia>${ic("inicio")}Mostrar os primeiros passos</a>` : ""}
         <a href="controle.html#dados">${ic("dados")}Seus dados</a>
         <hr><a href="#" data-sair>${ic("sair")}Sair da conta</a>
       </div>
@@ -967,6 +968,7 @@ const Plataforma = (function () {
       eu.addEventListener("click", ev => { ev.stopPropagation(); const on = menu.classList.toggle("on"); eu.setAttribute("aria-expanded", on); });
       document.addEventListener("click", ev => { if (!menu.contains(ev.target)) { menu.classList.remove("on"); eu.setAttribute("aria-expanded", "false"); } });
     });
+    raiz.querySelectorAll("[data-mostra-guia]").forEach(a => a.addEventListener("click", () => { try { localStorage.removeItem("plat-guia-oculto"); } catch (e) {} }));
     raiz.querySelectorAll("[data-rever-tour]").forEach(a => a.addEventListener("click", ev => { ev.preventDefault(); if (window.PlatTour) window.PlatTour(); }));
     raiz.querySelectorAll("[data-sair]").forEach(a => a.addEventListener("click", ev => {
       ev.preventDefault();
@@ -1355,7 +1357,7 @@ const Plataforma = (function () {
      e as últimas abertas (para a busca) */
   function lembrarPagina() {
     const pg = location.pathname.split("/").pop() || "index.html";
-    try { const v = JSON.parse(localStorage.getItem("plat-visitas")) || []; if (!v.includes(pg)) localStorage.setItem("plat-visitas", JSON.stringify(v.concat(pg))); } catch (e) {}
+    try { if (!localStorage.getItem("plat-tour")) { const v = JSON.parse(localStorage.getItem("plat-visitas")) || []; if (!v.includes(pg)) localStorage.setItem("plat-visitas", JSON.stringify(v.concat(pg))); } } catch (e) {}   // o que o tour abre não conta nos primeiros passos
     window.addEventListener("pagehide", () => {
       const t = String(document.title || "").split(/\s+[·|–—-]\s+/)[0].trim();
       const href = pg + location.search + location.hash;
@@ -1642,8 +1644,8 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#hoje", alvo: "col:mc-hoje", tit: "Meu Controle", txt: "O Meu Controle é onde você organiza o seu trabalho. Cada parte dele fica aqui na coluna. A primeira é o Hoje." },
     { cap: "Meu Controle", pg: "controle.html#hoje", alvo: ["#hoje .h-grade", "#hoje"], tit: "Hoje · o seu dia", txt: "Tudo do seu dia numa tela: as horas para lançar hoje, o que está na agenda hoje e amanhã, e o câmbio do dia, do dólar e do euro, com quanto o seu mês vale em reais." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: "col:mc-aplicacoes", tit: "Candidaturas", txt: "Toda vaga em que você se candidatou fica aqui, com a etapa em que está: currículo enviado, teste, prova, entrevista, aprovado." },
-    { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: ["#aplicacoes [data-nova-ap]", "#aplicacoes button.ct-b.forte", "#aplicacoes .ct-cab-tela"], tit: "Nova candidatura · o botão", txt: "Para guardar uma candidatura, clique em <strong>Nova candidatura</strong>. Vamos abrir para ver como preencher." },
-    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel .u-cab"], tit: "Nova candidatura", txt: "Esta é a janela de verdade. Preenchemos com um exemplo para você ver cada campo; nada vai ser salvo." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: ["#aplicacoes [data-nova-ap]", "#aplicacoes button.ct-b.forte", "#aplicacoes .ct-cab-tela"], tit: "Nova candidatura", txt: "Para guardar uma candidatura, clique em <strong>Nova candidatura</strong>. Vamos abrir para ver como preencher." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel .u-cab"], tit: "Nova candidatura · a janela", txt: "Esta é a janela de verdade. Preenchemos com um exemplo para você ver cada campo; nada vai ser salvo." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:titulo"], tit: "Empresa e título da vaga", txt: "Escreva a empresa e copie o nome da vaga exatamente como está no anúncio. Se você chegou pelo botão da vaga no Hub, isso já vem preenchido." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:url"], tit: "Link do anúncio", txt: "Cole o endereço da vaga. Quando a empresa responder, semanas depois, você volta ao anúncio com um clique." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:estado"], tit: "Em que etapa está", txt: "Começa em Currículo enviado. Quando a empresa chamar para teste, prova ou entrevista, você muda aqui." },
@@ -1658,13 +1660,13 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-desfechos"], tit: "Quando não der certo", txt: "Embaixo da caminhada ficam os outros finais: Recusado, Sem resposta, Desisti e Banco de talentos. Um clique e a candidatura sai das que estão andando. Em Recusado, você conta em que etapa foi e o motivo, para aprender com cada uma." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candEditar", alvo: ['#ui-painel .cv-aba[data-aba="editar"]', "#ui-painel .u-corpo"], tit: "A aba Editar", txt: "Aqui ficam os mesmos campos da candidatura, para corrigir ou completar quando quiser: o link, o e-mail, o currículo, as observações." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "limparExemplo", alvo: "col:mc-trabalhos", tit: "Trabalhos", txt: "Quando você passa num projeto, ele vira um trabalho aqui. Cada trabalho tem a sua página, onde você lança as horas de cada dia." },
-    { cap: "Meu Controle", pg: "controle.html#trabalhos", alvo: ["#trabalhos [data-novo-tr]", "#trabalhos button.ct-b.forte", "#trabalhos .ct-cab-tela"], antes: "limparExemplo", tit: "Novo trabalho · o botão", txt: "Para cadastrar um trabalho, clique em <strong>Novo trabalho</strong>. Vamos abrir." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", alvo: ["#trabalhos [data-novo-tr]", "#trabalhos button.ct-b.forte", "#trabalhos .ct-cab-tela"], antes: "limparExemplo", tit: "Novo trabalho", txt: "Para cadastrar um trabalho, clique em <strong>Novo trabalho</strong>. Vamos abrir." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:projeto"], tit: "Novo trabalho · empresa e projeto", txt: "A empresa que paga você e o nome do projeto lá dentro. O exemplo está preenchido; nada vai ser salvo." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:pagamento"], tit: "Como paga", txt: "Escolha na lista: por hora ou por tarefa. Isso muda o que você lança a cada dia." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:valor"], tit: "Valor e moeda", txt: "O valor do contrato e a moeda em que a empresa paga. O Hub converte para reais pelo dólar do dia." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:ciclo"], tit: "Quando paga", txt: "Toda semana, a cada duas semanas ou todo mês. Com isso o Hub sabe quando o período fecha e quanto você vai receber." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["filhos:#tFixos:2", ".t-cab"], tit: "Dentro do trabalho", txt: "Cada trabalho cadastrado tem a sua página. Este é um trabalho de exemplo, só para o tour: em cima, o dia de hoje e o período, com as horas e quanto já deu." },
-    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["[data-dia]", ".t-cab-bts"], tit: "Registrar o dia · o botão", txt: "Para lançar um dia de trabalho, clique em <strong>Registrar o dia</strong>. Vamos abrir." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["[data-dia]", ".t-cab-bts"], tit: "Registrar o dia", txt: "Para lançar um dia de trabalho, clique em <strong>Registrar o dia</strong>. Vamos abrir." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:horas"], tit: "Registrar o dia · as horas", txt: "Quantas horas você trabalhou. Se o trabalho paga por tarefa, aqui entra o número de tarefas." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:observacoes"], tit: "Registrar o dia · o que você fez", txt: "Uma anotação do dia: o que fez, uma dúvida, um aviso da equipe. Fica guardada naquele dia, para você achar depois." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["#tFixos > :nth-child(n+3)", "#tFixos"], tit: "O resumo do trabalho", txt: "Mais embaixo ficam os dias que você lançou neste período e todos os períodos anteriores, com as horas e o valor de cada um." },
@@ -1682,7 +1684,7 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "outraRenda", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Outra renda · quem pagou", txt: "Isso muda a conta: o que vem do exterior ou de outra pessoa entra no carnê-leão. Salário e pagamento de empresa no Brasil já vêm com o imposto descontado." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "agendaExemplo", alvo: "col:mc-agenda", tit: "Agenda", txt: "A Agenda fica aqui: o calendário do seu trabalho." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "agendaExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda · o mês", txt: "Entrevistas, testes, prazos, estudo e as horas que você vai trabalhar, no calendário do mês." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar · o botão", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Também dá para clicar direto num dia do calendário e marcar por ali. Vamos abrir pelo botão." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", alvo: ["#agenda [data-marcar]"], tit: "Marcar", txt: "Para marcar alguma coisa, clique em <strong>Marcar</strong>. Também dá para clicar direto num dia do calendário e marcar por ali. Vamos abrir pelo botão." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Marcar · o que é", txt: "Escolha o tipo: entrevista, teste, prazo, estudo, horas de trabalho ou Outro, para qualquer compromisso. No título você escreve como quiser, por exemplo: reunião com a equipe do projeto." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campos:data,inicio", "campo:data", "#ui-painel .u-corpo"], tit: "Marcar · dia e horário", txt: "O dia e, se quiser, o horário. O que estiver marcado aparece no Início, em Para fazer, no dia certo." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId", "#ui-painel [data-cand]", "#ui-painel .u-corpo"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },

@@ -134,6 +134,8 @@ a.num:hover { border-color:#CFE0F1; }
 .pf-bt { margin-top:auto; padding-top:16px; }
 .pf-bt a { display:inline-flex; font-size:13.5px; font-weight:500; padding:8px 14px; border-radius:999px; border:1px solid var(--line); color:var(--ink); }
 .pf-bt a:hover { border-color:#C9C0B0; box-shadow:var(--sombra); }
+.in-volta { margin-top:4px; text-align:center; }
+.in-volta button { font:500 13.5px var(--body); color:var(--signal); background:none; border:0; cursor:pointer; padding:6px 8px; text-decoration:underline; text-underline-offset:3px; }
 .fz-vazio { padding:6px 0 4px; font-size:14px; color:var(--ink-2); }
 
 @media (max-width:1100px) {
@@ -328,7 +330,7 @@ montarLayout("inicio");
   let corpo = C.agora();
   if (fase === "nova") {
     corpo += mostraGuia ? L([C.guia(), 8], [C.perfilLista(), 4]) + L([C.alta(), 12])
-                        : L([C.alta(), 8], [C.perfil() + C.atalhos(), 4]);
+                        : L([C.alta(), 8], [C.perfil() + C.atalhos(), 4]) + (oculto && feitos < PASSOS.length ? `<p class="in-volta"><button id="guiaVolta">Mostrar os primeiros passos de novo</button></p>` : "");
   } else if (fase === "procurando") {
     corpo += (fazer.length ? L([C.fazer(), 8], [C.perfil(), 4]) + L([C.cands(), 8], [C.atalhos(), 4]) : L([C.cands(), 8], [C.perfil() + C.atalhos(), 4]))
       + L([C.paraVoce(true), 6], [C.alta(true), 6]);
@@ -343,6 +345,7 @@ montarLayout("inicio");
     : "Nada marcado para os próximos dias. Veja as vagas que estão chamando gente agora.";
 
   const gt = $("#guiaTour"); if (gt) gt.addEventListener("click", () => window.PlatTour && window.PlatTour());
+  const gv = $("#guiaVolta"); if (gv) gv.addEventListener("click", () => { try { localStorage.removeItem("plat-guia-oculto"); } catch (e) {} location.reload(); });
   const ge = $("#guiaEsconde"); if (ge) ge.addEventListener("click", () => { try { localStorage.setItem("plat-guia-oculto", "1"); } catch (e) {} location.reload(); });
   // na primeira vez, o tour começa sozinho
   let viuTour = false; try { viuTour = localStorage.getItem("plat-tour-feito") === "1"; } catch (e) {}
