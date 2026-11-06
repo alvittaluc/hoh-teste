@@ -17,11 +17,11 @@
    o Meu Controle preenchido, e abre o Início. Nada sai deste navegador.
    Se a Marina já está aberta neste navegador, vai direto para o Início. */
 (async function () {
-  const vazia = localStorage.getItem("plat-conta") === "nova";
+  const vazia = localStorage.getItem("plat-conta") !== "marina";   // começa na conta nova
   const uid = vazia ? "teste-nova" : "teste-marina", email = vazia ? "lucas@exemplo.com" : "marina@exemplo.com";
   const volta = (new URLSearchParams(location.search).get("voltar") || "index.html").replace(/^[^a-z0-9]+/i, "");
   const destino = /^[a-z0-9-]+\.html([?#].*)?$/i.test(volta) ? volta : "index.html";
-  if (localStorage.getItem("plat-exemplo-pronto") === "2") { location.replace(destino); return; }
+  if (localStorage.getItem("plat-exemplo-pronto") === "3") { location.replace(destino); return; }
   const user = { id: uid, email, identities: [{}], user_metadata: { nome: vazia ? "Lucas Pereira" : "Marina Souza", perfil_prof: true,
     areas: vazia ? [] : ["Linguistica", "Educacao e Ensino"], subareas: [], areas_respondido: true } };
   const ler = (k, p) => { try { return JSON.parse(localStorage.getItem(k)) || p; } catch (e) { return p; } };
@@ -81,7 +81,7 @@
     await Dados.salvar("agenda", { tipo: "prazo", titulo: "Teste da Handshake AI", data: dia(2), inicio: "", fim: "", aplicacaoId: aHand && aHand.id, nota: "" });
     await Dados.salvar("agenda", { tipo: "estudo", titulo: "Curso Guidelines, aula 2", data: dia(2), inicio: "19:00", fim: "20:00", aplicacaoId: "", nota: "" });
   }
-  localStorage.setItem("plat-exemplo-pronto", "2");
+  localStorage.setItem("plat-exemplo-pronto", "3");
   location.replace(destino);
 })().catch(e => { document.getElementById("msg").textContent = "Não deu para abrir o exemplo: " + e.message; console.error(e); });
 </script>

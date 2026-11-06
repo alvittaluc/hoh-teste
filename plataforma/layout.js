@@ -274,7 +274,7 @@ const Acesso = (function () {
   function chegandoPorLink() { return /access_token=|error_code=|[?&]code=/.test(location.hash + location.search); }
 
   function porta() {
-    if (localStorage.getItem("plat-exemplo-pronto") !== "2") { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
+    if (localStorage.getItem("plat-exemplo-pronto") !== "3") { document.documentElement.style.visibility = "hidden"; location.replace("exemplo.html?voltar=" + encodeURIComponent(paginaAtual() + location.search + location.hash)); return; }
     if (!SO_COM_CONTA || chegandoPorLink()) return;
     if (paginaAtual() === "index.html" && localStorage.getItem("plat-modelo") !== "5" && logado() && perfilFeito()) { document.documentElement.style.visibility = "hidden"; location.replace("inicio.html"); return; }
     const pg = paginaAtual();
@@ -1566,7 +1566,7 @@ const Plataforma = (function () {
       b.setAttribute("aria-pressed", b.dataset.cor === cor);
       b.addEventListener("click", () => { try { localStorage.setItem("plat-cor", b.dataset.cor); } catch (e) {} location.reload(); });
     });
-    let conta = "marina"; try { conta = localStorage.getItem("plat-conta") === "nova" ? "nova" : "marina"; } catch (e) {}
+    let conta = "nova"; try { conta = localStorage.getItem("plat-conta") === "marina" ? "marina" : "nova"; } catch (e) {}
     f.querySelectorAll("[data-conta-teste]").forEach(b => {
       b.setAttribute("aria-pressed", b.dataset.contaTeste === conta);
       b.addEventListener("click", () => {
