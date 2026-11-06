@@ -372,6 +372,8 @@ const Candidatura = (function () {
       background:var(--panel,#fff); border:1px solid #D3E2F1; border-radius:99px; padding:3px 11px; margin-top:-4px; cursor:pointer; }
     .cv-ordem-bt.forte { background:var(--signal,#1A4893); border-color:var(--signal,#1A4893); color:#fff; }
     .cv-trilho.ordenando li[data-meio] { touch-action:none; user-select:none; }
+    .cv-trilho.ordenando li[data-meio] { display:flex; align-items:stretch; }
+    .cv-trilho.ordenando li[data-meio] > button:not(.cv-tirar) { flex:1; min-height:70px; justify-content:flex-start; padding:9px 4px 8px; margin:0 5px; }
     .cv-trilho.ordenando li[data-meio] button { cursor:grab; border-radius:12px; outline:1.5px dashed #9DB8DE; outline-offset:3px; background:var(--signal-suave,#EAF1F8); }
     .cv-trilho.ordenando li.arrastando button { cursor:grabbing; opacity:.6; outline-style:solid; }
     .cv-trilho.ordenando li[data-meio] button.cv-tirar { position:absolute; top:-12px; right:2px; z-index:3; width:26px; height:26px; padding:0; display:grid; place-items:center;

@@ -1631,8 +1631,8 @@ const TourHub = (function () {
       extra: `<div class="tr-mock"><b>Conseguiu se candidatar?</b><span>Guarde a candidatura no Meu Controle.</span><i class="forte">Sim, guardar no Meu Controle</i><i>Agora não</i></div><p class="tr-pos">Um clique e ela fica guardada, na etapa Currículo enviado.</p>` },
     { cap: "Vagas", pg: "vaga.html?id={vaga}", alvo: ["#jaApliquei:not([hidden])", "#jaApliquei"], tit: "Guardar aqui mesmo", txt: "Se preferir, guarde a candidatura direto na vaga, em Marcar como candidatura enviada. Depois você acompanha cada etapa em Meu Controle › Candidaturas." },
     { cap: "Empresas", pg: "empresas.html", alvo: ["#fichas", "main"], tit: "Empresas", txt: "Todas as empresas com que o Hub trabalha: o que cada uma faz, como paga e que tipo de vaga abre. Clique numa para ver o perfil e as vagas abertas dela." },
-    { cap: "Meu Controle", pg: "controle.html#hoje", alvo: ["#hoje .ct-cab-tela", "#hoje"], tit: "Meu Controle · Hoje", txt: "O Meu Controle é onde você organiza o seu trabalho. O Hoje mostra o seu dia: o que está marcado, as horas para lançar e o câmbio do dia." },
-    { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: ["#aplicacoes .ct-cab-tela", "#aplicacoes"], tit: "Candidaturas", txt: "Toda vaga em que você se candidatou, com a etapa em que está: currículo enviado, teste, prova, entrevista, aprovado. Vamos abrir a janela de <strong>Nova candidatura</strong> para ver como preencher." },
+    { cap: "Meu Controle", pg: "controle.html#hoje", alvo: ["#hoje .h-grade > :first-child", "#hoje .h-cab", "#hoje"], tit: "Meu Controle · Hoje", txt: "O Meu Controle é onde você organiza o seu trabalho. O Hoje mostra o seu dia: o que está marcado, as horas para lançar e o câmbio do dia." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", alvo: ["#aplicacoes [data-nova-ap]", "#aplicacoes button.ct-b.forte", "#aplicacoes .ct-cab-tela"], tit: "Candidaturas", txt: "Toda vaga em que você se candidatou, com a etapa em que está: currículo enviado, teste, prova, entrevista, aprovado. Vamos abrir a janela de <strong>Nova candidatura</strong> para ver como preencher." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["#ui-painel .u-cab"], tit: "Nova candidatura", txt: "Esta é a janela de verdade. Preenchemos com um exemplo para você ver cada campo; nada vai ser salvo." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:titulo"], tit: "Empresa e título da vaga", txt: "Escreva a empresa e copie o nome da vaga exatamente como está no anúncio. Se você chegou pelo botão da vaga no Hub, isso já vem preenchido." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candidatura", alvo: ["campo:url"], tit: "Link do anúncio", txt: "Cole o endereço da vaga. Quando a empresa responder, semanas depois, você volta ao anúncio com um clique." },
@@ -1646,8 +1646,8 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-trilho", "#ui-painel .u-corpo"], tit: "A caminhada da vaga", txt: "Cada etapa da vaga, da candidatura até a aprovação. Quando a empresa chamar para a próxima, clique nela: a data fica guardada embaixo. Se a vaga não tiver alguma etapa, é só pular." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candAjustar", alvo: ["#ui-painel .cv-trilho", "#ui-painel .u-corpo"], tit: "Ajustar etapas", txt: "Cada vaga tem o seu caminho. Em Ajustar etapas você arrasta o teste, a prova e a entrevista para a ordem certa, ou tira no × a etapa que esta vaga não tem. Depois é só clicar em Pronto." },
     { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candSalva", alvo: ["#ui-painel .cv-desfechos"], tit: "Quando não der certo", txt: "Embaixo da caminhada ficam os outros finais: Recusado, Sem resposta, Desisti e Banco de talentos. Um clique e a candidatura sai das que estão andando. Em Recusado, você conta em que etapa foi e o motivo, para aprender com cada uma." },
-    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candEditar", alvo: ["#ui-painel .u-corpo"], tit: "A aba Editar", txt: "Aqui ficam os mesmos campos da candidatura, para corrigir ou completar quando quiser: o link, o e-mail, o currículo, as observações." },
-    { cap: "Meu Controle", pg: "controle.html#trabalhos", alvo: ["#trabalhos .ct-cab-tela", "#trabalhos"], antes: "limparExemplo", tit: "Trabalhos", txt: "Quando passar num projeto, cadastre o trabalho aqui. Vamos abrir a janela de <strong>Novo trabalho</strong>." },
+    { cap: "Meu Controle", pg: "controle.html#aplicacoes", antes: "candEditar", alvo: ['#ui-painel .cv-aba[data-aba="editar"]', "#ui-painel .u-corpo"], tit: "A aba Editar", txt: "Aqui ficam os mesmos campos da candidatura, para corrigir ou completar quando quiser: o link, o e-mail, o currículo, as observações." },
+    { cap: "Meu Controle", pg: "controle.html#trabalhos", alvo: ["#trabalhos [data-novo-tr]", "#trabalhos button.ct-b.forte", "#trabalhos .ct-cab-tela"], antes: "limparExemplo", tit: "Trabalhos", txt: "Quando passar num projeto, cadastre o trabalho aqui. Vamos abrir a janela de <strong>Novo trabalho</strong>." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:projeto"], tit: "Novo trabalho · empresa e projeto", txt: "A empresa que paga você e o nome do projeto lá dentro. O exemplo está preenchido; nada vai ser salvo." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:pagamento"], tit: "Como paga", txt: "Escolha na lista: por hora ou por tarefa. Isso muda o que você lança a cada dia." },
     { cap: "Meu Controle", pg: "controle.html#trabalhos", antes: "trabalho", alvo: ["campo:valor"], tit: "Valor e moeda", txt: "O valor do contrato e a moeda em que a empresa paga. O Hub converte para reais pelo dólar do dia." },
@@ -1655,18 +1655,19 @@ const TourHub = (function () {
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: [".t-cab-bts", "[data-dia]"], tit: "Dentro do trabalho", txt: "Cada trabalho cadastrado tem a sua página. Este é um trabalho de exemplo, só para o tour. O botão Registrar o dia abre o lançamento do dia." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:horas"], tit: "Registrar o dia · as horas", txt: "Quantas horas você trabalhou. Se o trabalho paga por tarefa, aqui entra o número de tarefas." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "dia", alvo: ["campo:observacoes"], tit: "Registrar o dia · o que você fez", txt: "Uma anotação do dia: o que fez, uma dúvida, um aviso da equipe. Fica guardada naquele dia, para você achar depois." },
-    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["#tFixos"], tit: "O resumo do trabalho", txt: "Sempre à vista: o dia de hoje, o período atual, quanto já ganhou e quando recebe." },
+    { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["filhos:#tFixos:2", "#tFixos"], tit: "O resumo do trabalho", txt: "Sempre à vista: o dia de hoje, o período atual, quanto já ganhou e quando recebe." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["#tFixos .pp-cel", "#tFixos"], tit: "Pago pela empresa", txt: "Quando o dinheiro cair, informe quanto a empresa pagou de verdade. Vamos ver isso no Imposto, com um valor de exemplo." },
     { cap: "Meu Controle", pg: "controle.html#trabalho", antes: "trabalhoExemplo", alvo: ["[data-modo]", "#grade"], tit: "A sua página do trabalho", txt: "Em Editar página você acrescenta blocos: anotações, links importantes, os e-mails da equipe do projeto, o que precisar guardar deste trabalho." },
-    { cap: "Meu Controle", pg: "controle.html#painel", antes: "garantirExemplo", alvo: ["#painel .ct-cab-tela", "#painel"], tit: "Ganhos", txt: "Soma o que você lança nos trabalhos e mostra quanto ganhou por mês, em dólar e em reais. Aqui aparecem as horas do trabalho de exemplo." },
-    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ct-cab-tela", "#imposto"], tit: "Imposto", txt: "Uma estimativa de quanto pagar por mês, como pessoa física (carnê-leão) ou como MEI, a partir do que você recebeu." },
+    { cap: "Meu Controle", pg: "controle.html#painel", antes: "garantirExemplo", alvo: ["#painel .ct-cartao", "#painel"], tit: "Ganhos", txt: "Soma o que você lança nos trabalhos e mostra quanto ganhou por mês, em dólar e em reais. Aqui aparecem as horas do trabalho de exemplo." },
+    { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ip-mes ~ div", "#imposto .ct-cab-tela"], tit: "Imposto", txt: "Uma estimativa de quanto pagar por mês, como pessoa física (carnê-leão) ou como MEI, a partir do que você recebeu." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "garantirExemplo", alvo: ["#imposto .ip-pago", "#imposto"], tit: "O valor que caiu na conta", txt: "Para cada período de trabalho, dá para informar quanto a empresa pagou de verdade. Vamos abrir com um valor de exemplo." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campos:valor,moeda", "campo:valor", "#ui-painel .u-corpo"], tit: "Valor que a empresa pagou", txt: "O valor que chegou de verdade, já com as taxas, e a moeda. Pode ser em reais, como caiu na sua conta." },
     { cap: "Meu Controle", pg: "controle.html#imposto", antes: "pagoImposto", alvo: ["campo:data", "#ui-painel .u-corpo"], tit: "Dia em que o dinheiro caiu", txt: "O imposto usa este valor no mês em que o dinheiro entrou, e não a conta das horas. Na observação, anote por onde veio, como Payoneer ou Wise." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ct-cab-tela", "#agenda"], tit: "Agenda", txt: "O calendário do seu trabalho: entrevistas, testes, prazos, estudo e as horas que você vai trabalhar. Vamos abrir o botão <strong>Marcar</strong>." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "limparExemplo", alvo: ["#agenda .ag-mes", "#agenda .ct-cab-tela"], tit: "Agenda", txt: "O calendário do seu trabalho: entrevistas, testes, prazos, estudo e as horas que você vai trabalhar. Vamos abrir o botão <strong>Marcar</strong>." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:tipo", "#ui-painel .u-corpo"], tit: "Marcar · o que é", txt: "Escolha o tipo: entrevista, teste, prazo, estudo, horas de trabalho ou Outro, para qualquer compromisso. No título você escreve como quiser, por exemplo: reunião com a equipe do projeto." },
     { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campos:data,inicio", "campo:data", "#ui-painel .u-corpo"], tit: "Marcar · dia e horário", txt: "O dia e, se quiser, o horário. O que estiver marcado aparece no Início, em Para fazer, no dia certo." },
-    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId", "campo:nota", "#ui-painel .u-corpo"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:aplicacaoId"], tit: "Marcar · de qual vaga é", txt: "Este campo é opcional. Se o compromisso é de uma vaga em que você se candidatou, como uma entrevista, escolha a vaga aqui. Assim, na agenda e no Início, você sabe de qual vaga é." },
+    { cap: "Meu Controle", pg: "controle.html#agenda", antes: "marcar", alvo: ["campo:nota"], tit: "Marcar · anotação", txt: "O que você precisa ter à mão nesse dia: o link da chamada, o nome de quem vai falar com você, o que levar pronto." },
     { cap: "Aprender", pg: "cursos.html", alvo: ["#livro", "main"], tit: "Cursos", txt: "Aprenda o trabalho antes da primeira vaga: sete cursos em duas trilhas. Comece pelo de Fundamentos." },
     { cap: "Aprender", pg: "como-funciona.html", alvo: ["#areas", ".bloco", "main"], tit: "Como funciona", txt: "Um guia do trabalho, por partes: os tipos de projeto que você vai encontrar, como é a entrada etapa por etapa, o currículo que passa, como o dinheiro chega ao Brasil, imposto e perguntas frequentes." },
     { cap: "Aprender", pg: "como-funciona.html", alvo: ["#golpe", "main"], tit: "Como reconhecer golpe", txt: "Leia esta parte antes da primeira vaga: o que uma empresa séria nunca pede, e os sinais de que é golpe." },
@@ -1683,9 +1684,9 @@ const TourHub = (function () {
     { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#bFlutuar"], tit: "Transcrição ao vivo · janela flutuante", txt: "Deixa a transcrição numa janelinha por cima do que estiver aberto, como uma legenda." },
     { cap: "Ferramentas", pg: "transcricao.html", alvo: ["#bBaixar"], tit: "Transcrição ao vivo · baixar o texto", txt: "Guarda a transcrição inteira num arquivo .txt. Depois você cola o texto numa IA de conversa e pede um resumo, os pontos principais ou o que ficou para você fazer." },
     { cap: "Você", alvo: "col:perfil-prof", tit: "Meu perfil", txt: "O seu perfil profissional fica aqui, com quanto ele está preenchido. Vamos abrir." },
-    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-idiomas", "main"], tit: "Meu perfil · idiomas", txt: "Os idiomas que você fala e o nível de cada um. No inglês, se tiver um certificado, coloque: ele pesa nas vagas." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-idiomas", "main"], tit: "Meu perfil · idiomas", txt: "Os idiomas que você fala e o nível de cada um." },
     { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-areas", "main"], tit: "Meu perfil · áreas", txt: "As áreas em que você tem formação ou experiência. São elas que trazem para você as vagas que pedem formação." },
-    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-exp", "main"], tit: "Meu perfil · experiências", txt: "Os trabalhos que você já fez, inclusive os do Meu Controle, que dá para trazer com um clique. A ferramenta de currículo usa isso para lembrar o que falta no seu currículo." },
+    { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-exp", "main"], tit: "Meu perfil · experiências", txt: "Os trabalhos que você já fez. Os que estão no Meu Controle entram aqui com um clique, no botão Trazer do Meu Controle. A ferramenta de currículo usa isso para lembrar o que falta no seu currículo." },
     { cap: "Você", pg: "perfil-profissional.html", alvo: ["#sec-ferr", "main"], tit: "Vá completando com o tempo", txt: "Um curso novo, um idioma, um trabalho: volte aqui e acrescente. Quanto mais completo o perfil, melhores as vagas para você e as sugestões para o currículo." },
     { cap: "Você", alvo: "busca", tit: "Buscar no Hub", txt: "Digite um pedaço do nome e vá direto para uma página, uma empresa ou uma vaga. Atalho: Ctrl e K." },
   ];
@@ -1705,7 +1706,7 @@ const TourHub = (function () {
     transition:top .3s cubic-bezier(.2,.8,.2,1), left .3s cubic-bezier(.2,.8,.2,1), width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1); }
   .tr-cx, .tr-boas { position:fixed; z-index:430; background:#fff; border-radius:18px; border:1px solid #E6DFD3; font-family:var(--body,'Geist',sans-serif); color:#54606F;
     box-shadow:0 30px 60px -20px rgba(16,32,58,.5); }
-  .tr-cx { width:min(340px, calc(100vw - 24px)); padding:16px 18px 14px; transition:top .3s, left .3s; }
+  .tr-cx { width:min(320px, calc(100vw - 24px)); padding:16px 18px 14px; transition:top .3s, left .3s; }
   .tr-caps { display:flex; gap:4px; margin-bottom:12px; }
   .tr-caps i { flex:1; height:4px; border-radius:2px; background:#E4ECF6; }
   .tr-caps i.feito { background:#9DBBE0; } .tr-caps i.agora { background:#1A4893; }
@@ -1755,7 +1756,8 @@ const TourHub = (function () {
   @media (max-width:960px) { .tr-cx { max-height:calc(100vh - 32px); overflow-y:auto; } }
   @media (max-width:560px) { .tr-rot em { display:none; } .tr-rot li { grid-template-columns:34px minmax(0,1fr); } .tr-boas { padding:22px 20px 18px; } .tr-boas h2 { font-size:25px; } }
   .tr-boas .tr-bts button { padding:11px 20px; font-size:14.5px; }
-  @media (max-width:960px) { .tr-cx { left:12px !important; right:12px; top:auto !important; bottom:16px; width:auto; } }`;
+  @media (max-width:960px) { .tr-cx { left:12px !important; right:12px; top:auto !important; bottom:16px; width:auto; }
+    .tr-cx.em-cima { top:12px !important; bottom:auto; } }`;
   let estado = null, foco, cx, bloq;
   const isoDia = n => { const d = new Date(); d.setDate(d.getDate() + (n || 0)); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
   const pausa = ms => new Promise(r => setTimeout(r, ms));
@@ -1937,6 +1939,11 @@ const TourHub = (function () {
           if (a === "busca") el = document.querySelector(".al .al-busca");
           else if (a.startsWith("col:")) el = document.querySelector(`.al .al-nav .al-linha[data-id="${a.slice(4)}"]`);
           else if (a.startsWith("campo:")) { const c = document.querySelector(`#ui-painel [name="${a.slice(6)}"]`); el = c && (c.closest(".d-linha") || c); }
+          else if (a.startsWith("filhos:")) {
+            const [sel, n] = [a.slice(7, a.lastIndexOf(":")), +a.slice(a.lastIndexOf(":") + 1)];
+            const pai = document.querySelector(sel), fs = pai ? [...pai.children].slice(0, n) : [];
+            if (fs.length) { el = fs[0]; if (fs.length > 1) el._junto = fs.slice(1); }
+          }
           else if (a.startsWith("campos:")) {
             const cs = a.slice(7).split(",").map(n => document.querySelector(`#ui-painel [name="${n}"]`)).filter(Boolean).map(c => c.closest(".d-linha") || c);
             if (cs.length > 1) { el = cs[0]; el._junto = cs.slice(1); }
@@ -1984,9 +1991,9 @@ const TourHub = (function () {
     }
     const casa = janelaAberta() && janelaAberta().contains(el) ? janelaAberta() : document.body;   // a janela fica por cima de tudo: o tour entra nela
     [bloq, foco, cx].forEach(x => { if (x.parentNode !== casa) casa.appendChild(x); });
-    if (!naColuna && el.getBoundingClientRect().height > innerHeight * 0.6) { el.scrollIntoView({ block: "start", behavior: "instant" }); window.scrollBy({ top: -90, behavior: "instant" }); }
-    else if (!naColuna) el.scrollIntoView({ block: "center", behavior: "instant" });
-    else el.scrollIntoView({ block: "nearest", behavior: "instant" });
+    const naJanela = casa !== document.body;
+    if (naColuna) el.scrollIntoView({ block: innerWidth <= 960 ? "start" : "nearest", behavior: "instant" });
+    else if (naJanela) el.scrollIntoView({ block: el.getBoundingClientRect().width > innerWidth * 0.45 && innerWidth > 960 ? "start" : "center", behavior: "instant" });   // larga: sobe, e a caixa fica embaixo
     const capAgora = CAPS.indexOf(s.cap);
     const doCap = P.filter(x => x.cap === s.cap), n = doCap.indexOf(s) + 1;
     cx.classList.toggle("largo", !!s.largo);
@@ -1995,22 +2002,55 @@ const TourHub = (function () {
       <div class="tr-bts"><button data-tr="pular">Sair do tour</button><span></span>${i ? '<button data-tr="voltar">Voltar</button>' : ""}
       <button class="forte" data-tr="seguir">${i === P.length - 1 ? "Terminar" : "Próximo"}</button></div>`;
     await new Promise(r => setTimeout(r, naColuna ? 260 : 120));
+    const W = innerWidth, H = innerHeight, cw = cx.offsetWidth, ch = cx.offsetHeight, celular = W <= 960;
+    if (!naColuna && !naJanela) {
+      const r0 = el.getBoundingClientRect();
+      if (celular) { window.scrollBy({ top: r0.top - 72, behavior: "instant" }); }   // no celular a caixa fica embaixo: a parte vai para o alto
+      else if (r0.width > W * 0.45) {
+        // parte larga: a caixa vai em cima dela, sobre o que a pessoa já viu; a parte desce para dar lugar
+        const desejado = ch + 40, livre = H - desejado - 12;
+        const topo = r0.height <= livre ? desejado + (livre - r0.height) / 2 : desejado;
+        window.scrollBy({ top: r0.top - topo, behavior: "instant" });
+      } else el.scrollIntoView({ block: "center", behavior: "instant" });
+      await new Promise(r => setTimeout(r, 60));
+    }
     let r = el.getBoundingClientRect(); const m = 6;
     if (el._junto) {   // a caixa acesa cobre todos os campos juntos
       const rs = [r].concat(el._junto.map(x => x.getBoundingClientRect()));
       const l = Math.min(...rs.map(x => x.left)), t = Math.min(...rs.map(x => x.top)), rt = Math.max(...rs.map(x => x.right)), b = Math.max(...rs.map(x => x.bottom));
       r = { left: l, top: t, right: rt, bottom: b, width: rt - l, height: b - t };
     }
+    // parte maior que a tela: acende só o que aparece, para a caixa ter onde ficar
+    // no celular a caixa fica embaixo; se a parte acesa está embaixo e não dá para subir, a caixa vai para o alto
+    let emCima = false;
+    if (celular) { const r1 = el.getBoundingClientRect(); emCima = r1.bottom > H - ch - 28 && r1.top > ch + 28; }
+    cx.classList.toggle("em-cima", emCima);
+    const fim = celular && !emCima ? H - ch - 28 : H - 8;
+    if (r.bottom > fim) r = { left: r.left, right: r.right, width: r.width, top: r.top, bottom: Math.max(r.top + 60, fim), height: Math.max(60, fim - r.top) };
     const top = Math.max(4, r.top - m), alt = Math.min(r.height + m * 2, innerHeight - top - 4);
     Object.assign(foco.style, { top: top + "px", left: Math.max(4, r.left - m) + "px", width: Math.min(r.width + m * 2, innerWidth - 8) + "px", height: alt + "px" });
-    if (innerWidth > 960) {
-      const w = cx.offsetWidth, h = cx.offsetHeight;
-      let x, y;
-      if (naColuna || r.right + w + 24 < innerWidth && r.width < innerWidth / 2) { x = r.right + 18; y = r.top + r.height / 2 - 50; }
-      else if (r.bottom + h + 20 < innerHeight) { x = r.left; y = r.bottom + 16; }
-      else { x = r.left; y = r.top - h - 16; }
-      cx.style.left = Math.min(innerWidth - w - 12, Math.max(12, x)) + "px";
-      cx.style.top = Math.min(innerHeight - h - 12, Math.max(12, y)) + "px";
+    if (!celular) {
+      // a caixa procura um lado livre, sem cobrir a parte acesa: direita, esquerda, em cima, embaixo
+      const M = 18, livreDoAlvo = (x, y) => x + cw <= r.left - 8 || x >= r.right + 8 || y + ch <= r.top - 8 || y >= r.bottom + 8;
+      const dentro = (x, y) => x >= 12 && y >= 12 && x + cw <= W - 12 && y + ch <= H - 12 && livreDoAlvo(x, y);
+      const meioY = Math.min(H - ch - 12, Math.max(12, r.top + r.height / 2 - ch / 2));
+      const lados = {
+        direita: [r.right + M, meioY], esquerda: [r.left - M - cw, meioY],
+        cima: [Math.min(W - cw - 12, Math.max(12, r.left)), r.top - M - ch], baixo: [Math.min(W - cw - 12, Math.max(12, r.left)), r.bottom + M],
+      };
+      const larga = r.width > W * 0.45;
+      const ordem = [s.lado].concat(naColuna ? ["direita"] : larga ? ["cima", "esquerda", "direita", "baixo"] : ["direita", "esquerda", "cima", "baixo"]).filter(Boolean);
+      let pos = null;
+      for (const k of ordem) if (lados[k] && dentro(...lados[k])) { pos = lados[k]; break; }
+      if (!pos && r.top + 120 < H - ch - 30) {
+        // sem lado livre: a parte acesa encolhe por baixo e a caixa fica logo abaixo dela, sem cobrir nada aceso
+        const corte = H - ch - 30;
+        r = { left: r.left, right: r.right, width: r.width, top: r.top, bottom: corte, height: corte - r.top };
+        foco.style.height = Math.max(40, r.height + m * 2) + "px";
+        pos = [Math.min(W - cw - 12, Math.max(12, r.left + r.width / 2 - cw / 2)), H - ch - 12];
+      }
+      if (!pos) pos = [W - cw - 16, H - ch - 16];   // último caso: o canto de baixo
+      cx.style.left = pos[0] + "px"; cx.style.top = pos[1] + "px";
     }
     const f = cx.querySelector(".forte"); if (f) f.focus({ preventScroll: true });
   }
